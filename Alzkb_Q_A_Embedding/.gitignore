@@ -1,0 +1,36 @@
+# Python Files
+parse-for-.py
+checkUniqueAnswer.py
+csvToJson.py
+embedding_testQ_A.py
+test.py
+make_vector_for_in_context_learning_Azure_parallelization_real_dask_7_origin.py
+
+# Data Files
+*.zip
+divided_data
+divided_data_embedded
+divided_data_embedded_addtokens
+
+
+/divided_data_v3_dataset_disconnectedgenes/*
+!/divided_data_v3_dataset_disconnectedgenes/
+
+/divided_data_v3_dataset_disconnectedgenes_embedded/*
+!/divided_data_v3_dataset_disconnectedgenes_embedded/
+
+/divided_data_v3_dataset_disconnectedgenes_embedded_addtokens/*
+!/divided_data_v3_dataset_disconnectedgenes_embedded_addtokens/
+
+
+test_divided_data_v3_dataset_disconnectedgenes_embedded/
+
+test_folder/
+testQ_A_embedded_addtokens/
+
+
+# memo
+readme-memo
+
+# ENV 
+.env
