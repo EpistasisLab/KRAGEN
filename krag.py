@@ -28,7 +28,7 @@ def main():
         print("File {} does not exist".format(input_csv_file))
         sys.exit(1)
 
-    convert.run(config())
+    convert.run(config(input_csv_file))
 
 
 if __name__ == "__main__":
