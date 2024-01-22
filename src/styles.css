@@ -1059,41 +1059,34 @@ text {
 /* ChatGPT  */
 /* App.css */
 
-.ChatGPT {
-  /* display: flex; */
-  /* background-color: #282c34; */
-  background-color: rgb(3 7 18);
-  color: white;
-  /* align-items:flex-end; */
-}
-
-.divsidemenu {
-  background-color: rgb(3 7 18);
-}
-
-.sidemenu {
-  margin-right: 10px;
-
-  background-color: rgb(3 7 18);
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
 /* .divsidemenu {
-  background-color: rgb(3, 7, 18); 
+  background-color: rgb(3 7 18);
 }
 
 .sidemenu {
-  
-  width: 260px;
-  padding: 10px; 
   margin-right: 10px;
-  background-color: rgb(3, 7, 18); 
+
+  background-color: rgb(3 7 18);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 } */
+
+.divsidemenu {
+  display: flex; /* 플렉스 컨테이너 설정 */
+  flex-direction: column; /* 아이템들을 세로로 정렬 */
+  width: 250px; /* 사이드 메뉴의 너비 설정 */
+  height: 100vh; /* 뷰포트의 전체 높이를 차지하도록 설정 */
+  background-color: rgb(3 7 18); /* 배경색 설정 */
+}
+
+.sidemenu {
+  width: 100%; /* 부모 컨테이너의 전체 너비를 차지하도록 설정 */
+  margin-right: 0; /* 오른쪽 여백 제거 */
+  background-color: rgb(3 7 18); /* 배경색 설정 */
+  display: flex; /* 플렉스 컨테이너 설정 */
+  flex-direction: column; /* 아이템들을 세로로 정렬 */
+}
 
 /* under 640px do this */
 @media (max-width: 640px) {
@@ -1104,21 +1097,20 @@ text {
 
 .side-menu-button {
   padding: 12px;
-  /* border: 1px solid white; */
   border-top: 1px solid rgb(31 41 55);
   border-left: 1px solid rgb(31 41 55);
   border-right: 1px solid rgb(31 41 55);
-
-  /* border-radius: 5px; */
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   text-align: left;
   transition: ease 0.25s all;
   cursor: pointer;
+  width: 100%; /* 너비를 부모 컨테이너의 100%로 설정 */
+  box-sizing: border-box; /* 패딩을 너비에 포함 */
 }
 
 #newchatbutton {
-  margin-right: 10px;
+  margin-right: 0; /* 오른쪽 여백 제거 */
 }
 
 .side-menu-button:hover {
@@ -1128,6 +1120,19 @@ text {
 .side-menu-button span {
   padding-left: 6px;
   padding-right: 12px;
+}
+
+/* new */
+
+.chatboxtap {
+  display: flex; /* 플렉스 컨테이너 설정 */
+  align-items: center; /* 자식 요소들을 중앙으로 정렬 */
+  justify-content: flex-start; /* 자식 요소들을 컨테이너의 시작 부분으로 정렬 */
+  margin-bottom: 10px; /* 아래쪽 요소와의 간격 */
+}
+
+.sidemenu.chatboxtap {
+  flex-direction: row;
 }
 
 .chatbox {
@@ -1177,8 +1182,11 @@ text {
 
 .ChatGPT {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  flex-direction: row;
   height: 100%;
+  background-color: rgb(3 7 18);
+  color: white;
 }
 
 .chat-input-container {

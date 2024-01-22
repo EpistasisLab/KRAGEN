@@ -1294,4 +1294,3 @@ export default function SideMenu() {
     </div>
   );
 }
-
