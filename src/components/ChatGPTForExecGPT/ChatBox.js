@@ -5,6 +5,7 @@ import React, { useState, useEffect, useContext } from "react";
 // import { xf } from 'react';
 
 import { AllContext } from "./context/AllContext";
+import DisplayGraph from "../DisplayGraph";
 
 // import AudioToText from "../WebAICore/AudioToText";
 
@@ -333,7 +334,8 @@ const ChatBox = () => {
                 }}
                 id="chat-input-textarea-id"
                 className="chat-input-textarea"
-                placeholder="Type your message here. "
+                // placeholder="Type your message here. "
+                placeholder="Please ask your question here. "
                 disabled={false}
               ></input>
               <button className="submit" type="submit" disabled={false}>
@@ -357,6 +359,10 @@ const ChatBox = () => {
               Stop Speaking
             </div>
           </div> */}
+        </div>
+
+        <div id="dispnetgra" className={"show-contents"}>
+          <DisplayGraph />
         </div>
 
         {/* 2' */}

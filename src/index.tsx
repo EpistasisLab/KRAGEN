@@ -25,16 +25,11 @@ ReactDOM.render(
         // backdropFilter: "blur(10px)",
       }}
     >
-      
-
       <div className="flex flex-row h-screen overflow-y-hidden">
-        
-
-   
         <div className=" chartsbaseright">
-        <div id="dispnetgra" className={"show-contents"}>
-          <DisplayGraph />
-          </div>
+          {/* <div id="dispnetgra" className={"show-contents"}>
+            <DisplayGraph />
+          </div> */}
         </div>
 
         <div
@@ -56,7 +51,7 @@ ReactDOM.render(
         <div
           id="chatgpt-space"
           // style={{ width: "49%" }}
-          style={{ width: "50vw", height: "100vh" }}
+          style={{ width: "100vw", height: "100vh" }}
           className="chatbaseleft bg-gray-950 pt-2 pl-2 pb-0"
           onMouseOver={(e) => {
             // console.log("moveSlidermakeBlack");
@@ -67,5 +62,5 @@ ReactDOM.render(
       </div>
     </div>
   </React.StrictMode>,
-  document.getElementById("root"),
+  document.getElementById("root")
 );

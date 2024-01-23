@@ -1,0 +1,92 @@
+{
+  "nodes": [
+    {
+      "key": "node_0",
+      "label": "Generate",
+      "tag": "Operation",
+      "URL": "",
+      "cluster": "1",
+      "x": 0,
+      "y": 400,
+      "score": 60
+    },
+    {
+      "key": "node_1",
+      "label": "Selector",
+      "tag": "Operation",
+      "URL": "",
+      "cluster": "2",
+      "x": -100,
+      "y": 300,
+      "score": 50
+    },
+    {
+      "key": "node_3",
+      "label": "Selector",
+      "tag": "Operation",
+      "URL": "",
+      "cluster": "2",
+      "x": 100,
+      "y": 300,
+      "score": 50
+    },
+    {
+      "key": "node_2",
+      "label": "Generate",
+      "tag": "Operation",
+      "URL": "",
+      "cluster": "1",
+      "x": -150,
+      "y": 200,
+      "score": 50
+    },
+    {
+      "key": "node_4",
+      "label": "Generate",
+      "tag": "Operation",
+      "URL": "",
+      "cluster": "1",
+      "x": 150,
+      "y": 200,
+      "score": 50
+    },
+    {
+      "key": "node_5",
+      "label": "Generate",
+      "tag": "Operation",
+      "URL": "",
+      "cluster": "1",
+      "x": 0,
+      "y": 100,
+      "score": 50
+    },
+    {
+      "key": "node_6",
+      "label": "Score",
+      "tag": "Operation",
+      "URL": "",
+      "cluster": "3",
+      "x": 0,
+      "y": 0,
+      "score": 40
+    }
+  ],
+  "edges": [
+    ["node_0", "node_1"],
+    ["node_0", "node_3"],
+    ["node_1", "node_2"],
+    ["node_3", "node_4"],
+    ["node_2", "node_5"],
+    ["node_4", "node_5"],
+    ["node_5", "node_6"]
+  ],
+  "clusters": [
+    { "key": "1", "color": "#6c3e81", "clusterLabel": "Generate" },
+    { "key": "2", "color": "#23a6d5", "clusterLabel": "Selector" },
+    { "key": "3", "color": "#f9a11b", "clusterLabel": "Score" }
+  ],
+  "tags": [
+    { "key": "Operation", "image": "operation.svg" },
+    { "key": "AI", "image": "ai.svg" }
+  ]
+}

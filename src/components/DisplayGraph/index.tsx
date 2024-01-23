@@ -19,11 +19,19 @@ import TagsPanel from "./TagsPanel";
 import "react-sigma-v2/lib/react-sigma-v2.css";
 import { GrClose } from "react-icons/gr";
 import { BiRadioCircleMarked, BiBookContent } from "react-icons/bi";
-import { BsArrowsFullscreen, BsFullscreenExit, BsZoomIn, BsZoomOut } from "react-icons/bs";
+import {
+  BsArrowsFullscreen,
+  BsFullscreenExit,
+  BsZoomIn,
+  BsZoomOut,
+} from "react-icons/bs";
 
-const Root: FC = () => {
+const DisplayGraph: FC = () => {
   const [showContents, setShowContents] = useState(false);
   const [dataReady, setDataReady] = useState(false);
+  // set description for clicked node
+  const [descriptionForClickedNode, setDescriptionForClickedNode] =
+    useState("");
   const [dataset, setDataset] = useState<Dataset | null>(null);
   const [filtersState, setFiltersState] = useState<FiltersState>({
     clusters: {},
@@ -49,107 +57,112 @@ const Root: FC = () => {
 
   return (
     // <div id="dispnetgra" className={showContents ? "show-contents" : ""}>
-      // <div id="dispnetgra" className={showContents ? "show-contents" : ""}>
-      <SigmaContainer
-        graphOptions={{ type: "directed" }}
-        initialSettings={{
-          nodeProgramClasses: { image: getNodeProgramImage() },
-          labelRenderer: drawLabel,
-          defaultNodeType: "image",
-          defaultEdgeType: "arrow",
-          labelDensity: 0.07,
-          labelGridCellSize: 60,
-          labelRenderedSizeThreshold: 15,
-          labelFont: "Lato, sans-serif",
-          zIndex: true,
-        }}
-        className="react-sigma"
-      >
-        <GraphSettingsController hoveredNode={hoveredNode} />
-        <GraphEventsController setHoveredNode={setHoveredNode} />
-        <GraphDataController dataset={dataset} filters={filtersState} />
+    // <div id="dispnetgra" className={showContents ? "show-contents" : ""}>
+    <SigmaContainer
+      graphOptions={{ type: "directed" }}
+      initialSettings={{
+        nodeProgramClasses: { image: getNodeProgramImage() },
+        labelRenderer: drawLabel,
+        defaultNodeType: "image",
+        defaultEdgeType: "arrow",
+        labelDensity: 0.07,
+        labelGridCellSize: 60,
+        labelRenderedSizeThreshold: 15,
+        labelFont: "Lato, sans-serif",
+        zIndex: true,
+      }}
+      className="react-sigma"
+    >
+      <GraphSettingsController hoveredNode={hoveredNode} />
+      <GraphEventsController
+        setHoveredNode={setHoveredNode}
+        setDescriptionForClickedNode={setDescriptionForClickedNode}
+      />
+      <GraphDataController dataset={dataset} filters={filtersState} />
 
-        {dataReady && (
-          <>
-            <div className="controls">
-              <div className="ico">
-                <button
-                  type="button"
-                  className="show-contents"
-                  onClick={() => setShowContents(true)}
-                  title="Show caption and description"
-                >
-                  <BiBookContent />
-                </button>
-              </div>
-              <FullScreenControl
-                className="ico"
-                customEnterFullScreen={<BsArrowsFullscreen />}
-                customExitFullScreen={<BsFullscreenExit />}
+      {dataReady && (
+        <>
+          <div className="controls">
+            <div className="ico">
+              <button
+                type="button"
+                className="show-contents"
+                onClick={() => setShowContents(true)}
+                title="Show caption and description"
+              >
+                <BiBookContent />
+              </button>
+            </div>
+            <FullScreenControl
+              className="ico"
+              customEnterFullScreen={<BsArrowsFullscreen />}
+              customExitFullScreen={<BsFullscreenExit />}
+            />
+            <ZoomControl
+              className="ico"
+              customZoomIn={<BsZoomIn />}
+              customZoomOut={<BsZoomOut />}
+              customZoomCenter={<BiRadioCircleMarked />}
+            />
+          </div>
+          <div className="contents">
+            <div className="ico">
+              <button
+                type="button"
+                className="ico hide-contents"
+                onClick={() => setShowContents(false)}
+                title="Show caption and description"
+              >
+                <GrClose />
+              </button>
+            </div>
+            <GraphTitle filters={filtersState} />
+            <div className="panels">
+              <SearchField filters={filtersState} />
+              <DescriptionPanel />
+              <ClustersPanel
+                clusters={dataset.clusters}
+                filters={filtersState}
+                setClusters={(clusters) =>
+                  setFiltersState((filters) => ({
+                    ...filters,
+                    clusters,
+                  }))
+                }
+                toggleCluster={(cluster) => {
+                  setFiltersState((filters) => ({
+                    ...filters,
+                    clusters: filters.clusters[cluster]
+                      ? omit(filters.clusters, cluster)
+                      : { ...filters.clusters, [cluster]: true },
+                  }));
+                }}
               />
-              <ZoomControl
-                className="ico"
-                customZoomIn={<BsZoomIn />}
-                customZoomOut={<BsZoomOut />}
-                customZoomCenter={<BiRadioCircleMarked />}
+              <TagsPanel
+                tags={dataset.tags}
+                filters={filtersState}
+                setTags={(tags) =>
+                  setFiltersState((filters) => ({
+                    ...filters,
+                    tags,
+                  }))
+                }
+                toggleTag={(tag) => {
+                  setFiltersState((filters) => ({
+                    ...filters,
+                    tags: filters.tags[tag]
+                      ? omit(filters.tags, tag)
+                      : { ...filters.tags, [tag]: true },
+                  }));
+                }}
               />
             </div>
-            <div className="contents">
-              <div className="ico">
-                <button
-                  type="button"
-                  className="ico hide-contents"
-                  onClick={() => setShowContents(false)}
-                  title="Show caption and description"
-                >
-                  <GrClose />
-                </button>
-              </div>
-              <GraphTitle filters={filtersState} />
-              <div className="panels">
-                <SearchField filters={filtersState} />
-                <DescriptionPanel />
-                <ClustersPanel
-                  clusters={dataset.clusters}
-                  filters={filtersState}
-                  setClusters={(clusters) =>
-                    setFiltersState((filters) => ({
-                      ...filters,
-                      clusters,
-                    }))
-                  }
-                  toggleCluster={(cluster) => {
-                    setFiltersState((filters) => ({
-                      ...filters,
-                      clusters: filters.clusters[cluster]
-                        ? omit(filters.clusters, cluster)
-                        : { ...filters.clusters, [cluster]: true },
-                    }));
-                  }}
-                />
-                <TagsPanel
-                  tags={dataset.tags}
-                  filters={filtersState}
-                  setTags={(tags) =>
-                    setFiltersState((filters) => ({
-                      ...filters,
-                      tags,
-                    }))
-                  }
-                  toggleTag={(tag) => {
-                    setFiltersState((filters) => ({
-                      ...filters,
-                      tags: filters.tags[tag] ? omit(filters.tags, tag) : { ...filters.tags, [tag]: true },
-                    }));
-                  }}
-                />
-              </div>
-            </div>
-          </>
-        )}
-      </SigmaContainer>
-      // </div>
+          </div>
+        </>
+      )}
+    </SigmaContainer>
+    // </div>
   );
 };
 
-export default Root;
+export default DisplayGraph;

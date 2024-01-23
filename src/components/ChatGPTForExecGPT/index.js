@@ -19,6 +19,8 @@ import { AllContext } from "./context/AllContext";
 
 import { pipeline, env } from "@xenova/transformers";
 
+import DisplayGraph from "../DisplayGraph";
+
 // export default function ChatGPT({ experiment }) {
 export default function ChatGPT({ experiment }) {
   let limitNumChatBox = 5;
@@ -3930,7 +3932,7 @@ export default function ChatGPT({ experiment }) {
   // let experimentId = "5f9b3b3b9d9d975b3c3e3b3b";
 
   return (
-    <div  className="ChatGPT">
+    <div className="ChatGPT">
       {/* <div>
         <textarea
           onChange={handleInputChange}
@@ -4020,6 +4022,9 @@ export default function ChatGPT({ experiment }) {
         }}
       >
         <ChatBox />
+        {/* <div id="dispnetgra" className={"show-contents"}>
+          <DisplayGraph />
+        </div> */}
       </AllContext.Provider>
 
       {/* <ThemeContext.Provider value={{isDark, setIsDark, currentModel,setCurrentModel,experimentId}}>
