@@ -3,4 +3,5 @@ services:
     build:
       context: .
       dockerfile: docker/convert/Dockerfile
-
+    volumes:
+      - "./:/app"
