@@ -4,7 +4,11 @@
   "private": true,
   "homepage": "/demo",
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@monaco-editor/react": "^4.6.0",
+    "@mui/icons-material": "^5.15.6",
+    "@mui/material": "^5.15.6",
     "@types/lodash": "^4.14.178",
     "@types/node": "^17.0.2",
     "@types/react": "^17.0.37",

@@ -4,6 +4,9 @@ import { ThemeContext } from "./context/ThemeContext";
 
 import { AllContext } from "./context/AllContext";
 
+// import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 export default function SideMenu() {
   const {
     currentModel,
@@ -838,6 +841,8 @@ export default function SideMenu() {
             // checkConnectionOpenAIandSet();
           }}
         >
+          {/* <SettingsRoundedIcon fontSize="small" /> */}
+          <ManageAccountsRoundedIcon fontSize="small" />
           Settings
         </button>
 
@@ -995,7 +1000,8 @@ export default function SideMenu() {
             setNumChatBox((numChatBox) => numChatBox + 1);
           }}
         >
-          {/* <span></span> */}+ New Chat
+          {/* <span></span> */}
+          {/* <AddCircleOutlineRoundedIcon fontSize="small" />  */}+ New Chat
         </div>
 
         {Array(numChatBox)

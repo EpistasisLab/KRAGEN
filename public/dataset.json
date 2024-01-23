@@ -3,7 +3,7 @@
     {
       "key": "node_0",
       "label": "Generate",
-      "tag": "Operation",
+      "tag": "Generate",
       "URL": "",
       "cluster": "1",
       "x": 0,
@@ -28,7 +28,7 @@
     {
       "key": "node_1",
       "label": "Selector",
-      "tag": "Operation",
+      "tag": "Selector",
       "URL": "",
       "cluster": "2",
       "x": -100,
@@ -53,7 +53,7 @@
     {
       "key": "node_3",
       "label": "Selector",
-      "tag": "Operation",
+      "tag": "Selector",
       "URL": "",
       "cluster": "2",
       "x": 100,
@@ -63,7 +63,7 @@
     {
       "key": "node_2",
       "label": "Generate",
-      "tag": "Operation",
+      "tag": "Generate",
       "URL": "",
       "cluster": "1",
       "x": -150,
@@ -88,7 +88,7 @@
     {
       "key": "node_4",
       "label": "Generate",
-      "tag": "Operation",
+      "tag": "Generate",
       "URL": "",
       "cluster": "1",
       "x": 150,
@@ -113,7 +113,7 @@
     {
       "key": "node_5",
       "label": "Generate",
-      "tag": "Operation",
+      "tag": "Generate",
       "URL": "",
       "cluster": "1",
       "x": 0,
@@ -138,7 +138,7 @@
     {
       "key": "node_6",
       "label": "Score",
-      "tag": "Operation",
+      "tag": "Score",
       "URL": "",
       "cluster": "3",
       "x": 0,
@@ -176,7 +176,8 @@
     { "key": "3", "color": "#f9a11b", "clusterLabel": "Score" }
   ],
   "tags": [
-    { "key": "Operation", "image": "operation.svg" },
-    { "key": "AI", "image": "ai.svg" }
+    { "key": "Generate", "image": "operation.svg" },
+    { "key": "Selector", "image": "ai.svg" },
+    { "key": "Score", "image": "score.svg" }
   ]
 }

@@ -19,6 +19,9 @@ import TagsPanel from "./TagsPanel";
 import "react-sigma-v2/lib/react-sigma-v2.css";
 import { GrClose } from "react-icons/gr";
 import { BiRadioCircleMarked, BiBookContent } from "react-icons/bi";
+// import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import {
   BsArrowsFullscreen,
   BsFullscreenExit,
@@ -28,6 +31,7 @@ import {
 
 const DisplayGraph: FC = () => {
   const [showContents, setShowContents] = useState(false);
+
   const [dataReady, setDataReady] = useState(false);
   // set description for clicked node
   const [descriptionForClickedNode, setDescriptionForClickedNode] =
@@ -38,6 +42,9 @@ const DisplayGraph: FC = () => {
     tags: {},
   });
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+
+  // toggle for controlpanel
+  const [toggleControlPanel, setToggleControlPanel] = useState(true);
 
   // Load data on mount:
   useEffect(() => {
@@ -116,46 +123,94 @@ const DisplayGraph: FC = () => {
                 <GrClose />
               </button>
             </div>
-            <GraphTitle filters={filtersState} />
+            {/* <GraphTitle filters={filtersState} /> */}
+
             <div className="panels">
-              <SearchField filters={filtersState} />
-              <DescriptionPanel />
-              <ClustersPanel
-                clusters={dataset.clusters}
-                filters={filtersState}
-                setClusters={(clusters) =>
-                  setFiltersState((filters) => ({
-                    ...filters,
-                    clusters,
-                  }))
-                }
-                toggleCluster={(cluster) => {
-                  setFiltersState((filters) => ({
-                    ...filters,
-                    clusters: filters.clusters[cluster]
-                      ? omit(filters.clusters, cluster)
-                      : { ...filters.clusters, [cluster]: true },
-                  }));
-                }}
-              />
-              <TagsPanel
-                tags={dataset.tags}
-                filters={filtersState}
-                setTags={(tags) =>
-                  setFiltersState((filters) => ({
-                    ...filters,
-                    tags,
-                  }))
-                }
-                toggleTag={(tag) => {
-                  setFiltersState((filters) => ({
-                    ...filters,
-                    tags: filters.tags[tag]
-                      ? omit(filters.tags, tag)
-                      : { ...filters.tags, [tag]: true },
-                  }));
-                }}
-              />
+              <div className="flex justify-end">
+                {toggleControlPanel === false ? (
+                  <KeyboardArrowUpRoundedIcon
+                    style={{ color: "white", fontSize: "70px" }}
+                    onClick={(
+                      event: React.MouseEvent<SVGSVGElement, MouseEvent>
+                    ) => {
+                      // Find the closest element with the class 'panels'
+                      const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
+                      const closestPanel = target.closest(".panels");
+
+                      // If a 'panels' element is found, change its width to 100%
+                      if (closestPanel) {
+                        (closestPanel as HTMLElement).style.width = "350px";
+                      }
+
+                      // Additional action
+                      setToggleControlPanel(true);
+                    }}
+                  />
+                ) : (
+                  <KeyboardArrowDownRoundedIcon
+                    style={{ color: "white", fontSize: "70px" }}
+                    onClick={(
+                      event: React.MouseEvent<SVGSVGElement, MouseEvent>
+                    ) => {
+                      // Find the closest element with the class 'panels'
+                      const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
+                      const closestPanel = target.closest(".panels");
+
+                      // If a 'panels' element is found, change its width to 100%
+                      if (closestPanel) {
+                        (closestPanel as HTMLElement).style.width = "100px";
+                      }
+
+                      // Additional action
+                      setToggleControlPanel(false);
+                    }}
+                  />
+                )}
+              </div>
+              {toggleControlPanel && (
+                <>
+                  <SearchField filters={filtersState} />
+                  <DescriptionPanel
+                    descriptionForClickedNode={descriptionForClickedNode}
+                  />
+                  <ClustersPanel
+                    clusters={dataset.clusters}
+                    filters={filtersState}
+                    setClusters={(clusters) =>
+                      setFiltersState((filters) => ({
+                        ...filters,
+                        clusters,
+                      }))
+                    }
+                    toggleCluster={(cluster) => {
+                      setFiltersState((filters) => ({
+                        ...filters,
+                        clusters: filters.clusters[cluster]
+                          ? omit(filters.clusters, cluster)
+                          : { ...filters.clusters, [cluster]: true },
+                      }));
+                    }}
+                  />
+                  <TagsPanel
+                    tags={dataset.tags}
+                    filters={filtersState}
+                    setTags={(tags) =>
+                      setFiltersState((filters) => ({
+                        ...filters,
+                        tags,
+                      }))
+                    }
+                    toggleTag={(tag) => {
+                      setFiltersState((filters) => ({
+                        ...filters,
+                        tags: filters.tags[tag]
+                          ? omit(filters.tags, tag)
+                          : { ...filters.tags, [tag]: true },
+                      }));
+                    }}
+                  />
+                </>
+              )}
             </div>
           </div>
         </>

@@ -32,8 +32,8 @@ const GraphTitle: FC<{ filters: FiltersState }> = ({ filters }) => {
 
   return (
     <div className="graph-title">
-      {/* <h1>A cartography of Wikipedia pages around data visualization</h1> */}
-      {/* <h2>
+      <h1>A cartography of Wikipedia pages around data visualization</h1>
+      <h2>
         <i>
           {graph.order} node{graph.order > 1 ? "s" : ""}{" "}
           {visibleItems.nodes !== graph.order
@@ -49,7 +49,7 @@ const GraphTitle: FC<{ filters: FiltersState }> = ({ filters }) => {
               )} visible)`
             : ""}
         </i>
-      </h2> */}
+      </h2>
     </div>
   );
 };
