@@ -1,0 +1,7 @@
+services:
+  convert:
+    build:
+      context: .
+      dockerfile: docker/convert/Dockerfile
+    volumes:
+      - "./:/app"

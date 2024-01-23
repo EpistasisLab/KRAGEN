@@ -7,8 +7,10 @@ def config(input_file):
     # read from a yaml file
     krag_config = {
         'output_directory': 'target',
-        'chunk_size': 5,
+        'convert_chunk_size': 5,
+        'convert_output_filename': 'converted.csv',
         'input_file': input_file,
+
     }
     return krag_config
 
