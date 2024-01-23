@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 // import Root from "./views/Root";
-import DisplayGraph from "../src/components/DisplayGraph/index";
+// import DisplayGraph from "../src/components/DisplayGraph/index";
 import ChatGPTForExecGPT from "../src/components/ChatGPTForExecGPT";
 
 ReactDOM.render(
