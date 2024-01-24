@@ -1,7 +1,11 @@
+version: '3'
+
 services:
   convert:
     build:
       context: .
       dockerfile: docker/convert/Dockerfile
+    image: moorelab/krag-convert:${TAG}
     volumes:
-      - "./:/app"
+      - "${PWD}:/data"
+    working_dir: /data

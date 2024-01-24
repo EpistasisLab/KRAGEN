@@ -1,6 +1,6 @@
 import sys
 import os
-import convert
+import convert as convert
 
 
 def config(input_file):
