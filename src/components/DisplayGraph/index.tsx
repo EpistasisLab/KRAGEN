@@ -129,7 +129,11 @@ const DisplayGraph: FC = () => {
               <div className="flex justify-end">
                 {toggleControlPanel === false ? (
                   <KeyboardArrowUpRoundedIcon
-                    style={{ color: "white", fontSize: "70px" }}
+                    style={{
+                      color: "white",
+                      fontSize: "70px",
+                      cursor: "pointer",
+                    }}
                     onClick={(
                       event: React.MouseEvent<SVGSVGElement, MouseEvent>
                     ) => {
@@ -148,7 +152,11 @@ const DisplayGraph: FC = () => {
                   />
                 ) : (
                   <KeyboardArrowDownRoundedIcon
-                    style={{ color: "white", fontSize: "70px" }}
+                    style={{
+                      color: "white",
+                      fontSize: "70px",
+                      cursor: "pointer",
+                    }}
                     onClick={(
                       event: React.MouseEvent<SVGSVGElement, MouseEvent>
                     ) => {

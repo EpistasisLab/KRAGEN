@@ -176,8 +176,8 @@
     { "key": "3", "color": "#f9a11b", "clusterLabel": "Score" }
   ],
   "tags": [
-    { "key": "Generate", "image": "operation.svg" },
-    { "key": "Selector", "image": "ai.svg" },
-    { "key": "Score", "image": "score.svg" }
+    { "key": "Generate", "image": "person.svg" },
+    { "key": "Selector", "image": "technology.svg" },
+    { "key": "Score", "image": "tool.svg" }
   ]
 }
