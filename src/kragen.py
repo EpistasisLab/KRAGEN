@@ -5,14 +5,14 @@ import convert as convert
 
 def config(input_file):
     # read from a yaml file
-    krag_config = {
+    kragen_config = {
         'output_directory': 'target',
         'convert_chunk_size': 5,
         'convert_output_filename': 'converted.csv',
         'input_file': input_file,
 
     }
-    return krag_config
+    return kragen_config
 
 
 def mk_dir(directory):
@@ -21,7 +21,7 @@ def mk_dir(directory):
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python krag.py <csv_file>")
+        print("Usage: python kragen.py <csv_file>")
         sys.exit(1)
 
     # check that the input file exists

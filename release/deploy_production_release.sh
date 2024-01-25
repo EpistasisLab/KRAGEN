@@ -4,7 +4,7 @@ source .env
 echo "tag: $TAG"
 
 echo "Pushing images to DockerHub"
-docker push moorelab/krag_convert:${TAG}
+docker push moorelab/kragen_convert:${TAG}
 
 git tag -fa "v${TAG}" -m "v${TAG}"
 git push --tags

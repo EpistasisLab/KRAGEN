@@ -6,4 +6,4 @@ WORKDIR /usr/src/app
 COPY src/*.py .
 COPY ${docker_files}/requirements.txt requirements.txt
 RUN apt update && apt upgrade && pip install --upgrade pip && pip install -r requirements.txt
-ENTRYPOINT [ "python", "/usr/src/app/krag.py" ]
+ENTRYPOINT [ "python", "/usr/src/app/kragen.py" ]
