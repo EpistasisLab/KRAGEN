@@ -7,5 +7,5 @@ services:
       dockerfile: docker/convert/Dockerfile
     image: moorelab/krag-convert:${TAG}
     volumes:
-      - "./:/usr/src/app"
-    working_dir: /usr/src/app
+      - "./:/data"
+    working_dir: /data
