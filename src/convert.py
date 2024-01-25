@@ -9,6 +9,10 @@ import dask.dataframe as dd
 def mk_dir(directory):
     os.makedirs(directory, exist_ok=True)
 
+# def read_file(input_csv_file):
+#     df = pd.read_csv(input_csv_file)
+#     return df
+
 def read_file(input_csv_file, chunk_size=5):
     ddf = dd.read_csv(input_csv_file, blocksize=chunk_size * 1000)
     return ddf
@@ -27,7 +31,7 @@ def convert_csv(ddf):
 
 def get_unique_nodes(df):
     unique_nodes = pd.DataFrame(df[["source","source_label"]].values)
-    unique_nodes = unique_nodes.append(pd.DataFrame(df[["target","target_label"]].values))
+    unique_nodes = pd.concat([unique_nodes,pd.DataFrame(df[["target","target_label"]].values)])
     unique_nodes = unique_nodes.drop_duplicates()
     unique_nodes.columns = ["id","label"]
     #reindex unique nodes
@@ -86,22 +90,6 @@ def generate_unique_node_dataset(unique_nodes):
     return dataset
 
 def convert_relation(relation):
-    #'chemical or drug binds the gene',
-    #    'chemical or drug increases the gene expression',
-    #    'chemical or drug decreases the gene expression',
-    #    'chemical or drug in the drug class',
-    #    'chemical or drug treats the disease',
-    #    'chemical or drug causes effect to the disease',
-    #    'gene participates in the biological process',
-    #    'gene in the pathway', 'gene interacts with the gene',
-    #    'gene has a molecular function',
-    #    'gene associated with the cellular component',
-    #    'gene associates with the disease',
-    #    'body part over-expresses the gene',
-    #    'body part under-expresses the gene',
-    #    'symptom manifestation of the disease',
-    #    'disease localizes to anatomy or body part',
-    #    'disease associates with another disease'
     match relation:
         case "chemical or drug binds the gene" | "chemical or drug increases the gene expression" | "chemical or drug decreases the gene expression" | \
             "chemical or drug in the drug class" | "chemical or drug treats the disease" | "chemical or drug causes effect to the disease" | \
@@ -117,10 +105,14 @@ def convert_relation(relation):
         case _:
             return ""
 def generate_relationship_dataset(df):
+    df = pd.DataFrame(df[["source","source_label","target","target_label","relationship_type"]].values)
+    df.columns = ["source","source_label","target","target_label","relationship_type"]
+    
     dataset2 = {}
     index = 0
     for source_label in df["source_label"].unique():
         temp = df[df["source_label"]==source_label].copy()
+        print(temp)
         #'Gene', 'Drug', 'Disease', 'Symptom', 'BodyPart'
         match source_label:
             case "Gene":
@@ -167,18 +159,17 @@ def generate_relationship_dataset(df):
                         dataset2[index] = {"query":query,"statement":statement}
                         index += 1
                 continue
-            case "Drug":
-                print(source_label)
-                print(temp["target_label"].unique())
+            case "Drug": 
+                print(source_label,temp["target_label"].unique())
                 for target_label in temp["target_label"].unique():
                     temp2 = temp[temp["target_label"]==target_label].copy()
                     temp2 = temp2.reset_index(drop=True)
                     for i in temp2.index:
-                        source = temp2.iloc[i]["source"]
+                        source = temp2.loc[i]["source"]
                         source = ast.literal_eval(source)
-                        target = temp2.iloc[i]["target"]
+                        target = temp2.loc[i]["target"]
                         target = ast.literal_eval(target)
-                        relation = temp2.iloc[i]["relationship_type"]
+                        relation = temp2.loc[i]["relationship_type"]
                         match target_label:
                             #['Gene' 'DrugClass' 'Disease']
                             case "Gene":
@@ -274,7 +265,7 @@ def generate_relationship_dataset(df):
 
 # Save the Dask DataFrame to CSV files
 def save_csv(ddf, output_directory):
-    ddf.to_csv(os.path.join(output_directory, 'output_chunk_*.csv'), index=False, single_file=False)
+    ddf.to_csv(os.path.join(output_directory, 'output_chunk_*.csv'))
 
 def run(config):
     ddf = read_file(config['input_file'])
