@@ -27,6 +27,8 @@ def convert_csv(ddf):
     dataset_1 = pd.DataFrame(dataset1).T
     dataset_2 = pd.DataFrame(dataset2).T
     processed_ddf = pd.concat([dataset_1,dataset_2])
+    # convert processed_ddf to dask dataframe
+    processed_ddf = dd.from_pandas(processed_ddf, npartitions=1)
     return processed_ddf
 
 def get_unique_nodes(df):
@@ -265,7 +267,7 @@ def generate_relationship_dataset(df):
 
 # Save the Dask DataFrame to CSV files
 def save_csv(ddf, output_directory):
-    ddf.to_csv(os.path.join(output_directory, 'output_chunk_*.csv'), index=False, single_file=False)
+    ddf.to_csv(os.path.join(output_directory, 'output_chunk_*.csv'), index=False, single_file=True)
 
 def run(config):
     ddf = read_file(config['input_file'])
