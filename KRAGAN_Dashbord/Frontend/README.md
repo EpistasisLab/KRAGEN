@@ -10,6 +10,10 @@ The dataset has been kindly crafted by the [Sciences-Po médialab](https://media
 
 In the project directory, you can run:
 
+### `npm install`
+
+Installs the dependencies needed to run the app.
+
 ### `npm start`
 
 Runs the app in the development mode.\
