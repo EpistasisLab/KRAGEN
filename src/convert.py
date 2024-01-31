@@ -18,29 +18,51 @@ def read_file(input_csv_file, chunk_size=5):
     return ddf
 
 def convert_csv(ddf, config):
-    # processed_ddf = ddf.map_partitions(lambda part: part.apply(process_row, axis=1, column_mapping=column_mapping), meta=ddf)
-    # processed_ddf = ddf.map_partitions(lambda part: part.apply(process_row, axis=1), meta=ddf)
     unique_nodes = get_unique_nodes(ddf)
-    # node property dataset (gets the definition of certain nodes)
     dataset1 = generate_unique_node_dataset(unique_nodes)
     dataset2 = generate_relationship_dataset(ddf)
     dataset_1 = pd.DataFrame(dataset1).T
     dataset_2 = pd.DataFrame(dataset2).T
     processed_ddf = pd.concat([dataset_1,dataset_2])
-    # convert processed_ddf to dask dataframe
-    ncores = 1
-    if "ncores" in config:
-        ncores = config['ncores']
-    processed_ddf = dd.from_pandas(processed_ddf, npartitions=ncores)
+    processed_ddf = dd.from_pandas(processed_ddf, npartitions=1)
     return processed_ddf
 
-def get_unique_nodes(df):
+def get_unique_nodes_no_dask(df):
     unique_nodes = pd.DataFrame(df[["source","source_label"]].values)
     unique_nodes = pd.concat([unique_nodes,pd.DataFrame(df[["target","target_label"]].values)])
     unique_nodes = unique_nodes.drop_duplicates()
     unique_nodes.columns = ["id","label"]
     #reindex unique nodes
     unique_nodes = unique_nodes.reset_index(drop=True)
+    
+    return unique_nodes
+
+def get_unique_nodes(ddf):
+    """Extracts unique nodes from a Dask DataFrame.
+
+    Args:
+        ddf (dd.DataFrame): The Dask DataFrame to process.
+
+    Returns:
+        dd.DataFrame: A Dask DataFrame containing unique nodes and their labels.
+    """
+
+    unique_nodes_source = (
+        ddf[["source", "source_label"]].drop_duplicates()
+        .compute()  # Materialize to avoid unnecessary shuffling
+    )
+    unique_nodes_source.columns = ["id", "label"]
+    
+    unique_nodes_target = (
+        ddf[["target", "target_label"]].drop_duplicates()
+        .compute()  # Materialize to avoid unnecessary shuffling
+    )
+    unique_nodes_target.columns = ["id", "label"]
+    
+    unique_nodes = dd.concat([unique_nodes_source, unique_nodes_target]).drop_duplicates().compute()
+
+    unique_nodes = unique_nodes.reset_index(drop=True)
+
     return unique_nodes
 
 def generate_unique_node_dataset(unique_nodes):
@@ -110,23 +132,22 @@ def convert_relation(relation):
         case _:
             return ""
 def generate_relationship_dataset(df):
-    df = pd.DataFrame(df[["source","source_label","target","target_label","relationship_type"]].values)
-    df.columns = ["source","source_label","target","target_label","relationship_type"]
+    # df = pd.DataFrame(df[["source","source_label","target","target_label","relationship_type"]].values)
+    # df.columns = ["source","source_label","target","target_label","relationship_type"]
+    
+    df = df[["source", "source_label", "target", "target_label", "relationship_type"]]
     
     dataset2 = {}
     index = 0
-    for source_label in df["source_label"].unique():
-        temp = df[df["source_label"]==source_label].copy()
-        print(temp)
+    for source_label in df["source_label"].unique().compute():
+        print(source_label)
+        temp = df[df["source_label"]==source_label]
         #'Gene', 'Drug', 'Disease', 'Symptom', 'BodyPart'
         match source_label:
             case "Gene":
-                print(source_label)
-                # print(temp["relationship_type"].unique())
-                print(temp["target_label"].unique())
-                for target_label in temp["target_label"].unique():
-                    temp2 = temp[temp["target_label"]==target_label].copy()
-                    temp2 = temp2.reset_index(drop=True)
+                for target_label in temp["target_label"].unique().compute():
+                    temp2 = temp[temp["target_label"]==target_label]
+                    temp2 = temp2.compute().reset_index(drop=True)
                     for i in temp2.index:
                         source = temp2.iloc[i]["source"]
                         source = ast.literal_eval(source)
@@ -165,12 +186,13 @@ def generate_relationship_dataset(df):
                         index += 1
                 continue
             case "Drug": 
-                print(source_label,temp["target_label"].unique())
-                for target_label in temp["target_label"].unique():
-                    temp2 = temp[temp["target_label"]==target_label].copy()
-                    temp2 = temp2.reset_index(drop=True)
+                print(source_label,temp["target_label"].unique().compute())
+                for target_label in temp["target_label"].unique().compute():
+                    temp2 = temp[temp["target_label"]==target_label]
+                    temp2 = temp2.compute().reset_index(drop=True)
                     for i in temp2.index:
                         source = temp2.loc[i]["source"]
+                        print(source)
                         source = ast.literal_eval(source)
                         target = temp2.loc[i]["target"]
                         target = ast.literal_eval(target)
@@ -197,10 +219,10 @@ def generate_relationship_dataset(df):
                 continue
             case "Disease":
                 print(source_label)
-                print(temp["target_label"].unique())
-                for target_label in temp["target_label"].unique():
-                    temp2 = temp[temp["target_label"]==target_label].copy()
-                    temp2 = temp2.reset_index(drop=True)
+                print(temp["target_label"].unique().compute())
+                for target_label in temp["target_label"].unique().compute():
+                    temp2 = temp[temp["target_label"]==target_label]
+                    temp2 = temp2.compute().reset_index(drop=True)
                     for i in temp2.index:
                         source = temp2.iloc[i]["source"]
                         source = ast.literal_eval(source)
@@ -223,10 +245,10 @@ def generate_relationship_dataset(df):
                 continue
             case "Symptom":
                 print(source_label)
-                print(temp["target_label"].unique())
-                for target_label in temp["target_label"].unique():
-                    temp2 = temp[temp["target_label"]==target_label].copy()
-                    temp2 = temp2.reset_index(drop=True)
+                print(temp["target_label"].unique().compute())
+                for target_label in temp["target_label"].unique().compute():
+                    temp2 = temp[temp["target_label"]==target_label]
+                    temp2 = temp2.compute().reset_index(drop=True)
                     for i in temp2.index:
                         source = temp2.iloc[i]["source"]
                         source = ast.literal_eval(source)
@@ -245,10 +267,10 @@ def generate_relationship_dataset(df):
                 continue
             case "BodyPart":
                 print(source_label)
-                print(temp["target_label"].unique())
-                for target_label in temp["target_label"].unique():
-                    temp2 = temp[temp["target_label"]==target_label].copy()
-                    temp2 = temp2.reset_index(drop=True)
+                print(temp["target_label"].unique().compute())
+                for target_label in temp["target_label"].unique().compute():
+                    temp2 = temp[temp["target_label"]==target_label]
+                    temp2 = temp2.compute().reset_index(drop=True)
                     for i in temp2.index:
                         source = temp2.iloc[i]["source"]
                         source = ast.literal_eval(source)
@@ -270,11 +292,7 @@ def generate_relationship_dataset(df):
 
 # Save the Dask DataFrame to CSV files
 def save_csv(ddf, output_directory):
-<<<<<<< HEAD
-    ddf.to_csv(os.path.join(output_directory, 'output_chunk_*.csv'), index=False, single_file=False)
-=======
     ddf.to_csv(os.path.join(output_directory, 'convert_output.csv'), index=False, single_file=True)
->>>>>>> ad0b286cae647642f36a1d4085bc975412aa0fe8
 
 def run(config):
     ddf = read_file(config['input_file'])
