@@ -36,3 +36,6 @@ readme-memo
 
 # ENV 
 .env
+
+!requirements.txt
+
