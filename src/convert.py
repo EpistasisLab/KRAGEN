@@ -17,7 +17,7 @@ def read_file(input_csv_file, chunk_size=5):
     ddf = dd.read_csv(input_csv_file, blocksize=chunk_size * 1000)
     return ddf
 
-def convert_csv(ddf):
+def convert_csv(ddf, config):
     # processed_ddf = ddf.map_partitions(lambda part: part.apply(process_row, axis=1, column_mapping=column_mapping), meta=ddf)
     # processed_ddf = ddf.map_partitions(lambda part: part.apply(process_row, axis=1), meta=ddf)
     unique_nodes = get_unique_nodes(ddf)
@@ -28,7 +28,10 @@ def convert_csv(ddf):
     dataset_2 = pd.DataFrame(dataset2).T
     processed_ddf = pd.concat([dataset_1,dataset_2])
     # convert processed_ddf to dask dataframe
-    processed_ddf = dd.from_pandas(processed_ddf, npartitions=1)
+    ncores = 1
+    if "ncores" in config:
+        ncores = config['ncores']
+    processed_ddf = dd.from_pandas(processed_ddf, npartitions=ncores)
     return processed_ddf
 
 def get_unique_nodes(df):
@@ -267,10 +270,10 @@ def generate_relationship_dataset(df):
 
 # Save the Dask DataFrame to CSV files
 def save_csv(ddf, output_directory):
-    ddf.to_csv(os.path.join(output_directory, 'output_chunk_*.csv'), index=False, single_file=True)
+    ddf.to_csv(os.path.join(output_directory, 'output_chunk_*.csv'), index=False, single_file=False)
 
 def run(config):
     ddf = read_file(config['input_file'])
-    converted_ddf = convert_csv(ddf)
+    converted_ddf = convert_csv(ddf,config)
     mk_dir(config['output_directory'])
     save_csv(converted_ddf, config['output_directory'])
