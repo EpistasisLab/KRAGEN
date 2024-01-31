@@ -1,6 +1,10 @@
 FROM python:3.10-slim
 ARG docker_files=docker
 WORKDIR /usr/src/app
+
+RUN apt update && apt upgrade -y 
+RUN apt install -y gcc python3-dev
+
 # WORKDIR /app
 # COPY src/*.py .
 COPY ${docker_files}/requirements.txt requirements.txt
