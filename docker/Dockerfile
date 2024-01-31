@@ -1,5 +1,4 @@
 FROM python:3.10-slim
-# ARG docker_files=docker/convert
 ARG docker_files=docker
 WORKDIR /usr/src/app
 # WORKDIR /app

@@ -7,7 +7,6 @@ services:
       dockerfile: docker/Dockerfile
       args:
         docker_files: 'docker'
-    # image: moorelab/kragen-convert:${TAG}
     image: moorelab/kragen:${TAG}
     volumes:
       - "./:/usr/src/app"

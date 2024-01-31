@@ -23,14 +23,12 @@ def mk_dir(directory):
 
 
 def main():
-    # if len(sys.argv) < 3:
-        # print("Usage: python kragen.py <csv_file>")
-        # print("Usage: docker run <command> [<csv_file>]")
-    #     sys.exit(1)
-
-    # check the command passed
     command = sys.argv[1]
-    print('command:', command)
+    # print('command:', command)
+    # print("env vars:")
+    # for env_var in os.environ.items():
+    #     print(env_var)
+    # sys.exit(0)
     if command == 'convert':
         if len(sys.argv) != 3:
             print("Usage: docker run convert <csv_file>")
