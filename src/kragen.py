@@ -1,6 +1,9 @@
 import sys
 import os
 import convert as convert
+from parse import main as parse
+from make_vector_for_in_context_learning_Azure_parallelization_real_dask_7 import main as embed
+from addTokenInfo import main as tokenize
 
 
 def config(input_file):
@@ -20,17 +23,32 @@ def mk_dir(directory):
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python kragen.py <csv_file>")
-        sys.exit(1)
+    # if len(sys.argv) < 3:
+        # print("Usage: python kragen.py <csv_file>")
+        # print("Usage: docker run <command> [<csv_file>]")
+    #     sys.exit(1)
 
-    # check that the input file exists
-    input_csv_file = sys.argv[1]
-    if not os.path.isfile(input_csv_file):
-        print("File {} does not exist".format(input_csv_file))
-        sys.exit(1)
-
-    convert.run(config(input_csv_file))
+    # check the command passed
+    command = sys.argv[1]
+    print('command:', command)
+    if command == 'convert':
+        if len(sys.argv) != 3:
+            print("Usage: docker run convert <csv_file>")
+            sys.exit(1)
+        # check that the input file exists
+        input_csv_file = sys.argv[2]
+        if not os.path.isfile(input_csv_file):
+            print("File {} does not exist".format(input_csv_file))
+            sys.exit(1)
+        convert.run(config(input_csv_file))
+    elif command == 'parse':
+        parse()
+    elif command == 'vectorize':
+        embed()
+    elif command == 'tokenize':
+        tokenize()
+    else:
+        print("Usage: docker run <command> [<csv_file>]")
 
 
 if __name__ == "__main__":

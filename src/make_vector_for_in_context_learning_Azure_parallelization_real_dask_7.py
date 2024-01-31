@@ -147,9 +147,12 @@ def process_all_csv_files(directory):
         client.close()  # Ensure client is properly closed
 
 
-if __name__ == '__main__':
-
+def main():
     process_all_csv_files(input_dir)
+
+
+if __name__ == '__main__':
+    main()
 
 
     

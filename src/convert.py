@@ -267,7 +267,7 @@ def generate_relationship_dataset(df):
 
 # Save the Dask DataFrame to CSV files
 def save_csv(ddf, output_directory):
-    ddf.to_csv(os.path.join(output_directory, 'output_chunk_*.csv'), index=False, single_file=True)
+    ddf.to_csv(os.path.join(output_directory, 'convert_output.csv'), index=False, single_file=True)
 
 def run(config):
     ddf = read_file(config['input_file'])
