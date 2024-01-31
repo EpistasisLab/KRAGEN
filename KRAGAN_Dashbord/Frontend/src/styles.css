@@ -1,0 +1,2372 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Public+Sans:ital@0;1&display=swap");
+
+/**
+ * VARIABLES:
+ * **********
+ */
+:root {
+  --ruby: #e22653;
+  --grey: #999;
+  --dark-grey: #666;
+  --light-grey: #ccc;
+  --cream: #f9f7ed;
+  --transparent-white: #ffffffcc;
+  --transition: all ease-out 300ms;
+  --shadow: 0 1px 5px var(--dark-grey);
+  --hover-opacity: 0.7;
+  --stage-padding: 8px;
+  --panels-width: 350px;
+  --border-radius: 3px;
+}
+
+/**
+ * BASE STYLES:
+ * ************
+ */
+body {
+  font-family: "Public Sans", sans-serif;
+  background: white;
+  font-size: 0.9em;
+  overflow: hidden;
+}
+h1,
+h2 {
+  font-family: Lora, serif;
+}
+h2 {
+  font-size: 1.3em;
+  margin: 0;
+}
+h2 > * {
+  vertical-align: text-top;
+}
+a {
+  color: black !important;
+}
+a:hover {
+  opacity: var(--hover-opacity);
+}
+
+/**
+ * LAYOUT:
+ * *******
+ */
+body {
+  margin: 0;
+  padding: 0;
+}
+#root {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+/* #dispnetgra,
+.sigma-container {
+  width: 50vw; 
+  height: 100vh; 
+  position: absolute;
+  right: 0; 
+  top: 0; 
+  background-color: rgb(3 7 18);
+} */
+
+#dispnetgra,
+.sigma-container {
+  width: 100%;
+  height: 100%;
+  /* 기존에 정의된 다른 스타일들은 유지할 수 있습니다. */
+  background-color: rgb(3 7 18);
+  /* 절대 위치나 변환(transform)은 더 이상 필요하지 않을 수 있습니다. */
+}
+
+.controls {
+  position: absolute;
+  bottom: var(--stage-padding);
+  left: var(--stage-padding);
+}
+.graph-title {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: calc(100vw - var(--panels-width) - 3 * var(--stage-padding));
+  padding: var(--stage-padding);
+}
+.graph-title h1 {
+  font-size: 1.8em;
+}
+.graph-title h1,
+.graph-title h2 {
+  margin: 0;
+  background: var(--transparent-white);
+}
+.panels {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 350px;
+  max-height: calc(100vh - 2 * var(--stage-padding));
+  overflow-y: auto;
+  padding: var(--stage-padding);
+  scrollbar-width: thin;
+  /* font color black */
+  color: black;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--grey);
+  border: transparent;
+}
+
+/**
+ * USEFUL CLASSES:
+ * ***************
+ */
+div.ico > button {
+  display: block;
+  position: relative;
+  font-size: 1.8em;
+  width: 2em;
+  height: 2em;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  color: black;
+  background: white;
+  border: none;
+  outline: none;
+  margin-top: 0.2em;
+  cursor: pointer;
+}
+div.ico > button:hover {
+  color: var(--dark-grey);
+}
+div.ico > button > * {
+  position: absolute;
+  inset: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button.btn {
+  background: white;
+  color: black;
+  border: 1px solid black;
+  outline: none;
+  border-radius: var(--border-radius);
+  padding: 0.3em 0.5em;
+  font-size: 1em;
+  font-family: Lato, sans-serif;
+  cursor: pointer;
+}
+button.btn:hover {
+  opacity: var(--hover-opacity);
+}
+button.btn > * {
+  vertical-align: baseline;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+ul > li {
+  margin-top: 0.2em;
+}
+.text-muted {
+  color: var(--dark-grey);
+}
+.text-small {
+  font-size: 0.7em;
+  vertical-align: baseline;
+}
+.mouse-pointer {
+  cursor: pointer;
+}
+
+/**
+ * CAPTIONS PANELS:
+ * ****************
+ */
+.panel {
+  background: white;
+  padding: 1em;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+.panel:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+.panel h2 button {
+  float: right;
+  background: white;
+  border: 1px solid black;
+  border-radius: var(--border-radius);
+  font-size: 1.2em;
+  height: 1em;
+  width: 1em;
+  text-align: center;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panel h2 button:hover {
+  opacity: var(--hover-opacity);
+}
+
+.caption-row input[type="checkbox"] {
+  display: none;
+}
+.caption-row input[type="checkbox"]:not(:checked) + label {
+  color: var(--dark-grey);
+}
+.caption-row input[type="checkbox"]:not(:checked) + label .circle {
+  background-color: white !important;
+}
+.caption-row label {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+.caption-row label:hover {
+  opacity: var(--hover-opacity);
+}
+.caption-row label .circle {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 1.2em;
+  vertical-align: middle;
+  box-sizing: border-box;
+  background-color: var(--dark-grey);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-right: 0.2em;
+  transition: var(--transition);
+  border: 3px solid var(--dark-grey);
+}
+.caption-row label .node-label {
+  flex-grow: 1;
+}
+.caption-row label .bar {
+  position: relative;
+  background: var(--light-grey);
+  height: 3px;
+  margin-bottom: 0.2em;
+}
+.caption-row label .bar .inside-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--dark-grey);
+  transition: var(--transition);
+}
+
+/**
+ * SEARCH FIELD:
+ * *************
+ */
+.search-wrapper {
+  position: relative;
+}
+.search-wrapper > input[type="search"] {
+  width: calc(100%);
+  height: 3em;
+  box-shadow: var(--shadow);
+  border: none;
+  outline: none;
+  border-radius: var(--border-radius);
+  margin-bottom: 0.5em;
+  padding: 1em 1em 1em 3em;
+  font-family: Lato, sans-serif;
+  font-size: 1em;
+}
+.search-wrapper > .icon {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  top: 1em;
+  left: 1em;
+}
+
+/**
+ * RESPONSIVENESS:
+ * ***************
+ */
+@media (max-width: 767.98px) {
+  #dispnetgra:not(.show-contents) .contents,
+  #dispnetgra.show-contents .controls {
+    display: none;
+  }
+
+  #dispnetgra.show-contents .contents {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    background: var(--transparent-white);
+  }
+  #dispnetgra.show-contents .graph-title,
+  #dispnetgra.show-contents .panels {
+    height: auto;
+    max-height: unset;
+    max-width: unset;
+    position: static;
+    overflow-y: visible;
+    width: auto;
+  }
+  #dispnetgra.show-contents .graph-title {
+    background: white;
+    padding-right: calc(3em + 2 * var(--stage-padding));
+    min-height: 3em;
+  }
+  #dispnetgra.show-contents .contents .hide-contents {
+    position: absolute;
+    top: var(--stage-padding);
+    right: var(--stage-padding);
+  }
+}
+@media (min-width: 768px) {
+  button.show-contents,
+  button.hide-contents {
+    display: none !important;
+  }
+}
+
+.pennai .scene-header .ui.header {
+  display: inline-block;
+  margin-right: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.pennai .scene-header .ui.button {
+  vertical-align: middle;
+  margin-bottom: 0.9rem;
+}
+
+.pennai .inverted-card {
+  margin-bottom: 2rem;
+}
+
+.pennai .inverted-card .ui.top.attached.segment {
+  max-height: 57px;
+}
+
+.pennai .inverted-card .ui.segment {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* remove this */
+.pennai .ui.segment {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+/* file upload form styling */
+.pennai .file-upload-segment {
+  max-width: 630px;
+  /* add 'overflow: auto' so the floated child 
+     buttons stay contained within the segment */
+  overflow: auto;
+}
+.pennai .file-upload-form-dataset-input {
+  width: 40%;
+}
+.pennai .file-upload-form-server-resp {
+  max-width: 650px;
+  background-color: white;
+}
+.pennai .file-upload-form-hide-inputs {
+  display: none;
+}
+.pennai .file-upload-form-show-inputs {
+  display: block;
+}
+.pennai .file-upload-button {
+  padding: 1.25em 1.25em 1.25em 1.25em;
+}
+.pennai .file-upload-button + i.icon {
+  position: absolute;
+  top: 0.6em;
+  right: 0.7em;
+}
+.pennai .file-upload-help-icon {
+  padding-left: 0;
+}
+.pennai .file-upload-header {
+  margin-top: 1em;
+}
+.pennai .file-upload-pseudo-dialog-button {
+  size: "small";
+  float: right;
+}
+.pennai .file-upload-feature-text-info {
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(17, 17, 17, 0.9);
+}
+.pennai .file-upload-feature-text-input {
+  width: 100%;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(17, 17, 17, 0.9);
+  resize: none;
+}
+.pennai .file-upload-centered-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+.file-upload-sortable-list {
+  list-style-type: none;
+  margin: auto;
+  width: 80%;
+  padding: 10px 5px;
+}
+.file-upload-sortable-list-item {
+  /*border-style: solid;*/
+  border: 1px solid;
+  text-align: center;
+  padding: 2px;
+  border-color: rgb(84, 200, 255);
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+}
+/* This class is for the list item that moves
+around when using the SortableList. Because
+of how it's instantiated on-demand, it can't be
+a child of .pennai.
+The most important part is the z-index. Without it
+the element isn't visible at all.
+See https://github.com/clauderic/react-sortable-hoc/issues/87
+*/
+.file-upload-sortable-list-item-helper {
+  z-index: 10; /*important*/
+  list-style-type: none;
+}
+.pennai .file-upload-table {
+  line-height: 1;
+}
+.pennai .dataset-card .ui.error.message {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid #555;
+  box-shadow: none;
+}
+
+.pennai .dataset-card .ui.error.message .icon {
+  color: #ff695e;
+  font-size: 1rem;
+}
+
+.pennai .dataset-card .panel-header {
+  max-height: 57px;
+}
+
+.pennai .dataset-card .ui.grid.cat-and-ord-dataset-table {
+  max-width: 400px;
+}
+
+.pennai .dataset-card .ui.header.title {
+  max-width: 75%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.pennai .dataset-card .ui.header.title:hover {
+  text-decoration: underline;
+}
+
+.pennai .dataset-card .ai-label {
+  font-size: 1.1em;
+  margin-right: 0.7rem;
+  vertical-align: middle;
+}
+
+.pennai .dataset-card .ai-label.bright {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.pennai .dataset-card .ai-label.dim {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.pennai .dataset-card .ai-switch.ui.toggle {
+  width: 2.5rem;
+  margin-right: 0.75rem;
+  vertical-align: middle;
+}
+
+.pennai .dataset-card .ai-switch.ui.toggle.checkbox label:before {
+  width: 2.5rem;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.pennai .dataset-card .ai-switch.requested.ui.toggle.checkbox label:before {
+  background-color: #fbbd08 !important;
+}
+
+.pennai .dataset-card .ai-switch.active.ui.toggle.checkbox label:before {
+  background-color: #16ab39 !important;
+}
+
+.pennai
+  .dataset-card
+  .ai-switch.ui.toggle.checkbox
+  input:checked
+  ~ label:after {
+  left: 1.15rem;
+}
+
+.pennai .dataset-card .panel-body {
+  min-height: 132px;
+}
+
+.pennai .dataset-card .best-result.ui.segment:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.pennai .dataset-card .best-result .ui.progress {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.pennai .dataset-card .best-result .ui.progress.accuracy-score .bar {
+  background-color: #a333c8;
+}
+
+.pennai .dataset-card .best-result .ui.progress .bar .progress {
+  right: 0;
+  left: 0.5rem;
+}
+
+/*.pennai .dataset-card .best-result .ui.progress .bar .progress::after {
+  margin-left: 0.4rem;
+  content: "accuracy";
+}*/
+
+.pennai .dataset-card .experiments.table {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid #555;
+  border-collapse: collapse;
+}
+
+.pennai .dataset-card .experiments.table td {
+  position: relative;
+}
+
+.pennai .dataset-card .experiments.table .ui.floating.label {
+  margin-left: -5.25em !important;
+}
+
+.pennai .dataset-card .ui.red.label {
+  background-color: #ff5144 !important;
+}
+
+.pennai .experiments-scene .filters .fields {
+  margin-bottom: 0;
+}
+
+.pennai .experiments-scene .filters .fields .filter {
+  margin-right: 1rem;
+  margin-top: 0.15rem;
+}
+
+.pennai .experiments-scene .filters .item,
+.pennai .experiments-scene .filters .text {
+  text-transform: capitalize;
+}
+
+.pennai .experiments-scene .experiment-count {
+  padding-top: 0.25rem;
+  padding-left: 0.5rem;
+}
+
+.pennai .experiments-scene .ui.bottom.segment {
+  margin-bottom: 2rem;
+}
+
+/* Use for a table with a sticky header row (ie frozen in place)
+ Note that we have to override background-color because we give
+ tables the 'inverted' property, which uses style ui.inverted.table
+ defines background-color with low alpha so it's see-through as
+ table scrolls below it.
+ Note if we also freeze another row 'n' by using tr:nth-child(n),
+ then lower rolls scroll up over each other and the header row,
+ so not useful.
+*/
+.pennai .table-sticky-header .ui.table thead tr:first-child th {
+  position: sticky !important;
+  top: 0;
+  z-index: 2;
+  background-color: #313131;
+}
+
+.pennai .table-container {
+  width: 100%;
+  margin: 0;
+}
+
+.pennai .table-container .table {
+  min-width: 650px;
+}
+
+.pennai .table-container .ui.table thead th {
+  padding: 0.3rem 0.78571429em;
+}
+
+.pennai .table-container .ui.table th {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.pennai .table-container .ui.inverted.table tbody tr td.selectable:hover {
+  background-color: transparent !important;
+}
+
+.pennai .table-container .ui.table tbody tr td.selectable > a:not(.ui) {
+  padding: 0 0.78571429em;
+}
+
+.pennai .experiments-scene .ui.table th .alg-name {
+  margin-left: 0.5rem;
+}
+
+/*.pennai .experiments-scene .ui.table tr.new {
+  box-shadow: none;
+  background-color: rgba(46,204,64,.3) !important;
+  color: rgba(255,255,255,.9) !important;
+}
+
+.pennai .experiments-scene .ui.table tr.new:hover {
+  background: rgba(46,204,64,.4) !important;
+  color: #fff !important;
+}
+
+.pennai .experiments-scene .ui.table tr.error {
+  box-shadow: none;
+  background-color: rgba(255,105,94,.35) !important;
+  color: rgba(255,255,255,.9) !important;
+}
+
+.pennai .experiments-scene .ui.table tr.error:hover {
+  background: rgba(255,105,94,.45) !important;
+  color: #fff !important;
+}*/
+
+.pennai .experiments-scene .ui.table tr.new {
+  border-left: 7px solid #2ecc40;
+}
+
+.pennai .experiments-scene .ui.table tr.error {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-left: 7px solid #ff695e;
+}
+
+.pennai .builder-scene .page-title {
+  margin-bottom: 1rem;
+}
+
+.pennai .builder-scene .panel-header {
+  max-height: 57px;
+}
+
+.pennai .builder-scene .dataset-btn {
+  cursor: initial;
+}
+
+.pennai .builder-scene .dataset-btn:active {
+  background-color: #ff7701 !important;
+}
+
+.pennai .builder-scene .algorithm-btn + i.icon {
+  position: absolute;
+  top: 1.1em;
+  right: 0.1em;
+  cursor: pointer;
+}
+
+/* Remember: active class and active state are different! */
+.pennai .builder-scene .algorithm-btn.active + i.icon,
+.pennai .builder-scene .algorithm-btn:active + i.icon,
+.pennai .builder-scene .algorithm-btn:focus + i.icon,
+.pennai .builder-scene .algorithm-btn:hover + i.icon {
+  color: wheat !important;
+}
+
+.pennai .builder-scene .param-count {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.pennai .builder-scene .param-name {
+  margin-top: -0.35rem;
+}
+
+.pennai .builder-scene .info-icon {
+  margin-top: 0.15rem;
+  cursor: pointer;
+}
+
+.pennai .builder-scene .ui.compressed.grid > .column:not(.row) {
+  padding-bottom: 0 !important;
+  padding-right: 0 !important;
+}
+
+.pennai .builder-scene .ui.grid {
+  padding-bottom: 1rem;
+  padding-right: 1rem;
+}
+
+.pennai .builder-scene .ui.stretched.grid > .row > .column {
+  padding-bottom: 2rem !important;
+}
+
+.pennai .builder-scene .builder-btns {
+  margin-top: -2rem;
+  margin-bottom: 2rem;
+}
+.pennai .admin-scene {
+  margin-bottom: 2em;
+}
+
+.pennai .admin-scene p,
+.pennai .admin-scene span {
+  color: #fff;
+}
+
+.pennai .admin-scene .panel-header {
+  background: #545454 linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+}
+
+.pennai .admin-scene .panel-header .ui.header {
+  display: inline;
+  margin-right: 0.5em;
+}
+
+.c3-chart-arcs-gauge-min,
+.c3-chart-arcs-gauge-max {
+  font-size: 0.8rem;
+}
+.c3-legend-item {
+  cursor: default !important;
+}
+.pennai .ui.menu .link.active > .item {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.pennai .ui.menu .link:not(.active) > .item:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.pennai .ui.partial.dropdown {
+  width: 75%;
+}
+
+/* Manual fix for color of search text in inverted searchable Dropdown.
+* There's a bug in semantic-ui-react that doesn't set the color properly
+* for the text in the search element within a dropdown, so it's unreadable.
+* The bug is in v1.3.1 and v2.0.0.
+* Note that there's no way to reference a color value from the .ui class
+* that defines the inverted color w/out adding a css preprocessor */
+.pennai .inverted-dropdown-search .ui.search.dropdown {
+  color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgb(84, 200, 255);
+  border-radius: 4px;
+  padding: 0.4em 1em;
+}
+.pennai .inverted-dropdown-search .ui.search.dropdown > input.search {
+  color: rgba(255, 255, 255, 0.9);
+}
+/* Manual fix for color of dropdown text in an inline form.field dropdown control
+ within an inverted form.
+*/
+.pennai .inverted-dropdown-inline .ui.dropdown {
+  color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgb(84, 200, 255);
+  border-radius: 4px;
+  padding: 0.4em 1em;
+}
+
+.gauge {
+  fill: #fff;
+}
+
+pre.schema {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  margin-top: 0;
+}
+
+/*.ui.button {
+  margin: 0 1em 1em 0;
+}*/
+
+.float-right {
+  float: right;
+}
+
+.pennai .muted {
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
+
+/* For file drag-n-drop functionality */
+.pennai .dropzone {
+  text-align: center;
+  padding: 20px;
+  border: 3px dashed #474747;
+  background-color: #2185d0;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+/* @media (max-width: 321px) {
+
+}
+
+@media (max-width: 768px) {
+  body {
+      padding: 0;
+      padding-top: 4.5rem;
+  }
+} */
+
+div#segmentAddNewdataCard {
+  /* background: #2185d0;
+  border-color: #2185d0; */
+
+  background: #419ce1;
+  border-color: #419ce1;
+}
+
+/* element a in div#segmentAddNewdataCard */
+div#gridAddNewdataCard a {
+  /* make upper edges round */
+  /* border-radius: .28571429rem .28571429rem .28571429rem .28571429rem !important; */
+
+  /* make the cross icond located in the center of div#gridAddNewdataCard */
+  /* margin-left: 0.5em; */
+
+  /* margin 0 */
+  margin: 0 !important;
+}
+
+a#addNewDatasetBtnCross i {
+  position: absolute;
+  top: 45%;
+  transform: translateX(70%);
+  /* transform: translateY(-120%); */
+  font-size: xxx-large;
+}
+
+/* Below ids are the elements in the "Add new dataset button" */
+#testcell,
+#testcell2,
+#testcell3 {
+  background-color: #2185d0;
+  border-color: #2185d0;
+  color: #2185d0 !important;
+}
+
+#testseg {
+  background-color: #2185d0;
+  border-color: #2185d0;
+  color: #2185d0 !important;
+}
+#testheader {
+  background-color: #2185d0;
+  border-color: #2185d0;
+  color: #2185d0 !important;
+}
+
+@-webkit-keyframes blinker {
+  0% {
+    opacity: 8;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.8;
+  }
+
+  /* change backgourd color */
+  /* 0% { background-color: #2185d0; }
+  50% { background-color: #df0909; }
+  100% { background-color: #2185d0; } */
+
+  /* change boarder color */
+  /* 0% { border-color: #2185d0; }
+  50% { border-color: #df0909; }
+  100% { border-color: #2185d0; } */
+
+  /* change backgourd color */
+  /* 0% { background-color: #2185d0; }
+  50% { background-color: #df0909; }
+  100% { background-color: #2185d0; } */
+
+  /* change boader color */
+  /* 0% { border-color: #2185d0; }
+  50% { border-color: #df0909; }
+  100% { border-color: #2185d0; } */
+
+  /* change  text color */
+  /* 0% { color: #2185d0; }
+  50% { color: #df0909; }
+  100% { color: #2185d0; } */
+
+  /* change text thickness */
+  /* 0% { font-weight: 100; }
+  50% { font-weight: 900; }
+  100% { font-weight: 100; } */
+
+  /* change boader color */
+
+  /* 0% { border-color: #2185d0; }
+  50% { border-color: #df0909; }
+  100% { border-color: #2185d0; } */
+}
+
+#addNewPopup .content,
+#algorithm-popup .content {
+  /* width: 10px; */
+  /* height: 10px; */
+  border-radius: 10px;
+  /*  */
+  /* animation: blinker 2s linear infinite; */
+  /* background-color: red; */
+  /* border-color: green; */
+  /* margin-right: 5px; */
+}
+
+#addNewPopup,
+#algorithm-popup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  animation: blinker 3s linear infinite;
+}
+
+/*@media (min-width: 140rem) {
+  body {
+      line-height: calc(1.5 * 2.5);
+      padding: calc(1rem * 10);
+  }
+
+  h1.ui.header {
+      font-size: calc(2rem * 2.5);
+  }
+
+  h1.ui.header .sub.header {
+      font-size: calc(1.14285714rem * 2.5);
+  }
+
+  .ui.button {
+      font-size: calc(1rem * 2.5);
+  }
+
+  .ui.inverted.segment {
+      border-width: calc(0.063rem * 5) !important;
+  }
+
+  .ui.segment.square > .content {
+      padding: calc(1rem * 2.5);
+  }
+}*/
+
+.c3-chart-texts .c3-text-0 {
+  fill: white !important;
+}
+
+.c3-chart-texts .c3-text-1 {
+  fill: white !important;
+}
+
+/* .Bar{
+  stroke: rgb(28, 28, 28);
+} */
+
+.donut.test.c3 .g.c3-legend-item-event {
+  stroke: rgb(255, 255, 255) !important;
+}
+
+text {
+  fill: rgb(255, 255, 255) !important;
+}
+
+.domain {
+  fill: rgb(255, 255, 255) !important;
+}
+
+.c3-legend-item {
+  cursor: default !important;
+  /* not clicable */
+  /* pointer-events: none !important; */
+}
+
+/* .c3 line {
+  fill: none;
+  stroke: rgb(255, 255, 255);
+} */
+
+.LineChart.learning_curve.c3 path {
+  fill: none;
+  stroke: rgb(255, 255, 255);
+}
+
+/* .LineChart.learning_curve.c3 .c3-axis-y text {
+ 
+  font-size:8px;
+}
+.LineChart.learning_curve.c3 .c3-axis-x text {
+   font-size:8px;
+   
+} */
+
+/* .c3-xgrid-line line {
+  stroke: blue;
+}
+.c3-xgrid-line.grid4 line {
+  stroke: pink;
+}
+.c3-xgrid-line.grid4 text {
+  fill: pink;
+}
+.c3-ygrid-line line {
+  stroke: red;
+}
+.c3-ygrid-line.grid800 line {
+  stroke: green;
+}
+.c3-ygrid-line.grid800 text {
+  fill: green;
+} */
+
+.c3-line {
+  stroke-width: 3px;
+}
+
+/* ChatGPT  */
+/* App.css */
+
+/* .divsidemenu {
+  background-color: rgb(3 7 18);
+}
+
+.sidemenu {
+  margin-right: 10px;
+
+  background-color: rgb(3 7 18);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+} */
+
+.divsidemenu {
+  display: flex; /* 플렉스 컨테이너 설정 */
+  flex-direction: column; /* 아이템들을 세로로 정렬 */
+  width: 250px; /* 사이드 메뉴의 너비 설정 */
+  height: 100vh; /* 뷰포트의 전체 높이를 차지하도록 설정 */
+  background-color: rgb(3 7 18); /* 배경색 설정 */
+}
+
+.sidemenu {
+  width: 100%; /* 부모 컨테이너의 전체 너비를 차지하도록 설정 */
+  margin-right: 0; /* 오른쪽 여백 제거 */
+  background-color: rgb(3 7 18); /* 배경색 설정 */
+  display: flex; /* 플렉스 컨테이너 설정 */
+  flex-direction: column; /* 아이템들을 세로로 정렬 */
+}
+
+/* under 640px do this */
+@media (max-width: 640px) {
+  .sidemenu {
+    display: none;
+  }
+}
+
+.side-menu-button {
+  padding: 12px;
+  border-top: 1px solid rgb(31 41 55);
+  border-left: 1px solid rgb(31 41 55);
+  border-right: 1px solid rgb(31 41 55);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  text-align: left;
+  transition: ease 0.25s all;
+  cursor: pointer;
+  width: 100%; /* 너비를 부모 컨테이너의 100%로 설정 */
+  box-sizing: border-box; /* 패딩을 너비에 포함 */
+}
+
+#newchatbutton {
+  margin-right: 0; /* 오른쪽 여백 제거 */
+}
+
+.side-menu-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.side-menu-button span {
+  padding-left: 6px;
+  padding-right: 12px;
+}
+
+/* new */
+
+.chatboxtap {
+  display: flex; /* 플렉스 컨테이너 설정 */
+  align-items: center; /* 자식 요소들을 중앙으로 정렬 */
+  justify-content: flex-start; /* 자식 요소들을 컨테이너의 시작 부분으로 정렬 */
+  margin-bottom: 10px; /* 아래쪽 요소와의 간격 */
+}
+
+.sidemenu.chatboxtap {
+  flex-direction: row;
+}
+
+.chatbox {
+  flex: 1;
+  background-color: rgb(3 7 18);
+  position: relative;
+  padding-bottom: 95px;
+  /* padding-bottom: 135px; */
+  border-left: 1px solid rgb(31 41 55);
+  border-right: 1px solid rgb(31 41 55);
+  border-bottom: 1px solid rgb(31 41 55);
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/* original version of chat submit window location */
+.chat-input-holder {
+  /* padding: 24px; */
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+  /* padding-top: 50px; */
+  padding-top: 24px;
+  /* position: absolute; */
+  /* bottom: 0; */
+  /* left: 0; */
+  /* right: 0; */
+}
+
+/* jay's idea of chat sumbit window location */
+/* .chat-input-holder {
+  padding: 24px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  width: 48%;
+} */
+
+.ChatGPT {
+  display: flex;
+  /* flex-direction: column; */
+  flex-direction: row;
+  height: 100%;
+  background-color: rgb(3 7 18);
+  color: white;
+}
+
+.chat-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-input-holder {
+  margin-top: auto;
+}
+
+.chat-input-textarea {
+  /* background-color: #40414f; */
+  background-color: rgb(17 24 39);
+  width: 100%;
+  /* width: 90%; */
+  /* width: 80%; */
+  padding: 12px;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.25em;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+}
+
+.code-input-area {
+  /* background-color: #40414f; */
+  /* background-color: rgb(17 24 39); */
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.25em;
+  /* border-top: 1px solid rgb(31 41 55); */
+  border-left: 1px solid rgb(31 41 55);
+  border-right: 1px solid rgb(31 41 55);
+  border-bottom: 1px solid rgb(31 41 55);
+  outline: none;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+
+  /* overflow-x: scroll; */
+}
+
+.additional-buttons {
+  padding: 24px;
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  display: flex;
+}
+
+.audio-to-text {
+  /* margin:5px 12px; */
+  /* padding: 5px 12px; */
+  /* make inner div fill */
+
+  /* background: #6858f5; */
+  padding-left: 2px;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.chat-log {
+  /* position: absolute; */
+  top: 0;
+  right: 0;
+  bottom: 89px;
+  left: 0;
+
+  /* overflow-y: scroll;
+  scroll-behavior: smooth; */
+  text-align: left;
+  display: none;
+}
+
+.chat-message.alirogpt {
+  /* background-color: rgb(3 7 18); */
+  background-color: rgb(17 24 39);
+  /* background-color: blueviolet; */
+}
+.chat-message-center {
+  /* max-width: 1300px; */
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  padding: 12px;
+  /* padding-left: 24px; */
+  /* padding-right: 24px; */
+  border-top: 1px solid rgb(31 41 55);
+  border-left: 1px solid rgb(31 41 55);
+  border-right: 1px solid rgb(31 41 55);
+  border-bottom: 1px solid rgb(31 41 55);
+}
+
+.avatar {
+  background: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  font-size: 14px;
+  color: #444654;
+}
+
+.avatar.alirogpt {
+  background: #6858f5;
+  border-radius: 50%;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 5px;
+  color: white;
+}
+
+/* div.message.buttons {
+  flex-direction: row;
+} */
+.buttons {
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.chartchat {
+  padding-top: 20px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.select-models {
+  border: 1px solid white;
+  padding: 12px;
+  border-radius: 5px;
+  color: white;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  max-width: 100%;
+  min-width: 100%;
+}
+.select-models option {
+  background: black;
+  color: white;
+}
+
+.button-picker {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  color: white;
+  background: #444654;
+  margin-top: 6px;
+  cursor: pointer;
+}
+.button-picker:hover {
+  background: #626473;
+}
+
+.info {
+  opacity: 0.66;
+  font-size: 0.8em;
+  margin-top: 6px;
+}
+
+.side-label {
+  font-size: 0.9em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0em;
+  display: block;
+}
+
+/*    .form {
+  display: flex;
+  gap: 6px;
+}
+*/
+
+.chatSubmitForm {
+  display: flex;
+  gap: 6px;
+}
+
+.submit {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  /* cursor: pointer; */
+  outline: inherit;
+  /* background: #0da37f;
+   */
+  background: #6858f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  font-size: 14px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.submit:hover {
+  background: #3822f3;
+}
+
+.call-editor,
+.stop-speaking {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  /* cursor: pointer; */
+  outline: inherit;
+  /* background: #0da37f;
+   */
+  background: #6858f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  font-size: 14px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.call-editor:hover,
+.stop-speaking:hover {
+  background: #3822f3;
+}
+
+.stop-speaking {
+  margin-left: 2px;
+}
+
+#fileUpload {
+  display: none;
+}
+
+/* ChatGPT */
+/* index.css */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* normal.css */
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+
+/* Document
+ ========================================================================== */
+
+/**
+* 1. Correct the line height in all browsers.
+* 2. Prevent adjustments of font size after orientation changes in iOS.
+*/
+
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/* Sections
+   ========================================================================== */
+
+/**
+ * Remove the margin in all browsers.
+ */
+
+body {
+  margin: 0;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+/**
+ * Render the `main` element consistently in IE.
+ */
+
+main {
+  display: block;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * Remove the gray background on active links in IE 10.
+ */
+
+a {
+  background-color: transparent;
+}
+
+/**
+ * 1. Remove the bottom border in Chrome 57-
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code,
+kbd,
+samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove the border on images inside links in IE 10.
+ */
+
+img {
+  border-style: none;
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * 1. Change the font styles in all browsers.
+ * 2. Remove the margin in Firefox and Safari.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+
+button,
+input {
+  /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+
+button,
+select {
+  /* 1 */
+  text-transform: none;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ */
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Correct the padding in Firefox.
+ */
+
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Remove the default vertical scrollbar in IE 10+.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
+ */
+
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Remove the inner padding in Chrome and Safari on macOS.
+ */
+
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/* Interactive
+   ========================================================================== */
+
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+
+details {
+  display: block;
+}
+
+/*
+ * Add the correct display in all browsers.
+ */
+
+summary {
+  display: list-item;
+}
+
+/* Misc
+   ========================================================================== */
+
+/**
+ * Add the correct display in IE 10+.
+ */
+
+template {
+  display: none;
+}
+
+/**
+ * Add the correct display in IE 10.
+ */
+
+[hidden] {
+  display: none;
+}
+
+.chat-button {
+  margin: 3px;
+  padding: 12px;
+  border: 1px solid white;
+  border-radius: 5px;
+  text-align: left;
+  transition: ease 0.25s all;
+  cursor: pointer;
+}
+.chat-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.c3 path,
+.c3 line {
+  fill: none;
+}
+
+.message {
+  overflow: hidden;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex; /* Make this a flex container */
+  align-items: center; /* Center children vertically */
+  justify-content: center; /* Center children horizontally */
+}
+
+.message-noncode {
+  overflow: hidden;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex; /* Make this a flex container */
+  flex-direction: column; /* Arrange children in a row */
+  /* align-items: center;  Center children vertically */
+  align-items: left;
+  justify-content: center; /* Center children horizontally */
+}
+
+.message-code {
+  overflow: hidden;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.balon1 {
+  float: right;
+  background: #35cce6;
+  border-radius: 10px;
+}
+
+.balon2 {
+  float: left;
+  background: #f4f7f9;
+  border-radius: 10px;
+}
+
+.modal {
+  /* position: fixed; */
+  z-index: 1;
+  /* width: 100%;
+height: 100%; */
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.modal_content {
+  background-color: #2185d0;
+  position: absolute;
+  top: 150%;
+  left: 50%;
+  /* width: 80%; */
+  /* transform: translate(-50%, 100%); */
+  transform: translate(-50%, 150%);
+
+  /* make mode_content located in the middle of window */
+
+  /* width: 40%; */
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.close {
+  color: black;
+  float: right;
+}
+
+.close:hover {
+  color: cyan;
+  cursor: pointer;
+}
+
+/* input.popUPAPI:-internal-autofill-selected {
+color: white!important;
+background-color: #2185d0!important;
+} */
+
+/* make id twocol occupy half of weidth in the page*/
+/* make  id twocol located right in the page */
+/* in the page there are four colums but right two column is occupied by the twocol */
+/* prevent other card from changing size when twocol getting bigger */
+
+#twocol {
+  width: 50%;
+  float: right;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.left-column {
+  background-color: blue;
+  width: 50%;
+  height: 100%;
+}
+
+.right-column {
+  background-color: red;
+  width: 50%;
+  height: 100%;
+}
+
+/* ====================== blocks and slider ====================================*/
+
+.containerChartsChats {
+  /* background: beige; */
+  /* width: 50%; */
+  height: 100%;
+  /* height: 100vh; */
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* flex-flow: column nowrap; */
+
+  /* main axis */
+  justify-content: space-between;
+
+  /* cross axis */
+  align-items: center;
+  align-content: center;
+}
+
+.chartschat {
+  /* width: 50%; */
+  width: 100%;
+  height: 100vh;
+}
+
+.left-navbar {
+  overflow-y: scroll;
+  /* "bg-gray-800" */
+  /* background-color: #1f2937; */
+}
+
+.chartsbaseleft {
+  /* background: #ef9a9a; */
+  overflow-y: scroll;
+}
+
+.chatbaseright {
+  /* background: #ce93d8; */
+  flex: 1; /* adjust automatically */
+  min-width: 0; /* allow flexing beyond auto width */
+  overflow: hidden; /* hide overflow on small width */
+  overflow-y: scroll;
+}
+
+.slider {
+  /* visibility:hidden; */
+  /* line-height: 1200%; */
+  /* height: 100%; */
+  /* width: 100%; */
+  /*  */
+  /* width: 1px; */
+  /* height: 1000%; */
+  /*  */
+  /* background-color: #579ce1!important; */
+  /* background-color: black; */
+  /* when mouseover  */
+
+  border: none;
+  cursor: col-resize;
+  user-select: none;
+  text-align: center;
+  /* make padding left and right 5px */
+  /* padding-left: 5px;
+padding-right: 5px; */
+  /* locate in the center */
+
+  /* make transparent charachters in slider */
+  color: transparent;
+
+  border-radius: 10px;
+
+  /* position:relative; */
+
+  background-color: rgba(38, 37, 37, 0.25);
+}
+
+.slider:hover {
+  background-color: rgb(118, 112, 112);
+}
+
+/* ====================== blocks and slider ====================================*/
+
+.temp-chatgpt-location-cand {
+  color: transparent;
+}
+
+#expertChatGPT {
+  cursor: pointer;
+}
+
+/* make trash align by row with side-menu-button */
+.trash {
+  cursor: pointer;
+}
+
+.side-menu-button-trash {
+  padding: 12px;
+  /* border: 1px solid white; */
+  border-top: 1px solid rgb(0, 0, 0, 0) !important;
+  border-left: 1px solid rgb(0, 0, 0, 0) !important;
+  border-right: 1px solid rgb(0, 0, 0, 0) !important;
+
+  /* border-radius: 5px; */
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  text-align: left;
+  transition: ease 0.25s all;
+  cursor: pointer;
+}
+
+.toggle-button-chat-code {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  /* padding-top: 5px; */
+  font: inherit;
+  /* cursor: pointer; */
+  outline: inherit;
+  background: #2185d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding: 5px 12px; */
+  font-size: 14px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  /* make align with form left */
+
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.togglechatcode {
+  background: none;
+  color: inherit;
+  border: none;
+
+  /* padding-top: 5px; */
+  font: inherit;
+  /* cursor: pointer; */
+  outline: inherit;
+  background: #ae5211;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding: 5px 12px; */
+  font-size: 14px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  /* make align with form left */
+
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.togglechatcode:hover {
+  background: #066d55;
+}
+
+.numUnvisPele {
+  display: none !important;
+}
+
+/* run code button */
+
+/* .run-code-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.run-code-button:hover {
+  background-color: #0062cc;
+}
+
+.run-code-button:active {
+  background-color: #005cbf;
+} */
+
+.run-code-button {
+  margin-top: 10px;
+  /* background: #3822F3; */
+}
+
+table {
+  border-collapse: collapse;
+}
+th,
+td {
+  /* make the border transparent */
+  border: 1px solid transparent;
+  padding: 0.5em;
+}
+
+/* blink for waiting message */
+.blinking {
+  animation: blink 1s ease infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.popup-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.popup-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90%;
+  /* background-color: #332424; */
+  background-color: rgb(17 24 39);
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* make blurred bolder line color white */
+  border: 1px solid rgb(81, 105, 140);
+}
+
+.models {
+  position: relative;
+}
+
+.models .close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.close-button {
+  background-color: #332424;
+  border: none;
+  color: white;
+}
+
+.close-button:hover {
+  font-weight: bold;
+}
+
+#openPopupBtn {
+  background-color: transparent;
+  /* border: none; */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+
+  /* bottom border none */
+  border-bottom: 1px solid transparent;
+
+  /* make  */
+}
+
+#openPopupBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* CodeCompletion */
+.sidebar {
+  background-color: #181818;
+  color: #cccccc;
+}
+
+/* body{
+  background-color: #1F1F1F;
+  color: white;
+} */
+
+.progress-container {
+  position: relative;
+  font-size: 16px;
+  color: white;
+  /* background-color: #e9ecef; */
+  border-radius: 8px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.progress-bar {
+  padding: 2px 4px;
+  z-index: 0;
+  top: 0;
+  width: 1%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #007bff;
+  white-space: nowrap;
+}
+
+.progress-text {
+  z-index: 2;
+}
+
+/* code completion set up window  */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3; /* Background of the track */
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #6858f5; /* Background of the thumb (handle) */
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: blue; /* Background of the thumb (handle) on hover */
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #6858f5; /* Background of the thumb (handle) */
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background: blue; /* Background of the thumb (handle) on hover for Firefox */
+}
+
+input[type="range"]::-moz-range-track {
+  background: #d3d3d3; /* Background of the track for Firefox */
+  border-radius: 5px;
+}
+
+/* AudioToText */
+
+audio::-webkit-media-controls-panel {
+  background-color: white;
+}
+
+.container {
+  width: 41rem /* 656px */;
+  max-width: 95vw;
+}
+
+#TranscribeButtonOutDiv {
+  position: fixed; /* This ensures it's relative to the viewport */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.showQuestion {
+  position: absolute;
+  top: 1%; /* 상위 요소 기준으로 위쪽에서 50px 떨어진 곳에 배치 */
+  left: 3%; /* 상위 요소 기준으로 왼쪽에서 50px 떨어진 곳에 배치 */
+  z-index: 1; /* 다른 요소들보다 위에 표시 */
+}

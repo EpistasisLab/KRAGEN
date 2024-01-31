@@ -1,0 +1,106 @@
+@host = localhost
+@port = 5050
+@base_url = http://{{host}}:{{port}}
+
+POST {{base_url}}/api/v1/configs
+Content-Type: application/json
+
+{
+    "service": "openai",
+    "key": "apikey" 
+}
+
+###
+GET {{base_url}}
+
+###
+GET {{base_url}}/openai/v1/models
+
+###
+POST {{base_url}}/openai/v1/chat/completions
+Content-Type: application/json
+
+{
+    "model" : "gpt-3.5-turbo",
+    "messages" : [{"role": "user", "content": "hello there"}]
+}
+
+###
+POST {{base_url}}/execapi/v1/executions
+Content-Type: application/json
+
+{
+    "src_code": "with open('test.txt', 'w') as f:\n    f.write('hello there')\n    f.close()"
+}
+
+###
+GET {{base_url}}/execapi/v1/executions/13
+
+###
+GET {{base_url}}/execapi/v1/packages
+
+###
+
+POST {{base_url}}/execapi/v1/packages
+Content-Type: application/json
+
+{
+    "packages": ["streamline"]
+}
+
+###
+
+POST {{base_url}}/chatapi/v1/chats
+Content-Type: application/json
+
+{
+    "title": "mytestchat"
+}
+
+###
+
+GET {{base_url}}/chatapi/v1/chats/1
+
+###
+DELETE {{base_url}}/chatapi/v1/chats/1
+
+###
+
+PATCH {{base_url}}/chatapi/v1/chats/1
+Content-Type: application/json
+
+{
+    "title": "mynewtitle"
+}
+
+###
+
+POST {{base_url}}/chatapi/v1/chats/1/chatlogs
+Content-Type: application/json
+
+{
+    "message": "hello there chat #4",
+    "message_type": "message_type",
+    "who": "user"
+}
+
+###
+
+PATCH {{base_url}}/chatapi/v1/chats/4/chatlogs/7
+Content-Type: application/json
+
+{
+    "message": "hello there 4 updated",
+    "message_type": "message_type",
+    "who": "user",
+    "src_code": "print('hello world')"
+}
+
+###
+
+GET {{base_url}}/chatapi/v1/chats/1/chatlogs
+
+
+# return all chat ids
+###
+GET {{base_url}}/chatapi/v1/chats/chatids

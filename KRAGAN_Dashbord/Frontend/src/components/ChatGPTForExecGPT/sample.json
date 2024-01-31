@@ -1,0 +1,98 @@
+[
+{"AI":{"message":"HELLO!  Upload your data (.csv or .xslx)"}},
+{"AI":{"message":"Great. We noticed you have multiple worksheets. We suggest you use the 'Main' worksheet as your main worksheet. Which would you like to start the analysis with?"}},
+{"Human":{"buttons":["Main (suggested)", "Pre-operation MEDD ","Post-operation MEDD", "Last Outpatient Meds List","Meds List 6-18 Months","PQH Post Surgery (12 months)"]}},
+
+{"AI":{"message":"It is possible to merge some of these worksheets. Would you like to?"}},
+{"Human":{"buttons":["Yes (suggested)", "No"]}},
+{"AI":{"message":"We can use the following columns to merge onto other worksheets: PAT_ID, MRN. Would you like to use this as a unique identifier?"}},
+{"Human":{"buttons":["Yes (suggested)", "No"]}},
+{"AI":{"message":"Great. There are multiple rows per PAT_ID, MRN combination in 'Main'. What aggregation methods should I use?"}},
+{"Human":{"buttons":["First (suggested)", "Last", "Sum", "Average", "Count", "Max", "Min"]}},
+
+{"AI":{"message":"Great. We noticed there are empty values in your dataset. Here is some info about it:"}},
+{"AI":{"image":"screenshot1.png"}},
+{"AI":{"message":"We can address these empty values by imputing or droping the columns. We suggest dropping columns that are less than 50% populated. Should we drop 'EDU_LEVEL' and 'OCCUPATION'?"}},
+{"Human":{"buttons":["Yes (suggested)", "No"]}},
+
+{"AI":{"message":"We dropped those columns. Here is the updated dataset:"}},
+{"AI":{"image":"screenshot2.png"}},
+{"AI":{"message":"We can address these empty values by imputing or droping the columns. We have provided some suggestions for imputing the empty values. Would you like to autoresolve or manually resolve?"}},
+{"Human":{"buttons":["Autoresolve", "Manual (suggested)"]}},
+
+
+
+{"AI":{"message":"Sounds good. Let's start with: Column name: DRUG_USE. Null Count: 1089. Unique Values: 4. Data type: categorical. Top 5 values: [No, Never, Yes, Not Currently]"}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+
+
+{"AI":{"message":"Column name: ALCOHOL_USE. Null Count: 495. Unique Values: 4. Data type: categorical. Top 5 values: [Yes, No, Not Currently, Never]"}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+{"AI":{"message":"Column name: CASE_CLASS. Null Count: 217. Unique Values: 7. Data type: categorical. Top 5 values: [1. Elective, 4. Urgent < 4 Hours, 2. Priority..."}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+{"AI":{"message":"Column name: PAYOR_NAME. Null Count: 133. Unique Values: 95. Data type: categorical. Top 5 values: [MEDICARE, BLUE CROSS, BLUE SHIELD, UNITED HEA..."}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+{"AI":{"message":"Column name: FIN_CLASS_NAME. Null Count: 133. Unique Values: 4. Data type: categorical. Top 5 values: [Commercial, Medicare, MEDI-CAL, OTHER GOVERNM..."}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+
+
+{"AI":{"message":"Column name: PAIN_SCORE. Null Count: 111. Unique Values: 11. Data type: numerical. Top 5 values: [0.0, 5.0, 6.0, 7.0, 8.0]"}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+
+{"AI":{"message":"Column name: DBP. Null Count: 69. Unique Values: 85. Data type: numerical. Top 5 values: [75.0, 76.0, 80.0, 78.0, 72.0]"}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+{"AI":{"message":"Column name: SBP. Null Count: 69. Unique Values: 85. Data type: numerical. Top 5 values: [120.0, 130.0, 140.0, 150.0, 160.0]"}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+{"AI":{"message":"Column name: HEART_RATE. Null Count: 51. Unique Values: 96. Data type: numerical. Top 5 values: [72.0, 70.0, 74.0, 68.0, 65.0]"}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+
+{"AI":{"message":"Column name: TOBACCO_USER. Null Count: 23. Unique Values: 9. Data type: categorical. Top 5 values: [Never Smoker, Former Smoker, Current Every Da..."}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+{"AI":{"message":"Column name: HEIGHT. Null Count: 17. Unique Values: 197. Data type: categorical. Top 5 values: [5' 4'', 5' 6'', 5' 10'', 5' 7'', 5' 8'']"}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+
+{"AI":{"message":"Column name: WEIGHT. Null Count: 8. Unique Values: 2480. Data type: categorical. Top 5 values: [1907-06-12 00:00:00, 1907-01-03 00:00:00, 190..."}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+
+{"AI":{"message":"Column name: BMI. Null Count: 8. Unique Values: 2187. Data type: numerical. Top 5 values: [28.12, 27.76, 28.89, 27.98, 21.26]"}},
+{"Human":{"buttons":["Impute with mode (suggested)","Impute with median","Impute with mean","Drop column"]}},
+
+{"AI":{"message":"Column name: LENGTH_OF_STAY_HOURS. Null Count: 2. Unique Values: 557. Data type: numerical. Top 5 values: [54.0, 78.0, 53.0, 80.0, 79.0]"}},
+{"Human":{"buttons":["Impute with mode","Impute with median","Impute with mean (suggested)","Drop column"]}},
+
+{"AI":{"message":"Column name: RACE. Null Count: 2. Unique Values: 8. Data type: categorical. Top 5 values: [White, Black or African American, Other, Asian, Unknown]"}},
+{"Human":{"buttons":["Impute with mode","Impute with median","Impute with mean (suggested)","Drop column"]}},
+
+{"AI":{"message":"Column name: ETHNICITY. Null Count: 1. Unique Values: 4. Data type: categorical. Top 5 values: [Non-Hispanic, Hispanic, Unknown, Patient Declined]"}},
+{"Human":{"buttons":["Impute with mode","Impute with median","Impute with mean (suggested)","Drop column"]}},
+
+{"AI":{"message":"Column name: DISCHARGE. Null Count: 1. Unique Values: 20. Data type: categorical. Top 5 values: [Home, Home with Home Health, Inpatient Rehab, Skilled Nursing Facility, Other]"}},
+{"Human":{"buttons":["Impute with mode","Impute with median","Impute with mean (suggested)","Drop column"]}},
+
+
+{"AI":{"message":"Awesome! We have a filled and cleaned dataset! There are 7195 rows and 28 features. Here is a preview:"}},
+{"AI":{"image":"screenshot3.png"}}
+]

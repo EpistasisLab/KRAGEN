@@ -36,3 +36,9 @@ readme-memo
 
 # ENV 
 .env
+
+!requirements.txt
+
+# data files
+data_alzkb_Mythreye_version_3_dataset_disconnectedgenes.json
+

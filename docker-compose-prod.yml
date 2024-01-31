@@ -9,3 +9,5 @@ services:
     volumes:
       - "./:/data"
     working_dir: /data
+    # still need to test this prod script
+    entrypoint: ["python", "src/kragen.py"]
