@@ -17,9 +17,7 @@ input_dir = os.getenv('INPUT_DIR_FOR_ADDING_TOKEN_INFO')
 # OUTPUT_DIR_FOR_ADDING_TOKEN_INFO
 output_dir = os.getenv('OUTPUT_DIR_FOR_ADDING_TOKEN_INFO')
 
-
-if __name__ == '__main__':
-
+def main():
     # Create the output directory if it doesn't exist
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -48,4 +46,5 @@ if __name__ == '__main__':
         df.to_csv(output_dir + '/' + os.path.basename(file), index=False)  # Saving the DataFrame back to CSV, without the index.
 
 
-
+if __name__ == '__main__':
+    main()

@@ -1,13 +1,15 @@
 version: '3'
 
 services:
-  convert:
+  kragen:
     build:
       context: .
-      dockerfile: docker/convert/Dockerfile
-    image: moorelab/kragen-convert:${TAG}
+      dockerfile: docker/Dockerfile
+      args:
+        docker_files: 'docker'
+    image: moorelab/kragen:${TAG}
     volumes:
       - "./:/usr/src/app"
     working_dir: /usr/src/app
     entrypoint: ["python", "src/kragen.py"]
-    command: test.csv
+    # command: test.csv
