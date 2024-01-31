@@ -75,8 +75,10 @@ def process_csv_dask(file_path):
             lambda x: get_embedding(x, engine=openai_embedding_model)
         )
 
+        # check if the output directory exists
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
         
-        os.makedirs(output_dir, exist_ok=True)
         output_file_path = os.path.join(output_dir, os.path.basename(file_path))
         df.to_csv(output_file_path, index=False)
 
@@ -89,6 +91,9 @@ def process_all_csv_files(directory):
     client = Client()
     try:
         while True:
+            # make sure the output_dir exists
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir, exist_ok=True)
             csv_files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.csv')]
             csv_files.sort()
 
