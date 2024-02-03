@@ -1,6 +1,6 @@
 dask==2024.1.0
 pandas==2.1.4
-# weaviate-client==3.25.3
+weaviate-client==3.25.3
 python-dotenv==1.0.0
 openai==0.28.0
 matplotlib==3.8.1

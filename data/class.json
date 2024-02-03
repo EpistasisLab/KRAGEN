@@ -1,0 +1,13 @@
+{
+  "class": "AlzKB",
+  "properties": [
+    {
+      "name": "knowledge",
+      "dataType": ["text"]
+    },
+    {
+      "name": "knowledge_num_token",
+      "dataType": ["int"]
+    }
+  ]
+}
