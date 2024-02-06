@@ -4,6 +4,7 @@ import convert as convert
 from parse import main as parse
 from make_vector_for_in_context_learning_Azure_parallelization_real_dask_7 import main as embed
 from addTokenInfo import main as tokenize
+from upload import create_class, upload
 
 
 def config(input_file):
@@ -45,6 +46,10 @@ def main():
         embed()
     elif command == 'tokenize':
         tokenize()
+    elif command == 'create_class':
+        create_class()
+    elif command == 'upload':
+        upload()
     else:
         print("Usage: docker run <command> [<csv_file>]")
 

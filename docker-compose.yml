@@ -12,4 +12,6 @@ services:
       - "./:/usr/src/app"
     working_dir: /usr/src/app
     entrypoint: ["python", "src/kragen.py"]
+    env_file:
+      - .env
     # command: test.csv
