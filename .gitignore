@@ -163,6 +163,7 @@ cython_debug/
 alzkb_test.csv
 
 !**/__init__.py
+!**/requirements.txt
 
 
 
