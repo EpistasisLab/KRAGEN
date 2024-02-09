@@ -89,7 +89,7 @@ const ChatBox = () => {
     }
   }, [readyToDisplayGOT]);
   // function autoScrollDownToBottomWithEditor() {
-  //   let scrollToTheBottomChatLog = document.getElementById("chatgpt-space");
+  //   let scrollToTheBottomChatLog = document.getElementById("ChatGPTForGOT-space");
 
   //   scrollToTheBottomChatLog.scrollTop = scrollToTheBottomChatLog.scrollHeight;
   // }
@@ -224,8 +224,8 @@ const ChatBox = () => {
 
   return (
     <>
-      <section className="chatbox">
-        <div className="chat-log">
+      <section className="chatboxForGOT">
+        <div className="chat-logForGOT">
           {chatLog.map((message, index) => (
             <ChatMessage
               message={message}
@@ -265,8 +265,8 @@ const ChatBox = () => {
           ))}
         </div>
 
-        {/* <div className="chat-input-container">
-          <div className="chat-input-holder">
+        {/* <div className="chat-input-containerForGOT">
+          <div className="chat-input-holderForGOT">
             <form
               id="chatSubmitFormID"
               className="chatSubmitForm"
@@ -323,8 +323,8 @@ const ChatBox = () => {
         </div> */}
 
         {/* 2 current */}
-        <div className="chat-input-container flex items-center">
-          <div className="chat-input-holder flex-grow">
+        <div className="chat-input-containerForGOT flex items-center">
+          <div className="chat-input-holderForGOT flex-grow">
             <form
               id="chatSubmitFormID"
               className="chatSubmitForm"
@@ -363,7 +363,7 @@ const ChatBox = () => {
 
             <div
               id="showQuestionID"
-              className="showQuestion overflow-y-auto max-w-full text-3xl bg-white bg-opacity-50 rounded border-2 border-black p-5 m-5"
+              className="showQuestion overflow-y-auto max-w-full text-3xl bg-opacity-50 rounded border-2 border-black p-5 m-5"
               style={{
                 width: "300px", // 가로 너비 설정
                 height: "200px", // 세로 높이 설정
@@ -372,6 +372,7 @@ const ChatBox = () => {
                 opacity: "0.8",
                 // make cursor pointer
                 cursor: "pointer",
+                // display: "none",
               }}
               onMouseOver={(e) => {
                 // change color of div to make it look like blurred
@@ -462,7 +463,7 @@ const ChatBox = () => {
 
         {/* 3 */}
 
-        {/* <div className="chat-input-container flex items-center">
+        {/* <div className="chat-input-containerForGOT flex items-center">
           <div className="chat-input-holder flex-grow">
             <form
               id="chatSubmitFormID"
@@ -519,7 +520,7 @@ const ChatBox = () => {
         </div> */}
 
         {/* 4 */}
-        {/* <div className="chat-input-container flex flex-wrap items-center">
+        {/* <div className="chat-input-containerForGOT flex flex-wrap items-center">
           <div className="chat-input-holder flex-grow min-w-1/2">
             <form
               id="chatSubmitFormID"
@@ -1252,7 +1253,7 @@ const ChatMessage = ({
 
                       // get div class name "chat-log"
                       let chatLog_divs =
-                        document.getElementsByClassName("chat-log");
+                        document.getElementsByClassName("chat-logForGOT");
 
                       let temp_index_chat = 0;
 
@@ -1454,7 +1455,7 @@ const ChatMessage = ({
 
                           // get div class name "chat-log"
                           let chatLog_divs =
-                            document.getElementsByClassName("chat-log");
+                            document.getElementsByClassName("chat-logForGOT");
 
                           let temp_index_chat = 0;
 
@@ -1713,7 +1714,7 @@ const ChatMessage = ({
 
                         // get div class name "chat-log"
                         let chatLog_divs =
-                          document.getElementsByClassName("chat-log");
+                          document.getElementsByClassName("chat-logForGOT");
 
                         let temp_index_chat = 0;
 

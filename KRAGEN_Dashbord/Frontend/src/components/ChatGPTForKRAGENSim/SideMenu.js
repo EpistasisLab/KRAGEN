@@ -7,6 +7,8 @@ import { AllContext } from "./context/AllContext";
 // import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+
+import Tooltip from "@mui/material/Tooltip";
 export default function SideMenu() {
   const {
     currentModel,
@@ -53,6 +55,10 @@ export default function SideMenu() {
       console.log("good-sidemenu-useEffect-fetchData");
       console.log("numChatBox in SideMenu", numChatBox);
 
+      setNumChatBox(1);
+
+      console.log("numChatBox in SideMenu", numChatBox);
+
       checkNumChatBox();
       setBoldUnderlineAndInitTraIc();
       setCurrentExpId(numChatBox);
@@ -71,7 +77,7 @@ export default function SideMenu() {
   //   // Content-Type: application/json
   //   // {
 
-  //   let data = await fetch("http://localhost:5050/chatapi/v1/chats", {
+  //   let data = await fetch("/chatapi/v1/chats", {
   //     method: "POST",
   //     headers: {
   //       "Content-Type": "application/json",
@@ -352,12 +358,40 @@ export default function SideMenu() {
   //     }
   // }
 
+  // function clearAllTrashIcons(nodes) {
+  //   Array.from(nodes.childNodes)
+  //     .slice(3)
+  //     .forEach((node) => {
+  //       node.childNodes[1].style.display = "none";
+  //       node.childNodes[1].innerHTML = "🗑️";
+  //     });
+  // }
+
   function clearAllTrashIcons(nodes) {
     Array.from(nodes.childNodes)
       .slice(3)
       .forEach((node) => {
         node.childNodes[1].style.display = "none";
-        node.childNodes[1].innerHTML = "🗑️";
+        // console.log("node.childNodes[1]", node.childNodes[1]);
+        // node.childNodes[1].innerHTML = "🗑️";
+        node.childNodes[1].innerHTML = `
+        <svg
+                    width="22"
+                    height="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="10"
+                      cy="10"
+                      r="7"
+                      stroke="white"
+                      stroke-width="1.5"
+                      fill="none"
+                    />
+
+                    <rect x="6" y="9" width="8" height="2" fill="white" />
+                  </svg>
+`;
       });
   }
 
@@ -369,41 +403,110 @@ export default function SideMenu() {
   //     }
   // }
 
+  // function clearAllCheckIcons(nodes) {
+  //   Array.from(nodes.childNodes)
+  //     .slice(3)
+  //     .forEach((node) => {
+  //       node.childNodes[2].style.display = "none";
+  //       node.childNodes[2].innerHTML = "🖋";
+  //     });
+  // }
+
   function clearAllCheckIcons(nodes) {
     Array.from(nodes.childNodes)
       .slice(3)
       .forEach((node) => {
         node.childNodes[2].style.display = "none";
-        node.childNodes[2].innerHTML = "🖋";
+        // node.childNodes[2].innerHTML = "🖋";
+        node.childNodes[2].innerHTML = "";
       });
   }
 
   // This function is to check if the number of chat boxes is equal to or greater than the limit, and if so, make the + New Chat button not clickable
   function checkNumChatBox() {
     if (numChatBox + 1 > limitNumChatBox) {
-      document.getElementById("newchatbutton").style.pointerEvents = "none";
+      document.getElementById("newchatbuttonForGOT").style.pointerEvents =
+        "none";
     } else {
-      document.getElementById("newchatbutton").style.pointerEvents = "auto";
+      document.getElementById("newchatbuttonForGOT").style.pointerEvents =
+        "auto";
     }
   }
+
+  // function changeTrashToCheck(node, reverse) {
+  //   if (reverse == true) {
+  //     node.innerHTML = "🗑️";
+  //     // console.log("node.innerHTML",node.innerHTML)
+  //   } else {
+  //     node.innerHTML = "✔︎";
+  //     // console.log("node.innerHTML",node.innerHTML)
+  //   }
+  // }
 
   function changeTrashToCheck(node, reverse) {
-    if (reverse == true) {
-      node.innerHTML = "🗑️";
-      // console.log("node.innerHTML",node.innerHTML)
+    if (reverse === true) {
+      // node.innerHTML = "🗑️";
+      //       node.innerHTML = `
+      //       <svg width="22" height="18" xmlns="http://www.w3.org/2000/svg">
+      //     <!-- Main body of trash bin -->
+      //     <path d="M3 6h18v15H3z" fill="#6e6e6e"/>
+      //     <path d="M1 6h22v2H1z" fill="#ffffff"/>
+      //     <!-- Lid of the trash bin -->
+      //     <rect x="6" y="2" width="12" height="2" fill="#ffffff"/>
+      //     <!-- Lines on the trash bin -->
+      //     <rect x="5" y="6" width="2" height="15" fill="#ffffff"/>
+      //     <rect x="9" y="6" width="2" height="15" fill="#ffffff"/>
+      //     <rect x="13" y="6" width="2" height="15" fill="#ffffff"/>
+      //     <rect x="17" y="6" width="2" height="15" fill="#ffffff"/>
+
+      //     <!-- Handles of the lid -->
+      //     <rect x="7" y="3" width="1" height="1" fill="#ffffff"/>
+      //     <rect x="16" y="3" width="1" height="1" fill="#ffffff"/>
+      // </svg>`;
+      node.innerHTML = `
+<svg width="22" height="18" xmlns="http://www.w3.org/2000/svg">
+                  <circle
+                    cx="10"
+                    cy="10"
+                    r="7"
+                    stroke="white"
+                    stroke-width="1.5"
+                    fill="none"
+                  />
+
+                  <rect x="6" y="9" width="8" height="2" fill="white" />
+                </svg>
+`;
+      // MAKE WHITE TRASH ICON
+
+      // node.innerHTML =
+      //   '<Icon name="trash alternate outline" style="color: white;" />';
+      // // console.log("node.innerHTML",node.innerHTML)
     } else {
       node.innerHTML = "✔︎";
-      // console.log("node.innerHTML",node.innerHTML)
+      // // console.log("node.innerHTML",node.innerHTML)
     }
   }
 
+  // function changePenToCheck(node, reverse) {
+  //   if (reverse == true) {
+  //     node.innerHTML = "🖋";
+  //     // console.log("node.innerHTML",node.innerHTML)
+  //   } else {
+  //     node.innerHTML = "✔︎";
+  //     // console.log("node.innerHTML",node.innerHTML)
+  //   }
+  // }
+
   function changePenToCheck(node, reverse) {
-    if (reverse == true) {
-      node.innerHTML = "🖋";
-      // console.log("node.innerHTML",node.innerHTML)
+    if (reverse === true) {
+      // node.innerHTML = "🖋";
+      node.innerHTML = "";
+      // // console.log("node.innerHTML",node.innerHTML)
     } else {
-      node.innerHTML = "✔︎";
-      // console.log("node.innerHTML",node.innerHTML)
+      // node.innerHTML = "✔︎";
+      node.innerHTML = "";
+      // // console.log("node.innerHTML",node.innerHTML)
     }
   }
 
@@ -653,9 +756,12 @@ export default function SideMenu() {
 
   function setBoldUnderlineAndInitTraIc() {
     //get div with class name sidemenu
-    let sidemenu = document.getElementsByClassName("chatboxtap");
+    let sidemenu = document.getElementsByClassName("chatboxtapForGOT");
+    console.log("sidemenu", sidemenu);
     // length of sidemenu
     let sidemenuLength = sidemenu.length;
+
+    console.log("sidemenuLength", sidemenuLength);
 
     if (sidemenuLength > 0) {
       for (let i = 0; i < sidemenu.length - 1; i++) {
@@ -673,7 +779,7 @@ export default function SideMenu() {
       // trash emoji for the last chatboxtap
       sidemenu[sidemenu.length - 1].childNodes[1].style.display = "block";
       // check emoji for each chatboxtap
-      sidemenu[sidemenu.length - 1].childNodes[2].style.display = "block";
+      // sidemenu[sidemenu.length - 1].childNodes[2].style.display = "block";
     }
   }
 
@@ -820,14 +926,15 @@ export default function SideMenu() {
   }
 
   return (
-    <div className="divsidemenu">
-      <aside className="sidemenu">
+    <div className="divsidemenuForGOT">
+      <aside className="sidemenuForGOT">
         {/* <div className="side-menu-button" onClick={() => setNumChatBox(numChatBox + 1)}> */}
         {/* <div className="side-menu-button" 
                 > */}
         <button
           id="openPopupBtn"
-          className="side-menu-button"
+          className="side-menu-buttonForGOT"
+          style={{ display: "none" }}
           onClick={() => {
             console.log("77-openPopupBtn is clicked");
             const popupContainer = document.getElementById("popupContainer");
@@ -837,11 +944,8 @@ export default function SideMenu() {
             const popupContent = document.getElementById("popupContent");
 
             popupContent.style.display = "block";
-
-            // checkConnectionOpenAIandSet();
           }}
         >
-          {/* <SettingsRoundedIcon fontSize="small" /> */}
           <ManageAccountsRoundedIcon fontSize="small" />
           Settings
         </button>
@@ -958,39 +1062,14 @@ export default function SideMenu() {
                             <Button text="0.5 - Balanced" onClick={() => setTemperature(0.5)}/>
                             <Button text="1 - Creative" onClick={() => setTemperature(1)}/> */}
               <span className="info">Please write your prompt here.</span>
-
-              {/* <label id="oak" className="side-label">OpenAI API Key</label>
-                            
-                            <button id="apiDisconnButton" 
-                            style={{
-                                pointerEvents: 'none'
-                            }}
-
-                            onClick={async () => {
-
-                                console.log("apiDisconnButton is clicked")
-
-                                await disconnetOpenAI();
-                                
-                            }}
-
-
-                            
-                            >Disconnet</button>
-
-                             */}
-
-              {/* <span className="info">
-                                The temperature parameter controls model randomness: 0 for logic, 1 for creativity.
-                            </span> */}
             </div>
           </div>
         </div>
         {/* </div> */}
 
         <div
-          className="side-menu-button"
-          id="newchatbutton"
+          className="side-menu-buttonForGOT"
+          id="newchatbuttonForGOT"
           onClick={async (e) => {
             // console.log("77-newchatbutton is clicked e.target", e.target);
             // console.log("numChatBox", numChatBox);
@@ -999,6 +1078,7 @@ export default function SideMenu() {
             // setNumChatBox(numChatBox + 1);
             setNumChatBox((numChatBox) => numChatBox + 1);
           }}
+          style={{ display: "none" }}
         >
           {/* <span></span> */}
           {/* <AddCircleOutlineRoundedIcon fontSize="small" />  */}+ New Chat
@@ -1007,9 +1087,9 @@ export default function SideMenu() {
         {Array(numChatBox)
           .fill()
           .map((_, i) => (
-            <div className="sidemenu chatboxtap">
+            <div className="sidemenuForGOT chatboxtapForGOT">
               <div
-                className="side-menu-button"
+                className="side-menu-buttonForGOT"
                 // key={i}
                 onClick={(e) => {
                   console.log(
@@ -1027,58 +1107,76 @@ export default function SideMenu() {
 
                   e.target.parentNode.childNodes[1].style.display = "block";
 
-                  e.target.parentNode.childNodes[2].style.display = "block";
+                  console.log(
+                    "e.target.parentNode.childNodes[1]",
+                    e.target.parentNode.childNodes[1]
+                  );
+
+                  // console.log(
+                  //   "e.target.parentNode.childNodes[2]",
+                  //   e.target.parentNode.childNodes[2]
+                  // );
+
+                  // console.log(
+                  //   "e.target.parentNode.childNodes[2].style.display",
+                  //   e.target.parentNode.childNodes[2].style.display
+                  // );
+
+                  // e.target.parentNode.childNodes[2].style.display = "block";
+                  // e.target.parentNode.childNodes[2].style.display = "block";
                 }}
-                onDoubleClick={(e) => {
-                  console.log("77-onDoubleClick is clicked");
-                  // find the child node with id newchatbutton
-                  let newchatbutton = document.getElementById("newchatbutton");
+                // onDoubleClick={(e) => {
+                //   console.log("77-onDoubleClick is clicked");
+                //   // find the child node with id newchatbutton
+                //   let newchatbutton = document.getElementById(
+                //     "newchatbuttonForGOT"
+                //   );
 
-                  // make it unclickable
-                  newchatbutton.style.pointerEvents = "none";
+                //   // make it unclickable
+                //   newchatbutton.style.pointerEvents = "none";
 
-                  // e.target.parentNode.childNodes[1].textContent = "✔︎"
+                //   // e.target.parentNode.childNodes[1].textContent = "✔︎"
 
-                  // allow to change the text in div
-                  e.target.contentEditable = true;
-                  e.target.focus();
+                //   // allow to change the text in div
+                //   e.target.contentEditable = true;
+                //   e.target.focus();
 
-                  //not allow user to use delete key when the text is empty
-                  e.target.onkeydown = function (e) {
-                    // split e.target.textContent with & and _ to get the text
-                    // console.log("0509-e.target.childNodes[0].textContent",e.target.textContent)
-                    let tempString = e.target.textContent
-                      .split("&")[0]
-                      .split("_")[0];
+                //   //not allow user to use delete key when the text is empty
+                //   e.target.onkeydown = function (e) {
+                //     // split e.target.textContent with & and _ to get the text
+                //     // console.log("0509-e.target.childNodes[0].textContent",e.target.textContent)
+                //     let tempString = e.target.textContent
+                //       .split("&")[0]
+                //       .split("_")[0];
 
-                    console.log("tempString", tempString);
+                //     console.log("tempString", tempString);
 
-                    // e.keyCode === 8 is the delete key
-                    if (tempString === "" && e.keyCode === 8) {
-                      // console.log("tempString ===  && e.keyCode === 8)")
-                      e.preventDefault();
+                //     // e.keyCode === 8 is the delete key
+                //     if (tempString === "" && e.keyCode === 8) {
+                //       // console.log("tempString ===  && e.keyCode === 8)")
+                //       e.preventDefault();
 
-                      // e.target.textContent
-                    }
-                    // enter key is not allowed
-                    if (e.keyCode === 13) {
-                      // if(e.keyCode === 13) {
-                      // console.log("e.keyCode === 13 enter key is not allowed");
-                      e.preventDefault();
-                      e.target.contentEditable = false;
-                      e.target.focus();
+                //       // e.target.textContent
+                //     }
+                //     // enter key is not allowed
+                //     if (e.keyCode === 13) {
+                //       // if(e.keyCode === 13) {
+                //       // console.log("e.keyCode === 13 enter key is not allowed");
+                //       e.preventDefault();
+                //       e.target.contentEditable = false;
+                //       e.target.focus();
 
-                      // post the + New Chat name to the DB
-                      postChatNameToDB(tempString);
-                    }
+                //       // post the + New Chat name to the DB
+                //       postChatNameToDB(tempString);
+                //     }
 
-                    // cannot enter more than 20 characters
-                    if (e.target.textContent.length > 25) {
-                      console.log("Please do not enter more than 25");
-                      e.preventDefault();
-                    }
-                  };
-                }}
+                //     // cannot enter more than 20 characters
+                //     if (e.target.textContent.length > 25) {
+                //       console.log("Please do not enter more than 25");
+                //       e.preventDefault();
+                //     }
+                //   };
+                // }}
               >
                 {tapTitles.taptitles[i]}
                 <p style={{ display: "none" }} contentEditable={false}>
@@ -1094,8 +1192,8 @@ export default function SideMenu() {
                 </div>
               </div>
 
-              <div
-                className="side-menu-button-trash trash"
+              {/* <div
+                className="side-menu-button-trashForGOT trash"
                 key={i}
                 // onClick={removeCorChat}
                 onMouseEnter={(e) => {
@@ -1117,7 +1215,107 @@ export default function SideMenu() {
                 style={{ display: "none" }}
               >
                 🗑
-              </div>
+              </div> */}
+
+              {/* make unvisible */}
+              {/* <div
+                className="side-menu-button-trashForGOT check"
+                style={{ display: "none" }}
+                onMouseEnter={(e) => {
+                  changePenToCheck(e.target.parentNode.childNodes[2], false);
+                }}
+                onMouseLeave={(e) => {
+                  changePenToCheck(e.target.parentNode.childNodes[2], true);
+                }}
+                onClick={async (e) => {
+                  let newchatbutton = document.getElementById(
+                    "newchatbuttonForGOT"
+                  );
+
+                  // make it clickable
+                  newchatbutton.style.pointerEvents = "auto";
+
+                  // find element by className side-menu-button from the e.target.parentNode
+
+                  let tempSideMenuButtonText = e.target.parentNode
+                    .getElementsByClassName("side-menu-buttonForGOT")[0]
+                    .textContent.split("&")[0]
+                    .split("_")[0];
+
+                  console.log("tempSideMenuButtonText", tempSideMenuButtonText);
+
+                  let chatids_list = await savedChatIDs();
+                  console.log("chatids_list", chatids_list);
+
+                  postChatNameToDB(
+                    tempSideMenuButtonText,
+                    chatids_list[chatCurrentTempId - 1]
+                  );
+                }}
+              >
+                🖋
+              </div> */}
+
+              {/* Tooltip */}
+              <Tooltip title="Delete this chat tap." placement="right">
+                <div
+                  className="side-menu-button-trash trash"
+                  key={i}
+                  // onClick={removeCorChat}
+                  onMouseEnter={(e) => {
+                    changeTrashToCheck(
+                      e.target.parentNode.childNodes[1],
+                      false
+                    );
+                  }}
+                  onMouseLeave={(e) => {
+                    changeTrashToCheck(e.target.parentNode.childNodes[1], true);
+                  }}
+                  onClick={(e) => {
+                    // changeTrashToCheck(e.target.parentNode.childNodes[1]);
+
+                    try {
+                      removeCorChat(e);
+                    } catch (error) {
+                      // // console.log("error",error)
+                      // console.log("error-removeCorChat");
+                    }
+                  }}
+                  style={{ display: "none" }}
+                >
+                  {/* <svg width="22" height="18" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 6h18v15H3z" fill="#6e6e6e" />
+                  <path d="M1 6h22v2H1z" fill="#ffffff" />
+
+                  <rect x="6" y="2" width="12" height="2" fill="#ffffff" />
+
+                  <rect x="5" y="6" width="2" height="15" fill="#ffffff" />
+                  <rect x="9" y="6" width="2" height="15" fill="#ffffff" />
+                  <rect x="13" y="6" width="2" height="15" fill="#ffffff" />
+                  <rect x="17" y="6" width="2" height="15" fill="#ffffff" />
+
+                  <rect x="7" y="3" width="1" height="1" fill="#ffffff" />
+                  <rect x="16" y="3" width="1" height="1" fill="#ffffff" />
+                </svg> */}
+
+                  <svg
+                    width="22"
+                    height="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="10"
+                      cy="10"
+                      r="7"
+                      stroke="white"
+                      stroke-width="1.5"
+                      fill="none"
+                    />
+
+                    <rect x="6" y="9" width="8" height="2" fill="white" />
+                  </svg>
+                </div>
+              </Tooltip>
 
               {/* make unvisible */}
               <div
@@ -1142,10 +1340,10 @@ export default function SideMenu() {
                     .textContent.split("&")[0]
                     .split("_")[0];
 
-                  console.log("tempSideMenuButtonText", tempSideMenuButtonText);
+                  // console.log("tempSideMenuButtonText", tempSideMenuButtonText);
 
                   let chatids_list = await savedChatIDs();
-                  console.log("chatids_list", chatids_list);
+                  // console.log("chatids_list", chatids_list);
 
                   postChatNameToDB(
                     tempSideMenuButtonText,
@@ -1153,149 +1351,10 @@ export default function SideMenu() {
                   );
                 }}
               >
-                🖋
+                {/* 🖋 */}
               </div>
             </div>
           ))}
-
-        {/* div for selecting LLMs, this div is invisible. */}
-        {/* <div
-                    className="models"
-                    style={{
-                        display: 'none'
-                    }}>
-                    <label className="side-label">Model</label>
-                    <select
-                        
-                        value={currentModel} className="select-models" onChange={(e) => {
-                            setCurrentModel(e.target.value)
-                        }}>
-                        {
-                            models && models.length
-                                ? models.map(
-                                    (model, index) => (<option key={model.id} value={model.id}>{model.id}</option>)
-                                )
-                                : <option key={"text-davinci-003"} value={"text-davinci-003"}>{"text-davinci-003"}</option>
-                        }
-                    </select>
-
-                    <Button
-                        text="Smart - Davinci"
-                        onClick={() => setCurrentModel("text-davinci-003")}/>
-                    <Button
-                        text="Code - Crushman"
-                        onClick={() => setCurrentModel("code-cushman-001")}/>
-                    <span className="info">
-                        
-                        The model parameter determines the underlying algorithm and configuration employed by the system to generate the response.
-                    </span>
-                    <label className="side-label">Temperature</label>
-                    <input
-                        className="select-models"
-                        type="number"
-                        onChange={(e) => setTemperature(e.target.value)}
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        value={temperature}/>
-                    <Button text="0 - Logical" onClick={() => setTemperature(0)}/>
-                    <Button text="0.5 - Balanced" onClick={() => setTemperature(0.5)}/>
-                    <Button text="1 - Creative" onClick={() => setTemperature(1)}/>
-                    <span className="info">
-                       
-                        The temperature parameter controls model randomness: 0 for logic, 1 for creativity.
-                    </span>
-                </div> */}
-
-        {/* <button id="openPopupBtn" onClick={() => {
-                    console.log("77-openPopupBtn is clicked")
-                    const popupContainer = document.getElementById('popupContainer');
-
-                    popupContainer.style.display = 'block';
-
-                    const popupContent = document.getElementById('popupContent');
-
-                    popupContent.style.display = 'block';
-
-                    
-                }}
-                style={{
-                    display: 'none'
-                }}
-                >LLMs settings</button> */}
-
-        {/* <div id="popupContainer" className="popup-container" onClick={()=>{
-                    console.log("77-popupContainer is clicked")
-                    const popupContainer = document.getElementById('popupContainer');
-
-                    const popupContent=document.getElementById("popupContent")
-
-                    if(popupContent.style.display != 'block'){
-
-                        popupContainer.style.display = 'none';
-                    }
-
-                    console.log("77-document.getElementById(popupContent).style.display",document.getElementById("popupContent").style.display)
-
-                }}>
-                    
-                    <div id="popupContent" className="popup-content">
-
-                            <div
-                        className="models"
-
-                        >
-
-                        <button className="close-button" onClick={() => {
-                            document.getElementById("popupContent").style.display = "none"
-                            document.getElementById('popupContainer').style.display = 'none';
-                        }}
-                        >
-                            x
-                        </button>
-                        
-                        <label className="side-label">Model</label>
-                        
-                        <select
-                            
-                            value={currentModel} className="select-models" onChange={(e) => {
-                                setCurrentModel(e.target.value)
-                            }}>
-                            {
-                                models && models.length
-                                    ? models.map(
-                                        (model, index) => (<option key={model.id} value={model.id}>{model.id}</option>)
-                                    )
-                                    : <option key={"text-davinci-003"} value={"text-davinci-003"}>{"text-davinci-003"}</option>
-                            }
-                        </select>
-
-                       
-                        
-                        <span className="info">
-                            
-                            The model parameter determines the underlying algorithm and configuration employed by the system to generate the response.
-                        </span>
-                        <label className="side-label">Temperature</label>
-                        <input
-                            className="select-models"
-                            type="number"
-                            onChange={(e) => setTemperature(e.target.value)}
-                            min="0"
-                            max="1"
-                            step="0.1"
-                            value={temperature}/>
-
-                        <span className="info">
-  
-                            The temperature parameter controls model randomness: 0 for logic, 1 for creativity.
-                        </span>
-
-                        
-                            </div>
-                        
-                    </div>
-                </div> */}
       </aside>
     </div>
   );

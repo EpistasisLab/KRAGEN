@@ -2370,3 +2370,651 @@ audio::-webkit-media-controls-panel {
   left: 3%; /* 상위 요소 기준으로 왼쪽에서 50px 떨어진 곳에 배치 */
   z-index: 1; /* 다른 요소들보다 위에 표시 */
 }
+
+/* KRAGEN PART */
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Public+Sans:ital@0;1&display=swap");
+
+/**
+ * VARIABLES:
+ * **********
+ */
+:root {
+  --ruby: #e22653;
+  --grey: #999;
+  --dark-grey: #666;
+  --light-grey: #ccc;
+  --cream: #f9f7ed;
+  --transparent-white: #ffffffcc;
+  --transition: all ease-out 300ms;
+  --shadow: 0 1px 5px var(--dark-grey);
+  --hover-opacity: 0.7;
+  --stage-padding: 8px;
+  --panels-width: 350px;
+  --border-radius: 3px;
+}
+
+/**
+ * BASE STYLES:
+ * ************
+ */
+body {
+  font-family: "Public Sans", sans-serif;
+  background: white;
+  font-size: 0.9em;
+  overflow: hidden;
+}
+h1,
+h2 {
+  font-family: Lora, serif;
+}
+h2 {
+  font-size: 1.3em;
+  margin: 0;
+}
+h2 > * {
+  vertical-align: text-top;
+}
+/* a {
+  color: black !important;
+} */
+a:hover {
+  opacity: var(--hover-opacity);
+}
+
+/**
+ * LAYOUT:
+ * *******
+ */
+body {
+  margin: 0;
+  padding: 0;
+}
+#root {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+/* #dispnetgra,
+.sigma-container {
+  width: 50vw; 
+  height: 100vh; 
+  position: absolute;
+  right: 0; 
+  top: 0; 
+  background-color: rgb(3 7 18);
+} */
+
+#dispnetgra,
+.sigma-container {
+  width: 100%;
+  height: 100%;
+  /* 기존에 정의된 다른 스타일들은 유지할 수 있습니다. */
+  background-color: rgb(3 7 18);
+  /* 절대 위치나 변환(transform)은 더 이상 필요하지 않을 수 있습니다. */
+}
+
+.controls {
+  position: absolute;
+  bottom: var(--stage-padding);
+  left: var(--stage-padding);
+}
+.graph-title {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: calc(100vw - var(--panels-width) - 3 * var(--stage-padding));
+  padding: var(--stage-padding);
+}
+.graph-title h1 {
+  font-size: 1.8em;
+}
+.graph-title h1,
+.graph-title h2 {
+  margin: 0;
+  background: var(--transparent-white);
+}
+.panels {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 350px;
+  max-height: calc(100vh - 2 * var(--stage-padding));
+  overflow-y: auto;
+  padding: var(--stage-padding);
+  scrollbar-width: thin;
+  /* font color black */
+  color: black;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--grey);
+  border: transparent;
+}
+
+/**
+ * USEFUL CLASSES:
+ * ***************
+ */
+div.ico > button {
+  display: block;
+  position: relative;
+  font-size: 1.8em;
+  width: 2em;
+  height: 2em;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  color: black;
+  background: white;
+  border: none;
+  outline: none;
+  margin-top: 0.2em;
+  cursor: pointer;
+}
+div.ico > button:hover {
+  color: var(--dark-grey);
+}
+div.ico > button > * {
+  position: absolute;
+  inset: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button.btn {
+  background: white;
+  color: black;
+  border: 1px solid black;
+  outline: none;
+  border-radius: var(--border-radius);
+  padding: 0.3em 0.5em;
+  font-size: 1em;
+  font-family: Lato, sans-serif;
+  cursor: pointer;
+}
+button.btn:hover {
+  opacity: var(--hover-opacity);
+}
+button.btn > * {
+  vertical-align: baseline;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+ul > li {
+  margin-top: 0.2em;
+}
+.text-muted {
+  color: var(--dark-grey);
+}
+.text-small {
+  font-size: 0.7em;
+  vertical-align: baseline;
+}
+.mouse-pointer {
+  cursor: pointer;
+}
+
+/**
+ * CAPTIONS PANELS:
+ * ****************
+ */
+.panel {
+  background: white;
+  padding: 1em;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+.panel:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+.panel h2 button {
+  float: right;
+  background: white;
+  border: 1px solid black;
+  border-radius: var(--border-radius);
+  font-size: 1.2em;
+  height: 1em;
+  width: 1em;
+  text-align: center;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panel h2 button:hover {
+  opacity: var(--hover-opacity);
+}
+
+.caption-row input[type="checkbox"] {
+  display: none;
+}
+.caption-row input[type="checkbox"]:not(:checked) + label {
+  color: var(--dark-grey);
+}
+.caption-row input[type="checkbox"]:not(:checked) + label .circle {
+  background-color: white !important;
+}
+.caption-row label {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+.caption-row label:hover {
+  opacity: var(--hover-opacity);
+}
+.caption-row label .circle {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 1.2em;
+  vertical-align: middle;
+  box-sizing: border-box;
+  background-color: var(--dark-grey);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-right: 0.2em;
+  transition: var(--transition);
+  border: 3px solid var(--dark-grey);
+}
+.caption-row label .node-label {
+  flex-grow: 1;
+}
+.caption-row label .bar {
+  position: relative;
+  background: var(--light-grey);
+  height: 3px;
+  margin-bottom: 0.2em;
+}
+.caption-row label .bar .inside-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--dark-grey);
+  transition: var(--transition);
+}
+
+/**
+ * SEARCH FIELD:
+ * *************
+ */
+.search-wrapper {
+  position: relative;
+}
+.search-wrapper > input[type="search"] {
+  width: calc(100%);
+  height: 3em;
+  box-shadow: var(--shadow);
+  border: none;
+  outline: none;
+  border-radius: var(--border-radius);
+  margin-bottom: 0.5em;
+  padding: 1em 1em 1em 3em;
+  font-family: Lato, sans-serif;
+  font-size: 1em;
+}
+.search-wrapper > .icon {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  top: 1em;
+  left: 1em;
+}
+
+/**
+ * RESPONSIVENESS:
+ * ***************
+ */
+@media (max-width: 767.98px) {
+  #dispnetgra:not(.show-contents) .contents,
+  #dispnetgra.show-contents .controls {
+    display: none;
+  }
+
+  #dispnetgra.show-contents .contents {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    background: var(--transparent-white);
+  }
+  #dispnetgra.show-contents .graph-title,
+  #dispnetgra.show-contents .panels {
+    height: auto;
+    max-height: unset;
+    max-width: unset;
+    position: static;
+    overflow-y: visible;
+    width: auto;
+  }
+  #dispnetgra.show-contents .graph-title {
+    background: white;
+    padding-right: calc(3em + 2 * var(--stage-padding));
+    min-height: 3em;
+  }
+  #dispnetgra.show-contents .contents .hide-contents {
+    position: absolute;
+    top: var(--stage-padding);
+    right: var(--stage-padding);
+  }
+}
+@media (min-width: 768px) {
+  button.show-contents,
+  button.hide-contents {
+    display: none !important;
+  }
+}
+
+.pennai .dataset-card .experiments.table td {
+  position: relative;
+}
+
+.pennai .dataset-card .experiments.table .ui.floating.label {
+  margin-left: -5.25em !important;
+}
+
+.pennai .dataset-card .ui.red.label {
+  background-color: #ff5144 !important;
+}
+
+.pennai .experiments-scene .filters .fields {
+  margin-bottom: 0;
+}
+
+.pennai .experiments-scene .filters .fields .filter {
+  margin-right: 1rem;
+  margin-top: 0.15rem;
+}
+
+.pennai .experiments-scene .filters .item,
+.pennai .experiments-scene .filters .text {
+  text-transform: capitalize;
+}
+
+.pennai .experiments-scene .experiment-count {
+  padding-top: 0.25rem;
+  padding-left: 0.5rem;
+}
+
+.pennai .experiments-scene .ui.bottom.segment {
+  margin-bottom: 2rem;
+}
+
+/* Use for a table with a sticky header row (ie frozen in place)
+ Note that we have to override background-color because we give
+ tables the 'inverted' property, which uses style ui.inverted.table
+ defines background-color with low alpha so it's see-through as
+ table scrolls below it.
+ Note if we also freeze another row 'n' by using tr:nth-child(n),
+ then lower rolls scroll up over each other and the header row,
+ so not useful.
+*/
+
+/* Manual fix for color of search text in inverted searchable Dropdown.
+* There's a bug in semantic-ui-react that doesn't set the color properly
+* for the text in the search element within a dropdown, so it's unreadable.
+* The bug is in v1.3.1 and v2.0.0.
+* Note that there's no way to reference a color value from the .ui class
+* that defines the inverted color w/out adding a css preprocessor */
+
+/* ChatGPT  */
+/* App.css */
+
+/* .divsidemenu {
+  background-color: rgb(3 7 18);
+}
+
+.sidemenu {
+  margin-right: 10px;
+
+  background-color: rgb(3 7 18);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+} */
+/* from here */
+.divsidemenuForGOT {
+  display: flex; /* 플렉스 컨테이너 설정 */
+  flex-direction: column; /* 아이템들을 세로로 정렬 */
+  width: 250px; /* 사이드 메뉴의 너비 설정 */
+  height: 100vh; /* 뷰포트의 전체 높이를 차지하도록 설정 */
+  background-color: rgb(3 7 18); /* 배경색 설정 */
+}
+
+.sidemenuForGOT {
+  width: 100%; /* 부모 컨테이너의 전체 너비를 차지하도록 설정 */
+  margin-right: 0; /* 오른쪽 여백 제거 */
+  background-color: rgb(3 7 18); /* 배경색 설정 */
+  display: flex; /* 플렉스 컨테이너 설정 */
+  flex-direction: column; /* 아이템들을 세로로 정렬 */
+}
+
+.side-menu-buttonForGOT {
+  padding: 12px;
+  border-top: 1px solid rgb(31 41 55);
+  border-left: 1px solid rgb(31 41 55);
+  border-right: 1px solid rgb(31 41 55);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  text-align: left;
+  transition: ease 0.25s all;
+  cursor: pointer;
+  width: 100%; /* 너비를 부모 컨테이너의 100%로 설정 */
+  box-sizing: border-box; /* 패딩을 너비에 포함 */
+}
+
+#newchatbuttonForGOT {
+  margin-right: 0; /* 오른쪽 여백 제거 */
+}
+
+.side-menu-buttonForGOT:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.side-menu-buttonForGOT span {
+  padding-left: 6px;
+  padding-right: 12px;
+}
+
+.chatboxtapForGOT {
+  display: flex; /* 플렉스 컨테이너 설정 */
+  align-items: center; /* 자식 요소들을 중앙으로 정렬 */
+  justify-content: flex-start; /* 자식 요소들을 컨테이너의 시작 부분으로 정렬 */
+  margin-bottom: 10px; /* 아래쪽 요소와의 간격 */
+}
+
+.sidemenuForGOT.chatboxtapForGOT {
+  flex-direction: row;
+}
+
+.chatboxForGOT {
+  flex: 1;
+  background-color: rgb(3 7 18);
+  position: relative;
+  padding-bottom: 95px;
+  /* padding-bottom: 135px; */
+  border-left: 1px solid rgb(31 41 55);
+  border-right: 1px solid rgb(31 41 55);
+  border-bottom: 1px solid rgb(31 41 55);
+}
+
+/* original version of chat submit window location */
+.chat-input-holderForGOT {
+  /* padding: 24px; */
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+  /* padding-top: 50px; */
+  padding-top: 24px;
+  /* position: absolute; */
+  /* bottom: 0; */
+  /* left: 0; */
+  /* right: 0; */
+  width: 100%;
+}
+
+.chat-input-holderForGOT {
+  margin-top: auto;
+}
+
+.ChatGPTForGOT {
+  display: flex;
+  /* flex-direction: column; */
+  flex-direction: row;
+  height: 100%;
+  background-color: rgb(3 7 18);
+  color: white;
+}
+
+.chat-input-containerForGOT {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-input-textareaForGOT {
+  /* background-color: #40414f; */
+  background-color: rgb(17 24 39);
+  width: 100%;
+  /* width: 90%; */
+  /* width: 80%; */
+  padding: 12px;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.25em;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+}
+
+.code-input-areaForGOT {
+  /* background-color: #40414f; */
+  /* background-color: rgb(17 24 39); */
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.25em;
+  /* border-top: 1px solid rgb(31 41 55); */
+  border-left: 1px solid rgb(31 41 55);
+  border-right: 1px solid rgb(31 41 55);
+  border-bottom: 1px solid rgb(31 41 55);
+  outline: none;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+
+  /* overflow-x: scroll; */
+}
+
+.additional-buttonsForGOT {
+  padding: 24px;
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  display: flex;
+}
+
+.chat-logForGOT {
+  /* position: absolute; */
+  top: 0;
+  right: 0;
+  bottom: 89px;
+  left: 0;
+
+  /* overflow-y: scroll;
+  scroll-behavior: smooth; */
+  text-align: left;
+  display: none;
+}
+
+/* ChatGPT */
+/* index.css */
+
+/* normal.css */
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+
+/* Document
+ ========================================================================== */
+
+/**
+* 1. Correct the line height in all browsers.
+* 2. Prevent adjustments of font size after orientation changes in iOS.
+*/
+
+/* Sections
+   ========================================================================== */
+
+/**
+ * Remove the margin in all browsers.
+ */
+
+body {
+  margin: 0;
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+
+.chat-buttonForGOT {
+  margin: 3px;
+  padding: 12px;
+  border: 1px solid white;
+  border-radius: 5px;
+  text-align: left;
+  transition: ease 0.25s all;
+  cursor: pointer;
+}
+.chat-button-wrapperForGOT {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.showQuestion {
+  position: absolute;
+  top: 1%; /* 상위 요소 기준으로 위쪽에서 50px 떨어진 곳에 배치 */
+  left: 3%; /* 상위 요소 기준으로 왼쪽에서 50px 떨어진 곳에 배치 */
+  z-index: 1; /* 다른 요소들보다 위에 표시 */
+}
+
+.side-menu-button-trashForGOT {
+  padding: 12px;
+  /* border: 1px solid white; */
+  border-top: 1px solid rgb(0, 0, 0, 0) !important;
+  border-left: 1px solid rgb(0, 0, 0, 0) !important;
+  border-right: 1px solid rgb(0, 0, 0, 0) !important;
+
+  /* border-radius: 5px; */
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  text-align: left;
+  transition: ease 0.25s all;
+  cursor: pointer;
+}
+
+.sidemenuForGOT.chatboxtap {
+  flex-direction: row;
+}
+
+#chatgpt-space {
+  position: relative; /* or absolute, fixed, or sticky */
+  z-index: 9999; /* a high value to ensure it's on top */
+}
