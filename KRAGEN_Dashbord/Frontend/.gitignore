@@ -24,3 +24,15 @@ yarn-error.log*
 
 public/gotdata/*
 !public/gotdata/dataset.json.sample
+
+# Ignore specific files
+AISVGLogo.js
+ChatMessage.js
+FileUploadMultiple.js
+sample.js
+SideMenu.js
+TestContent.js
+TestPage.js
+
+# Ignore entire directory
+hooks/
