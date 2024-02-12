@@ -15,8 +15,6 @@ async function savedChatIDs() {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("savedChatIDs", data["chatids"]);
-      // return the size of data
       return data["chatids"];
     })
     .catch((err) => {
@@ -56,7 +54,7 @@ async function getAllChatsFromDB(current_chatTapID) {
 
 // delete specific chat by chatid
 async function deleteSpecificChat(current_chatTapID) {
-  console.log("deleteSpecificChat-current_chatTapID", current_chatTapID);
+  // console.log("deleteSpecificChat-current_chatTapID", current_chatTapID);
   // DELETE /chatapi/v1/chats/641e31ddb2663354ec5d52b8
 
   endpoint = `${apiUrl}:${apiPort}/chatapi/v1/chats/${current_chatTapID}`;
@@ -73,11 +71,9 @@ async function deleteSpecificChat(current_chatTapID) {
   )
     .then((res) => res.json())
     .then((data) => {
-      console.log("data--deleteSpecificChat", data);
       return data;
     })
     .catch((err) => {
-      console.log("err--deleteSpecificChat", err);
       throw err;
     });
   return data;
@@ -103,7 +99,6 @@ async function postInChatlogsToDB(chat_id, message, message_type, who) {
       return data;
     })
     .catch((err) => {
-      console.log("err--postInChatlogsToDB", err);
       throw err;
     });
 
@@ -122,11 +117,9 @@ async function getChatMessageByExperimentId(current_chatTapID) {
   })
     .then((res) => res.json())
     .then((data) => {
-      // console.log("getChatMessageByExperimentId: ", data);
       return data;
     })
     .catch((err) => {
-      console.log("err--getChatMessageByExperimentId", err);
       throw err;
     });
 
@@ -154,11 +147,9 @@ async function openaiChatCompletions(currentModel, preSetLastMessageFromUser) {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("data--openaiChatCompletions", data);
       return data;
     })
     .catch((err) => {
-      console.log("err--openaiChatCompletions", err);
       throw err;
     });
 
@@ -340,8 +331,6 @@ function encodeSpecialCharacters(question) {
 
 // call vectordb api
 async function getVES(question) {
-  // const url = `/incontextlearningapi/v1/ves/${question}`;
-  // const encodedQuestion = encQuestion(question);
   const encodedQuestion = encodeSpecialCharacters(question);
   endpoint = `${apiUrl}:${apiPort}/incontextlearningapi/v1/ves/${encodedQuestion}`;
   // /incontextlearningapi/v1/ves
@@ -364,12 +353,9 @@ async function getVES(question) {
       return text;
     })
     .catch((error) => {
-      console.error("getVES-Error:", error.toString());
-      // return error.toString();
       throw error;
     });
 
-  // console.log("getVES-response", response);
   return response;
 }
 
@@ -388,12 +374,6 @@ async function initailChatBoxSetting(current_chatTapID) {
 }
 
 async function createChatID() {
-  //POST https://localhost:5050/chatapi/v1/chats
-  // /chatapi/v1/chat
-  // Content-Type: application/json
-  // {
-
-  // let data = await fetch("/chatapi/v1/chats", {
   let data = await fetch(`${apiUrl}:${apiPort}/chatapi/v1/chats`, {
     method: "POST",
     headers: {
@@ -415,9 +395,8 @@ async function createChatID() {
 
 async function generate_error() {
   try {
-    // const response = await fetch("/chatapi/v1/chats/geneerror");
     const response = await fetch(
-      `{apiUrl}:{apiPort}/chatapi/v1/chats/geneerror`
+      `${apiUrl}:${apiPort}/chatapi/v1/chats/geneerror`
     );
     const data = await response.json();
     if (!response.ok) {
@@ -435,14 +414,8 @@ async function generate_error() {
 }
 
 async function getSpecificChatbyChatId(current_chatTapID) {
-  // GET /chatapi/v1/chats/641e137ac5abc90a3b2b221e
-
-  // datasetid
-  // fetch(`
-
-  // let data = await fetch(`/chatapi/v1/chats/${current_chatTapID}`, {
   let data = await fetch(
-    `{apiUrl}:{apiPort}/chatapi/v1/chats/${current_chatTapID}`,
+    `${apiUrl}:${apiPort}/chatapi/v1/chats/${current_chatTapID}`,
     {
       method: "GET",
       headers: {
@@ -477,23 +450,11 @@ async function getSpecificChatbyChatId(current_chatTapID) {
 }
 
 async function openaiComletions(currentModel, preSetLastMessageFromUser) {
-  // let data = await fetch("openai/v1/completions", {
   let data = await fetch(`{apiUrl}:{apiPort}/openai/v1/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-
-    // original
-    // body: JSON.stringify(
-    //     {
-    //         "model": currentModel,
-    //         "prompt": preSetLastMessageFromUser,
-    //         "temperature": 0.7
-    //     }
-    // )
-
-    // new
     body: JSON.stringify({
       model: currentModel,
       prompt: preSetLastMessageFromUser,
@@ -505,60 +466,23 @@ async function openaiComletions(currentModel, preSetLastMessageFromUser) {
       return data;
     })
     .catch((err) => {
-      console.log("err--openaiComletions", err);
       throw err;
     });
-
   return data;
 }
 
 // check if the packages are already installed or not
 async function checkCodePackages(packagesArray) {
-  // console.log("packagesArray",packagesArray)
-
-  // POST /execapi/v1/executions/install
-  // Content-Type: application/json
-
-  // {
-  // "command": "freeze"
-  // }
-
-  // let data = await fetch("/execapi/v1/packages", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     command: "freeze",
-  //   }),
-  // })
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     console.log("data-executions/install", data);
-  //     return data;
-  //   })
-  //   .catch((err) => {
-  //     console.log("err--checkCodePackages", err);
-  //   });
-
   // let response = await fetch("/execapi/v1/packages");
-  let response = await fetch(`{apiUrl}:{apiPort}/execapi/v1/packages`);
+  let response = await fetch(`${apiUrl}:${apiPort}/execapi/v1/packages`);
   let data = await response.json();
-
-  console.log("data-executions/install", data);
 
   // let allInstalledPackages = data["exec_results"]["stdout"].split("\n");
   let allInstalledPackages = data["packages"];
 
-  console.log("checkCodePackages-allInstalledPackages", allInstalledPackages);
-
   for (let i = 0; i < allInstalledPackages.length; i++) {
     allInstalledPackages[i] = allInstalledPackages[i].split("==")[0];
   }
-
-  //  packagesArray , allInstalledPackages
-  //  set substract
-  // let packagesNotInstalled = packagesArray - allInstalledPackages
 
   let requiredPackages = new Set(packagesArray);
   let installedPackages = new Set(allInstalledPackages);
@@ -569,12 +493,6 @@ async function checkCodePackages(packagesArray) {
   for (const elem of installedPackages) {
     result.delete(elem);
   }
-
-  // console.log("checkCodePackages-packagesNotInstalled",packagesNotInstalled)
-
-  // console.log("checkCodePackages-allInstalledPackages",allInstalledPackages)
-
-  // console.log("checkCodePackages-result",result)
 
   // convert result to array
   let packagesNotInstalled = Array.from(result);
@@ -588,18 +506,7 @@ async function patchSpecificChat(
   // experiment_id,
   // dataset_id
 ) {
-  // PATCH /chatapi/v1/chats/641e31ddb2663354ec5d52b8
-  // Content-Type: application/json
-
-  // {
-  //     "title" : "Chat with experiment id!!!",
-  //     "_experiment_id": "63f6e4987c5f93004a3e3ca8",
-  //     "_dataset_id": "63f6e4947c5f93004a3e3ca7"
-
-  // }
-
-  // await fetch(`/chatapi/v1/chats/${current_chatTapID}`, {
-  await fetch(`{apiUrl}:{apiPort}/chatapi/v1/chats/${current_chatTapID}`, {
+  await fetch(`${apiUrl}:${apiPort}/chatapi/v1/chats/${current_chatTapID}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -628,7 +535,7 @@ async function postInChatlogsToDBWithExeId(
   console.log("message-bot", message);
   // let data = await fetch(`/chatapi/v1/chats/${chat_id}/chatlogs`, {
   let data = await fetch(
-    `{apiUrl}:{apiPort}/chatapi/v1/chats/${chat_id}/chatlogs`,
+    `${apiUrl}:${apiPort}/chatapi/v1/chats/${chat_id}/chatlogs`,
     {
       method: "POST",
       headers: {
@@ -667,7 +574,7 @@ async function postChats(experiment, experimentId) {
   // }
 
   // let data = await fetch("/chatapi/v1/chats", {
-  let data = await fetch(`{apiUrl}:{apiPort}/chatapi/v1/chats`, {
+  let data = await fetch(`${apiUrl}:${apiPort}/chatapi/v1/chats`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -704,7 +611,7 @@ async function patchChatToDB(
   await fetch(
     // `/chatapi/v1/chatlogs/${current_chatTapID}`,
     // `/chatapi/v1/chats/${current_chatTapID}/chatlogs/${id_in_chatTap}`,
-    `{apiUrl}:{apiPort}/chatapi/v1/chats/${current_chatTapID}/chatlogs/${id_in_chatTap}`,
+    `${apiUrl}:${apiPort}/chatapi/v1/chats/${current_chatTapID}/chatlogs/${id_in_chatTap}`,
     {
       method: "PATCH",
       headers: {
@@ -731,7 +638,7 @@ async function getFilesURLs(file_id) {
   // GET /api/v1/files/6435c790d48f033fde87242b
 
   // const response = await fetch(`/api/v1/files/${file_id}`, {
-  const response = await fetch(`{apiUrl}:{apiPort}/api/v1/files/${file_id}`, {
+  const response = await fetch(`${apiUrl}:${apiPort}/api/v1/files/${file_id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -832,11 +739,9 @@ async function insertTokenUsage() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("resultFromInsertingTokenUsage-response-data", data);
       return data;
     })
     .catch((error) => {
-      console.log("insertTokenUsage-fetch-error", error);
       // return error;
       throw error;
     });
