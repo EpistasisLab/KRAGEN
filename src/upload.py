@@ -105,7 +105,7 @@ def upload():
     )
 
 
-def read_json(filename='data/class.json'):
+def read_json(filename='config/class.json'):
     with open(filename, 'r') as file:
         data = json.load(file)
     return data
