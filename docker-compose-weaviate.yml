@@ -1,4 +1,4 @@
----   
+---
 version: '3.4'
 services:
   weaviate:
@@ -12,14 +12,20 @@ services:
     image: semitechnologies/weaviate:1.22.3
     ports:
     - 8080:8080
-    - 50051:50051
+    - 50051:50051 # port for gRPC
     volumes:
-    - weaviate_data:/var/lib/weaviate
+    - /data/weaviate:/var/lib/weaviate
     restart: on-failure:0
     environment:
       QUERY_DEFAULTS_LIMIT: 25
-      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'false'
       PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      AUTHENTICATION_APIKEY_ENABLED: 'true'
+      AUTHENTICATION_APIKEY_ALLOWED_KEYS: 'hashkey1,hashkey2'
+      AUTHENTICATION_APIKEY_USERS: 'user1@email.com,user2@email.com'
+      AUTHORIZATION_ADMINLIST_ENABLED: 'true'
+      AUTHORIZATION_ADMINLIST_USERS: 'user1@email.com'
+      AUTHORIZATION_ADMINLIST_READONLY_USERS: 'user2@gmail.com'
       DEFAULT_VECTORIZER_MODULE: 'none'
       ENABLE_MODULES: ''
       CLUSTER_HOSTNAME: 'node1'
