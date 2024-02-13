@@ -1,10 +1,6 @@
-# Sigma.js full-featured demo
+# KRAGEN Dashboard: Integrating Sigma.js with React for Enhanced Graph Visualization
 
-This project aims to provide a full-features "real life" application using sigma.js. It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and uses [react-sigma-v2](https://github.com/sim51/react-sigma-v2) to interface sigma.js with React.
-
-## Dataset
-
-The dataset has been kindly crafted by the [Sciences-Po médialab](https://medialab.sciencespo.fr/) and [OuestWare](https://www.ouestware.com/en/) teams using [Seealsology](https://densitydesign.github.io/strumentalia-seealsology/). It represents a network of Wikipedia pages, connected by ["See also"](https://en.wikipedia.org/wiki/See_also) links. It then was tagged by hand.
+The KRAGEN Dashboard project is designed as a comprehensive application intended for practical use, leveraging the capabilities of sigma.js for graph visualization. It was initiated using Create React App, a widely recognized setup for creating React applications. To integrate sigma.js, a powerful library for graph drawing, with the React ecosystem, the project employs react-sigma-v2. This approach allows for the development of an interactive and visually appealing interface for representing complex data in a graph format, making it accessible and manageable within a React-based application framework.
 
 ## Available Scripts
 
