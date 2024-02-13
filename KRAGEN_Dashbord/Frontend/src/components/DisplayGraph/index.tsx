@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC, useEffect, useState } from "react";
 import { SigmaContainer, ZoomControl, FullScreenControl } from "react-sigma-v2";
+
 import { omit, mapValues, keyBy, constant } from "lodash";
 
 import getNodeProgramImage from "sigma/rendering/webgl/programs/node.image";
@@ -28,6 +29,9 @@ import {
   BsZoomIn,
   BsZoomOut,
 } from "react-icons/bs";
+
+import CircularProgress from "@mui/material/CircularProgress";
+import { BiHome } from "react-icons/bi"; // Import the BiHome icon
 
 interface DisplayGraphProps {
   readyToDisplayGOT: boolean;
@@ -62,6 +66,13 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  //
+  const [isLoading, setIsLoading] = useState(false); // loading icon show
+
+  // question and answer state
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+
   // Track mouse position
   useEffect(() => {
     const handleMouseMove = (e: { clientX: any; clientY: any }) => {
@@ -85,73 +96,42 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     // Additional styling here...
   };
 
-  // Load data on mount:
-  // useEffect(() => {
-  //   fetch(`${process.env.PUBLIC_URL}/dataset.json`)
-  //     .then((res) => res.json())
-  //     .then((dataset: Dataset) => {
-  //       setDataset(dataset);
-  //       setFiltersState({
-  //         clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
-  //         tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
-  //       });
-  //       requestAnimationFrame(() => setDataReady(true));
-  //     });
-  // }, []);
-
   useEffect(() => {
     if (readyToDisplayGOT) {
+      setIsLoading(true); // loading icon show
       fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
         .then((res) => res.json())
         .then((dataset: Dataset) => {
           console.log("dataset", dataset);
+
           setDataset(dataset);
+
+          // set question and answer
+          setQuestion("Question: Who is the father of Jon Snow?");
+          setAnswer("Answer: Rhaegar Targaryen");
+
           setFiltersState({
             clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
             tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
           });
-          requestAnimationFrame(() => setDataReady(true));
+          requestAnimationFrame(() => {
+            setDataReady(true);
+            setIsLoading(false);
+          });
         });
     }
   }, [readyToDisplayGOT]); // Only re-run the effect if count changes
 
-  // const checkFileExists = async (fileUrl: string): Promise<boolean> => {
-  //   try {
-  //     const response = await fetch(fileUrl, { method: "HEAD" });
-  //     return response.ok; // Will be true if the status code is in the 200-299 range
-  //   } catch (error) {
-  //     // console.error("Error checking file existence:", error);
-  //     console.log("The file does not exist.");
-  //     return false;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const datasetUrl = `${process.env.PUBLIC_URL}/dataset.json`;
-  //   checkFileExists(datasetUrl).then((exists) => {
-  //     if (exists) {
-  //       fetch(`${process.env.PUBLIC_URL}/dataset.json`)
-  //         .then((res) => res.json())
-  //         .then((dataset: Dataset) => {
-  //           setDataset(dataset);
-  //           setFiltersState({
-  //             clusters: mapValues(
-  //               keyBy(dataset.clusters, "key"),
-  //               constant(true)
-  //             ),
-  //             tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
-  //           });
-  //           requestAnimationFrame(() => {
-  //             setDataReady(true);
-  //           });
-  //         });
-  //     } else {
-  //       console.log("dataset.json does not exist");
-  //     }
-  //   });
-  // }, []);
-
   if (!dataset) return null;
+
+  if (!dataset && isLoading) {
+    // if (true) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     // <div id="dispnetgra" className={showContents ? "show-contents" : ""}>
@@ -169,6 +149,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
         labelRenderedSizeThreshold: 15,
         labelFont: "Lato, sans-serif",
         zIndex: true,
+        // allowInvalidContainer: true,
       }}
       className="react-sigma"
     >
@@ -184,6 +165,15 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       {dataReady && (
         <>
           <div className="controls">
+            {question && answer && (
+              // font color is white
+              // locate at 300px from the top and 20px from the left
+              // Instead of px, use rem
+              <div className="text-2xl text-white mb-40 ml-20 sm:mb-10 sm:ml-5 md:mb-20 md:ml-10 lg:mb-32 lg:ml-16">
+                <div className="question">{question}</div>
+                <div className="answer">{answer}</div>
+              </div>
+            )}
             <div className="ico">
               <button
                 type="button"
@@ -205,6 +195,17 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
               customZoomOut={<BsZoomOut />}
               customZoomCenter={<BiRadioCircleMarked />}
             />
+            {/* home button */}
+            <div className="ico">
+              <button
+                type="button"
+                className="ico"
+                onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
+                title="Home"
+              >
+                <BiHome /> {/* Use the home icon */}
+              </button>
+            </div>
             {hoveredEdgeLabel && (
               <div className="edge-label-display" style={labelStyle}>
                 {hoveredEdgeLabel}
@@ -274,6 +275,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                   />
                 )}
               </div>
+
               {toggleControlPanel && (
                 <>
                   {/* <SearchField filters={filtersState} /> */}
