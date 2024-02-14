@@ -1,0 +1,67 @@
+{
+    "azuregpt" : {
+        "model_id":"gpt-35-turbo-16k",
+        "prompt_token_cost": 0.001,
+        "response_token_cost": 0.002,
+        "temperature": 0,
+        "max_tokens": 1200,
+        "stop": null,
+        "api_version": "2023-07-01-preview",
+        "api_base": "",
+        "api_key": "",
+        "embedding_id":"text-embedding-ada-002"
+    },
+    "weaviate" : {
+        "api_key": "",
+        "url": "",
+        "db": "AlzKB",
+        "limit": 200
+    },
+    "chatgpt" : {
+        "model_id": "gpt-3.5-turbo",
+        "prompt_token_cost": 0.001,
+        "response_token_cost": 0.002,
+        "temperature": 1.0,
+        "max_tokens": 1536,
+        "stop": null,
+        "organization": "",
+        "api_key": ""
+    },
+    "chatgpt4" : {
+        "model_id": "gpt-4",
+        "prompt_token_cost": 0.03,
+        "response_token_cost": 0.06,
+        "temperature": 1.0,
+        "max_tokens": 4096,
+        "stop": null,
+        "organization": "",
+        "api_key": ""
+    },
+    "llama7b-hf" : {
+        "model_id": "Llama-2-7b-chat-hf",
+        "cache_dir": "/llama",
+        "prompt_token_cost": 0.0,
+        "response_token_cost": 0.0,
+        "temperature": 0.6,
+        "top_k": 10,
+        "max_tokens": 4096
+    },
+    "llama13b-hf" : {
+        "model_id": "Llama-2-13b-chat-hf",
+        "cache_dir": "/llama",
+        "prompt_token_cost": 0.0,
+        "response_token_cost": 0.0,
+        "temperature": 0.6,
+        "top_k": 10,
+        "max_tokens": 4096
+    },
+    "llama70b-hf" : {
+        "model_id": "Llama-2-70b-chat-hf",
+        "cache_dir": "/llama",
+        "prompt_token_cost": 0.0,
+        "response_token_cost": 0.0,
+        "temperature": 0.6,
+        "top_k": 10,
+        "max_tokens": 4096
+    }
+}

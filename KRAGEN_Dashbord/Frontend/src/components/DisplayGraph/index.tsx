@@ -65,7 +65,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   // Track mouse position
   useEffect(() => {
     const handleMouseMove = (e: { clientX: any; clientY: any }) => {
-      console.log("e.clientX e.clientY", e.clientX, e.clientY);
+      // console.log("e.clientX e.clientY", e.clientX, e.clientY);
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
@@ -101,7 +101,9 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
   useEffect(() => {
     if (readyToDisplayGOT) {
-      fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
+      // fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
+      // get question from the textarea
+      fetch(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`)
         .then((res) => res.json())
         .then((dataset: Dataset) => {
           console.log("dataset", dataset);
