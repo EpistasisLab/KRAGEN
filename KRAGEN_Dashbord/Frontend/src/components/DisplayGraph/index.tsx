@@ -102,7 +102,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
         .then((res) => res.json())
         .then((dataset: Dataset) => {
-          console.log("dataset", dataset);
+          console.log("datasetGOT", dataset);
 
           setDataset(dataset);
 

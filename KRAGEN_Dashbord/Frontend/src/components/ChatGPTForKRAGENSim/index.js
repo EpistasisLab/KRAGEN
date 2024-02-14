@@ -48,8 +48,6 @@ export default function ChatGPT({ experiment }) {
   // ready to show disply GOT or not
   const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
 
-  useEffect(() => {}, [chatCurrentTempId]);
-
   let apiUrl = process.env.REACT_APP_API_URL;
   let apiPort = process.env.REACT_APP_API_PORT;
 

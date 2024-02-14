@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { AllContext } from "./context/AllContext";
 import DisplayGraph from "../DisplayGraph";
+import { BiHome } from "react-icons/bi";
 
 // Primary Chat Window
 const ChatBox = () => {
@@ -38,6 +39,17 @@ const ChatBox = () => {
               id="chatSubmitFormID"
               className="chatSubmitForm"
               onSubmit={handleSubmit}
+              onClick={(e) => {
+                console.log("click chatSubmitFormID");
+                // find button under chatSubmitFormID id
+                let button = document
+                  .getElementById("chatSubmitFormID")
+                  .querySelector(".submit");
+                // if the length of chatInput is 0, make the button unclicable
+                if (chatInput.length === 0) {
+                  button.disabled = true;
+                }
+              }}
             >
               <input
                 rows="1"
@@ -68,6 +80,17 @@ const ChatBox = () => {
               <button className="submit" type="submit" disabled={false}>
                 Submit
               </button>
+              {/* home button */}
+              <div className="ico">
+                <button
+                  type="button"
+                  className="ico"
+                  onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
+                  title="Home"
+                >
+                  <BiHome /> {/* Use the home icon */}
+                </button>
+              </div>
             </form>
 
             <div
