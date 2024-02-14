@@ -43,6 +43,51 @@ def delete_chat(chat_id):
 
     return result
 
+def get_chat_title(chat_id):
+    print("CHAT_ID: ", chat_id)
+    result = {}
+    db = get_db()
+    query = """
+            SELECT * FROM chat WHERE id = ?
+        """
+    try:
+        title = db.execute(query, (chat_id,)).fetchone()
+        # title = db.execute(query).fetchone()
+        print("TITLE: ", dict(title))
+        
+        if title:
+            dict_data = dict(title)
+            print("DICT_DATA: ", dict_data)
+            result['title'] = dict_data['title']
+        else:
+            result['error'] = 'Chat not found'
+    except Exception as e:
+        result['error'] = str(e)
+
+    return result
+
+def update_chat_title(chat_id, title):
+    result = {}
+    try:
+        db = get_db()
+        # UPDATE 쿼리를 실행하여 title 업데이트
+        query = "UPDATE chat SET title = ? WHERE id = ?"
+        db.execute(query, (title, chat_id))
+        db.commit()
+
+        # 업데이트된 title 조회
+        updated_title = db.execute("SELECT title FROM chat WHERE id = ?", (chat_id,)).fetchone()
+        print("UPDATED_TITLE: ", dict(updated_title))
+        if updated_title:
+            result['title'] = updated_title[0]
+        else:
+            result['error'] = 'Chat not found'
+    except Exception as e:
+        result['error'] = str(e)
+
+    return result
+
+
 
 def get_chat(chat_id):
     result = {}

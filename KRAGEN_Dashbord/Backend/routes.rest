@@ -104,3 +104,19 @@ GET {{base_url}}/chatapi/v1/chats/1/chatlogs
 # return all chat ids
 ###
 GET {{base_url}}/chatapi/v1/chats/chatids
+
+
+
+
+
+###
+# /chattitle/<int:chat_id>
+GET {{base_url}}/chatapi/v1/chattitle/1
+
+###
+PATCH {{base_url}}/chatapi/v1/chattitle/1
+Content-Type: application/json
+
+{
+    "title": "testtitle"
+}
