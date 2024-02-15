@@ -30,9 +30,14 @@ AISVGLogo.js
 ChatMessage.js
 FileUploadMultiple.js
 sample.js
-SideMenu.js
 TestContent.js
 TestPage.js
+sample.json
+setupTests.js
 
 # Ignore entire directory
 hooks/
+
+# not to ignore /dist
+!dist/
+

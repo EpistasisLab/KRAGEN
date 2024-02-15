@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ChatBox from "./ChatBox";
 import { AllContext } from "./context/AllContext";
+import SideMenu from "./SideMenu";
 
 import {
   savedChatIDs,
@@ -14,6 +15,12 @@ import {
   checkCodePackages,
   postInChatlogsToDBWithExeId,
   patchChatToDB,
+  postChats,
+  deleteSpecificChat,
+  patchSpecificChat,
+  createChatID,
+  getSpecificChatTitlebyChatId,
+  sendChatInputToBackend,
 } from "../apiService";
 
 import {
@@ -296,7 +303,7 @@ export default function ChatGPT({ experiment }) {
       // chatCurrentTempId
     );
 
-    let filteredData = data;
+    // let filteredData = data;
 
     // chatCurrentTempId is 1,2,3, ...
     // there is no 0 chatCurrentTempId.
@@ -313,7 +320,7 @@ export default function ChatGPT({ experiment }) {
       );
     }
 
-    const messages = chatLogNew.map((message) => message.message).join("\n");
+    // const messages = chatLogNew.map((message) => message.message).join("\n");
 
     // get the last message from the chatLogNew array
     let lastMessageFromUser = chatLogNew[chatLogNew.length - 1].message;
@@ -365,112 +372,133 @@ export default function ChatGPT({ experiment }) {
 
     let messageFromOpenai = "";
 
-    if (loadLocalChatModel === false) {
-      data = await openaiChatCompletionsWithChatLog(
-        currentModel,
-        chatLogNew,
-        preSet,
-        lastMessageFromUser
-      );
+    console.log("chatInput", chatInput);
 
-      nomoreBlinking();
-      messageFromOpenai = data.choices[0].message["content"];
-    } else if (loadLocalChatModel === true) {
-      // let output = await generator(lastMessageFromUser, {
-      //   max_new_tokens: 150,
-      // });
+    await sendChatInputToBackend(chatInput);
 
-      let output = "";
+    // if (loadLocalChatModel === false) {
+    //   data = await openaiChatCompletionsWithChatLog(
+    //     currentModel,
+    //     chatLogNew,
+    //     preSet,
+    //     lastMessageFromUser
+    //   );
 
-      // split the output into sentences by . or ? or !
-      let splited_output = output[0].split(/\.|\?|!/);
+    //   nomoreBlinking();
+    //   messageFromOpenai = data.choices[0].message["content"];
+    // } else if (loadLocalChatModel === true) {
+    //   // let output = await generator(lastMessageFromUser, {
+    //   //   max_new_tokens: 150,
+    //   // });
 
-      // remove the last element of the array from the splited_output array
-      splited_output.pop();
+    //   let output = "";
 
-      // concatenate the splited_output array
-      splited_output = splited_output.join(". ");
+    //   // split the output into sentences by . or ? or !
+    //   let splited_output = output[0].split(/\.|\?|!/);
 
-      // add . to the end of the splited_output
-      splited_output = splited_output + ".";
+    //   // remove the last element of the array from the splited_output array
+    //   splited_output.pop();
 
-      messageFromOpenai = splited_output;
-    }
+    //   // concatenate the splited_output array
+    //   splited_output = splited_output.join(". ");
 
-    // if messageFromOpenai is undefined, then set messageFromOpenai to "Sorry, I am not sure what you mean. Please try again."
+    //   // add . to the end of the splited_output
+    //   splited_output = splited_output + ".";
 
-    if (messageFromOpenai === undefined) {
-      messageFromOpenai =
-        "Sorry, I am not sure what you mean. Please try again.";
-    }
+    //   messageFromOpenai = splited_output;
+    // }
 
-    messageFromOpenai = replaceFirstBackticks(messageFromOpenai);
+    // // if messageFromOpenai is undefined, then set messageFromOpenai to "Sorry, I am not sure what you mean. Please try again."
 
-    // if ```python in the messageFromOpenai, then run addComments(messageFromOpenai)
+    // if (messageFromOpenai === undefined) {
+    //   messageFromOpenai =
+    //     "Sorry, I am not sure what you mean. Please try again.";
+    // }
 
-    if (messageFromOpenai.includes("```python")) {
-      messageFromOpenai = addComments(messageFromOpenai);
-    }
+    // messageFromOpenai = replaceFirstBackticks(messageFromOpenai);
 
-    let booleanCode = checkIfCode(messageFromOpenai);
+    // // if ```python in the messageFromOpenai, then run addComments(messageFromOpenai)
 
-    if (booleanCode) {
-      let extractedCodeTemp = extractCode(messageFromOpenai);
+    // if (messageFromOpenai.includes("```python")) {
+    //   messageFromOpenai = addComments(messageFromOpenai);
+    // }
 
-      let packagesOfCode = extractPackagesOfCode(extractedCodeTemp);
+    // let booleanCode = checkIfCode(messageFromOpenai);
 
-      let packagesNotInstalled = await checkCodePackages(packagesOfCode);
+    // if (booleanCode) {
+    //   let extractedCodeTemp = extractCode(messageFromOpenai);
 
-      if (packagesNotInstalled.length > 0) {
-        setBooleanPackageInstall(true);
+    //   let packagesOfCode = extractPackagesOfCode(extractedCodeTemp);
 
-        messageFromOpenai =
-          packagesNotInstalled +
-          " " +
-          "package(s) is (are) not installed." +
-          " " +
-          "If you want to install the packages to run the below code, please click the button below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
-          "\n" +
-          messageFromOpenai;
-      } else {
-        setBooleanPackageInstall(false);
-        messageFromOpenai =
-          "If you wish to execute the code on Aliro, please click on the button located below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
-          "\n" +
-          messageFromOpenai;
-      }
+    //   let packagesNotInstalled = await checkCodePackages(packagesOfCode);
 
-      // function for running the code on aliro
-      // runCodeOnAliro(extractedCode);
-      setExtractedCode({ ...extractedCode, code: extractedCodeTemp });
-    }
+    //   if (packagesNotInstalled.length > 0) {
+    //     setBooleanPackageInstall(true);
 
-    setChatLog((chatLog) => [
-      ...chatLog.slice(0, -1),
-      {
-        user: "gpt",
-        message: messageFromOpenai,
-        className: "",
-      },
-    ]);
+    //     messageFromOpenai =
+    //       packagesNotInstalled +
+    //       " " +
+    //       "package(s) is (are) not installed." +
+    //       " " +
+    //       "If you want to install the packages to run the below code, please click the button below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
+    //       "\n" +
+    //       messageFromOpenai;
+    //   } else {
+    //     setBooleanPackageInstall(false);
+    //     messageFromOpenai =
+    //       "If you wish to execute the code on Aliro, please click on the button located below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
+    //       "\n" +
+    //       messageFromOpenai;
+    //   }
 
-    await postInChatlogsToDB(
-      chatid_list[chatCurrentTempId - 1],
-      messageFromOpenai,
-      "text",
-      "gpt"
-    );
+    //   // function for running the code on aliro
+    //   // runCodeOnAliro(extractedCode);
+    //   setExtractedCode({ ...extractedCode, code: extractedCodeTemp });
+    // }
 
-    autoScrollDown();
+    // setChatLog((chatLog) => [
+    //   ...chatLog.slice(0, -1),
+    //   {
+    //     user: "gpt",
+    //     message: messageFromOpenai,
+    //     className: "",
+    //   },
+    // ]);
 
-    setLanModelReset(false);
-    enableReadingInput();
+    // await postInChatlogsToDB(
+    //   chatid_list[chatCurrentTempId - 1],
+    //   messageFromOpenai,
+    //   "text",
+    //   "gpt"
+    // );
+
+    // autoScrollDown();
+
+    // setLanModelReset(false);
+    // enableReadingInput();
   }
 
   async function setTapTitlesFunc() {
     let tempTapTitles = [];
 
-    tempTapTitles = ["Chat Tap"];
+    let chatid_list = await savedChatIDs();
+
+    console.log("setTapTitlesFunc-chatid_list", chatid_list);
+
+    // chatid_list = [0];
+    let index = 0;
+    tempTapTitles = await Promise.all(
+      chatid_list.map(async (chatid) => {
+        // let data = await getSpecificChatbyChatId(chatid);
+        let data = await getSpecificChatTitlebyChatId(chatid);
+        index++;
+        console.log("setTapTitlesFunc-data", data);
+
+        return data["title"];
+      })
+    );
+
+    console.log("tempTapTitles", tempTapTitles);
 
     setTapTitles({ ...tapTitles, taptitles: tempTapTitles });
   }
@@ -480,8 +508,59 @@ export default function ChatGPT({ experiment }) {
     scrollToTheBottomChatLog.scrollTop = scrollToTheBottomChatLog.scrollHeight;
   }
 
+  function handleTemp(temp) {
+    if (temp > 1) {
+      setTemperature(1);
+    } else if (temp < 0) {
+      setTemperature(0);
+    } else {
+      setTemperature(temp);
+    }
+  }
+
   return (
     <div className="ChatGPTForGOT">
+      <AllContext.Provider
+        value={{
+          currentModel,
+          setCurrentModel,
+          models,
+          handleTemp,
+          temperature,
+          clearChat,
+          chatLog,
+          setChatLog,
+          chatCurrentTempId,
+          setChatCurrentTempId,
+          numChatBox,
+          setNumChatBox,
+          lanModelReset,
+          setLanModelReset,
+          limitNumChatBox,
+          currentExpId,
+          setCurrentExpId,
+          tapTitles,
+          setTapTitles,
+          setTapTitlesFunc,
+          getChatMessageByExperimentId,
+          getSpecificChatbyChatId,
+          getAllChatsFromDB,
+          postChats,
+          postInChatlogsToDB,
+          deleteSpecificChat,
+          patchSpecificChat,
+          experiment,
+          setTemperature,
+          preSetPrompt,
+          setPreSetPrompt,
+          savedChatIDs,
+          current_chatTapID,
+          setCurrent_chatTapID,
+          createChatID,
+        }}
+      >
+        <SideMenu />
+      </AllContext.Provider>
       <AllContext.Provider
         value={{
           chatInput,
