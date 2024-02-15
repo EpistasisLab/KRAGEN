@@ -7,7 +7,7 @@ import csv
 from statistics import fmean
 from typing import Dict, List, Callable, Union
 from graph_of_thoughts import controller, language_models, operations, prompter, parser
-# from graph_of_thoughts.vector_db import azure_embedding
+from graph_of_thoughts.vector_db import azure_embedding
 
 
 
