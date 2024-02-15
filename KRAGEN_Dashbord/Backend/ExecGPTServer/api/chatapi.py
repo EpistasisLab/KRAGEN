@@ -653,6 +653,23 @@ def got():
     return jsonify(result), 200
 
 
+# receive chatInput from frontend
+@bp.route('/userchatinput', methods=['POST'])
+@cross_origin()
+def receive_chat_input():
+    try:
+        req_data = request.get_json()
+        chat_input = req_data.get('chatInput')
+        print("Received chatInput:", chat_input)
+        
+        # Perform the desired operation here.
+        
+        return jsonify({'message': 'success'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
 
 # get test json
 @bp.route('/gotjson', methods=['GET'])
