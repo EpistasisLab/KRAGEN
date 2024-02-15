@@ -520,7 +520,7 @@ export default function ChatGPT({ experiment }) {
 
   return (
     <div className="ChatGPTForGOT">
-      <AllContext.Provider
+      {/* <AllContext.Provider
         value={{
           currentModel,
           setCurrentModel,
@@ -560,7 +560,7 @@ export default function ChatGPT({ experiment }) {
         }}
       >
         <SideMenu />
-      </AllContext.Provider>
+      </AllContext.Provider> */}
       <AllContext.Provider
         value={{
           chatInput,
