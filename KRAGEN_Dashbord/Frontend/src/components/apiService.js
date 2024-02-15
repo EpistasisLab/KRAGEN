@@ -284,6 +284,35 @@ async function openaiChatCompletionsWithChatLog(
   return data;
 }
 
+// just sent chatinput using /chatInput
+async function sendChatInputToBackend(chatInput) {
+  console.log("sendChatInputToBackend-chatInput", chatInput);
+  try {
+    const response = await fetch(
+      `${apiUrl}:${apiPort}/chatapi/v1/userchatinput`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chatInput: chatInput,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Error:", err);
+    throw err;
+  }
+}
+
 function encQuestion(question) {
   return encodeURIComponent(question)
     .replace(/!/g, "%21")
@@ -449,6 +478,29 @@ async function getSpecificChatbyChatId(current_chatTapID) {
   return data;
 }
 
+async function getSpecificChatTitlebyChatId(current_chatTapID) {
+  let data = await fetch(
+    `${apiUrl}:${apiPort}/chatapi/v1/chattitle/${current_chatTapID}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("data--getSpecificChatbyChatId", data);
+      return data;
+    })
+    .catch((err) => {
+      console.log("err--getSpecificChatTitlebyChatId", err);
+      throw err;
+    });
+
+  return data;
+}
+
 async function openaiComletions(currentModel, preSetLastMessageFromUser) {
   let data = await fetch(`{apiUrl}:{apiPort}/openai/v1/completions`, {
     method: "POST",
@@ -513,8 +565,6 @@ async function patchSpecificChat(
     },
     body: JSON.stringify({
       title: title,
-      // _experiment_id: experiment_id,
-      // _dataset_id: experiment.data._dataset_id,
     }),
   })
     .then((res) => res.json())
@@ -771,4 +821,6 @@ export {
   checkStatus,
   getTokenUsage,
   insertTokenUsage,
+  getSpecificChatTitlebyChatId,
+  sendChatInputToBackend,
 };

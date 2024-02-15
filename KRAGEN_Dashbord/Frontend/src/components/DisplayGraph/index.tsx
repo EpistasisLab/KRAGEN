@@ -101,7 +101,13 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       setIsLoading(true); // loading icon show
       // fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
       // get question from the textarea
-      fetch(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`)
+      fetch(
+        `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`
+      )
+        // test
+        // fetch(
+        //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
+        // )
         .then((res) => res.json())
         .then((dataset: Dataset) => {
           console.log("datasetGOT", dataset);

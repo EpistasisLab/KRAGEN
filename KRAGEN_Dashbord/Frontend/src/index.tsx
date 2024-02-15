@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./styles.css";
-// import Root from "./views/Root";
-// import DisplayGraph from "./components/DisplayGraph/index";
-// import ChatGPTForExecGPT from "./components/ChatGPTForExecGPT";
-import ChatGPTForKRAGENSim from "./components/ChatGPTForKRAGENSim";
+
+import ChatGPTForKRAGENLoc from "./components/ChatGPTForKRAGENLoc";
 // import AlertExplainPurpose from "./components/AlertExplainPurpose";
 
 function App() {
@@ -31,7 +29,8 @@ function App() {
           style={{ width: "100vw", height: "100vh" }}
           className="chatbaseleft bg-gray-950 pt-2 pl-2 pb-0"
         >
-          <ChatGPTForKRAGENSim experiment={"kragensim"} />
+          {/* <ChatGPTForKRAGENSim experiment={"kragensim"} /> */}
+          <ChatGPTForKRAGENLoc experiment={"kragenloc"} />
         </div>
       </div>
     </div>

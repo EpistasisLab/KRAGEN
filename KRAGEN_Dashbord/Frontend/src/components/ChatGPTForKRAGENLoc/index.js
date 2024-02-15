@@ -1,0 +1,577 @@
+import { useState, useEffect } from "react";
+import ChatBox from "./ChatBox";
+import { AllContext } from "./context/AllContext";
+import SideMenu from "./SideMenu";
+
+import {
+  savedChatIDs,
+  getAllChatsFromDB,
+  postInChatlogsToDB,
+  getChatMessageByExperimentId,
+  openaiChatCompletions,
+  openaiChatCompletionsWithChatLog,
+  initailChatBoxSetting,
+  getSpecificChatbyChatId,
+  checkCodePackages,
+  postInChatlogsToDBWithExeId,
+  patchChatToDB,
+  postChats,
+  deleteSpecificChat,
+  patchSpecificChat,
+  createChatID,
+  getSpecificChatTitlebyChatId,
+  sendChatInputToBackend,
+} from "../apiService";
+
+import {
+  checkIfCode,
+  extractCode,
+  extractPackagesOfCode,
+  replaceFirstBackticks,
+  addComments,
+  makeBlinking,
+  nomoreBlinking,
+  disableReadingInput,
+  enableReadingInput,
+} from "../codeUtils";
+
+// export default function ChatGPT({ experiment }) {
+export default function ChatGPT({ experiment }) {
+  let limitNumChatBox = 5;
+
+  // current chat tap id
+  const [current_chatTapID, setCurrent_chatTapID] = useState(0);
+
+  // this is the number of chat boxes in the result page
+  const [numChatBox, setNumChatBox] = useState(0);
+
+  // this is the index of the current chattab where user is typing
+  const [chatCurrentTempId, setChatCurrentTempId] = useState("");
+
+  // loadLocalChatModel is boolean value that indicates whether the local chat model should be loaded
+  // const [loadLocalChatModel, setLoadLocalChatModel] = useState(true);
+  const [loadLocalChatModel, setLoadLocalChatModel] = useState(false);
+
+  // ready to show disply GOT or not
+  const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
+
+  useEffect(() => {}, [chatCurrentTempId]);
+
+  let apiUrl = process.env.REACT_APP_API_URL;
+  let apiPort = process.env.REACT_APP_API_PORT;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let savedChatIDs_list = await savedChatIDs();
+
+      let last_chatTapID_in_the_list = 0;
+
+      let lengthofChatIDs = savedChatIDs_list.length;
+
+      // at least one chat box exists
+      if (lengthofChatIDs != 0) {
+        last_chatTapID_in_the_list = savedChatIDs_list[lengthofChatIDs - 1];
+      }
+      // there is no chat box
+      else {
+        last_chatTapID_in_the_list = 1;
+        lengthofChatIDs = 1;
+      }
+
+      // set current chat tap id
+      setCurrent_chatTapID(last_chatTapID_in_the_list);
+
+      setNumChatBox(lengthofChatIDs);
+
+      setChatCurrentTempId(lengthofChatIDs);
+
+      //
+      // await getEngines();
+      await initailChatBoxSetting(last_chatTapID_in_the_list);
+      await getAllChatsFromDBFilterbyExpIdSetChatbox(
+        last_chatTapID_in_the_list,
+        lengthofChatIDs
+      );
+
+      // setTapTitlesFunc(limitNumChatBox);
+      setTapTitlesFunc(numChatBox);
+      setLanModelReset(true);
+    };
+
+    fetchData();
+  }, [window.location.href]);
+
+  const [chatInput, setChatInput] = useState("");
+  // By using let preSet,
+  const [preSetPrompt, setPreSetPrompt] =
+    useState(`If you are asked to show a dataframe or alter it, output the file as a csv locally. And generate a script of python code. I strongly ask you to always write the code between three backticks python and three backticks always. For example, \`\`\`python \n print("hello world") \n \`\`\` and when users want to see the dataframe, save it as a csv file locally. However do not use temparary file paths. For example, pd.read_csv('path/to/your/csv/file.csv') is not allowed. There is already df variable in the code. You can use it. For example, df.head() is allowed. And when users want to see plot, please save it locally. For example, plt.savefig('file.png') is allowed. 
+
+    please make sure that any commenets should be in the form of #. For example, # this is a comment. or # Note: Please make sure to install the necessary libraries before running this code such as imblearn, pandas, matplotlib and sklearn.
+
+    Please also make sure thant when you return python script, please comment out any explanation between \`\`\`python \n and \n \`\`\` . For example, 
+    # Sure, here's an example code to create violin plots using seaborn library, where each column of a pandas dataframe is plotted as a separate violin plot and saved as a png file.
+    
+    import pandas as pd
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    # Load sample data
+    df = sns.load_dataset("tips")
+    # Get column names
+    cols = df.columns
+
+    If you give me a code like this, I will give you a score of 0. Please make sure to comment out any explanation between \`\`\`python \n and \n \`\`\` . For example,
+
+    \`\`\`python \n import pandas as pd \n
+    from sklearn.model_selection import train_test_split \n
+    from sklearn.preprocessing import StandardScaler \n
+    from keras.models import Sequential \n
+    from keras.layers import Dense \n
+    import matplotlib.pyplot as plt \n
+    # load the DataFrame \n
+    df = pd.read_csv('your_dataframe.csv') \n \`\`\`
+
+    In the case where machine learning task is required, please make sure to use df as the dataframe name, and save learning curve as a png file. Please do not load the data from the csv file. 
+
+    In the case where python generates more than 2 image files (png, jpg, jpeg, etc), please make sure to zip all the files and save it as a zip file.
+
+    Python version where the code is executed is 3.7.16. Please make sure to import packages that are reliable and stable on this version.
+    
+    In any situation where you need to manipulate a dataframe (df) and save it, for each column name, if it contains an underscore (_), replace the underscore with a hyphen (-).
+    `);
+
+  const [models, setModels] = useState([]);
+  // const [temperature, setTemperature] = useState(0.5);
+  const [temperature, setTemperature] = useState(0);
+  // language model
+  // const [currentModel, setCurrentModel] = useState("text-davinci-003");
+  const [currentModel, setCurrentModel] = useState("gpt-3.5-turbo");
+
+  // initial chat box setting
+  const [chatLog, setChatLog] = useState([
+    {
+      user: "gpt",
+      message: "How can I help you today?",
+    },
+  ]);
+
+  const [lanModelReset, setLanModelReset] = useState(false);
+
+  // current experiment id
+  const [currentExpId, setCurrentExpId] = useState("");
+
+  // tap titles
+  // tapTitles is an object that contains the title of each chat box
+  const [tapTitles, setTapTitles] = useState({
+    taptitles: "",
+  });
+
+  // modeforchatorcoderuning
+  const [modeForChatOrCodeRunning, setModeForChatOrCodeRunning] =
+    useState("chat");
+
+  // extractedCode
+  const [extractedCode, setExtractedCode] = useState({
+    code: "",
+  });
+
+  const [tabluerData, setTabluerData] = useState([]);
+
+  const [modeForTabluerData, setModeForTabluerData] = useState(false);
+
+  const [booleanPackageInstall, setBooleanPackageInstall] = useState(false);
+
+  // booleanCode for checking if the messageFromOpenai contains python code
+  // const [booleanCode, setBooleanCode] = useState(false);
+
+  const [isDark, setIsDark] = useState(false);
+
+  // clear chats
+  function clearChat() {
+    setChatLog([]);
+  }
+
+  // load all the models
+  async function getEngines() {
+    // fetch("http://localhost:3080/models")
+    await fetch(`${apiUrl}:${apiPort}/openai/v1/models`)
+      .then((res) => res.json())
+      .then((data) => {
+        // filter elements whose id include "gpt"
+
+        let filteredModel = data.data.filter((item) => item.id.includes("gpt"));
+
+        setModels(filteredModel);
+      });
+  }
+
+  // get all chats from db by chatid, and set setNumChatBox and setChatCurrentTempId
+  async function getAllChatsFromDBFilterbyExpIdSetChatbox(
+    current_chatTapID,
+    countofchatids
+  ) {
+    // GET http://localhost:5080/chatapi/v1/chats
+
+    let data = await getAllChatsFromDB(current_chatTapID);
+
+    setNumChatBox(countofchatids);
+    setCurrent_chatTapID(current_chatTapID);
+
+    if (countofchatids >= limitNumChatBox) {
+      document.getElementById("newchatbuttonForGOT").style.pointerEvents =
+        "none";
+    }
+
+    let chatLogNew = [];
+
+    // need to change
+    for (let i = 0; i < data["chatlogs"].length; i++) {
+      if (data["chatlogs"][i]["who"] === "user") {
+        chatLogNew = [
+          ...chatLogNew,
+          {
+            user: data["chatlogs"][i]["who"],
+            message: data["chatlogs"][i]["message"],
+            execution_id:
+              data["chatlogs"][i]["_execution_id"] === undefined
+                ? ""
+                : data["chatlogs"][i]["_execution_id"],
+          },
+        ];
+      } else if (data["chatlogs"][i]["who"] === "gpt") {
+        chatLogNew = [
+          ...chatLogNew,
+          {
+            user: data["chatlogs"][i]["who"],
+            message: data["chatlogs"][i]["message"],
+            execution_id:
+              data["chatlogs"][i]["_execution_id"] === undefined
+                ? ""
+                : data["chatlogs"][i]["_execution_id"],
+
+            // message: data["chatlogs"][i]["message"].split(/\n/).map(line => <div key={line}>{line}</div>)
+          },
+        ];
+      }
+    }
+    // reverse the order of chatLogNew
+    chatLogNew = chatLogNew.reverse();
+    setChatLog(chatLogNew);
+  }
+
+  async function handleSubmit(e) {
+    // prevent page from refreshing
+    e.preventDefault();
+
+    // fetch the data.json file for the submitted chatInput and chatid
+    // if the fetch is successful, then setReadyToDisplayGOT(true);
+    setReadyToDisplayGOT(true);
+    // make id chatSubmitFormID unvisible
+    // document.getElementById("chatSubmitFormID").style.display = "none";
+
+    // Get the element by its ID
+    const textarea = document.getElementById("chatSubmitFormID");
+
+    // Check if the element exists
+    if (textarea) {
+      // Make the textarea read-only
+      textarea.readOnly = true;
+
+      // Make the textarea invisible but still occupy space
+      textarea.style.opacity = 0;
+    }
+
+    let chatLogNew = [];
+
+    chatLogNew = [
+      ...chatLog,
+      {
+        user: "me",
+        message: `${chatInput}`,
+      },
+    ];
+
+    setChatInput("");
+    setChatLog(chatLogNew);
+
+    // GET http://localhost:5080/chatapi/v1/chats/experiment/${experimentId}
+    // let data = await getChatMessageByExperimentId(experimentId);
+
+    let chatid_list = await savedChatIDs();
+
+    let data = await getChatMessageByExperimentId(
+      chatid_list[chatCurrentTempId - 1]
+      // chatCurrentTempId
+    );
+
+    // let filteredData = data;
+
+    // chatCurrentTempId is 1,2,3, ...
+    // there is no 0 chatCurrentTempId.
+    if (chatCurrentTempId === "") {
+      setChatCurrentTempId(1);
+    }
+
+    if (chatInput !== undefined || chatInput !== "") {
+      await postInChatlogsToDB(
+        chatid_list[chatCurrentTempId - 1],
+        chatInput,
+        "text",
+        "user"
+      );
+    }
+
+    // const messages = chatLogNew.map((message) => message.message).join("\n");
+
+    // get the last message from the chatLogNew array
+    let lastMessageFromUser = chatLogNew[chatLogNew.length - 1].message;
+
+    let preSet =
+      `assume you are a data scientist that only programs in python. You are given a model named model and dataframe df with the following performance:` +
+      `\n The dataframe df has 'target' as the output. You are asked: ` +
+      `${chatInput}` +
+      `\n Given this question if you are asked to make a plot, save the plot locally.` +
+      preSetPrompt +
+      "Please make sure that you should always save what kinds of charts you create and the information for charts into a csv file. For example, if you plot a donut chart, save the percentage of each class, class names as a csv file, and the chart name: donut. These information will allow user to make responsive and interactive charts. Please make sure that you should replace '_' with '-' in column names" +
+      "Please do not load the dataframe which is df=pd.read_csv('path/to/your/dataset.csv') becasue df is already assigned.";
+
+    // let waitingMessage = "Please wait while I am thinking..";
+    let waitingMessage = "..";
+    let typingDelay = 10; // milliseconds per character
+
+    // Before making the API call
+    setChatLog((chatLogNew) => [
+      ...chatLogNew,
+      {
+        user: "gpt",
+        message: "",
+        className: "blinking",
+      },
+    ]);
+
+    autoScrollDown();
+
+    // Gradually update the message (waitingMessage) with a delay
+    let messageIndex = 0;
+    let intervalId = setInterval(() => {
+      if (messageIndex < waitingMessage.length) {
+        setChatLog((chatLogNew) => [
+          ...chatLogNew.slice(0, -1),
+          {
+            user: "gpt",
+            message: waitingMessage.slice(0, messageIndex + 1),
+            className: "blinking",
+          },
+        ]);
+        messageIndex++;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, typingDelay);
+
+    disableReadingInput();
+
+    let messageFromOpenai = "";
+
+    console.log("chatInput", chatInput);
+
+    await sendChatInputToBackend(chatInput);
+
+    // if (loadLocalChatModel === false) {
+    //   data = await openaiChatCompletionsWithChatLog(
+    //     currentModel,
+    //     chatLogNew,
+    //     preSet,
+    //     lastMessageFromUser
+    //   );
+
+    //   nomoreBlinking();
+    //   messageFromOpenai = data.choices[0].message["content"];
+    // } else if (loadLocalChatModel === true) {
+    //   // let output = await generator(lastMessageFromUser, {
+    //   //   max_new_tokens: 150,
+    //   // });
+
+    //   let output = "";
+
+    //   // split the output into sentences by . or ? or !
+    //   let splited_output = output[0].split(/\.|\?|!/);
+
+    //   // remove the last element of the array from the splited_output array
+    //   splited_output.pop();
+
+    //   // concatenate the splited_output array
+    //   splited_output = splited_output.join(". ");
+
+    //   // add . to the end of the splited_output
+    //   splited_output = splited_output + ".";
+
+    //   messageFromOpenai = splited_output;
+    // }
+
+    // // if messageFromOpenai is undefined, then set messageFromOpenai to "Sorry, I am not sure what you mean. Please try again."
+
+    // if (messageFromOpenai === undefined) {
+    //   messageFromOpenai =
+    //     "Sorry, I am not sure what you mean. Please try again.";
+    // }
+
+    // messageFromOpenai = replaceFirstBackticks(messageFromOpenai);
+
+    // // if ```python in the messageFromOpenai, then run addComments(messageFromOpenai)
+
+    // if (messageFromOpenai.includes("```python")) {
+    //   messageFromOpenai = addComments(messageFromOpenai);
+    // }
+
+    // let booleanCode = checkIfCode(messageFromOpenai);
+
+    // if (booleanCode) {
+    //   let extractedCodeTemp = extractCode(messageFromOpenai);
+
+    //   let packagesOfCode = extractPackagesOfCode(extractedCodeTemp);
+
+    //   let packagesNotInstalled = await checkCodePackages(packagesOfCode);
+
+    //   if (packagesNotInstalled.length > 0) {
+    //     setBooleanPackageInstall(true);
+
+    //     messageFromOpenai =
+    //       packagesNotInstalled +
+    //       " " +
+    //       "package(s) is (are) not installed." +
+    //       " " +
+    //       "If you want to install the packages to run the below code, please click the button below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
+    //       "\n" +
+    //       messageFromOpenai;
+    //   } else {
+    //     setBooleanPackageInstall(false);
+    //     messageFromOpenai =
+    //       "If you wish to execute the code on Aliro, please click on the button located below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
+    //       "\n" +
+    //       messageFromOpenai;
+    //   }
+
+    //   // function for running the code on aliro
+    //   // runCodeOnAliro(extractedCode);
+    //   setExtractedCode({ ...extractedCode, code: extractedCodeTemp });
+    // }
+
+    // setChatLog((chatLog) => [
+    //   ...chatLog.slice(0, -1),
+    //   {
+    //     user: "gpt",
+    //     message: messageFromOpenai,
+    //     className: "",
+    //   },
+    // ]);
+
+    // await postInChatlogsToDB(
+    //   chatid_list[chatCurrentTempId - 1],
+    //   messageFromOpenai,
+    //   "text",
+    //   "gpt"
+    // );
+
+    // autoScrollDown();
+
+    // setLanModelReset(false);
+    // enableReadingInput();
+  }
+
+  async function setTapTitlesFunc() {
+    let tempTapTitles = [];
+
+    let chatid_list = await savedChatIDs();
+
+    console.log("setTapTitlesFunc-chatid_list", chatid_list);
+
+    // chatid_list = [0];
+    let index = 0;
+    tempTapTitles = await Promise.all(
+      chatid_list.map(async (chatid) => {
+        // let data = await getSpecificChatbyChatId(chatid);
+        let data = await getSpecificChatTitlebyChatId(chatid);
+        index++;
+        console.log("setTapTitlesFunc-data", data);
+
+        return data["title"];
+      })
+    );
+
+    console.log("tempTapTitles", tempTapTitles);
+
+    setTapTitles({ ...tapTitles, taptitles: tempTapTitles });
+  }
+
+  function autoScrollDown() {
+    let scrollToTheBottomChatLog = document.getElementById("chatgpt-space");
+    scrollToTheBottomChatLog.scrollTop = scrollToTheBottomChatLog.scrollHeight;
+  }
+
+  function handleTemp(temp) {
+    if (temp > 1) {
+      setTemperature(1);
+    } else if (temp < 0) {
+      setTemperature(0);
+    } else {
+      setTemperature(temp);
+    }
+  }
+
+  return (
+    <div className="ChatGPTForGOT">
+      <AllContext.Provider
+        value={{
+          currentModel,
+          setCurrentModel,
+          models,
+          handleTemp,
+          temperature,
+          clearChat,
+          chatLog,
+          setChatLog,
+          chatCurrentTempId,
+          setChatCurrentTempId,
+          numChatBox,
+          setNumChatBox,
+          lanModelReset,
+          setLanModelReset,
+          limitNumChatBox,
+          currentExpId,
+          setCurrentExpId,
+          tapTitles,
+          setTapTitles,
+          setTapTitlesFunc,
+          getChatMessageByExperimentId,
+          getSpecificChatbyChatId,
+          getAllChatsFromDB,
+          postChats,
+          postInChatlogsToDB,
+          deleteSpecificChat,
+          patchSpecificChat,
+          experiment,
+          setTemperature,
+          preSetPrompt,
+          setPreSetPrompt,
+          savedChatIDs,
+          current_chatTapID,
+          setCurrent_chatTapID,
+          createChatID,
+        }}
+      >
+        <SideMenu />
+      </AllContext.Provider>
+      <AllContext.Provider
+        value={{
+          chatInput,
+          chatLog,
+          setChatInput,
+          handleSubmit,
+          readyToDisplayGOT,
+        }}
+      >
+        <ChatBox />
+      </AllContext.Provider>
+    </div>
+  );
+}
