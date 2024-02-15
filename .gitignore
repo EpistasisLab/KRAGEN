@@ -167,3 +167,5 @@ alzkb_test.csv
 
 
 
+# exclude config files
+config.json
