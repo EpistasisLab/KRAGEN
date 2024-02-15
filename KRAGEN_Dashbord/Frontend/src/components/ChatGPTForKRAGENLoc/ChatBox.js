@@ -10,8 +10,13 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 
 // Primary Chat Window
 const ChatBox = () => {
-  const { setChatInput, handleSubmit, chatInput, readyToDisplayGOT } =
-    useContext(AllContext);
+  const {
+    setChatInput,
+    handleSubmit,
+    chatInput,
+    readyToDisplayGOT,
+    chatInputForGOT,
+  } = useContext(AllContext);
 
   const [hasZip, setHasZip] = useState(false);
   const [zipUrl, setZipUrl] = useState(null);
@@ -196,7 +201,10 @@ const ChatBox = () => {
         </div>
 
         <div id="dispnetgra" className={"show-contents"}>
-          <DisplayGraph readyToDisplayGOT={readyToDisplayGOT} />
+          <DisplayGraph
+            chatInputForGOT={chatInputForGOT}
+            readyToDisplayGOT={readyToDisplayGOT}
+          />
         </div>
       </section>
     </>

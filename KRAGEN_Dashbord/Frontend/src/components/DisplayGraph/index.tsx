@@ -35,11 +35,13 @@ import { BiHome } from "react-icons/bi"; // Import the BiHome icon
 
 interface DisplayGraphProps {
   readyToDisplayGOT: boolean;
+  chatInputForGOT: string;
   // setReadyToDisplayGOT: (value: boolean) => void;
 }
 
 const DisplayGraph: FC<DisplayGraphProps> = ({
   readyToDisplayGOT,
+  chatInputForGOT,
   // setReadyToDisplayGOT,
 }) => {
   const [showContents, setShowContents] = useState(false);
@@ -101,6 +103,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       setIsLoading(true); // loading icon show
       // fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
       // get question from the textarea
+      console.log("GOTchatInput", chatInputForGOT);
       fetch(
         `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`
       )

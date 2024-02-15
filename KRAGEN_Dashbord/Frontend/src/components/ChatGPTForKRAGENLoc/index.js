@@ -180,6 +180,9 @@ export default function ChatGPT({ experiment }) {
 
   const [booleanPackageInstall, setBooleanPackageInstall] = useState(false);
 
+  // setChatInputForGOT
+  const [chatInputForGOT, setChatInputForGOT] = useState("");
+
   // booleanCode for checking if the messageFromOpenai contains python code
   // const [booleanCode, setBooleanCode] = useState(false);
 
@@ -217,8 +220,11 @@ export default function ChatGPT({ experiment }) {
     setCurrent_chatTapID(current_chatTapID);
 
     if (countofchatids >= limitNumChatBox) {
-      document.getElementById("newchatbuttonForGOT").style.pointerEvents =
-        "none";
+      // if document.getElementById("newchatbuttonForGOT") is not null
+      if (document.getElementById("newchatbuttonForGOT") !== null) {
+        document.getElementById("newchatbuttonForGOT").style.pointerEvents =
+          "none";
+      }
     }
 
     let chatLogNew = [];
@@ -289,7 +295,7 @@ export default function ChatGPT({ experiment }) {
         message: `${chatInput}`,
       },
     ];
-
+    setChatInputForGOT(chatInput);
     setChatInput("");
     setChatLog(chatLogNew);
 
@@ -374,7 +380,7 @@ export default function ChatGPT({ experiment }) {
 
     console.log("chatInput", chatInput);
 
-    await sendChatInputToBackend(chatInput);
+    // await sendChatInputToBackend(chatInput);
 
     // if (loadLocalChatModel === false) {
     //   data = await openaiChatCompletionsWithChatLog(
@@ -568,6 +574,7 @@ export default function ChatGPT({ experiment }) {
           setChatInput,
           handleSubmit,
           readyToDisplayGOT,
+          chatInputForGOT,
         }}
       >
         <ChatBox />
