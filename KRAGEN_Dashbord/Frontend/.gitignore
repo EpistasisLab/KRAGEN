@@ -37,3 +37,7 @@ setupTests.js
 
 # Ignore entire directory
 hooks/
+
+# not to ignore /dist
+!dist/
+
