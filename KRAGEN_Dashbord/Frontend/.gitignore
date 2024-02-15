@@ -37,5 +37,3 @@ setupTests.js
 
 # Ignore entire directory
 hooks/
-
-/KRAGEN_Dashbord/Frontend/src/components/ChatGPTForKRAGENSim
