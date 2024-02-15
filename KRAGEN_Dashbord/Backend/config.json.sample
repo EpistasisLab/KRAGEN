@@ -7,14 +7,14 @@
     "max_tokens": 1200,
     "stop": null,
     "api_version": "2023-07-01-preview",
-    "api_base": "https://caire-azure-openai.openai.azure.com/",
-    "api_key": "af2d0878836944169399cc42dbfbcd2e",
+    "api_base": "",
+    "api_key": "",
     "embedding_id": "text-embedding-ada-002"
   },
   "weaviate": {
-    "api_key": "e6df0224d7eff2d44d7f1a3f08e4ac9f461312f430c5ea1d2573275cdadf6726",
-    "url": "http://100.21.60.48",
-    "db": "AlzKB",
+    "api_key": "",
+    "url": "",
+    "db": "",
     "limit": 200
   },
   "chatgpt": {
