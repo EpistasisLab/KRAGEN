@@ -215,13 +215,11 @@ def got():
         
     # print(index)
     operation_size = index
-    # print("operation_size", operation_size)
+    print("operation_size", operation_size)
     index = 0
     num_of_branches = int((operation_size-2)/2)
     operation = operations_graph[0]
     while len(operation.successors) > 0:
-    # for operation in operations_graph:
-        
         if index == 0:
             x = 0
             y = 40
@@ -231,7 +229,7 @@ def got():
         elif index < operation_size-1:
             #if num_of_branches is even
             if num_of_branches % 2 == 0:
-                x_left = -10 - 20*math.floor(num_of_branches/2)
+                x_left = -10 - 20*(math.floor(num_of_branches/2)-1)
             else:
                 x_left = -20*math.floor(num_of_branches/2)
             x = x_left + (math.floor((index-1)/2))*20
@@ -248,7 +246,6 @@ def got():
             cluster = "1"
         operation_serialized = {
             "key": "node_"+str(index),
-            #uppercase the first letter of the operation type
             "label": label,
             "tag": label,
             "URL": "",
@@ -256,10 +253,11 @@ def got():
             "x": x,
             "y": y,
             "sizenode": 30,
-            
             "thoughts": [thought.state for thought in operation.get_thoughts()],
         }
         # print(operation_serialized["thoughts"][0]["prompt"])
+        if index == operation_size-1:
+            answer = operation_serialized["thoughts"][0]["current"]
         if any([thought.scored for thought in operation.get_thoughts()]):
             operation_serialized["scored"] = [
                 thought.scored for thought in operation.get_thoughts()
@@ -320,7 +318,7 @@ def got():
         "sizenode": 30,
         "thoughts": [
             {
-                "answer": answer
+                "current": answer,
             }
         ]
     })
