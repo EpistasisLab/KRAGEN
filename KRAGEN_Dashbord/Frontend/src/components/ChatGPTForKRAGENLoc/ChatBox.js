@@ -16,6 +16,7 @@ const ChatBox = () => {
     chatInput,
     readyToDisplayGOT,
     chatInputForGOT,
+    chatCurrentTempId,
   } = useContext(AllContext);
 
   const [hasZip, setHasZip] = useState(false);
@@ -49,7 +50,7 @@ const ChatBox = () => {
 
   return (
     <>
-      <section className="chatboxForGOT">
+      <section className="chatboxForGOT relative">
         {/* 2 current */}
         <div className="chat-input-containerForGOT flex items-center">
           <div className="chat-input-holderForGOT flex-grow">
@@ -105,6 +106,10 @@ const ChatBox = () => {
                     ).disabled = true;
                   }
                 }}
+                onMouseOver={(e) => {
+                  console.log("onMouseOver-input");
+                  e.target.disabled = false;
+                }}
                 id="chat-input-textarea-id"
                 className="chat-input-textarea"
                 placeholder="Type your message here. "
@@ -119,25 +124,6 @@ const ChatBox = () => {
                 >
                   <BlockOutlinedIcon />
                   Submit Disabled: Token Limit Reached
-                  {/* <div
-                      style={{
-                        position: "relative",
-                        display: "inline-block",
-                        width: "24px",
-                        height: "24px",
-                      }}
-                    >
-                      <BlockOutlinedIcon
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                        }}
-                      />
-                      <SendOutlinedIcon
-                        style={{ position: "absolute", top: 0, left: 0 }}
-                      />
-                    </div> */}
                 </button>
               ) : (
                 <>
@@ -200,12 +186,15 @@ const ChatBox = () => {
           </div>
         </div>
 
-        <div id="dispnetgra" className={"show-contents"}>
+        {/* {readyToDisplayGOT && ( */}
+        <div id="dispnetgra" className="show-contents">
           <DisplayGraph
             chatInputForGOT={chatInputForGOT}
             readyToDisplayGOT={readyToDisplayGOT}
+            chatCurrentTempId={chatCurrentTempId}
           />
         </div>
+        {/* )} */}
       </section>
     </>
   );

@@ -3,7 +3,7 @@ from flask_cors import CORS, cross_origin
 from ..utils import chat_util
 import got
 from graph_of_thoughts import controller, language_models, operations
-from graph_of_thoughts.vector_db.weaviate import WeaviateClient
+# from graph_of_thoughts.vector_db.weaviate import WeaviateClient
 import json
 import math
 import logging
