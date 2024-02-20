@@ -176,3 +176,6 @@ config.json
 /node_modules
 /.pnp
 .pnp.js
+
+# KRAGEN_Dashbord
+/KRAGEN_Dashbord
