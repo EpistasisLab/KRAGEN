@@ -21,6 +21,7 @@ import {
   createChatID,
   getSpecificChatTitlebyChatId,
   sendChatInputToBackend,
+  updateChatTitleByChatId,
 } from "../apiService";
 
 import {
@@ -96,7 +97,7 @@ export default function ChatGPT({ experiment }) {
       );
 
       // setTapTitlesFunc(limitNumChatBox);
-      setTapTitlesFunc(numChatBox);
+      // setTapTitlesFunc(numChatBox);
       setLanModelReset(true);
 
       //
@@ -361,8 +362,6 @@ export default function ChatGPT({ experiment }) {
       // chatCurrentTempId
     );
 
-    // let filteredData = data;
-
     // chatCurrentTempId is 1,2,3, ...
     // there is no 0 chatCurrentTempId.
     if (chatCurrentTempId === "") {
@@ -376,9 +375,23 @@ export default function ChatGPT({ experiment }) {
         "text",
         "user"
       );
+
+      // if chatInput is longer than 14 characters, then make the chatInput to be the first 11 characters of the chatInput and add ...
+      let chatInputTemp = chatInput;
+      if (chatInputTemp.length > 14) {
+        chatInputTemp = chatInputTemp.slice(0, 11) + "...";
+      }
+
+      // update chat title by chat id and chat input
+      await updateChatTitleByChatId(
+        chatid_list[chatCurrentTempId - 1],
+        chatInputTemp
+      );
+
+      await setTapTitlesFunc();
     }
 
-    // /*
+    /*
     // const messages = chatLogNew.map((message) => message.message).join("\n");
 
     // get the last message from the chatLogNew array
@@ -548,7 +561,7 @@ export default function ChatGPT({ experiment }) {
 
     setLanModelReset(false);
     enableReadingInput();
-    // */
+    */
   }
 
   async function setTapTitlesFunc() {
@@ -631,6 +644,7 @@ export default function ChatGPT({ experiment }) {
           setCurrent_chatTapID,
           createChatID,
           setReadyToDisplayGOT,
+          chatInput,
         }}
       >
         <SideMenu />

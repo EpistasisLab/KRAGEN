@@ -612,6 +612,32 @@ async function getSpecificChatTitlebyChatId(current_chatTapID) {
   return data;
 }
 
+async function updateChatTitleByChatId(chatId, newTitle) {
+  let data = await fetch(
+    `${apiUrl}:${apiPort}/chatapi/v1/chattitle/${chatId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: newTitle,
+      }),
+    }
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("data--updateChatTitleByChatId", data);
+      return data;
+    })
+    .catch((err) => {
+      console.log("err--updateChatTitleByChatId", err);
+      throw err;
+    });
+
+  return data;
+}
+
 async function openaiComletions(currentModel, preSetLastMessageFromUser) {
   let data = await fetch(`{apiUrl}:{apiPort}/openai/v1/completions`, {
     method: "POST",
@@ -752,7 +778,7 @@ async function postChats(experiment, experimentId) {
       return data;
     })
     .catch((err) => {
-      // console.log("err--postChats",err);
+      console.log("err--postChats", err);
       throw err;
     });
 
@@ -766,8 +792,8 @@ async function patchChatToDB(
   message_type,
   who
 ) {
-  console.log("current_chatTapID-last", current_chatTapID);
-  console.log("message-last", message);
+  // console.log("current_chatTapID-last", current_chatTapID);
+  // console.log("message-last", message);
 
   await fetch(
     // `/chatapi/v1/chatlogs/${current_chatTapID}`,
@@ -934,4 +960,5 @@ export {
   insertTokenUsage,
   getSpecificChatTitlebyChatId,
   sendChatInputToBackend,
+  updateChatTitleByChatId,
 };

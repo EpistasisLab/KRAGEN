@@ -19,7 +19,14 @@ import TagsPanel from "./TagsPanel";
 
 import "react-sigma-v2/lib/react-sigma-v2.css";
 import { GrClose } from "react-icons/gr";
-import { BiRadioCircleMarked, BiBookContent } from "react-icons/bi";
+import {
+  BiRadioCircleMarked,
+  BiBookContent,
+  BiHome,
+  BiReset,
+} from "react-icons/bi";
+
+import { IoMdArrowRoundBack } from "react-icons/io";
 // import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
@@ -31,8 +38,6 @@ import {
 } from "react-icons/bs";
 
 import CircularProgress from "@mui/material/CircularProgress";
-import { BiHome } from "react-icons/bi"; // Import the BiHome icon
-import { IoMdArrowRoundBack } from "react-icons/io";
 
 import {
   savedChatIDs,
@@ -312,6 +317,20 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                     <div className="answer">{answer}</div>
                   </div>
                 )}
+
+                <div className="ico">
+                  <button
+                    type="button"
+                    className="ico"
+                    onClick={() => {
+                      console.log("reset button clicked");
+                    }}
+                    title="Back"
+                  >
+                    {/* reset button */}
+                    <BiReset />
+                  </button>
+                </div>
 
                 {/* home button */}
                 <div className="ico">

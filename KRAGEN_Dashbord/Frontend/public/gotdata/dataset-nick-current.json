@@ -1,0 +1,183 @@
+{
+  "nodes": [
+    {
+      "key": "node_0",
+      "label": "Node 0",
+      "x": -122.453,
+      "y": 99.23,
+      "score": 0.245,
+      "id": "node_0",
+      "operation": "generate",
+      "thoughts": [
+        {
+          "question": "List the body parts/anatomy which over-express both the genes METTL5 and STYXL2",
+          "ground_truth": "heart",
+          "question_type": "list",
+          "current": "",
+          "phase": 1,
+          "method": "got",
+          "edges": [
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!METTL5!",
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!STYXL2!"
+          ],
+          "prompt": "You are an AI prompt simplifier with access to a knowledge graph of Alzheimer's disease..."
+        }
+      ]
+    },
+    {
+      "key": "node_1",
+      "label": "Node 1",
+      "x": 204.67,
+      "y": -48.56,
+      "score": 0.334,
+      "id": "node_1",
+      "operation": "selector",
+      "thoughts": [
+        {
+          "question": "List the body parts/anatomy which over-express both the genes METTL5 and STYXL2",
+          "ground_truth": "heart",
+          "question_type": "list",
+          "current": "",
+          "phase": 1,
+          "method": "got",
+          "edges": [
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!METTL5!",
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!STYXL2!"
+          ],
+          "prompt": "You are an AI prompt simplifier with access to a knowledge graph of Alzheimer's disease..."
+        }
+      ]
+    },
+    {
+      "key": "node_2",
+      "label": "Node 2",
+      "x": 153.12,
+      "y": 76.45,
+      "score": 0.275,
+      "id": "node_2",
+      "operation": "generate",
+      "thoughts": [
+        {
+          "question": "List the body parts/anatomy which over-express both the genes METTL5 and STYXL2",
+          "ground_truth": "heart",
+          "question_type": "list",
+          "current": "The gene METTL5 is associated with the blood, midbrain, urethra, heart, adrenal gland, adipose tissue, smooth muscle tissue, and saliva-secreting gland because these body parts over-express the gene. The gene METTL5 is associated with the lung and nipple because these body parts under-express the gene. The gene METTL5 is associated with the drug Everolimus, Digitoxin, Ouabain, and Bisacodyl because these drugs decrease the gene expression. The gene METTL5 is involved in the molecular functions methyltransferase activity and transferase activity, transferring one-carbon groups. The gene METTL5 is involved in the biological process methylation. Gene METTL5P1, METTL5P2, METTL5P3, and METTL5P4 are pseudogenes for METTL5.",
+          "phase": 1,
+          "method": "got",
+          "edges": [
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!METTL5!",
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!STYXL2!"
+          ],
+          "prompt": "<Instruction> You are an AI knowledge simplifier with access to a knowledge graph..."
+        }
+      ]
+    },
+    {
+      "key": "node_3",
+      "label": "Node 3",
+      "x": -78.54,
+      "y": -132.41,
+      "score": 0.411,
+      "id": "node_3",
+      "operation": "selector",
+      "thoughts": [
+        {
+          "question": "List the body parts/anatomy which over-express both the genes METTL5 and STYXL2",
+          "ground_truth": "heart",
+          "question_type": "list",
+          "current": "The gene METTL5 is associated with the blood, midbrain, urethra, heart, adrenal gland, adipose tissue, smooth muscle tissue, and saliva-secreting gland because these body parts over-express the gene. The gene METTL5 is associated with the lung and nipple because these body parts under-express the gene. The gene METTL5 is associated with the drug Everolimus, Digitoxin, Ouabain, and Bisacodyl because these drugs decrease the gene expression. The gene METTL5 is involved in the molecular functions methyltransferase activity and transferase activity, transferring one-carbon groups. The gene METTL5 is involved in the biological process methylation. Gene METTL5P1, METTL5P2, METTL5P3, and METTL5P4 are pseudogenes for METTL5.",
+          "phase": 1,
+          "method": "got",
+          "edges": [
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!METTL5!",
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!STYXL2!"
+          ],
+          "prompt": "<Instruction> You are an AI knowledge simplifier with access to a knowledge graph..."
+        }
+      ]
+    },
+    {
+      "key": "node_4",
+      "label": "Node 4",
+      "x": 92.34,
+      "y": 118.77,
+      "score": 0.389,
+      "id": "node_4",
+      "operation": "generate",
+      "thoughts": [
+        {
+          "question": "List the body parts/anatomy which over-express both the genes METTL5 and STYXL2",
+          "ground_truth": "heart",
+          "question_type": "list",
+          "current": "The gene STYXL2 is involved in the molecular function phosphatase activity...\nThe gene STYXL2 is associated with the cardiac ventricle because the body part over-expresses the gene.",
+          "phase": 2,
+          "method": "got",
+          "edges": [
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!METTL5!",
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!STYXL2!"
+          ],
+          "prompt": "<Instruction> You are an AI knowledge simplifier with access to a knowledge graph..."
+        }
+      ]
+    },
+    {
+      "key": "node_5",
+      "label": "Node 5",
+      "x": -105.88,
+      "y": 209.65,
+      "score": 0.312,
+      "id": "node_5",
+      "operation": "generate",
+      "thoughts": [
+        {
+          "question": "List the body parts/anatomy which over-express both the genes METTL5 and STYXL2",
+          "ground_truth": "heart",
+          "question_type": "list",
+          "current": "heart\nadrenal gland",
+          "phase": 3,
+          "method": "got",
+          "edges": [
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!METTL5!",
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!STYXL2!"
+          ],
+          "prompt": "<Instruction> You are an Alzheimer's data specialist AI assistant dedicated to providing information and support related to Alzheimer's disease...\n</Instruction>"
+        }
+      ]
+    },
+    {
+      "key": "node_6",
+      "label": "Node 6",
+      "x": 87.22,
+      "y": -157.99,
+      "score": 0.45,
+      "id": "node_6",
+      "operation": "score",
+      "thoughts": [
+        {
+          "question": "List the body parts/anatomy which over-express both the genes METTL5 and STYXL2",
+          "ground_truth": "heart",
+          "question_type": "list",
+          "current": "heart\nadrenal gland",
+          "phase": 3,
+          "method": "got",
+          "edges": [
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!METTL5!",
+            "BodyPart-BODYPART OVEREXPRESSES GENE-!STYXL2!"
+          ],
+          "prompt": "<Instruction> You are an Alzheimer's data specialist AI assistant dedicated to providing information and support related to Alzheimer's disease...\n</Instruction>"
+        }
+      ],
+      "scored": [true],
+      "scores": [5.0]
+    }
+  ],
+  "edges": [
+    ["node_0", "node_1"],
+    ["node_1", "node_2"],
+    ["node_2", "node_5"],
+    ["node_0", "node_3"],
+    ["node_3", "node_4"],
+    ["node_4", "node_5"],
+    ["node_5", "node_6"]
+  ]
+}

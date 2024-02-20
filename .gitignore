@@ -170,3 +170,9 @@ alzkb_test.csv
 
 # exclude config files
 config.json
+
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
