@@ -169,9 +169,9 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
         try {
           // test1
-          // const res = await fetch(
-          //   `${process.env.PUBLIC_URL}/gotdata/dataset.json`
-          // );
+          const res = await fetch(
+            `${process.env.PUBLIC_URL}/gotdata/dataset.json`
+          );
           // get question from the textarea
 
           // test 2
@@ -180,18 +180,18 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           // );
 
           // real api
-          const res = await fetch(
-            `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                chatInput: chatInputForGOT,
-              }),
-            }
-          );
+          // const res = await fetch(
+          //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
+          //   {
+          //     method: "POST",
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //     },
+          //     body: JSON.stringify({
+          //       chatInput: chatInputForGOT,
+          //     }),
+          //   }
+          // );
 
           const dataset = await res.json();
           console.log("datasetGOT", dataset);
