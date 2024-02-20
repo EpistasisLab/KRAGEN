@@ -45,7 +45,7 @@ async function getAllChatsFromDB(current_chatTapID) {
       return data;
     })
     .catch((err) => {
-      // console.log("err--getAllChatsFromDB",err);
+      console.log("err--getAllChatsFromDB", err);
       throw err;
     });
 
@@ -107,6 +107,7 @@ async function postInChatlogsToDB(chat_id, message, message_type, who) {
 
 // get chatlogs from db by chatid
 async function getChatMessageByExperimentId(current_chatTapID) {
+  // console.log("errorHere-current_chatTapID", current_chatTapID);
   endpoint = `${apiUrl}:${apiPort}/chatapi/v1/chats/${current_chatTapID}/chatlogs`;
 
   let data = await fetch(endpoint, {
@@ -173,6 +174,116 @@ function tokenChekcerForGPT3Point5Turbo(chatLogNewFormatFiltered) {
 
   return newChatLogNewFormatFiltered;
 }
+
+// async function openaiChatCompletionsWithChatLog(
+//   currentModel,
+//   chatLogNew,
+//   preSet,
+//   lastMessageFromUser
+// ) {
+//   let preSetLastMessageFromUser = preSet + lastMessageFromUser;
+
+//   let chatLogNewFormat = chatLogNew.map((item) => {
+//     // console.log("item",item)
+//     return {
+//       role: item.user,
+//       content: item.message,
+//     };
+//   });
+
+//   // console.log("chatLogNewFormat",chatLogNewFormat)
+
+//   // replace gpt with system if role is gpt
+//   chatLogNewFormat = chatLogNewFormat.map((item) => {
+//     if (item.role === "gpt") {
+//       item.role = "assistant";
+//     } else if (item.role === "me") {
+//       item.role = "user";
+//     }
+//     return item;
+//   });
+
+//   // please remove "Please wait while I am thinking.." by system from chatLogNewFormat
+//   let chatLogNewFormatFiltered = chatLogNewFormat.filter(
+//     (item) => item.content !== "Please wait while I am thinking.."
+//   );
+
+//   // please remove item if item content includes "The tabular data is"
+//   chatLogNewFormatFiltered = chatLogNewFormatFiltered.filter(
+//     (item) => !item.content.includes("The tabular data is")
+//   );
+
+//   // console.log("chatLogNewFormatFiltered", chatLogNewFormatFiltered);
+
+//   // remove the last message from user
+//   chatLogNewFormat.pop();
+
+//   // push {"role": "system", "content":preSet} to the head of chatLogNewFormat
+//   // {"role": "system", "content":preSet} should be located at the head of chatLogNewFormat
+//   chatLogNewFormatFiltered.unshift({ role: "system", content: preSet });
+//   chatLogNewFormatFiltered.push({
+//     role: "user",
+//     content: lastMessageFromUser,
+//   });
+
+//   // get only message by user from chatLogNewFormat
+
+//   //   let anotherTest = chatLogNewFormat.filter((item) => item.role === "user");
+
+//   // calculate token of chatLogNewFormat
+//   let token = 0;
+//   chatLogNewFormatFiltered.forEach((item) => {
+//     token = token + item.content.length;
+//   });
+
+//   chatLogNewFormatFiltered = tokenChekcerForGPT3Point5Turbo(
+//     chatLogNewFormatFiltered
+//   );
+
+//   endpoint = `${apiUrl}:${apiPort}/openai/v1/chat/completions`;
+//   // let data = await fetch("/openai/v1/chat/completions", {
+//   let data = await fetch(endpoint, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       model: currentModel,
+//       messages: chatLogNewFormatFiltered,
+
+//       // "messages": [
+//       //     {"role": "user", "content": "Hi!"},{"role": "user", "content": "Say this is a test!"}
+//       // ],
+
+//       // original
+//       // "messages": [{"role": "user", "content":preSetLastMessageFromUser}],
+
+//       // "messages": [{"role": "user", "content": messages}],
+//       // "temperature": 0.7
+//       // "reset_context": "true",
+
+//       // new
+//       // "messages": chatLogNewFormat
+
+//       // last two messages
+//       // "messages": lastTwoMessages
+
+//       // new test
+//       // "messages": chatLogNewFormatFiltered,
+//     }),
+//   })
+//     .then((res) => res.json())
+//     .then((data) => {
+//       // console.log("data--openaiChatCompletions", data);
+//       return data;
+//     })
+//     .catch((err) => {
+//       console.log("err--openaiChatCompletions", err);
+//       throw err;
+//     });
+
+//   return data;
+// }
 
 async function openaiChatCompletionsWithChatLog(
   currentModel,
@@ -286,7 +397,7 @@ async function openaiChatCompletionsWithChatLog(
 
 // just sent chatinput using /chatInput
 async function sendChatInputToBackend(chatInput) {
-  console.log("sendChatInputToBackend-chatInput", chatInput);
+  // console.log("sendChatInputToBackend-chatInput", chatInput);
   try {
     const response = await fetch(
       `${apiUrl}:${apiPort}/chatapi/v1/userchatinput`,
@@ -390,7 +501,7 @@ async function getVES(question) {
 
 async function initailChatBoxSetting(current_chatTapID) {
   let data = await getAllChatsFromDB(current_chatTapID);
-  console.log("getAllChatsFromDB_data", data);
+  // console.log("getAllChatsFromDB_data", data);
   // there are no chatlogs
   if (data["chatlogs"].length === 0) {
     await postInChatlogsToDB(

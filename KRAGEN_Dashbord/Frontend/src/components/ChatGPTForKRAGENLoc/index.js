@@ -46,7 +46,7 @@ export default function ChatGPT({ experiment }) {
   const [numChatBox, setNumChatBox] = useState(0);
 
   // this is the index of the current chattab where user is typing
-  const [chatCurrentTempId, setChatCurrentTempId] = useState("");
+  const [chatCurrentTempId, setChatCurrentTempId] = useState(1);
 
   // loadLocalChatModel is boolean value that indicates whether the local chat model should be loaded
   // const [loadLocalChatModel, setLoadLocalChatModel] = useState(true);
@@ -55,27 +55,29 @@ export default function ChatGPT({ experiment }) {
   // ready to show disply GOT or not
   const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
 
-  useEffect(() => {}, [chatCurrentTempId]);
-
   let apiUrl = process.env.REACT_APP_API_URL;
   let apiPort = process.env.REACT_APP_API_PORT;
 
-  useEffect(() => {
+  useEffect(async () => {
     const fetchData = async () => {
       let savedChatIDs_list = await savedChatIDs();
+
+      console.log("savedChatIDs_list", savedChatIDs_list);
 
       let last_chatTapID_in_the_list = 0;
 
       let lengthofChatIDs = savedChatIDs_list.length;
 
       // at least one chat box exists
-      if (lengthofChatIDs != 0) {
+      if (lengthofChatIDs !== 0) {
         last_chatTapID_in_the_list = savedChatIDs_list[lengthofChatIDs - 1];
       }
       // there is no chat box
       else {
         last_chatTapID_in_the_list = 1;
         lengthofChatIDs = 1;
+        console.log("createChatID");
+        await createChatID();
       }
 
       // set current chat tap id
@@ -96,6 +98,56 @@ export default function ChatGPT({ experiment }) {
       // setTapTitlesFunc(limitNumChatBox);
       setTapTitlesFunc(numChatBox);
       setLanModelReset(true);
+
+      //
+      // checking got data in the chatbox
+      // let chatid_list = await savedChatIDs();
+
+      // if chatCurrentTempId is not undefined,
+      console.log("lengthofChatIDs", chatCurrentTempId);
+      // if chatCurrentTempId is undefined,
+      // if (chatCurrentTempId === "") {
+      //   console.log("chatCurrentTempId is undefined");
+      //   chatCurrentTempId = last_chatTapID_in_the_list;
+      // }
+      // if (chatCurrentTempId !== "") {
+      if (lengthofChatIDs !== 0) {
+        let data = await getChatMessageByExperimentId(
+          // savedChatIDs_list[chatCurrentTempId - 1]
+          savedChatIDs_list[lengthofChatIDs - 1]
+          // chatCurrentTempId
+        );
+
+        // Calculate the index for the third-to-last item
+        const index = data.chatlogs.length - 3;
+
+        // Accessing the third-to-last chatlog entry, if the array is long enough
+        const thirdFromLastChatlog =
+          data.chatlogs.length > 2 ? data.chatlogs[index] : null;
+
+        console.log("thirdFromLastChatlog", thirdFromLastChatlog);
+        // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
+        if (thirdFromLastChatlog === null) {
+          setReadyToDisplayGOT(false);
+          const textarea = document.getElementById("chatSubmitFormID");
+          // Make the textarea editable
+          textarea.readOnly = false;
+
+          // Make the textarea visible
+          textarea.style.opacity = 1;
+        } else {
+          setReadyToDisplayGOT(true);
+
+          // Get the element by its ID
+          const textarea = document.getElementById("chatSubmitFormID");
+
+          // Make the textarea read-only
+          textarea.readOnly = true;
+
+          // Make the textarea invisible but still occupy space
+          textarea.style.opacity = 0;
+        }
+      }
     };
 
     fetchData();
@@ -326,6 +378,7 @@ export default function ChatGPT({ experiment }) {
       );
     }
 
+    // /*
     // const messages = chatLogNew.map((message) => message.message).join("\n");
 
     // get the last message from the chatLogNew array
@@ -382,106 +435,120 @@ export default function ChatGPT({ experiment }) {
 
     // await sendChatInputToBackend(chatInput);
 
-    // if (loadLocalChatModel === false) {
-    //   data = await openaiChatCompletionsWithChatLog(
-    //     currentModel,
+    // currentModel,
     //     chatLogNew,
     //     preSet,
     //     lastMessageFromUser
-    //   );
 
-    //   nomoreBlinking();
-    //   messageFromOpenai = data.choices[0].message["content"];
-    // } else if (loadLocalChatModel === true) {
-    //   // let output = await generator(lastMessageFromUser, {
-    //   //   max_new_tokens: 150,
-    //   // });
+    // console.log currentModel, chatLogNew, preSet, lastMessageFromUser
 
-    //   let output = "";
+    console.log("Test-currentModel", currentModel);
+    console.log("Test-chatLogNew", chatLogNew);
+    console.log("Test-preSet", preSet);
+    console.log("Test-lastMessageFromUser", lastMessageFromUser);
 
-    //   // split the output into sentences by . or ? or !
-    //   let splited_output = output[0].split(/\.|\?|!/);
+    if (loadLocalChatModel === false) {
+      data = await openaiChatCompletionsWithChatLog(
+        currentModel,
+        chatLogNew,
+        preSet,
+        lastMessageFromUser
+      );
 
-    //   // remove the last element of the array from the splited_output array
-    //   splited_output.pop();
+      nomoreBlinking();
+      messageFromOpenai = data.choices[0].message["content"];
+      console.log("messageFromOpenai", messageFromOpenai);
+    } else if (loadLocalChatModel === true) {
+      // let output = await generator(lastMessageFromUser, {
+      //   max_new_tokens: 150,
+      // });
 
-    //   // concatenate the splited_output array
-    //   splited_output = splited_output.join(". ");
+      let output = "";
 
-    //   // add . to the end of the splited_output
-    //   splited_output = splited_output + ".";
+      // split the output into sentences by . or ? or !
+      let splited_output = output[0].split(/\.|\?|!/);
 
-    //   messageFromOpenai = splited_output;
-    // }
+      // remove the last element of the array from the splited_output array
+      splited_output.pop();
 
-    // // if messageFromOpenai is undefined, then set messageFromOpenai to "Sorry, I am not sure what you mean. Please try again."
+      // concatenate the splited_output array
+      splited_output = splited_output.join(". ");
 
-    // if (messageFromOpenai === undefined) {
-    //   messageFromOpenai =
-    //     "Sorry, I am not sure what you mean. Please try again.";
-    // }
+      // add . to the end of the splited_output
+      splited_output = splited_output + ".";
 
-    // messageFromOpenai = replaceFirstBackticks(messageFromOpenai);
+      messageFromOpenai = splited_output;
+    }
 
-    // // if ```python in the messageFromOpenai, then run addComments(messageFromOpenai)
+    // if messageFromOpenai is undefined, then set messageFromOpenai to "Sorry, I am not sure what you mean. Please try again."
 
-    // if (messageFromOpenai.includes("```python")) {
-    //   messageFromOpenai = addComments(messageFromOpenai);
-    // }
+    if (messageFromOpenai === undefined) {
+      messageFromOpenai =
+        "Sorry, I am not sure what you mean. Please try again.";
+    }
 
-    // let booleanCode = checkIfCode(messageFromOpenai);
+    messageFromOpenai = replaceFirstBackticks(messageFromOpenai);
 
-    // if (booleanCode) {
-    //   let extractedCodeTemp = extractCode(messageFromOpenai);
+    // if ```python in the messageFromOpenai, then run addComments(messageFromOpenai)
 
-    //   let packagesOfCode = extractPackagesOfCode(extractedCodeTemp);
+    if (messageFromOpenai.includes("```python")) {
+      messageFromOpenai = addComments(messageFromOpenai);
+    }
 
-    //   let packagesNotInstalled = await checkCodePackages(packagesOfCode);
+    let booleanCode = checkIfCode(messageFromOpenai);
 
-    //   if (packagesNotInstalled.length > 0) {
-    //     setBooleanPackageInstall(true);
+    if (booleanCode) {
+      let extractedCodeTemp = extractCode(messageFromOpenai);
 
-    //     messageFromOpenai =
-    //       packagesNotInstalled +
-    //       " " +
-    //       "package(s) is (are) not installed." +
-    //       " " +
-    //       "If you want to install the packages to run the below code, please click the button below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
-    //       "\n" +
-    //       messageFromOpenai;
-    //   } else {
-    //     setBooleanPackageInstall(false);
-    //     messageFromOpenai =
-    //       "If you wish to execute the code on Aliro, please click on the button located below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
-    //       "\n" +
-    //       messageFromOpenai;
-    //   }
+      let packagesOfCode = extractPackagesOfCode(extractedCodeTemp);
 
-    //   // function for running the code on aliro
-    //   // runCodeOnAliro(extractedCode);
-    //   setExtractedCode({ ...extractedCode, code: extractedCodeTemp });
-    // }
+      let packagesNotInstalled = await checkCodePackages(packagesOfCode);
 
-    // setChatLog((chatLog) => [
-    //   ...chatLog.slice(0, -1),
-    //   {
-    //     user: "gpt",
-    //     message: messageFromOpenai,
-    //     className: "",
-    //   },
-    // ]);
+      if (packagesNotInstalled.length > 0) {
+        setBooleanPackageInstall(true);
 
-    // await postInChatlogsToDB(
-    //   chatid_list[chatCurrentTempId - 1],
-    //   messageFromOpenai,
-    //   "text",
-    //   "gpt"
-    // );
+        messageFromOpenai =
+          packagesNotInstalled +
+          " " +
+          "package(s) is (are) not installed." +
+          " " +
+          "If you want to install the packages to run the below code, please click the button below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
+          "\n" +
+          messageFromOpenai;
+      } else {
+        setBooleanPackageInstall(false);
+        messageFromOpenai =
+          "If you wish to execute the code on Aliro, please click on the button located below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
+          "\n" +
+          messageFromOpenai;
+      }
 
-    // autoScrollDown();
+      // function for running the code on aliro
+      // runCodeOnAliro(extractedCode);
+      setExtractedCode({ ...extractedCode, code: extractedCodeTemp });
+    }
 
-    // setLanModelReset(false);
-    // enableReadingInput();
+    setChatLog((chatLog) => [
+      ...chatLog.slice(0, -1),
+      {
+        user: "gpt",
+        message: messageFromOpenai,
+        className: "",
+      },
+    ]);
+
+    await postInChatlogsToDB(
+      chatid_list[chatCurrentTempId - 1],
+      messageFromOpenai,
+      "text",
+      "gpt"
+    );
+
+    autoScrollDown();
+
+    setLanModelReset(false);
+    enableReadingInput();
+    // */
   }
 
   async function setTapTitlesFunc() {
@@ -526,7 +593,7 @@ export default function ChatGPT({ experiment }) {
 
   return (
     <div className="ChatGPTForGOT">
-      {/* <AllContext.Provider
+      <AllContext.Provider
         value={{
           currentModel,
           setCurrentModel,
@@ -563,10 +630,11 @@ export default function ChatGPT({ experiment }) {
           current_chatTapID,
           setCurrent_chatTapID,
           createChatID,
+          setReadyToDisplayGOT,
         }}
       >
         <SideMenu />
-      </AllContext.Provider> */}
+      </AllContext.Provider>
       <AllContext.Provider
         value={{
           chatInput,
@@ -575,6 +643,7 @@ export default function ChatGPT({ experiment }) {
           handleSubmit,
           readyToDisplayGOT,
           chatInputForGOT,
+          chatCurrentTempId,
         }}
       >
         <ChatBox />

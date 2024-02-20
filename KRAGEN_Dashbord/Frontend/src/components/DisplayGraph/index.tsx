@@ -32,16 +32,39 @@ import {
 
 import CircularProgress from "@mui/material/CircularProgress";
 import { BiHome } from "react-icons/bi"; // Import the BiHome icon
+import { IoMdArrowRoundBack } from "react-icons/io";
+
+import {
+  savedChatIDs,
+  getAllChatsFromDB,
+  postInChatlogsToDB,
+  getChatMessageByExperimentId,
+  openaiChatCompletions,
+  openaiChatCompletionsWithChatLog,
+  initailChatBoxSetting,
+  getSpecificChatbyChatId,
+  checkCodePackages,
+  postInChatlogsToDBWithExeId,
+  patchChatToDB,
+  postChats,
+  deleteSpecificChat,
+  patchSpecificChat,
+  createChatID,
+  getSpecificChatTitlebyChatId,
+  sendChatInputToBackend,
+} from "../apiService";
 
 interface DisplayGraphProps {
   readyToDisplayGOT: boolean;
   chatInputForGOT: string;
+  chatCurrentTempId: string;
   // setReadyToDisplayGOT: (value: boolean) => void;
 }
 
 const DisplayGraph: FC<DisplayGraphProps> = ({
   readyToDisplayGOT,
   chatInputForGOT,
+  chatCurrentTempId,
   // setReadyToDisplayGOT,
 }) => {
   const [showContents, setShowContents] = useState(false);
@@ -98,22 +121,96 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     // Additional styling here...
   };
 
+  // useEffect(() => {
+  //   console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
+  //   console.log("GOTchatInput", chatInputForGOT);
+
+  //   if (readyToDisplayGOT) {
+  //     setIsLoading(true); // loading icon show
+  //     // fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
+  //     // get question from the textarea
+
+  //     // fetch(
+  //     //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`
+  //     // )
+  //     // test
+  //     fetch(
+  //       `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
+  //     )
+  //       .then((res) => res.json())
+  //       .then((dataset: Dataset) => {
+  //         console.log("datasetGOT", dataset);
+
+  //         setDataset(dataset);
+
+  //         // set question and answer
+  //         setQuestion("Question: Who is the father of Jon Snow?");
+  //         setAnswer("Answer: Rhaegar Targaryen");
+
+  //         setFiltersState({
+  //           clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
+  //           tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
+  //         });
+  //         requestAnimationFrame(() => {
+  //           setDataReady(true);
+  //           setIsLoading(false);
+  //         });
+  //       });
+  //   }
+  // }, [readyToDisplayGOT]); // Only re-run the effect if count changes
+
   useEffect(() => {
-    if (readyToDisplayGOT) {
-      setIsLoading(true); // loading icon show
-      // fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
-      // get question from the textarea
+    const fetchData = async () => {
+      console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
       console.log("GOTchatInput", chatInputForGOT);
-      fetch(
-        `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`
-      )
-        // test
-        // fetch(
-        //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
-        // )
-        .then((res) => res.json())
-        .then((dataset: Dataset) => {
+
+      if (readyToDisplayGOT) {
+        setIsLoading(true); // loading icon show
+
+        try {
+          // test1
+          const res = await fetch(
+            `${process.env.PUBLIC_URL}/gotdata/dataset.json`
+          );
+          // get question from the textarea
+
+          //real api
+          // const res = await fetch(
+          //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`
+          // )
+          // test 2
+          // const res = await fetch(
+          //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
+          // );
+          const dataset = await res.json();
           console.log("datasetGOT", dataset);
+
+          // post
+          // chatInputForGOT
+
+          let chatid_list = await savedChatIDs();
+
+          console.log("chatid_listInDisplayGraph", chatid_list);
+
+          let data = await getChatMessageByExperimentId(
+            chatid_list[Number(chatCurrentTempId) - 1]
+            // chatCurrentTempId
+          );
+
+          console.log("dataInDisplayGraph", data);
+          // consert dataset to string
+          let datasetString = JSON.stringify(dataset);
+
+          // data is json format
+
+          await postInChatlogsToDB(
+            chatid_list[Number(chatCurrentTempId) - 1],
+            // chatInputForGOT,
+            // dataset,
+            datasetString,
+            "text",
+            "gpt"
+          );
 
           setDataset(dataset);
 
@@ -129,17 +226,33 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             setDataReady(true);
             setIsLoading(false);
           });
-        });
-    }
-  }, [readyToDisplayGOT]); // Only re-run the effect if count changes
+        } catch (error) {
+          console.error("Failed to fetch data:", error);
+          // Handle the error accordingly
+          setIsLoading(false); // Ensure loading icon is hidden in case of error
+        }
+      }
+    };
+
+    fetchData();
+  }, [readyToDisplayGOT]); // Only re-run the effect if readyToDisplayGOT changes
 
   if (!dataset) return null;
 
   if (!dataset && isLoading) {
     // if (true) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress />
+      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CircularProgress />
+        </div>
       </div>
     );
   }
@@ -164,136 +277,158 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       }}
       className="react-sigma"
     >
-      <GraphSettingsController hoveredNode={hoveredNode} />
-      <GraphEventsController
-        setHoveredNode={setHoveredNode}
-        setHoveredEdge={setHoveredEdge}
-        setHoveredEdgeLabel={setHoveredEdgeLabel}
-        setDescriptionForClickedNode={setDescriptionForClickedNode}
-      />
-      <GraphDataController dataset={dataset} filters={filtersState} />
-
-      {dataReady && (
+      {readyToDisplayGOT && (
         <>
-          <div className="controls">
-            {question && answer && (
-              // font color is white
-              // locate at 300px from the top and 20px from the left
-              // Instead of px, use rem
-              <div className="text-2xl text-white mb-40 ml-20 sm:mb-10 sm:ml-5 md:mb-20 md:ml-10 lg:mb-32 lg:ml-16">
-                <div className="question">{question}</div>
-                <div className="answer">{answer}</div>
-              </div>
-            )}
-            <div className="ico">
-              <button
-                type="button"
-                className="show-contents"
-                onClick={() => setShowContents(true)}
-                title="Show caption and description"
-              >
-                <BiBookContent />
-              </button>
-            </div>
-            <FullScreenControl
-              className="ico"
-              customEnterFullScreen={<BsArrowsFullscreen />}
-              customExitFullScreen={<BsFullscreenExit />}
-            />
-            <ZoomControl
-              className="ico"
-              customZoomIn={<BsZoomIn />}
-              customZoomOut={<BsZoomOut />}
-              customZoomCenter={<BiRadioCircleMarked />}
-            />
-            {/* home button */}
-            <div className="ico">
-              <button
-                type="button"
-                className="ico"
-                onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
-                title="Home"
-              >
-                <BiHome /> {/* Use the home icon */}
-              </button>
-            </div>
-            {hoveredEdgeLabel && (
-              <div className="edge-label-display" style={labelStyle}>
-                {hoveredEdgeLabel}
-              </div>
-            )}
-          </div>
-          <div className="contents">
-            <div className="ico">
-              <button
-                type="button"
-                className="ico hide-contents"
-                onClick={() => setShowContents(false)}
-                title="Show caption and description"
-              >
-                <GrClose />
-              </button>
-            </div>
-            {/* <GraphTitle filters={filtersState} /> */}
+          <GraphSettingsController hoveredNode={hoveredNode} />
+          <GraphEventsController
+            setHoveredNode={setHoveredNode}
+            setHoveredEdge={setHoveredEdge}
+            setHoveredEdgeLabel={setHoveredEdgeLabel}
+            setDescriptionForClickedNode={setDescriptionForClickedNode}
+          />
 
-            <div className="panels">
-              <div className="flex justify-end">
-                {toggleControlPanel === false ? (
-                  <KeyboardArrowUpRoundedIcon
-                    style={{
-                      color: "white",
-                      fontSize: "70px",
-                      cursor: "pointer",
+          <GraphDataController dataset={dataset} filters={filtersState} />
+
+          {dataReady && (
+            <>
+              <div className="controls">
+                {question && answer && (
+                  // font color is white
+                  // locate at 300px from the top and 20px from the left
+                  // Instead of px, use rem
+                  <div className="text-2xl text-white mb-40 ml-20 sm:mb-10 sm:ml-5 md:mb-20 md:ml-10 lg:mb-32 lg:ml-16">
+                    <div className="question">{question}</div>
+                    <div className="answer">{answer}</div>
+                  </div>
+                )}
+
+                {/* home button */}
+                <div className="ico">
+                  <button
+                    type="button"
+                    className="ico"
+                    onClick={() => {
+                      // This is a placeholder for the actual logic to determine if '/Home' exists
+                      const homeExists =
+                        "/Hi"; /* logic to determine if '/Home' exists */
+                      window.location.href = homeExists ? "/Home" : "/";
                     }}
-                    onClick={(
-                      event: React.MouseEvent<SVGSVGElement, MouseEvent>
-                    ) => {
-                      // Find the closest element with the class 'panels'
-                      const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
-                      const closestPanel = target.closest(".panels");
+                    title="Back"
+                  >
+                    {/* please use <- button */}
+                    <IoMdArrowRoundBack />
+                  </button>
+                </div>
+                <div className="ico">
+                  <button
+                    type="button"
+                    className="show-contents"
+                    onClick={() => setShowContents(true)}
+                    title="Show caption and description"
+                  >
+                    <BiBookContent />
+                  </button>
+                </div>
+                <FullScreenControl
+                  className="ico"
+                  customEnterFullScreen={<BsArrowsFullscreen />}
+                  customExitFullScreen={<BsFullscreenExit />}
+                />
+                <ZoomControl
+                  className="ico"
+                  customZoomIn={<BsZoomIn />}
+                  customZoomOut={<BsZoomOut />}
+                  customZoomCenter={<BiRadioCircleMarked />}
+                />
+                {/* home button */}
+                <div className="ico">
+                  <button
+                    type="button"
+                    className="ico"
+                    onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
+                    title="Home"
+                  >
+                    <BiHome /> {/* Use the home icon */}
+                  </button>
+                </div>
 
-                      // If a 'panels' element is found, change its width to 100%
-                      if (closestPanel) {
-                        (closestPanel as HTMLElement).style.width = "350px";
-                      }
-
-                      // Additional action
-                      setToggleControlPanel(true);
-                    }}
-                  />
-                ) : (
-                  <KeyboardArrowDownRoundedIcon
-                    style={{
-                      color: "white",
-                      fontSize: "70px",
-                      cursor: "pointer",
-                    }}
-                    onClick={(
-                      event: React.MouseEvent<SVGSVGElement, MouseEvent>
-                    ) => {
-                      // Find the closest element with the class 'panels'
-                      const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
-                      const closestPanel = target.closest(".panels");
-
-                      // If a 'panels' element is found, change its width to 100%
-                      if (closestPanel) {
-                        (closestPanel as HTMLElement).style.width = "100px";
-                      }
-
-                      // Additional action
-                      setToggleControlPanel(false);
-                    }}
-                  />
+                {hoveredEdgeLabel && (
+                  <div className="edge-label-display" style={labelStyle}>
+                    {hoveredEdgeLabel}
+                  </div>
                 )}
               </div>
+              <div className="contents">
+                <div className="ico">
+                  <button
+                    type="button"
+                    className="ico hide-contents"
+                    onClick={() => setShowContents(false)}
+                    title="Show caption and description"
+                  >
+                    <GrClose />
+                  </button>
+                </div>
+                {/* <GraphTitle filters={filtersState} /> */}
 
-              {toggleControlPanel && (
-                <>
-                  {/* <SearchField filters={filtersState} /> */}
-                  <DescriptionPanel
-                    descriptionForClickedNode={descriptionForClickedNode}
-                  />
-                  {/* <ClustersPanel
+                <div className="panels">
+                  <div className="flex justify-end">
+                    {toggleControlPanel === false ? (
+                      <KeyboardArrowUpRoundedIcon
+                        style={{
+                          color: "white",
+                          fontSize: "70px",
+                          cursor: "pointer",
+                        }}
+                        onClick={(
+                          event: React.MouseEvent<SVGSVGElement, MouseEvent>
+                        ) => {
+                          // Find the closest element with the class 'panels'
+                          const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
+                          const closestPanel = target.closest(".panels");
+
+                          // If a 'panels' element is found, change its width to 100%
+                          if (closestPanel) {
+                            (closestPanel as HTMLElement).style.width = "350px";
+                          }
+
+                          // Additional action
+                          setToggleControlPanel(true);
+                        }}
+                      />
+                    ) : (
+                      <KeyboardArrowDownRoundedIcon
+                        style={{
+                          color: "white",
+                          fontSize: "70px",
+                          cursor: "pointer",
+                        }}
+                        onClick={(
+                          event: React.MouseEvent<SVGSVGElement, MouseEvent>
+                        ) => {
+                          // Find the closest element with the class 'panels'
+                          const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
+                          const closestPanel = target.closest(".panels");
+
+                          // If a 'panels' element is found, change its width to 100%
+                          if (closestPanel) {
+                            (closestPanel as HTMLElement).style.width = "100px";
+                          }
+
+                          // Additional action
+                          setToggleControlPanel(false);
+                        }}
+                      />
+                    )}
+                  </div>
+
+                  {toggleControlPanel && (
+                    <>
+                      {/* <SearchField filters={filtersState} /> */}
+                      <DescriptionPanel
+                        descriptionForClickedNode={descriptionForClickedNode}
+                      />
+                      {/* <ClustersPanel
                     clusters={dataset.clusters}
                     filters={filtersState}
                     setClusters={(clusters) =>
@@ -311,7 +446,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                       }));
                     }}
                   /> */}
-                  {/* <TagsPanel
+                      {/* <TagsPanel
                     tags={dataset.tags}
                     filters={filtersState}
                     setTags={(tags) =>
@@ -329,10 +464,12 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                       }));
                     }}
                   /> */}
-                </>
-              )}
-            </div>
-          </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </>
       )}
     </SigmaContainer>
