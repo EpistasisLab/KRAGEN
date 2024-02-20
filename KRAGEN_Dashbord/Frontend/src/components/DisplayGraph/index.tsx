@@ -169,19 +169,30 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
         try {
           // test1
-          const res = await fetch(
-            `${process.env.PUBLIC_URL}/gotdata/dataset.json`
-          );
+          // const res = await fetch(
+          //   `${process.env.PUBLIC_URL}/gotdata/dataset.json`
+          // );
           // get question from the textarea
 
-          //real api
-          // const res = await fetch(
-          //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`
-          // )
           // test 2
           // const res = await fetch(
           //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
           // );
+
+          // real api
+          const res = await fetch(
+            `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                chatInput: chatInputForGOT,
+              }),
+            }
+          );
+
           const dataset = await res.json();
           console.log("datasetGOT", dataset);
 
@@ -215,8 +226,8 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           setDataset(dataset);
 
           // set question and answer
-          setQuestion("Question: Who is the father of Jon Snow?");
-          setAnswer("Answer: Rhaegar Targaryen");
+          setQuestion("Question: " + chatInputForGOT);
+          // setAnswer("Answer: "+dataset.answer);
 
           setFiltersState({
             clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
