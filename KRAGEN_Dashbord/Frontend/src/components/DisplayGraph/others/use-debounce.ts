@@ -4,7 +4,7 @@ function useDebounce<T>(value: T, delay: number): T {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
-  console.log("debouncedValue")
+  // console.log("debouncedValue")
 
   useEffect(
     () => {
@@ -20,7 +20,7 @@ function useDebounce<T>(value: T, delay: number): T {
         clearTimeout(handler);
       };
     },
-    [value, delay], // Only re-call effect if value or delay changes
+    [value, delay] // Only re-call effect if value or delay changes
   );
 
   return debouncedValue;

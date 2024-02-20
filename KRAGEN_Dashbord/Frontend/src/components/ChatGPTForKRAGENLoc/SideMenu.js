@@ -47,6 +47,7 @@ export default function SideMenu() {
     setCurrent_chatTapID,
     createChatID,
     setReadyToDisplayGOT,
+    chatInput,
   } = useContext(AllContext);
 
   const [chatids, setChatids] = useState([]);
@@ -983,8 +984,6 @@ export default function SideMenu() {
                     changeTrashToCheck(e.target.parentNode.childNodes[1], true);
                   }}
                   onClick={async (e) => {
-                    // changeTrashToCheck(e.target.parentNode.childNodes[1]);
-
                     // Here!!!
                     try {
                       // change e.target to e.target.parentNode.childNodes[0]
