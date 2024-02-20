@@ -70,7 +70,7 @@ export default function ChatGPT({ experiment }) {
       let lengthofChatIDs = savedChatIDs_list.length;
 
       // at least one chat box exists
-      if (lengthofChatIDs !== 0) {
+      if (lengthofChatIDs !== 1) {
         last_chatTapID_in_the_list = savedChatIDs_list[lengthofChatIDs - 1];
       }
       // there is no chat box
