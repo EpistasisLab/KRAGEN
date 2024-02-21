@@ -48,6 +48,8 @@ export default function SideMenu() {
     createChatID,
     setReadyToDisplayGOT,
     chatInput,
+    gotLoaded,
+    setGotLoaded,
   } = useContext(AllContext);
 
   const [chatids, setChatids] = useState([]);
@@ -762,6 +764,8 @@ export default function SideMenu() {
           className="side-menu-buttonForGOT"
           id="newchatbuttonForGOT"
           onClick={async (e) => {
+            setGotLoaded("");
+
             let tempChatCurrentTempId = await checkClickedChatboxTab(e);
 
             setNumChatBox((numChatBox) => numChatBox + 1);

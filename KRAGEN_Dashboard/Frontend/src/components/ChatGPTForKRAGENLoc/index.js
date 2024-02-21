@@ -53,9 +53,6 @@ export default function ChatGPT({ experiment }) {
   // const [loadLocalChatModel, setLoadLocalChatModel] = useState(true);
   const [loadLocalChatModel, setLoadLocalChatModel] = useState(false);
 
-  // ready to show disply GOT or not
-  const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
-
   let apiUrl = process.env.REACT_APP_API_URL;
   let apiPort = process.env.REACT_APP_API_PORT;
 
@@ -250,6 +247,12 @@ export default function ChatGPT({ experiment }) {
 
   // setChatInputForGOT
   const [chatInputForGOT, setChatInputForGOT] = useState("");
+
+  // ready to show disply GOT or not
+  const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
+
+  // gotloaded
+  const [gotLoaded, setGotLoaded] = useState("");
 
   // booleanCode for checking if the messageFromOpenai contains python code
   // const [booleanCode, setBooleanCode] = useState(false);
@@ -660,6 +663,8 @@ export default function ChatGPT({ experiment }) {
           createChatID,
           setReadyToDisplayGOT,
           chatInput,
+          gotLoaded,
+          setGotLoaded,
         }}
       >
         <SideMenu />
@@ -673,6 +678,8 @@ export default function ChatGPT({ experiment }) {
           readyToDisplayGOT,
           chatInputForGOT,
           chatCurrentTempId,
+          gotLoaded,
+          setGotLoaded,
         }}
       >
         <ChatBox />

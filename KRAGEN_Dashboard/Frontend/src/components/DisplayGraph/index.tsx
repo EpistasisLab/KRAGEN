@@ -63,6 +63,7 @@ interface DisplayGraphProps {
   readyToDisplayGOT: boolean;
   chatInputForGOT: string;
   chatCurrentTempId: string;
+  setGotLoaded: (value: boolean) => void;
   // setReadyToDisplayGOT: (value: boolean) => void;
 }
 
@@ -70,6 +71,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   readyToDisplayGOT,
   chatInputForGOT,
   chatCurrentTempId,
+  setGotLoaded,
   // setReadyToDisplayGOT,
 }) => {
   const [showContents, setShowContents] = useState(false);
@@ -97,7 +99,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   //
-  const [isLoading, setIsLoading] = useState(false); // loading icon show
+  // const [isLoading, setIsLoading] = useState(false); // loading icon show
 
   // question and answer state
   const [question, setQuestion] = useState("");
@@ -170,7 +172,8 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       // console.log("GOTchatInput", chatInputForGOT);
 
       if (readyToDisplayGOT) {
-        setIsLoading(true); // loading icon show
+        // setIsLoading(true); // loading icon show
+        setGotLoaded(false);
 
         try {
           // test1
@@ -240,12 +243,15 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           });
           requestAnimationFrame(() => {
             setDataReady(true);
-            setIsLoading(false);
+            setGotLoaded(true);
+            // setIsLoading(false);
+            // setIsLoading(false);
           });
         } catch (error) {
           console.error("Failed to fetch data:", error);
           // Handle the error accordingly
-          setIsLoading(false); // Ensure loading icon is hidden in case of error
+          // setIsLoading(false); // Ensure loading icon is hidden in case of error
+          setGotLoaded(false);
         }
       }
     };
@@ -255,23 +261,23 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
   if (!dataset) return null;
 
-  if (!dataset && isLoading) {
-    // if (true) {
-    return (
-      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <CircularProgress />
-        </div>
-      </div>
-    );
-  }
+  // if (!dataset && isLoading) {
+  // if (true) {
+  //   return (
+  //     <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+  //       <div
+  //         style={{
+  //           position: "absolute",
+  //           top: "50%",
+  //           left: "50%",
+  //           transform: "translate(-50%, -50%)",
+  //         }}
+  //       >
+  //         <CircularProgress />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     // <div id="dispnetgra" className={showContents ? "show-contents" : ""}>
@@ -498,6 +504,16 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                   )}
                 </div>
               </div>
+              {/* <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <CircularProgress />
+              </div> */}
             </>
           )}
         </>
