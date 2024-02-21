@@ -166,8 +166,8 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
-      console.log("GOTchatInput", chatInputForGOT);
+      // console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
+      // console.log("GOTchatInput", chatInputForGOT);
 
       if (readyToDisplayGOT) {
         setIsLoading(true); // loading icon show
