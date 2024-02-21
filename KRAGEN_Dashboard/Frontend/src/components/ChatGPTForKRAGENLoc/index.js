@@ -47,7 +47,7 @@ export default function ChatGPT({ experiment }) {
   const [numChatBox, setNumChatBox] = useState(0);
 
   // this is the index of the current chattab where user is typing
-  const [chatCurrentTempId, setChatCurrentTempId] = useState(1);
+  const [chatCurrentTempId, setChatCurrentTempId] = useState(0);
 
   // loadLocalChatModel is boolean value that indicates whether the local chat model should be loaded
   // const [loadLocalChatModel, setLoadLocalChatModel] = useState(true);
@@ -69,12 +69,17 @@ export default function ChatGPT({ experiment }) {
 
       let lengthofChatIDs = savedChatIDs_list.length;
 
+      console.log("firstlengthofChatIDs", lengthofChatIDs);
+
       // at least one chat box exists
-      if (lengthofChatIDs !== 1) {
+      // if (lengthofChatIDs !== 1) {
+      if (lengthofChatIDs !== 0) {
+        console.log("lengthofChatIDs !== 1");
         last_chatTapID_in_the_list = savedChatIDs_list[lengthofChatIDs - 1];
       }
       // there is no chat box
       else {
+        console.log("lengthofChatIDs === 0");
         last_chatTapID_in_the_list = 1;
         lengthofChatIDs = 1;
         console.log("createChatID");
@@ -105,14 +110,21 @@ export default function ChatGPT({ experiment }) {
       // let chatid_list = await savedChatIDs();
 
       // if chatCurrentTempId is not undefined,
-      console.log("lengthofChatIDs", chatCurrentTempId);
+      console.log("secondlengthofChatIDs", chatCurrentTempId);
+      let savechatids = await savedChatIDs();
       // if chatCurrentTempId is undefined,
-      // if (chatCurrentTempId === "") {
-      //   console.log("chatCurrentTempId is undefined");
-      //   chatCurrentTempId = last_chatTapID_in_the_list;
-      // }
+      if (savechatids.length === 1) {
+        // update chat title by chat id and chat input
+
+        console.log("savechatids", savechatids);
+        // await updateChatTitleByChatId(1, "chatbox");
+        await updateChatTitleByChatId(savechatids[0], "chatbox");
+        await setTapTitlesFunc();
+        //
+      }
       // if (chatCurrentTempId !== "") {
-      if (lengthofChatIDs !== 0) {
+      // if (lengthofChatIDs !== 0) {
+      if (lengthofChatIDs !== 1) {
         let data = await getChatMessageByExperimentId(
           // savedChatIDs_list[chatCurrentTempId - 1]
           savedChatIDs_list[lengthofChatIDs - 1]
@@ -126,7 +138,7 @@ export default function ChatGPT({ experiment }) {
         const thirdFromLastChatlog =
           data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
-        console.log("thirdFromLastChatlog", thirdFromLastChatlog);
+        // console.log("thirdFromLastChatlog", thirdFromLastChatlog);
         // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
         if (thirdFromLastChatlog === null) {
           setReadyToDisplayGOT(false);
@@ -150,9 +162,9 @@ export default function ChatGPT({ experiment }) {
         }
       }
     };
-
     fetchData();
   }, [window.location.href]);
+  // }, [window.location.href]);
 
   const [chatInput, setChatInput] = useState("");
   // By using let preSet,

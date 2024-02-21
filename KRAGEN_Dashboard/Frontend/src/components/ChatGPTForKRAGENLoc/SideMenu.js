@@ -1000,15 +1000,38 @@ export default function SideMenu() {
                       // checking got data in the chatbox
                       let chatid_list = await savedChatIDs();
 
+                      // console.log("length-chatid_list", chatid_list.length);
+
                       let data = "";
                       // currently the number of taps are larger than 2
-                      if (tempChatCurrentTempId >= 2) {
-                        data = await getChatMessageByExperimentId(
-                          chatid_list[tempChatCurrentTempId - 2]
-                          // chatCurrentTempId
-                        );
-                        // tempChatCurrentTempId - 2 is the chatCurrentTempId
-                        setChatCurrentTempId(tempChatCurrentTempId - 2);
+                      console.log(
+                        "tempChatCurrentTempId",
+                        tempChatCurrentTempId
+                      );
+
+                      // tempChatCurrentTempId is currently clicked chatboxtap
+                      // if (tempChatCurrentTempId >= 2) {
+                      // if chatid_list.length >=3, which means that the current number of chatbox is 2
+                      if (chatid_list.length >= 3) {
+                        // if tempChatCurrentTempId >=2
+                        if (tempChatCurrentTempId >= 2) {
+                          data = await getChatMessageByExperimentId(
+                            chatid_list[tempChatCurrentTempId - 2]
+                            // chatCurrentTempId
+                          );
+
+                          // tempChatCurrentTempId - 2 is the chatCurrentTempId
+                          setChatCurrentTempId(tempChatCurrentTempId - 2);
+                        }
+                        // else if tempChatCurrentTempId ===1
+                        else if (tempChatCurrentTempId === 1) {
+                          data = await getChatMessageByExperimentId(
+                            chatid_list[tempChatCurrentTempId - 1]
+                            // chatCurrentTempId
+                          );
+                          // tempChatCurrentTempId - 2 is the chatCurrentTempId
+                          setChatCurrentTempId(1);
+                        }
 
                         // find the third in chatlogs in data
 
@@ -1028,8 +1051,11 @@ export default function SideMenu() {
                           thirdFromLastChatlog
                         );
 
+                        console.log("length-chatid_list", chatid_list.length);
+
                         // if thirdFromLastChatlog is null, which means that it does not have the GOT json in the chatlogs, then readyToDisplayGOT is false
                         if (thirdFromLastChatlog === null) {
+                          console.log("notshowGOT");
                           setReadyToDisplayGOT(false);
                           const textarea =
                             document.getElementById("chatSubmitFormID");
@@ -1044,6 +1070,7 @@ export default function SideMenu() {
                           // make submitbutton diplsay block
                           submitbutton.style.display = "block";
                         } else {
+                          console.log("showGOT");
                           setReadyToDisplayGOT(true);
 
                           // Get the element by its ID
@@ -1062,7 +1089,7 @@ export default function SideMenu() {
                       }
                       // currently the number of taps are 1
                       else {
-                        setReadyToDisplayGOT(false);
+                        // setReadyToDisplayGOT(false);
                         const textarea =
                           document.getElementById("chatSubmitFormID");
                         // Make the textarea editable
