@@ -258,33 +258,10 @@ def got():
         # print(operation_serialized["thoughts"][0]["prompt"])
         if index == operation_size-1:
             answer = operation_serialized["thoughts"][0]["current"]
-        if any([thought.scored for thought in operation.get_thoughts()]):
-            operation_serialized["scored"] = [
-                thought.scored for thought in operation.get_thoughts()
-            ]
-            operation_serialized["scores"] = [
-                thought.score for thought in operation.get_thoughts()
-            ]
-        if any([thought.validated for thought in operation.get_thoughts()]):
-            operation_serialized["validated"] = [
-                thought.validated for thought in operation.get_thoughts()
-            ]
-            operation_serialized["validity"] = [
-                thought.valid for thought in operation.get_thoughts()
-            ]
-        if any(
-            [
-                thought.compared_to_ground_truth
-                for thought in operation.get_thoughts()
-            ]
-        ):
-            operation_serialized["compared_to_ground_truth"] = [
-                thought.compared_to_ground_truth
-                for thought in operation.get_thoughts()
-            ]
-            operation_serialized["problem_solved"] = [
-                thought.solved for thought in operation.get_thoughts()
-            ]
+        #join knowledge array into string
+        if "knowledge" in operation_serialized["thoughts"][0]:
+            operation_serialized["thoughts"][0]["knowledge"] = "\n".join(operation_serialized["thoughts"][0]["knowledge"])
+        operation_serialized["thoughts"][0]
         output.append(operation_serialized)
         index = index + 1
         operation = operation.successors[0]
