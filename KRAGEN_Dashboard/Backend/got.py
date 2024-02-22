@@ -182,7 +182,6 @@ If you detect two specific keywords in the query, you can use both of them in a 
     cot_single_focus_filter_knowledge_prompt = """<Instruction>You are an AI knowledge simplifier with access to a knowledge graph. You will be given a potential relationship within the <Statement> tags and also a loosely relevant set of knowledge within the <Knowledge> tags.
 You should assume the <Statement> is false until proven true by an explicit connection provided by <Knowledge>.
 Disregard any extraneous details or information not directly supporting the specified relationship.
-If there is no knowledge that shows direct knowledge that explains the relationship, indicate that the <Statement> is not supported by the list of knowledge.
 There may be single differences in numbers and letters.
 For example, the gene "APOE" is not the same as gene "APOE1". Another example is the gene "IQCK" is not the same as gene "IQCG".
 You will need to be careful of specific biological terms. For example, the term "amino" is different from the term "amine".
@@ -243,7 +242,6 @@ Respond within the <Output> tags.
     cot_double_focus_filter_knowledge_prompt = """<Instruction>You are an AI knowledge simplifier with access to a knowledge graph. You will be given a potential relationship within the <Statement> tags and also a loosely relevant set of knowledge within the <Knowledge> tags.
 You should assume the <Statement> is false until proven true by an explicit connection provided by <Knowledge>.
 Disregard any extraneous details or information not directly supporting the specified relationship.
-If there is no knowledge that shows direct knowledge that explains the relationship, indicate that the <Statement> is not supported by the list of knowledge.
 There may be single differences in numbers and letters.
 For example, the gene "APOE" is not the same as gene "APOE1". Another example is the gene "IQCK" is not the same as gene "IQCG".
 You will need to be careful of specific biological terms. For example, the term "amino" is different from the term "amine".

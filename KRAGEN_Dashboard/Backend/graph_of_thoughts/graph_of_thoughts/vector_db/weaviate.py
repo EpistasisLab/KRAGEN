@@ -90,7 +90,7 @@ class WeaviateClient:
             .get(self.db, properties))
             .with_hybrid(query = near_text, vector = near_vector, alpha = 0.25)
             # .with_limit(limit)
-            .with_autocut(autocut)
+            # .with_autocut(autocut)
             .with_additional(additional)
             .do()
         )
@@ -102,7 +102,7 @@ class WeaviateClient:
             .do()))
         
     
-    def get_knowledge(self,embedded_question, max_tokens=4000, max_distance = 0.3, min_score = 0.0015, keyword_filter=''):
+    def get_knowledge(self,embedded_question, max_tokens=4000, max_distance = 0.3, min_score = 0.001, keyword_filter=''):
         if keyword_filter != '':
             knowledge_array = self.query_with_hybrid(near_vector=embedded_question, near_text=keyword_filter, additional=["score"])
         else:
