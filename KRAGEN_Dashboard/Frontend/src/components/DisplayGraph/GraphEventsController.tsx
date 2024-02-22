@@ -55,7 +55,7 @@ const GraphEventsController: FC<{
             // please show this json in to console
             let nodeThoughts = JSON.stringify(nodeName, null, 2);
             // alert("Node thoughts: " + nodeName);
-            console.log("Node thoughts: " + nodeThoughts);
+            // console.log("Node thoughts: " + nodeThoughts);
             setDescriptionForClickedNode(nodeThoughts);
           } else {
             // Open the node's URL in a new tab

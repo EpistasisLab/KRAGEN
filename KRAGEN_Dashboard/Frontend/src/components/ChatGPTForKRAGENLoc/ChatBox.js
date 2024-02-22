@@ -17,6 +17,9 @@ const ChatBox = () => {
     readyToDisplayGOT,
     chatInputForGOT,
     chatCurrentTempId,
+    gotLoaded,
+    setGotLoaded,
+    GOTJSON,
   } = useContext(AllContext);
 
   const [hasZip, setHasZip] = useState(false);
@@ -29,6 +32,9 @@ const ChatBox = () => {
 
   // boolean for token usage limit
   const [booleanTokenUsageLimit, setBooleanTokenUsageLimit] = useState(false);
+
+  // // gotloaded
+  // const [gotLoaded, setGotLoaded] = useState(false);
 
   useEffect(() => {
     console.log("readyToDisplayGOT", readyToDisplayGOT);
@@ -186,15 +192,39 @@ const ChatBox = () => {
           </div>
         </div>
 
-        {/* {readyToDisplayGOT && ( */}
+        {/* {gotLoaded === true && (
+          <div id="dispnetgra" className="show-contents">
+            <DisplayGraph
+              chatInputForGOT={chatInputForGOT}
+              readyToDisplayGOT={readyToDisplayGOT}
+              chatCurrentTempId={chatCurrentTempId}
+              setGotLoaded={setGotLoaded}
+            />
+          </div>
+        )} */}
         <div id="dispnetgra" className="show-contents">
           <DisplayGraph
             chatInputForGOT={chatInputForGOT}
             readyToDisplayGOT={readyToDisplayGOT}
             chatCurrentTempId={chatCurrentTempId}
+            setGotLoaded={setGotLoaded}
+            GOTJSON={GOTJSON}
+            // descGOTREQ={descGOTREQ}
           />
         </div>
-        {/* )} */}
+        {/* {!gotLoaded && chatInputForGOT && ( */}
+        {gotLoaded === false && (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <CircularProgress />
+          </div>
+        )}
       </section>
     </>
   );
