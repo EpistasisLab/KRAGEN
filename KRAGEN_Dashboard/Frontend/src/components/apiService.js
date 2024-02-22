@@ -601,7 +601,7 @@ async function getSpecificChatTitlebyChatId(current_chatTapID) {
   )
     .then((res) => res.json())
     .then((data) => {
-      console.log("data--getSpecificChatbyChatId", data);
+      // console.log("data--getSpecificChatbyChatId", data);
       return data;
     })
     .catch((err) => {
@@ -627,7 +627,7 @@ async function updateChatTitleByChatId(chatId, newTitle) {
   )
     .then((res) => res.json())
     .then((data) => {
-      console.log("data--updateChatTitleByChatId", data);
+      // console.log("data--updateChatTitleByChatId", data);
       return data;
     })
     .catch((err) => {

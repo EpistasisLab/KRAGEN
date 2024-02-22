@@ -48,15 +48,16 @@ export default function SideMenu() {
     createChatID,
     setReadyToDisplayGOT,
     chatInput,
+    gotLoaded,
+    setGotLoaded,
+    setGOTJSON,
+    // setDescGOTREQ,
   } = useContext(AllContext);
 
   const [chatids, setChatids] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("good-sidemenu-useEffect-fetchData");
-      console.log("numChatBox in SideMenu", numChatBox);
-
       checkNumChatBox();
       setBoldUnderlineAndInitTraIc();
       setCurrentExpId(numChatBox);
@@ -348,7 +349,7 @@ export default function SideMenu() {
   function changeTrashToCheck(node, reverse) {
     // if node.innerHTML is not empty, then below works
     if (node && typeof node.innerHTML !== "undefined") {
-      console.log("node.innerHTML", node.innerHTML);
+      // console.log("node.innerHTML", node.innerHTML);
       if (reverse === true) {
         node.innerHTML = `
 <svg width="22" height="18" xmlns="http://www.w3.org/2000/svg">
@@ -372,7 +373,7 @@ export default function SideMenu() {
   }
 
   function changePenToCheck(node, reverse) {
-    console.log("Pennode", node);
+    // console.log("Pennode", node);
     if (reverse === true) {
       node.innerHTML = "🖋";
       // node.innerHTML = "";
@@ -518,7 +519,7 @@ export default function SideMenu() {
 
       // Trash emoji for each chatboxtap
       for (let i = 0; i < sidemenu.length; i++) {
-        console.log("sidemenu[i].childNodes", sidemenu[i].childNodes);
+        // console.log("sidemenu[i].childNodes", sidemenu[i].childNodes);
         // trash emoji
         sidemenu[i].childNodes[1].style.display = "none";
         // pen emoji
@@ -765,6 +766,9 @@ export default function SideMenu() {
           className="side-menu-buttonForGOT"
           id="newchatbuttonForGOT"
           onClick={async (e) => {
+            setGotLoaded("");
+            setGOTJSON("");
+
             let tempChatCurrentTempId = await checkClickedChatboxTab(e);
 
             setNumChatBox((numChatBox) => numChatBox + 1);
@@ -846,6 +850,7 @@ export default function SideMenu() {
                   // find the third in chatlogs in data
 
                   console.log("dataInSideMenu", data);
+                  console.log("data.chatlogs.length", data.chatlogs.length);
 
                   // Calculate the index for the third-to-last item
                   const index = data.chatlogs.length - 3;
@@ -875,7 +880,26 @@ export default function SideMenu() {
                     // make submitbutton diplsay block
                     submitbutton.style.display = "block";
                   } else {
+                    // show message in thirdFromLastChatlog
+                    console.log(
+                      "thirdFromLastChatlog.message",
+                      thirdFromLastChatlog.message
+                    );
+                    // convert thirdFromLastChatlog.message to json
+                    let thirdFromLastChatlogMessage = JSON.parse(
+                      thirdFromLastChatlog.message
+                    );
+
+                    console.log(
+                      "thirdFromLastChatlogMessage",
+                      thirdFromLastChatlogMessage
+                    );
+
+                    setGOTJSON(thirdFromLastChatlogMessage);
+
                     setReadyToDisplayGOT(true);
+
+                    // setDescGOTREQ(true);
 
                     // Get the element by its ID
                     const textarea =
@@ -985,6 +1009,162 @@ export default function SideMenu() {
                   }}
                   onClick={async (e) => {
                     // Here!!!
+                    // try {
+                    //   // change e.target to e.target.parentNode.childNodes[0]
+
+                    //   const firstChildOfParent =
+                    //     e.target.parentNode.childNodes[0];
+
+                    //   // then use firstChildOfParent instead of e.target for further operations
+                    //   let tempChatCurrentTempId = await checkClickedChatboxTab({
+                    //     ...e, // 기존 이벤트 객체의 나머지 부분을 전파합니다.
+                    //     target: firstChildOfParent, // target을 firstChildOfParent로 변경합니다.
+                    //   });
+
+                    //   // checking got data in the chatbox
+                    //   let chatid_list = await savedChatIDs();
+
+                    //   // console.log("length-chatid_list", chatid_list.length);
+
+                    //   let data = "";
+                    //   // currently the number of taps are larger than 2
+                    //   console.log("7373-=============Next=================");
+                    //   console.log(
+                    //     "7373-tempChatCurrentTempId",
+                    //     tempChatCurrentTempId
+                    //   );
+
+                    //   // tempChatCurrentTempId is currently clicked chatboxtap
+                    //   // if (tempChatCurrentTempId >= 2) {
+                    //   // if chatid_list.length ===3, which means that the current number of chatbox is 2
+                    //   if (chatid_list.length >= 2) {
+                    //     console.log("7373-chatid_list.length >= 2");
+                    //     console.log("7373-chatid_list", chatid_list);
+                    //     // if tempChatCurrentTempId >=2
+                    //     if (tempChatCurrentTempId >= 2) {
+                    //       console.log("7373-tempChatCurrentTempId >= 2");
+                    //       data = await getChatMessageByExperimentId(
+                    //         // chatid_list[tempChatCurrentTempId - 2]
+                    //         chatid_list[chatid_list.length - 2]
+                    //         // chatCurrentTempId
+                    //       );
+                    //     }
+                    //     // else if tempChatCurrentTempId ===1
+                    //     else if (tempChatCurrentTempId === 1) {
+                    //       console.log("7373-tempChatCurrentTempId === 1");
+                    //       data = await getChatMessageByExperimentId(
+                    //         // chatid_list[tempChatCurrentTempId - 1]
+                    //         chatid_list[chatid_list.length - 2]
+                    //         // chatCurrentTempId
+                    //       );
+                    //       // tempChatCurrentTempId - 2 is the chatCurrentTempId
+                    //       // setChatCurrentTempId(1);
+                    //     }
+
+                    //     // data = await getChatMessageByExperimentId(
+                    //     //   chatid_list[tempChatCurrentTempId - 2]
+                    //     //   // chatCurrentTempId
+                    //     // );
+
+                    //     console.log("dataInSideMenu", data);
+
+                    //     console.log("chatid_list.length", chatid_list.length);
+                    //     // console.log()
+                    //     console.log(
+                    //       "7575-chatid_list.length-1",
+                    //       chatid_list.length - 1
+                    //     );
+                    //     console.log(
+                    //       "7575-chatid_list.length-2",
+                    //       chatid_list.length - 2
+                    //     );
+
+                    //     setChatCurrentTempId(chatid_list.length - 1);
+
+                    //     // find the third in chatlogs in data
+
+                    //     console.log("removeCorChat-dataInSideMenu", data);
+
+                    //     // Calculate the index for the third-to-last item
+                    //     const index = data.chatlogs.length - 3;
+
+                    //     // Accessing the third-to-last chatlog entry, if the array is long enough ,which means it has the json file for GOT in the chatlog
+                    //     const thirdFromLastChatlog =
+                    //       data.chatlogs.length > 2
+                    //         ? data.chatlogs[index]
+                    //         : null;
+
+                    //     console.log(
+                    //       "removeCorChat-thirdFromLastChatlogInSideMenu",
+                    //       thirdFromLastChatlog
+                    //     );
+
+                    //     console.log("length-chatid_list", chatid_list.length);
+
+                    //     // if thirdFromLastChatlog is null, which means that it does not have the GOT json in the chatlogs, then readyToDisplayGOT is false
+                    //     if (thirdFromLastChatlog === null) {
+                    //       console.log("7373-thirdFromLastChatlog === null");
+                    //       console.log("notshowGOT");
+                    //       setReadyToDisplayGOT(false);
+                    //       const textarea =
+                    //         document.getElementById("chatSubmitFormID");
+                    //       // Make the textarea editable
+                    //       textarea.readOnly = false;
+
+                    //       // Make the textarea visible
+                    //       textarea.style.opacity = 1;
+
+                    //       const submitbutton =
+                    //         document.getElementById("chatsubmitbutton");
+                    //       // make submitbutton diplsay block
+                    //       submitbutton.style.display = "block";
+                    //     } else {
+                    //       console.log("7373-thirdFromLastChatlog !== null");
+                    //       console.log("showGOT");
+                    //       setReadyToDisplayGOT(true);
+
+                    //       // Get the element by its ID
+                    //       const textarea =
+                    //         document.getElementById("chatSubmitFormID");
+
+                    //       // Make the textarea read-only
+                    //       textarea.readOnly = true;
+
+                    //       // Make the textarea invisible but still occupy space
+                    //       textarea.style.opacity = 0;
+                    //     }
+
+                    //     console.log("removeCorChat");
+                    //     removeCorChat(e);
+                    //   }
+                    //   // currently the number of taps are 1
+                    //   else {
+                    //     console.log("7373-chatid_list.length === 1");
+                    //     console.log("num_chatbox is 1");
+                    //     // setReadyToDisplayGOT(false);
+                    //     const textarea =
+                    //       document.getElementById("chatSubmitFormID");
+                    //     // Make the textarea editable
+                    //     textarea.readOnly = false;
+
+                    //     // Make the textarea visible
+                    //     textarea.style.opacity = 1;
+
+                    //     const submitbutton =
+                    //       document.getElementById("chatsubmitbutton");
+                    //     // make submitbutton diplsay block
+                    //     submitbutton.style.display = "block";
+
+                    //     setChatCurrentTempId(1);
+                    //     setReadyToDisplayGOT(false);
+
+                    //     console.log("removeCorChat");
+                    //     await removeCorChat(e);
+                    //   }
+                    // } catch (error) {
+                    //   // // console.log("error",error)
+                    //   console.log("error-removeCorChat", error);
+                    // }
                     try {
                       // change e.target to e.target.parentNode.childNodes[0]
 
@@ -997,99 +1177,52 @@ export default function SideMenu() {
                         target: firstChildOfParent, // target을 firstChildOfParent로 변경합니다.
                       });
 
-                      // checking got data in the chatbox
                       let chatid_list = await savedChatIDs();
 
-                      // console.log("length-chatid_list", chatid_list.length);
+                      console.log("55555-before-chatid_list", chatid_list);
+
+                      await removeCorChat(e);
+
+                      // checking got data in the chatbox
+
+                      chatid_list = await savedChatIDs();
+
+                      console.log("55555-after-chatid_list", chatid_list);
 
                       let data = "";
                       // currently the number of taps are larger than 2
+                      console.log("7373-=============Next=================");
                       console.log(
-                        "tempChatCurrentTempId",
+                        "7373-tempChatCurrentTempId",
                         tempChatCurrentTempId
                       );
 
-                      // tempChatCurrentTempId is currently clicked chatboxtap
-                      // if (tempChatCurrentTempId >= 2) {
-                      // if chatid_list.length >=3, which means that the current number of chatbox is 2
-                      if (chatid_list.length >= 3) {
-                        // if tempChatCurrentTempId >=2
-                        if (tempChatCurrentTempId >= 2) {
-                          data = await getChatMessageByExperimentId(
-                            chatid_list[tempChatCurrentTempId - 2]
-                            // chatCurrentTempId
-                          );
+                      data = await getChatMessageByExperimentId(
+                        // chatid_list[tempChatCurrentTempId - 2]
+                        chatid_list[chatid_list.length - 1]
+                        // chatCurrentTempId
+                      );
 
-                          // tempChatCurrentTempId - 2 is the chatCurrentTempId
-                          setChatCurrentTempId(tempChatCurrentTempId - 2);
-                        }
-                        // else if tempChatCurrentTempId ===1
-                        else if (tempChatCurrentTempId === 1) {
-                          data = await getChatMessageByExperimentId(
-                            chatid_list[tempChatCurrentTempId - 1]
-                            // chatCurrentTempId
-                          );
-                          // tempChatCurrentTempId - 2 is the chatCurrentTempId
-                          setChatCurrentTempId(1);
-                        }
+                      setChatCurrentTempId(chatid_list.length);
 
-                        // find the third in chatlogs in data
+                      const index = data.chatlogs.length - 3;
 
-                        console.log("removeCorChat-dataInSideMenu", data);
+                      // Accessing the third-to-last chatlog entry, if the array is long enough ,which means it has the json file for GOT in the chatlog
+                      const thirdFromLastChatlog =
+                        data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
-                        // Calculate the index for the third-to-last item
-                        const index = data.chatlogs.length - 3;
+                      console.log(
+                        "removeCorChat-thirdFromLastChatlogInSideMenu",
+                        thirdFromLastChatlog
+                      );
 
-                        // Accessing the third-to-last chatlog entry, if the array is long enough ,which means it has the json file for GOT in the chatlog
-                        const thirdFromLastChatlog =
-                          data.chatlogs.length > 2
-                            ? data.chatlogs[index]
-                            : null;
+                      console.log("length-chatid_list", chatid_list.length);
 
-                        console.log(
-                          "removeCorChat-thirdFromLastChatlogInSideMenu",
-                          thirdFromLastChatlog
-                        );
-
-                        console.log("length-chatid_list", chatid_list.length);
-
-                        // if thirdFromLastChatlog is null, which means that it does not have the GOT json in the chatlogs, then readyToDisplayGOT is false
-                        if (thirdFromLastChatlog === null) {
-                          console.log("notshowGOT");
-                          setReadyToDisplayGOT(false);
-                          const textarea =
-                            document.getElementById("chatSubmitFormID");
-                          // Make the textarea editable
-                          textarea.readOnly = false;
-
-                          // Make the textarea visible
-                          textarea.style.opacity = 1;
-
-                          const submitbutton =
-                            document.getElementById("chatsubmitbutton");
-                          // make submitbutton diplsay block
-                          submitbutton.style.display = "block";
-                        } else {
-                          console.log("showGOT");
-                          setReadyToDisplayGOT(true);
-
-                          // Get the element by its ID
-                          const textarea =
-                            document.getElementById("chatSubmitFormID");
-
-                          // Make the textarea read-only
-                          textarea.readOnly = true;
-
-                          // Make the textarea invisible but still occupy space
-                          textarea.style.opacity = 0;
-                        }
-
-                        console.log("removeCorChat");
-                        removeCorChat(e);
-                      }
-                      // currently the number of taps are 1
-                      else {
-                        // setReadyToDisplayGOT(false);
+                      // if thirdFromLastChatlog is null, which means that it does not have the GOT json in the chatlogs, then readyToDisplayGOT is false
+                      if (thirdFromLastChatlog === null) {
+                        console.log("7373-thirdFromLastChatlog === null");
+                        console.log("notshowGOT");
+                        setReadyToDisplayGOT(false);
                         const textarea =
                           document.getElementById("chatSubmitFormID");
                         // Make the textarea editable
@@ -1102,9 +1235,20 @@ export default function SideMenu() {
                           document.getElementById("chatsubmitbutton");
                         // make submitbutton diplsay block
                         submitbutton.style.display = "block";
+                      } else {
+                        console.log("7373-thirdFromLastChatlog !== null");
+                        console.log("showGOT");
+                        setReadyToDisplayGOT(true);
 
-                        console.log("removeCorChat");
-                        await removeCorChat(e);
+                        // Get the element by its ID
+                        const textarea =
+                          document.getElementById("chatSubmitFormID");
+
+                        // Make the textarea read-only
+                        textarea.readOnly = true;
+
+                        // Make the textarea invisible but still occupy space
+                        textarea.style.opacity = 0;
                       }
                     } catch (error) {
                       // // console.log("error",error)

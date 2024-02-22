@@ -3,8 +3,15 @@ import { BsInfoCircle } from "react-icons/bs";
 
 import Panel from "./Panel";
 
-const DescriptionPanel: FC<{ descriptionForClickedNode?: string }> = ({
+const DescriptionPanel: FC<{
+  descriptionForClickedNode?: string;
+  setDescriptionForClickedNode: (description: string) => void;
+  chatCurrentTempId?: any;
+  // descGOTREQ?: boolean;
+}> = ({
   descriptionForClickedNode,
+  setDescriptionForClickedNode,
+  chatCurrentTempId,
 }) => {
   // FC<{ descriptionForClickedNode?: string }> = ({ descriptionForClickedNode }) => {
 
@@ -20,6 +27,7 @@ const DescriptionPanel: FC<{ descriptionForClickedNode?: string }> = ({
   const [parsedData, setParsedData] = useState(null);
 
   useEffect(() => {
+    console.log("disp-chatCurrentTempId", chatCurrentTempId);
     if (descriptionForClickedNode) {
       console.log("descriptionForClickedNode", descriptionForClickedNode);
       try {
@@ -38,12 +46,17 @@ const DescriptionPanel: FC<{ descriptionForClickedNode?: string }> = ({
         // setParsedData(data[0]);
         // setParsedData(data);
       } catch (e) {
-        // JSON 파싱 중 발생하는 에러 처리
-        console.error("JSON 파싱 에러", e);
+        // error handling that occurs during JSON parsing
+        console.error("Error parsing JSON", e);
         setParsedData(null);
       }
     }
   }, [descriptionForClickedNode]); // descriptionForClickedNode가 변경될 때마다 실행
+
+  // RESET DESCRIPTION WHEN CLICKED CHATTAB CHANGES
+  useEffect(() => {
+    setParsedData(null);
+  }, [chatCurrentTempId]);
 
   return (
     <Panel

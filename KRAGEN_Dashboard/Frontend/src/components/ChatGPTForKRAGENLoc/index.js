@@ -53,9 +53,6 @@ export default function ChatGPT({ experiment }) {
   // const [loadLocalChatModel, setLoadLocalChatModel] = useState(true);
   const [loadLocalChatModel, setLoadLocalChatModel] = useState(false);
 
-  // ready to show disply GOT or not
-  const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
-
   let apiUrl = process.env.REACT_APP_API_URL;
   let apiPort = process.env.REACT_APP_API_PORT;
 
@@ -63,13 +60,9 @@ export default function ChatGPT({ experiment }) {
     const fetchData = async () => {
       let savedChatIDs_list = await savedChatIDs();
 
-      console.log("savedChatIDs_list", savedChatIDs_list);
-
       let last_chatTapID_in_the_list = 0;
 
       let lengthofChatIDs = savedChatIDs_list.length;
-
-      console.log("firstlengthofChatIDs", lengthofChatIDs);
 
       // at least one chat box exists
       // if (lengthofChatIDs !== 1) {
@@ -110,57 +103,64 @@ export default function ChatGPT({ experiment }) {
       // let chatid_list = await savedChatIDs();
 
       // if chatCurrentTempId is not undefined,
-      console.log("secondlengthofChatIDs", chatCurrentTempId);
+      // console.log("secondlengthofChatIDs", chatCurrentTempId);
       let savechatids = await savedChatIDs();
+
+      // console.log("999-savechatids", savechatids);
+      // console.log("999-savedChatIDs_list", savedChatIDs_list);
+
       // if chatCurrentTempId is undefined,
       if (savechatids.length === 1) {
         // update chat title by chat id and chat input
 
-        console.log("savechatids", savechatids);
-        // await updateChatTitleByChatId(1, "chatbox");
-        await updateChatTitleByChatId(savechatids[0], "chatbox");
+        // check whether the title exists or not using chatid
+        let temptitle = await getSpecificChatTitlebyChatId(savechatids[0]);
+
+        console.log("temptitle", temptitle);
+
+        await updateChatTitleByChatId(savechatids[0], temptitle);
         await setTapTitlesFunc();
-        //
       }
       // if (chatCurrentTempId !== "") {
       // if (lengthofChatIDs !== 0) {
-      if (lengthofChatIDs !== 1) {
-        let data = await getChatMessageByExperimentId(
-          // savedChatIDs_list[chatCurrentTempId - 1]
-          savedChatIDs_list[lengthofChatIDs - 1]
-          // chatCurrentTempId
-        );
+      // if (lengthofChatIDs !== 1) {
+      let data = await getChatMessageByExperimentId(
+        // savedChatIDs_list[chatCurrentTempId - 1]
+        // savedChatIDs_list[lengthofChatIDs - 1]
+        savechatids[savechatids.length - 1]
+        // chatCurrentTempId
+      );
 
-        // Calculate the index for the third-to-last item
-        const index = data.chatlogs.length - 3;
+      // Calculate the index for the third-to-last item
+      const index = data.chatlogs.length - 3;
 
-        // Accessing the third-to-last chatlog entry, if the array is long enough
-        const thirdFromLastChatlog =
-          data.chatlogs.length > 2 ? data.chatlogs[index] : null;
+      // Accessing the third-to-last chatlog entry, if the array is long enough
+      const thirdFromLastChatlog =
+        data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
-        // console.log("thirdFromLastChatlog", thirdFromLastChatlog);
-        // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
-        if (thirdFromLastChatlog === null) {
-          setReadyToDisplayGOT(false);
-          const textarea = document.getElementById("chatSubmitFormID");
-          // Make the textarea editable
-          textarea.readOnly = false;
+      // console.log("thirdFromLastChatlog", thirdFromLastChatlog);
+      // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
+      if (thirdFromLastChatlog === null) {
+        setReadyToDisplayGOT(false);
+        const textarea = document.getElementById("chatSubmitFormID");
+        // Make the textarea editable
+        textarea.readOnly = false;
 
-          // Make the textarea visible
-          textarea.style.opacity = 1;
-        } else {
-          setReadyToDisplayGOT(true);
+        // Make the textarea visible
+        textarea.style.opacity = 1;
+      } else {
+        setReadyToDisplayGOT(true);
 
-          // Get the element by its ID
-          const textarea = document.getElementById("chatSubmitFormID");
+        // Get the element by its ID
+        const textarea = document.getElementById("chatSubmitFormID");
 
-          // Make the textarea read-only
-          textarea.readOnly = true;
+        // Make the textarea read-only
+        textarea.readOnly = true;
 
-          // Make the textarea invisible but still occupy space
-          textarea.style.opacity = 0;
-        }
+        // Make the textarea invisible but still occupy space
+        textarea.style.opacity = 0;
       }
+      // }
     };
     fetchData();
   }, [window.location.href]);
@@ -247,6 +247,18 @@ export default function ChatGPT({ experiment }) {
 
   // setChatInputForGOT
   const [chatInputForGOT, setChatInputForGOT] = useState("");
+
+  // ready to show disply GOT or not
+  const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
+
+  // gotloaded
+  const [gotLoaded, setGotLoaded] = useState("");
+
+  //GOTJSON
+  const [GOTJSON, setGOTJSON] = useState("");
+
+  // set descGOTREQ
+  // const [descGOTREQ, setDescGOTREQ] = useState(false);
 
   // booleanCode for checking if the messageFromOpenai contains python code
   // const [booleanCode, setBooleanCode] = useState(false);
@@ -581,7 +593,7 @@ export default function ChatGPT({ experiment }) {
 
     let chatid_list = await savedChatIDs();
 
-    console.log("setTapTitlesFunc-chatid_list", chatid_list);
+    // console.log("setTapTitlesFunc-chatid_list", chatid_list);
 
     // chatid_list = [0];
     let index = 0;
@@ -590,13 +602,13 @@ export default function ChatGPT({ experiment }) {
         // let data = await getSpecificChatbyChatId(chatid);
         let data = await getSpecificChatTitlebyChatId(chatid);
         index++;
-        console.log("setTapTitlesFunc-data", data);
+        // console.log("setTapTitlesFunc-data", data);
 
         return data["title"];
       })
     );
 
-    console.log("tempTapTitles", tempTapTitles);
+    // console.log("tempTapTitles", tempTapTitles);
 
     setTapTitles({ ...tapTitles, taptitles: tempTapTitles });
   }
@@ -657,6 +669,9 @@ export default function ChatGPT({ experiment }) {
           createChatID,
           setReadyToDisplayGOT,
           chatInput,
+          gotLoaded,
+          setGotLoaded,
+          setGOTJSON,
         }}
       >
         <SideMenu />
@@ -670,6 +685,9 @@ export default function ChatGPT({ experiment }) {
           readyToDisplayGOT,
           chatInputForGOT,
           chatCurrentTempId,
+          gotLoaded,
+          setGotLoaded,
+          GOTJSON,
         }}
       >
         <ChatBox />
