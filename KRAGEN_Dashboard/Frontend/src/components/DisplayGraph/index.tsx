@@ -64,6 +64,8 @@ interface DisplayGraphProps {
   chatInputForGOT: string;
   chatCurrentTempId: string;
   setGotLoaded: (value: boolean) => void;
+  GOTJSON: any;
+  descGOTREQ: boolean;
   // setReadyToDisplayGOT: (value: boolean) => void;
 }
 
@@ -72,6 +74,9 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   chatInputForGOT,
   chatCurrentTempId,
   setGotLoaded,
+  GOTJSON,
+
+  // descGOTREQ,
   // setReadyToDisplayGOT,
 }) => {
   const [showContents, setShowContents] = useState(false);
@@ -171,7 +176,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       // console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
       // console.log("GOTchatInput", chatInputForGOT);
 
-      if (readyToDisplayGOT) {
+      if (readyToDisplayGOT && GOTJSON === "") {
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
 
@@ -202,7 +207,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           );
 
           const dataset = await res.json();
-          console.log("datasetGOT", dataset);
+          console.log("datasetGOT-readyToDisplayGOT", dataset);
 
           // post
           // chatInputForGOT
@@ -254,35 +259,100 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           setGotLoaded(false);
         }
       }
+
+      if (readyToDisplayGOT && GOTJSON !== "") {
+        // setIsLoading(true); // loading icon show
+        setGotLoaded(false);
+
+        try {
+          // test1
+          // const res = await fetch(
+          //   `${process.env.PUBLIC_URL}/gotdata/dataset.json`
+          // );
+          // get question from the textarea
+
+          // test 2
+          // const res = await fetch(
+          //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
+          // );
+
+          // real api
+          // const res = await fetch(
+          //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
+          //   {
+          //     method: "POST",
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //     },
+          //     body: JSON.stringify({
+          //       chatInput: chatInputForGOT,
+          //     }),
+          //   }
+          // );
+
+          // const dataset = await res.json();
+          // console.log("datasetGOT", dataset);
+
+          // post
+          // chatInputForGOT
+
+          // let chatid_list = await savedChatIDs();
+
+          // console.log("chatid_listInDisplayGraph", chatid_list);
+
+          // let data = await getChatMessageByExperimentId(
+          //   chatid_list[Number(chatCurrentTempId) - 1]
+          //   // chatCurrentTempId
+          // );
+
+          // console.log("dataInDisplayGraph", data);
+          // // consert dataset to string
+          // let datasetString = JSON.stringify(dataset);
+
+          // // data is json format
+
+          // await postInChatlogsToDB(
+          //   chatid_list[Number(chatCurrentTempId) - 1],
+          //   // chatInputForGOT,
+          //   // dataset,
+          //   datasetString,
+          //   "text",
+          //   "gpt"
+          // );
+
+          console.log("datasetGOT-GOTJSON", GOTJSON);
+
+          setDataset(GOTJSON);
+
+          // set question and answer
+          setQuestion("Question: " + chatInputForGOT);
+          // setAnswer("Answer: "+dataset.answer);
+
+          setFiltersState({
+            clusters: mapValues(keyBy(GOTJSON.clusters, "key"), constant(true)),
+            tags: mapValues(keyBy(GOTJSON.tags, "key"), constant(true)),
+          });
+          requestAnimationFrame(() => {
+            setDataReady(true);
+            setGotLoaded(true);
+            // setIsLoading(false);
+            // setIsLoading(false);
+          });
+        } catch (error) {
+          console.error("Failed to fetch data:", error);
+          // Handle the error accordingly
+          // setIsLoading(false); // Ensure loading icon is hidden in case of error
+          setGotLoaded(false);
+        }
+      }
     };
 
     fetchData();
-  }, [readyToDisplayGOT]); // Only re-run the effect if readyToDisplayGOT changes
+  }, [readyToDisplayGOT, GOTJSON]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
 
   if (!dataset) return null;
 
-  // if (!dataset && isLoading) {
-  // if (true) {
-  //   return (
-  //     <div style={{ position: "relative", width: "100%", height: "100vh" }}>
-  //       <div
-  //         style={{
-  //           position: "absolute",
-  //           top: "50%",
-  //           left: "50%",
-  //           transform: "translate(-50%, -50%)",
-  //         }}
-  //       >
-  //         <CircularProgress />
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
-    // <div id="dispnetgra" className={showContents ? "show-contents" : ""}>
-    // <div id="dispnetgra" className={showContents ? "show-contents" : ""}>
-
     <SigmaContainer
       graphOptions={{ type: "directed" }}
       initialSettings={{
@@ -427,7 +497,6 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                           if (closestPanel) {
                             (closestPanel as HTMLElement).style.width = "350px";
                           }
-
                           // Additional action
                           setToggleControlPanel(true);
                         }}
@@ -463,6 +532,11 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                       {/* <SearchField filters={filtersState} /> */}
                       <DescriptionPanel
                         descriptionForClickedNode={descriptionForClickedNode}
+                        setDescriptionForClickedNode={
+                          setDescriptionForClickedNode
+                        }
+                        chatCurrentTempId={chatCurrentTempId}
+                        // descGOTREQ={descGOTREQ}
                       />
                       {/* <ClustersPanel
                     clusters={dataset.clusters}
@@ -504,22 +578,11 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                   )}
                 </div>
               </div>
-              {/* <div
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-              >
-                <CircularProgress />
-              </div> */}
             </>
           )}
         </>
       )}
     </SigmaContainer>
-    // </div>
   );
 };
 

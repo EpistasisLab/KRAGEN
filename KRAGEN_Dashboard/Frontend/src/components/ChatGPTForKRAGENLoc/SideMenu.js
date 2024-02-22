@@ -50,6 +50,8 @@ export default function SideMenu() {
     chatInput,
     gotLoaded,
     setGotLoaded,
+    setGOTJSON,
+    // setDescGOTREQ,
   } = useContext(AllContext);
 
   const [chatids, setChatids] = useState([]);
@@ -765,6 +767,7 @@ export default function SideMenu() {
           id="newchatbuttonForGOT"
           onClick={async (e) => {
             setGotLoaded("");
+            setGOTJSON("");
 
             let tempChatCurrentTempId = await checkClickedChatboxTab(e);
 
@@ -847,6 +850,7 @@ export default function SideMenu() {
                   // find the third in chatlogs in data
 
                   console.log("dataInSideMenu", data);
+                  console.log("data.chatlogs.length", data.chatlogs.length);
 
                   // Calculate the index for the third-to-last item
                   const index = data.chatlogs.length - 3;
@@ -876,7 +880,26 @@ export default function SideMenu() {
                     // make submitbutton diplsay block
                     submitbutton.style.display = "block";
                   } else {
+                    // show message in thirdFromLastChatlog
+                    console.log(
+                      "thirdFromLastChatlog.message",
+                      thirdFromLastChatlog.message
+                    );
+                    // convert thirdFromLastChatlog.message to json
+                    let thirdFromLastChatlogMessage = JSON.parse(
+                      thirdFromLastChatlog.message
+                    );
+
+                    console.log(
+                      "thirdFromLastChatlogMessage",
+                      thirdFromLastChatlogMessage
+                    );
+
+                    setGOTJSON(thirdFromLastChatlogMessage);
+
                     setReadyToDisplayGOT(true);
+
+                    // setDescGOTREQ(true);
 
                     // Get the element by its ID
                     const textarea =

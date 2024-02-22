@@ -254,6 +254,12 @@ export default function ChatGPT({ experiment }) {
   // gotloaded
   const [gotLoaded, setGotLoaded] = useState("");
 
+  //GOTJSON
+  const [GOTJSON, setGOTJSON] = useState("");
+
+  // set descGOTREQ
+  // const [descGOTREQ, setDescGOTREQ] = useState(false);
+
   // booleanCode for checking if the messageFromOpenai contains python code
   // const [booleanCode, setBooleanCode] = useState(false);
 
@@ -665,6 +671,7 @@ export default function ChatGPT({ experiment }) {
           chatInput,
           gotLoaded,
           setGotLoaded,
+          setGOTJSON,
         }}
       >
         <SideMenu />
@@ -680,6 +687,7 @@ export default function ChatGPT({ experiment }) {
           chatCurrentTempId,
           gotLoaded,
           setGotLoaded,
+          GOTJSON,
         }}
       >
         <ChatBox />

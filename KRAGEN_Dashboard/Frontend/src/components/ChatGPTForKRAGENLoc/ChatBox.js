@@ -19,6 +19,7 @@ const ChatBox = () => {
     chatCurrentTempId,
     gotLoaded,
     setGotLoaded,
+    GOTJSON,
   } = useContext(AllContext);
 
   const [hasZip, setHasZip] = useState(false);
@@ -207,6 +208,8 @@ const ChatBox = () => {
             readyToDisplayGOT={readyToDisplayGOT}
             chatCurrentTempId={chatCurrentTempId}
             setGotLoaded={setGotLoaded}
+            GOTJSON={GOTJSON}
+            // descGOTREQ={descGOTREQ}
           />
         </div>
         {/* {!gotLoaded && chatInputForGOT && ( */}
