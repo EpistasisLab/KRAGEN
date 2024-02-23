@@ -52,6 +52,7 @@ const GraphEventsController: FC<{
             console.log("node_-1 is clicked");
             // get entire node information
             let nodeName = graph.getNodeAttributes(node);
+            console.log("NodeName: ", nodeName);
             // please show this json in to console
             let nodeThoughts = JSON.stringify(nodeName, null, 2);
             // alert("Node thoughts: " + nodeName);

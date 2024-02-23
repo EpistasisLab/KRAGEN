@@ -248,7 +248,10 @@ export default function ChatGPT({ experiment }) {
   // setChatInputForGOT
   const [chatInputForGOT, setChatInputForGOT] = useState("");
 
-  // ready to show disply GOT or not
+  // got data ready
+  const [dataReady, setDataReady] = useState(false);
+
+  // ready to show disply the component named DisplayGraph
   const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
 
   // gotloaded
@@ -672,6 +675,7 @@ export default function ChatGPT({ experiment }) {
           gotLoaded,
           setGotLoaded,
           setGOTJSON,
+          setDataReady,
         }}
       >
         <SideMenu />
@@ -688,6 +692,9 @@ export default function ChatGPT({ experiment }) {
           gotLoaded,
           setGotLoaded,
           GOTJSON,
+          setReadyToDisplayGOT,
+          dataReady,
+          setDataReady,
         }}
       >
         <ChatBox />

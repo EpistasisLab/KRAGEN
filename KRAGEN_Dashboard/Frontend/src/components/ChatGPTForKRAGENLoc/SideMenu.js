@@ -53,14 +53,71 @@ export default function SideMenu() {
     gotLoaded,
     setGotLoaded,
     setGOTJSON,
+    setDataReady,
     // setDescGOTREQ,
   } = useContext(AllContext);
 
+  // const debouncedOnClickNewChat = debounce(async (e) =>
+  //   // Place the original onClick logic here.
+  //   {
+  //     setGotLoaded("");
+  //     setGOTJSON("");
+  //     // readyToDisplayGOT
+  //     // setReadyToDisplayGOT(false);
+
+  //     let tempChatCurrentTempId = await checkClickedChatboxTab(e);
+
+  //     setNumChatBox((numChatBox) => numChatBox + 1);
+
+  //     // checking got data in the chatbox
+  //     let chatid_list = await savedChatIDs();
+
+  //     let data = await getChatMessageByExperimentId(
+  //       chatid_list[tempChatCurrentTempId - 1]
+  //       // chatCurrentTempId
+  //     );
+
+  //     // Calculate the index for the third-to-last item
+  //     const index = data.chatlogs.length - 3;
+
+  //     // Accessing the third-to-last chatlog entry, if the array is long enough
+  //     const thirdFromLastChatlog =
+  //       data.chatlogs.length > 2 ? data.chatlogs[index] : null;
+
+  //     // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
+  //     if (thirdFromLastChatlog === null) {
+  //       setReadyToDisplayGOT(false);
+  //       const textarea = document.getElementById("chatSubmitFormID");
+  //       // Make the textarea editable
+  //       textarea.readOnly = false;
+
+  //       // Make the textarea visible
+  //       textarea.style.opacity = 1;
+
+  //       // make chatsubmitbutton id block
+  //       const submitbutton = document.getElementById("chatsubmitbutton");
+  //       submitbutton.style.display = "block";
+  //     } else {
+  //       setReadyToDisplayGOT(true);
+
+  //       // Get the element by its ID
+  //       const textarea = document.getElementById("chatSubmitFormID");
+
+  //       // Make the textarea read-only
+  //       textarea.readOnly = true;
+
+  //       // Make the textarea invisible but still occupy space
+  //       textarea.style.opacity = 0;
+  //     }
+  //   }, 250); // Set a debounce delay of 250 milliseconds.
   const debouncedOnClickNewChat = debounce(async (e) =>
     // Place the original onClick logic here.
     {
-      setGotLoaded("");
+      setGotLoaded(false);
       setGOTJSON("");
+      // readyToDisplayGOT
+      setReadyToDisplayGOT(false);
+      setDataReady(false);
 
       let tempChatCurrentTempId = await checkClickedChatboxTab(e);
 
@@ -81,31 +138,17 @@ export default function SideMenu() {
       const thirdFromLastChatlog =
         data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
-      // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
-      if (thirdFromLastChatlog === null) {
-        setReadyToDisplayGOT(false);
-        const textarea = document.getElementById("chatSubmitFormID");
-        // Make the textarea editable
-        textarea.readOnly = false;
+      setReadyToDisplayGOT(false);
+      const textarea = document.getElementById("chatSubmitFormID");
+      // Make the textarea editable
+      textarea.readOnly = false;
 
-        // Make the textarea visible
-        textarea.style.opacity = 1;
+      // Make the textarea visible
+      textarea.style.opacity = 1;
 
-        // make chatsubmitbutton id block
-        const submitbutton = document.getElementById("chatsubmitbutton");
-        submitbutton.style.display = "block";
-      } else {
-        setReadyToDisplayGOT(true);
-
-        // Get the element by its ID
-        const textarea = document.getElementById("chatSubmitFormID");
-
-        // Make the textarea read-only
-        textarea.readOnly = true;
-
-        // Make the textarea invisible but still occupy space
-        textarea.style.opacity = 0;
-      }
+      // make chatsubmitbutton id block
+      const submitbutton = document.getElementById("chatsubmitbutton");
+      submitbutton.style.display = "block";
     }, 250); // Set a debounce delay of 250 milliseconds.
 
   const debouncedOnClickChatTab = debounce(async (e) => {
@@ -139,6 +182,7 @@ export default function SideMenu() {
     // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
     if (thirdFromLastChatlog === null) {
       setReadyToDisplayGOT(false);
+      setGOTJSON("");
       const textarea = document.getElementById("chatSubmitFormID");
       // Make the textarea editable
       textarea.readOnly = false;
@@ -154,6 +198,8 @@ export default function SideMenu() {
       let thirdFromLastChatlogMessage = JSON.parse(
         thirdFromLastChatlog.message
       );
+
+      console.log("thirdFromLastChatlogMessage-2", thirdFromLastChatlogMessage);
 
       setGOTJSON(thirdFromLastChatlogMessage);
 
@@ -1088,43 +1134,6 @@ export default function SideMenu() {
                   </svg>
                 </div>
               </Tooltip>
-
-              {/* make unvisible */}
-              {/* <div
-                className="side-menu-button-trashForGOT check"
-                // style={{ display: "none" }}
-                onMouseEnter={(e) => {
-                  changePenToCheck(e.target.parentNode.childNodes[2], false);
-                }}
-                onMouseLeave={(e) => {
-                  changePenToCheck(e.target.parentNode.childNodes[2], true);
-                }}
-                onClick={async (e) => {
-                  let newchatbutton = document.getElementById(
-                    "newchatbuttonForGOT"
-                  );
-
-                  // make it clickable
-                  newchatbutton.style.pointerEvents = "auto";
-
-                  // find element by className side-menu-button from the e.target.parentNode
-
-                  let tempSideMenuButtonText = e.target.parentNode
-                    .getElementsByClassName("side-menu-buttonForGOT")[0]
-                    .textContent.split("&")[0]
-                    .split("_")[0];
-
-                  let chatids_list = await savedChatIDs();
-                  // console.log("chatids_list", chatids_list);
-
-                  await postChatNameToDB(
-                    tempSideMenuButtonText,
-                    chatids_list[chatCurrentTempId - 1]
-                  );
-                }}
-              >
-                🖋
-              </div> */}
 
               <div
                 className="side-menu-button-trashForGOT check"
