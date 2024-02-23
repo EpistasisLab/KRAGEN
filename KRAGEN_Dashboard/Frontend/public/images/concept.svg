@@ -15,7 +15,7 @@
    height="80px"
    fill="white"
    opacity="0.8"
-   stroke-width="0"
+   strokeWidth="0"
    inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <metadata
      id="metadata10">
@@ -55,5 +55,5 @@
      inkscape:connector-curvature="0"
      d="M 60.25466,36.352462 A 18.756117,18.756117 0 0 0 24.628913,32.586987 13.126657,13.126657 0 1 0 23.106221,58.75404 H 58.735718 A 11.25142,11.25142 0 0 0 60.25466,36.352462 Z"
      id="path2"
-     style="stroke-width:0" />
+     style="strokeWidth:0" />
 </svg>

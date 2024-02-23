@@ -131,6 +131,8 @@ export default function ChatGPT({ experiment }) {
         // chatCurrentTempId
       );
 
+      console.log("use-effect-data", data);
+
       // Calculate the index for the third-to-last item
       const index = data.chatlogs.length - 3;
 
@@ -138,10 +140,18 @@ export default function ChatGPT({ experiment }) {
       const thirdFromLastChatlog =
         data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
+      console.log("use-effect-thirdFromLastChatlog", thirdFromLastChatlog);
+
       // console.log("thirdFromLastChatlog", thirdFromLastChatlog);
       // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
       if (thirdFromLastChatlog === null) {
+        setChatInputForGOT("");
+        setDataset("");
+        setDataReady(false);
         setReadyToDisplayGOT(false);
+        setGotLoaded("");
+        setGOTJSON("");
+
         const textarea = document.getElementById("chatSubmitFormID");
         // Make the textarea editable
         textarea.readOnly = false;
@@ -149,6 +159,17 @@ export default function ChatGPT({ experiment }) {
         // Make the textarea visible
         textarea.style.opacity = 1;
       } else {
+        // readyToDisplayGOT, GOTJSON, dataReady
+        setChatInputForGOT("");
+        setDataset("");
+        setGotLoaded("");
+
+        let thirdFromLastChatlogMessage = JSON.parse(
+          thirdFromLastChatlog.message
+        );
+
+        setGOTJSON(thirdFromLastChatlogMessage);
+        setDataReady(true);
         setReadyToDisplayGOT(true);
 
         // Get the element by its ID
@@ -248,13 +269,16 @@ export default function ChatGPT({ experiment }) {
   // setChatInputForGOT
   const [chatInputForGOT, setChatInputForGOT] = useState("");
 
-  // got data ready
+  // GOTJSON data
+  const [dataset, setDataset] = useState("");
+
+  // got data ready is true when the got data is ready to be displayed in the DisplayGraph component after the api call
   const [dataReady, setDataReady] = useState(false);
 
   // ready to show disply the component named DisplayGraph
   const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
 
-  // gotloaded
+  // gotloaded state include "", "true", "false"
   const [gotLoaded, setGotLoaded] = useState("");
 
   //GOTJSON
@@ -349,8 +373,9 @@ export default function ChatGPT({ experiment }) {
     e.preventDefault();
 
     // fetch the data.json file for the submitted chatInput and chatid
-    // if the fetch is successful, then setReadyToDisplayGOT(true);
+    setDataset("");
     setReadyToDisplayGOT(true);
+    setGotLoaded(false);
     // make id chatSubmitFormID unvisible
     // document.getElementById("chatSubmitFormID").style.display = "none";
 
@@ -676,6 +701,7 @@ export default function ChatGPT({ experiment }) {
           setGotLoaded,
           setGOTJSON,
           setDataReady,
+          setChatInputForGOT,
         }}
       >
         <SideMenu />
@@ -695,6 +721,8 @@ export default function ChatGPT({ experiment }) {
           setReadyToDisplayGOT,
           dataReady,
           setDataReady,
+          dataset,
+          setDataset,
         }}
       >
         <ChatBox />

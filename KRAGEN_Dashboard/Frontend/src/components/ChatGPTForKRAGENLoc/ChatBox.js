@@ -23,6 +23,8 @@ const ChatBox = () => {
     setReadyToDisplayGOT,
     dataReady,
     setDataReady,
+    dataset,
+    setDataset,
   } = useContext(AllContext);
 
   const [hasZip, setHasZip] = useState(false);
@@ -216,6 +218,8 @@ const ChatBox = () => {
             GOTJSON={GOTJSON}
             dataReady={dataReady}
             setDataReady={setDataReady}
+            dataset={dataset}
+            setDataset={setDataset}
 
             // descGOTREQ={descGOTREQ}
           />

@@ -54,6 +54,7 @@ export default function SideMenu() {
     setGotLoaded,
     setGOTJSON,
     setDataReady,
+    setChatInputForGOT,
     // setDescGOTREQ,
   } = useContext(AllContext);
 
@@ -113,7 +114,9 @@ export default function SideMenu() {
   const debouncedOnClickNewChat = debounce(async (e) =>
     // Place the original onClick logic here.
     {
-      setGotLoaded(false);
+      // chatInputForGOT
+      setChatInputForGOT("");
+      setGotLoaded("");
       setGOTJSON("");
       // readyToDisplayGOT
       setReadyToDisplayGOT(false);
@@ -138,7 +141,6 @@ export default function SideMenu() {
       const thirdFromLastChatlog =
         data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
-      setReadyToDisplayGOT(false);
       const textarea = document.getElementById("chatSubmitFormID");
       // Make the textarea editable
       textarea.readOnly = false;
@@ -172,6 +174,8 @@ export default function SideMenu() {
       // chatCurrentTempId
     );
 
+    console.log("else-data", data);
+
     // Calculate the index for the third-to-last item
     const index = data.chatlogs.length - 3;
 
@@ -194,6 +198,10 @@ export default function SideMenu() {
       // make submitbutton diplsay block
       submitbutton.style.display = "block";
     } else {
+      console.log(
+        "else-thirdFromLastChatlog.message",
+        thirdFromLastChatlog.message
+      );
       // convert thirdFromLastChatlog.message to json
       let thirdFromLastChatlogMessage = JSON.parse(
         thirdFromLastChatlog.message
@@ -300,7 +308,11 @@ export default function SideMenu() {
       if (thirdFromLastChatlog === null) {
         console.log("7373-thirdFromLastChatlog === null");
         console.log("notshowGOT");
+        setGOTJSON("");
         setReadyToDisplayGOT(false);
+        setDataReady(false);
+        setGotLoaded("");
+
         const textarea = document.getElementById("chatSubmitFormID");
         // Make the textarea editable
         textarea.readOnly = false;
@@ -312,9 +324,20 @@ export default function SideMenu() {
 
         submitbutton.style.display = "block";
       } else {
+        console.log(
+          "side-thirdFromLastChatlog.message",
+          thirdFromLastChatlog.message
+        );
+        let thirdFromLastChatlogMessage = JSON.parse(
+          thirdFromLastChatlog.message
+        );
         console.log("7373-thirdFromLastChatlog !== null");
         console.log("showGOT");
+        setGOTJSON(thirdFromLastChatlogMessage);
         setReadyToDisplayGOT(true);
+        console.log("here1");
+        setDataReady(true);
+        setGotLoaded(true);
 
         // Get the element by its ID
         const textarea = document.getElementById("chatSubmitFormID");
@@ -627,7 +650,7 @@ export default function SideMenu() {
                       cy="10"
                       r="7"
                       stroke="white"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       fill="none"
                     />
 
@@ -670,7 +693,7 @@ export default function SideMenu() {
                     cy="10"
                     r="7"
                     stroke="white"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     fill="none"
                   />
 
@@ -1126,7 +1149,7 @@ export default function SideMenu() {
                       cy="10"
                       r="7"
                       stroke="white"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       fill="none"
                     />
 

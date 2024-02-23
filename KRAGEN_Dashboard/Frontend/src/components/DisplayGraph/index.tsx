@@ -69,6 +69,8 @@ interface DisplayGraphProps {
   descGOTREQ: boolean;
   dataReady: boolean;
   setDataReady: (value: boolean) => void;
+  dataset: Dataset | null;
+  setDataset: (value: Dataset | null) => void;
   // setReadyToDisplayGOT: (value: boolean) => void;
 }
 
@@ -81,6 +83,8 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   GOTJSON,
   dataReady,
   setDataReady,
+  dataset,
+  setDataset,
 
   // descGOTREQ,
   // setReadyToDisplayGOT,
@@ -91,7 +95,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   // set description for clicked node
   const [descriptionForClickedNode, setDescriptionForClickedNode] =
     useState("");
-  const [dataset, setDataset] = useState<Dataset | null>(null);
+  // const [dataset, setDataset] = useState<Dataset | null>(null);
   const [filtersState, setFiltersState] = useState<FiltersState>({
     clusters: {},
     tags: {},
@@ -181,8 +185,14 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     const fetchData = async () => {
       // console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
       // console.log("GOTchatInput", chatInputForGOT);
+      console.log("hereout-============================================");
+      console.log("hereout-readyToDisplayGOT", readyToDisplayGOT);
+      console.log("hereout-GOTJSON", GOTJSON);
+      console.log("hereout-dataReady", dataReady);
+      console.log("hereout-chatInputForGOT", chatInputForGOT);
 
-      if (readyToDisplayGOT && GOTJSON === "") {
+      if (readyToDisplayGOT === true && GOTJSON === "") {
+        console.log("hereout-first");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
 
@@ -255,6 +265,10 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
           });
           requestAnimationFrame(() => {
+            console.log("here2");
+            // readyToDisplayGOT === true && GOTJSON === ""
+            console.log("here2-readyToDisplayGOT", readyToDisplayGOT);
+            console.log("here2-GOTJSON", GOTJSON);
             setDataReady(true);
             setGotLoaded(true);
             // setIsLoading(false);
@@ -264,11 +278,13 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           console.error("Failed to fetch data:", error);
           // Handle the error accordingly
           // setIsLoading(false); // Ensure loading icon is hidden in case of error
+          setDataReady(false);
           setGotLoaded(false);
         }
       }
 
-      if (readyToDisplayGOT && GOTJSON !== "") {
+      if (readyToDisplayGOT === true && GOTJSON !== "") {
+        console.log("hereout-second");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
 
@@ -341,6 +357,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             tags: mapValues(keyBy(GOTJSON.tags, "key"), constant(true)),
           });
           requestAnimationFrame(() => {
+            console.log("here3");
             setDataReady(true);
             setGotLoaded(true);
             // setIsLoading(false);
