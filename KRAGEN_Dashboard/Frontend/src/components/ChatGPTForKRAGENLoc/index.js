@@ -145,17 +145,18 @@ export default function ChatGPT({ experiment }) {
       // console.log("thirdFromLastChatlog", thirdFromLastChatlog);
       // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
       if (thirdFromLastChatlog === null) {
+        // [readyToDisplayGOT, GOTJSON, dataReady]
         setChatInputForGOT("");
         setDataset("");
+        setGotLoaded("");
+
+        setGOTJSON("");
         setDataReady(false);
         setReadyToDisplayGOT(false);
-        setGotLoaded("");
-        setGOTJSON("");
 
         const textarea = document.getElementById("chatSubmitFormID");
         // Make the textarea editable
         textarea.readOnly = false;
-
         // Make the textarea visible
         textarea.style.opacity = 1;
       } else {

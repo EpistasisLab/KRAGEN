@@ -114,13 +114,14 @@ export default function SideMenu() {
   const debouncedOnClickNewChat = debounce(async (e) =>
     // Place the original onClick logic here.
     {
+      // [readyToDisplayGOT, GOTJSON, dataReady]
       // chatInputForGOT
       setChatInputForGOT("");
       setGotLoaded("");
+
       setGOTJSON("");
-      // readyToDisplayGOT
-      setReadyToDisplayGOT(false);
       setDataReady(false);
+      setReadyToDisplayGOT(false);
 
       let tempChatCurrentTempId = await checkClickedChatboxTab(e);
 
@@ -133,13 +134,7 @@ export default function SideMenu() {
         chatid_list[tempChatCurrentTempId - 1]
         // chatCurrentTempId
       );
-
-      // Calculate the index for the third-to-last item
-      const index = data.chatlogs.length - 3;
-
-      // Accessing the third-to-last chatlog entry, if the array is long enough
-      const thirdFromLastChatlog =
-        data.chatlogs.length > 2 ? data.chatlogs[index] : null;
+      console.log("debouncedOnClickNewChat-data", data);
 
       const textarea = document.getElementById("chatSubmitFormID");
       // Make the textarea editable
