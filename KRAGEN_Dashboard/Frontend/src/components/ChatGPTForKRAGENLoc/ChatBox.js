@@ -20,6 +20,11 @@ const ChatBox = () => {
     gotLoaded,
     setGotLoaded,
     GOTJSON,
+    setReadyToDisplayGOT,
+    dataReady,
+    setDataReady,
+    dataset,
+    setDataset,
   } = useContext(AllContext);
 
   const [hasZip, setHasZip] = useState(false);
@@ -202,13 +207,20 @@ const ChatBox = () => {
             />
           </div>
         )} */}
+
         <div id="dispnetgra" className="show-contents">
           <DisplayGraph
             chatInputForGOT={chatInputForGOT}
             readyToDisplayGOT={readyToDisplayGOT}
+            setReadyToDisplayGOT={setReadyToDisplayGOT}
             chatCurrentTempId={chatCurrentTempId}
             setGotLoaded={setGotLoaded}
             GOTJSON={GOTJSON}
+            dataReady={dataReady}
+            setDataReady={setDataReady}
+            dataset={dataset}
+            setDataset={setDataset}
+
             // descGOTREQ={descGOTREQ}
           />
         </div>
