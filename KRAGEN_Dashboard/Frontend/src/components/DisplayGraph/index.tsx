@@ -60,34 +60,27 @@ import {
 } from "../apiService";
 
 interface DisplayGraphProps {
-  readyToDisplayGOT: boolean;
-  setReadyToDisplayGOT: (value: boolean) => void;
   chatInputForGOT: string;
+  readyToDisplayGOT: boolean;
+  setReadyToDisplayGOT: (readyToDisplayGOT: boolean) => void;
   chatCurrentTempId: string;
-  setGotLoaded: (value: boolean) => void;
-  GOTJSON: any;
-  descGOTREQ: boolean;
+  setGotLoaded: (gotLoaded: boolean) => void;
   dataReady: boolean;
-  setDataReady: (value: boolean) => void;
-  dataset: Dataset | null;
-  setDataset: (value: Dataset | null) => void;
-  // setReadyToDisplayGOT: (value: boolean) => void;
+  setDataReady: (dataReady: boolean) => void;
+  dataset: Dataset | "";
+  setDataset: (dataset: Dataset | "") => void;
 }
 
 const DisplayGraph: FC<DisplayGraphProps> = ({
+  chatInputForGOT,
   readyToDisplayGOT,
   setReadyToDisplayGOT,
-  chatInputForGOT,
   chatCurrentTempId,
   setGotLoaded,
-  GOTJSON,
   dataReady,
   setDataReady,
   dataset,
   setDataset,
-
-  // descGOTREQ,
-  // setReadyToDisplayGOT,
 }) => {
   const [showContents, setShowContents] = useState(false);
 
@@ -187,11 +180,11 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       // console.log("GOTchatInput", chatInputForGOT);
       console.log("hereout-============================================");
       console.log("hereout-readyToDisplayGOT", readyToDisplayGOT);
-      console.log("hereout-GOTJSON", GOTJSON);
+      console.log("hereout-dataset", dataset);
       console.log("hereout-dataReady", dataReady);
       console.log("hereout-chatInputForGOT", chatInputForGOT);
 
-      if (readyToDisplayGOT === true && GOTJSON === "") {
+      if (readyToDisplayGOT === true && dataset === "") {
         console.log("hereout-first");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
@@ -266,9 +259,9 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           });
           requestAnimationFrame(() => {
             console.log("here2");
-            // readyToDisplayGOT === true && GOTJSON === ""
+            // readyToDisplayGOT === true && dataset === ""
             console.log("here2-readyToDisplayGOT", readyToDisplayGOT);
-            console.log("here2-GOTJSON", GOTJSON);
+            console.log("here2-dataset", dataset);
             setDataReady(true);
             setGotLoaded(true);
             // setIsLoading(false);
@@ -283,7 +276,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
         }
       }
 
-      if (readyToDisplayGOT === true && GOTJSON !== "") {
+      if (readyToDisplayGOT === true && dataset !== "") {
         console.log("hereout-second");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
@@ -344,17 +337,17 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           //   "gpt"
           // );
 
-          console.log("datasetGOT-GOTJSON", GOTJSON);
+          console.log("datasetGOT-dataset", dataset);
 
-          setDataset(GOTJSON);
+          setDataset(dataset);
 
           // set question and answer
           setQuestion("Question: " + chatInputForGOT);
           // setAnswer("Answer: "+dataset.answer);
 
           setFiltersState({
-            clusters: mapValues(keyBy(GOTJSON.clusters, "key"), constant(true)),
-            tags: mapValues(keyBy(GOTJSON.tags, "key"), constant(true)),
+            clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
+            tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
           });
           requestAnimationFrame(() => {
             console.log("here3");
@@ -374,7 +367,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     };
 
     fetchData();
-  }, [readyToDisplayGOT, GOTJSON, dataReady]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
+  }, [readyToDisplayGOT, dataReady]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
 
   if (!dataset) return null;
 

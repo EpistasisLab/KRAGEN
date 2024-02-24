@@ -52,17 +52,16 @@ export default function SideMenu() {
     chatInput,
     gotLoaded,
     setGotLoaded,
-    setGOTJSON,
+    setDataset,
     setDataReady,
     setChatInputForGOT,
-    // setDescGOTREQ,
   } = useContext(AllContext);
 
   // const debouncedOnClickNewChat = debounce(async (e) =>
   //   // Place the original onClick logic here.
   //   {
   //     setGotLoaded("");
-  //     setGOTJSON("");
+  //     setDataset("");
   //     // readyToDisplayGOT
   //     // setReadyToDisplayGOT(false);
 
@@ -119,7 +118,7 @@ export default function SideMenu() {
       setChatInputForGOT("");
       setGotLoaded("");
 
-      setGOTJSON("");
+      setDataset("");
       setDataReady(false);
       setReadyToDisplayGOT(false);
 
@@ -181,7 +180,7 @@ export default function SideMenu() {
     // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
     if (thirdFromLastChatlog === null) {
       setReadyToDisplayGOT(false);
-      setGOTJSON("");
+      setDataset("");
       const textarea = document.getElementById("chatSubmitFormID");
       // Make the textarea editable
       textarea.readOnly = false;
@@ -204,7 +203,7 @@ export default function SideMenu() {
 
       console.log("thirdFromLastChatlogMessage-2", thirdFromLastChatlogMessage);
 
-      setGOTJSON(thirdFromLastChatlogMessage);
+      setDataset(thirdFromLastChatlogMessage);
 
       setReadyToDisplayGOT(true);
 
@@ -303,7 +302,7 @@ export default function SideMenu() {
       if (thirdFromLastChatlog === null) {
         console.log("7373-thirdFromLastChatlog === null");
         console.log("notshowGOT");
-        setGOTJSON("");
+        setDataset("");
         setReadyToDisplayGOT(false);
         setDataReady(false);
         setGotLoaded("");
@@ -328,7 +327,7 @@ export default function SideMenu() {
         );
         console.log("7373-thirdFromLastChatlog !== null");
         console.log("showGOT");
-        setGOTJSON(thirdFromLastChatlogMessage);
+        setDataset(thirdFromLastChatlogMessage);
         setReadyToDisplayGOT(true);
         console.log("here1");
         setDataReady(true);
