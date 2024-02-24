@@ -24,6 +24,8 @@ export interface Dataset {
   edges: [string, string, string][];
   clusters: Cluster[];
   tags: Tag[];
+  question: string;
+  answer: string;
 }
 
 export interface FiltersState {
