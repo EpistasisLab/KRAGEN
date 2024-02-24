@@ -11,20 +11,20 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 // Primary Chat Window
 const ChatBox = () => {
   const {
+    chatInput,
+    chatLog,
     setChatInput,
     handleSubmit,
-    chatInput,
     readyToDisplayGOT,
     chatInputForGOT,
     chatCurrentTempId,
     gotLoaded,
     setGotLoaded,
-    GOTJSON,
+    dataset,
+    setDataset,
     setReadyToDisplayGOT,
     dataReady,
     setDataReady,
-    dataset,
-    setDataset,
   } = useContext(AllContext);
 
   const [hasZip, setHasZip] = useState(false);
@@ -215,7 +215,6 @@ const ChatBox = () => {
             setReadyToDisplayGOT={setReadyToDisplayGOT}
             chatCurrentTempId={chatCurrentTempId}
             setGotLoaded={setGotLoaded}
-            GOTJSON={GOTJSON}
             dataReady={dataReady}
             setDataReady={setDataReady}
             dataset={dataset}

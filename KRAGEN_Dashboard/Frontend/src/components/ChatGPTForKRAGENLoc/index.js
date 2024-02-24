@@ -150,7 +150,7 @@ export default function ChatGPT({ experiment }) {
         setDataset("");
         setGotLoaded("");
 
-        setGOTJSON("");
+        // setGOTJSON("");
         setDataReady(false);
         setReadyToDisplayGOT(false);
 
@@ -162,14 +162,15 @@ export default function ChatGPT({ experiment }) {
       } else {
         // readyToDisplayGOT, GOTJSON, dataReady
         setChatInputForGOT("");
-        setDataset("");
+        // setDataset("");
         setGotLoaded("");
 
         let thirdFromLastChatlogMessage = JSON.parse(
           thirdFromLastChatlog.message
         );
 
-        setGOTJSON(thirdFromLastChatlogMessage);
+        // setGOTJSON(thirdFromLastChatlogMessage);
+        setDataset(thirdFromLastChatlogMessage);
         console.log("here-7");
         setDataReady(true);
         setReadyToDisplayGOT(true);
@@ -287,7 +288,7 @@ export default function ChatGPT({ experiment }) {
   const [gotLoaded, setGotLoaded] = useState("");
 
   //GOTJSON
-  const [GOTJSON, setGOTJSON] = useState("");
+  // const [GOTJSON, setGOTJSON] = useState("");
 
   // set descGOTREQ
   // const [descGOTREQ, setDescGOTREQ] = useState(false);
@@ -704,7 +705,7 @@ export default function ChatGPT({ experiment }) {
           chatInput,
           gotLoaded,
           setGotLoaded,
-          setGOTJSON,
+          setDataset,
           setDataReady,
           setChatInputForGOT,
         }}
@@ -722,12 +723,11 @@ export default function ChatGPT({ experiment }) {
           chatCurrentTempId,
           gotLoaded,
           setGotLoaded,
-          GOTJSON,
+          dataset,
+          setDataset,
           setReadyToDisplayGOT,
           dataReady,
           setDataReady,
-          dataset,
-          setDataset,
         }}
       >
         <ChatBox />
