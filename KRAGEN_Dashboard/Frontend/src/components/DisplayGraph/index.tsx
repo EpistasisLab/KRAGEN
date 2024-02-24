@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useEffect, useState } from "react";
+import React, { CSSProperties, FC, useEffect, useState, useRef } from "react";
 import { SigmaContainer, ZoomControl, FullScreenControl } from "react-sigma-v2";
 
 import { omit, mapValues, keyBy, constant } from "lodash";
@@ -82,6 +82,8 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   dataset,
   setDataset,
 }) => {
+  const sigmaContainerRef = useRef<HTMLDivElement>(null);
+
   const [showContents, setShowContents] = useState(false);
 
   // const [dataReady, setDataReady] = useState(false);
@@ -392,7 +394,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
         labelRenderedSizeThreshold: 15,
         labelFont: "Lato, sans-serif",
         zIndex: true,
-        // allowInvalidContainer: true,
+        allowInvalidContainer: true,
       }}
       className="react-sigma"
     >

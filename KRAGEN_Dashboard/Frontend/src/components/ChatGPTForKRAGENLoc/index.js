@@ -169,13 +169,9 @@ export default function ChatGPT({ experiment }) {
           thirdFromLastChatlog.message
         );
 
-<<<<<<< HEAD
         // setGOTJSON(thirdFromLastChatlogMessage);
         setDataset(thirdFromLastChatlogMessage);
-=======
-        setGOTJSON(thirdFromLastChatlogMessage);
         console.log("here-7");
->>>>>>> main
         setDataReady(true);
         setReadyToDisplayGOT(true);
 
