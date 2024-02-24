@@ -38,7 +38,8 @@ import {
 
 // export default function ChatGPT({ experiment }) {
 export default function ChatGPT({ experiment }) {
-  let limitNumChatBox = 5;
+  // let limitNumChatBox = 5;
+  let limitNumChatBox = 50;
 
   // current chat tap id
   const [current_chatTapID, setCurrent_chatTapID] = useState(0);
@@ -171,6 +172,8 @@ export default function ChatGPT({ experiment }) {
 
         // setGOTJSON(thirdFromLastChatlogMessage);
         setDataset(thirdFromLastChatlogMessage);
+        setGotQuestion(thirdFromLastChatlogMessage.question);
+        setGotAnswer(thirdFromLastChatlogMessage.answer);
         console.log("here-7");
         setDataReady(true);
         setReadyToDisplayGOT(true);
@@ -296,6 +299,10 @@ export default function ChatGPT({ experiment }) {
   // booleanCode for checking if the messageFromOpenai contains python code
   // const [booleanCode, setBooleanCode] = useState(false);
 
+  // question and answer state from GOT json
+  const [gotQuestion, setGotQuestion] = useState("");
+  const [gotAnswer, setGotAnswer] = useState("");
+
   const [isDark, setIsDark] = useState(false);
 
   // clear chats
@@ -375,13 +382,21 @@ export default function ChatGPT({ experiment }) {
   }
 
   async function handleSubmit(e) {
+    // make all onclick or any event to be disabled in the all buttons classname side-menu-buttonForGOT
+    let sideMenuButtonForGOT =
+      document.getElementsByClassName("divsidemenuForGOT");
+
+    for (let i = 0; i < sideMenuButtonForGOT.length; i++) {
+      sideMenuButtonForGOT[i].style.pointerEvents = "none";
+    }
+
+    // newchatbuttonForGOT id
+    let newchatbuttonForGOT = document.getElementById("newchatbuttonForGOT");
+    newchatbuttonForGOT.style.pointerEvents = "none";
+
     // prevent page from refreshing
     e.preventDefault();
 
-    // fetch the data.json file for the submitted chatInput and chatid
-    setDataset("");
-    setReadyToDisplayGOT(true);
-    setGotLoaded(false);
     // make id chatSubmitFormID unvisible
     // document.getElementById("chatSubmitFormID").style.display = "none";
 
@@ -435,18 +450,25 @@ export default function ChatGPT({ experiment }) {
       );
 
       // if chatInput is longer than 14 characters, then make the chatInput to be the first 11 characters of the chatInput and add ...
-      let chatInputTemp = chatInput;
-      if (chatInputTemp.length > 14) {
-        chatInputTemp = chatInputTemp.slice(0, 11) + "...";
-      }
+      // let chatInputTemp = chatInput;
+      // if (chatInputTemp.length > 14) {
+      //   chatInputTemp = chatInputTemp.slice(0, 11) + "...";
+      // }
 
       // update chat title by chat id and chat input
       await updateChatTitleByChatId(
         chatid_list[chatCurrentTempId - 1],
-        chatInputTemp
+        // chatInputTemp
+        chatInput
       );
 
       await setTapTitlesFunc();
+
+      // [readyToDisplayGOT, dataReady]);
+      // fetch the data.json file for the submitted chatInput and chatid
+      setDataset("");
+      setReadyToDisplayGOT(true);
+      setGotLoaded(false);
     }
 
     /*
@@ -708,6 +730,10 @@ export default function ChatGPT({ experiment }) {
           setDataset,
           setDataReady,
           setChatInputForGOT,
+          gotQuestion,
+          setGotQuestion,
+          gotAnswer,
+          setGotAnswer,
         }}
       >
         <SideMenu />
@@ -728,6 +754,10 @@ export default function ChatGPT({ experiment }) {
           setReadyToDisplayGOT,
           dataReady,
           setDataReady,
+          gotQuestion,
+          setGotQuestion,
+          gotAnswer,
+          setGotAnswer,
         }}
       >
         <ChatBox />

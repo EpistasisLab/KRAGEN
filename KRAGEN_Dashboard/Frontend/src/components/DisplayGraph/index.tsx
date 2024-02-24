@@ -69,6 +69,10 @@ interface DisplayGraphProps {
   setDataReady: (dataReady: boolean) => void;
   dataset: Dataset | "";
   setDataset: (dataset: Dataset | "") => void;
+  gotQuestion: string;
+  setGotQuestion: (gotQuestion: string) => void;
+  gotAnswer: string;
+  setGotAnswer: (gotAnswer: string) => void;
 }
 
 const DisplayGraph: FC<DisplayGraphProps> = ({
@@ -81,6 +85,10 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   setDataReady,
   dataset,
   setDataset,
+  gotQuestion,
+  setGotQuestion,
+  gotAnswer,
+  setGotAnswer,
 }) => {
   const sigmaContainerRef = useRef<HTMLDivElement>(null);
 
@@ -111,9 +119,9 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   //
   // const [isLoading, setIsLoading] = useState(false); // loading icon show
 
-  // question and answer state
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  // // question and answer state
+  // const [question, setQuestion] = useState("");
+  // const [answer, setAnswer] = useState("");
 
   // Track mouse position
   useEffect(() => {
@@ -138,60 +146,15 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     // Additional styling here...
   };
 
-  // useEffect(() => {
-  //   console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
-  //   console.log("GOTchatInput", chatInputForGOT);
-
-  //   if (readyToDisplayGOT) {
-  //     setIsLoading(true); // loading icon show
-  //     // fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
-  //     // get question from the textarea
-
-  //     // fetch(
-  //     //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`
-  //     // )
-  //     // test
-  //     fetch(
-  //       `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
-  //     )
-  //       .then((res) => res.json())
-  //       .then((dataset: Dataset) => {
-  //         console.log("datasetGOT", dataset);
-
-  //         setDataset(dataset);
-
-  //         // set question and answer
-  //         setQuestion("Question: Who is the father of Jon Snow?");
-  //         setAnswer("Answer: Rhaegar Targaryen");
-
-  //         setFiltersState({
-  //           clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
-  //           tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
-  //         });
-  //         requestAnimationFrame(() => {
-  //           setDataReady(true);
-  //           setIsLoading(false);
-  //         });
-  //       });
-  //   }
-  // }, [readyToDisplayGOT]); // Only re-run the effect if count changes
-
+  // original
   useEffect(() => {
     const fetchData = async () => {
-      // console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
-      // console.log("GOTchatInput", chatInputForGOT);
-      console.log("hereout-============================================");
-      console.log("hereout-readyToDisplayGOT", readyToDisplayGOT);
-      console.log("hereout-dataset", dataset);
-      console.log("hereout-dataReady", dataReady);
-      console.log("hereout-chatInputForGOT", chatInputForGOT);
-
+      // dataset is the got json data
       if (
         readyToDisplayGOT === true &&
         dataset === "" &&
         chatInputForGOT !== ""
       ) {
-        console.log("hereout-first");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
 
@@ -256,15 +219,14 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           // setReadyToDisplayGOT(true);
 
           // set question and answer
-          setQuestion("Question: " + chatInputForGOT);
-          // setAnswer("Answer: "+dataset.answer);
+          setGotQuestion(dataset.question);
+          setGotAnswer(dataset.answer);
 
           setFiltersState({
             clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
             tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
           });
           requestAnimationFrame(() => {
-            console.log("here2");
             // readyToDisplayGOT === true && dataset === ""
             console.log("here2-readyToDisplayGOT", readyToDisplayGOT);
             console.log("here2-dataset", dataset);
@@ -273,6 +235,22 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             // setIsLoading(false);
             // setIsLoading(false);
           });
+
+          const sideMenuButtons =
+            document.getElementsByClassName("divsidemenuForGOT");
+
+          if (sideMenuButtons) {
+            for (let i = 0; i < sideMenuButtons.length; i++) {
+              const button = sideMenuButtons[i] as HTMLDivElement;
+              button.style.pointerEvents = "auto";
+            }
+          }
+
+          let newchatbuttonForGOT = document.getElementById(
+            "newchatbuttonForGOT"
+          );
+          const newchatbutton = newchatbuttonForGOT as HTMLDivElement;
+          newchatbutton.style.pointerEvents = "auto";
         } catch (error) {
           console.error("Failed to fetch data:", error);
           // Handle the error accordingly
@@ -280,9 +258,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           setDataReady(false);
           setGotLoaded(false);
         }
-      }
-
-      if (
+      } else if (
         readyToDisplayGOT === true &&
         dataset !== "" &&
         chatInputForGOT === ""
@@ -352,8 +328,10 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           setDataset(dataset);
 
           // set question and answer
-          setQuestion("Question: " + chatInputForGOT);
-          // setAnswer("Answer: "+dataset.answer);
+          // setQuestion("Question: " + gotQuestion);
+          // setAnswer("Answer: " + gotAnswer);
+          setGotQuestion(dataset.question);
+          setGotAnswer(dataset.answer);
 
           setFiltersState({
             clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
@@ -366,6 +344,18 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             // setIsLoading(false);
             // setIsLoading(false);
           });
+
+          // const sideMenuButtons = document.getElementsByClassName(
+          //   "sidemenuForGOT"
+          // );
+
+          // if (sideMenuButtons) {
+          //   for (let i = 0; i < sideMenuButtons.length; i++) {
+          //     const button = sideMenuButtons[i] as HTMLDivElement;
+          //     // make it work again
+          //     button.style.pointerEvents = "auto";
+          //   }
+          // }
         } catch (error) {
           console.error("Failed to fetch data:", error);
           // Handle the error accordingly
@@ -378,6 +368,57 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
     fetchData();
   }, [readyToDisplayGOT, dataReady]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
+
+  // refactoring
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // 조건이 만족되지 않으면 함수를 빠르게 종료합니다.
+  //     if (!readyToDisplayGOT || chatInputForGOT === "" || dataset !== "")
+  //       return;
+
+  //     setGotLoaded(false);
+
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({ chatInput: chatInputForGOT }),
+  //         }
+  //       );
+
+  //       const dataset = await res.json();
+  //       console.log("datasetGOT-readyToDisplayGOT", dataset);
+
+  //       let chatid_list = await savedChatIDs();
+  //       console.log("chatid_listInDisplayGraph", chatid_list);
+
+  //       let data = await getChatMessageByExperimentId(
+  //         chatid_list[Number(chatCurrentTempId) - 1]
+  //       );
+  //       console.log("dataInDisplayGraph", data);
+
+  //       let datasetString = JSON.stringify(dataset);
+  //       await postInChatlogsToDB(
+  //         chatid_list[Number(chatCurrentTempId) - 1],
+  //         datasetString,
+  //         "text",
+  //         "gpt"
+  //       );
+
+  //       // 상태 업데이트 로직을 하나의 함수에서 처리합니다.
+  //       updateDisplayState(dataset);
+  //     } catch (error) {
+  //       console.error("Failed to fetch data:", error);
+  //       handleFetchError();
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [readyToDisplayGOT, dataset, chatInputForGOT]); // 의존성 배열 업데이트
 
   if (!dataset) return null;
 
@@ -411,16 +452,6 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           <GraphDataController dataset={dataset} filters={filtersState} />
 
           <div className="controls">
-            {question && answer && (
-              // font color is white
-              // locate at 300px from the top and 20px from the left
-              // Instead of px, use rem
-              <div className="text-2xl text-white mb-40 ml-20 sm:mb-10 sm:ml-5 md:mb-20 md:ml-10 lg:mb-32 lg:ml-16">
-                <div className="question">{question}</div>
-                <div className="answer">{answer}</div>
-              </div>
-            )}
-
             <div className="ico">
               <button
                 type="button"
