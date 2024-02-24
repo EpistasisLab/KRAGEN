@@ -184,7 +184,11 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
       console.log("hereout-dataReady", dataReady);
       console.log("hereout-chatInputForGOT", chatInputForGOT);
 
-      if (readyToDisplayGOT === true && dataset === "") {
+      if (
+        readyToDisplayGOT === true &&
+        dataset === "" &&
+        chatInputForGOT !== ""
+      ) {
         console.log("hereout-first");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
@@ -276,7 +280,11 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
         }
       }
 
-      if (readyToDisplayGOT === true && dataset !== "") {
+      if (
+        readyToDisplayGOT === true &&
+        dataset !== "" &&
+        chatInputForGOT === ""
+      ) {
         console.log("hereout-second");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);

@@ -169,8 +169,13 @@ export default function ChatGPT({ experiment }) {
           thirdFromLastChatlog.message
         );
 
+<<<<<<< HEAD
         // setGOTJSON(thirdFromLastChatlogMessage);
         setDataset(thirdFromLastChatlogMessage);
+=======
+        setGOTJSON(thirdFromLastChatlogMessage);
+        console.log("here-7");
+>>>>>>> main
         setDataReady(true);
         setReadyToDisplayGOT(true);
 
@@ -280,7 +285,10 @@ export default function ChatGPT({ experiment }) {
   // ready to show disply the component named DisplayGraph
   const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
 
-  // gotloaded state include "", "true", "false"
+  // gotloaded state include "", true, false for loading icon
+  // false means that the loading icon is displayed
+  // true means that the loading icon is not displayed
+  // "" means that the loading icon is not displayed
   const [gotLoaded, setGotLoaded] = useState("");
 
   //GOTJSON

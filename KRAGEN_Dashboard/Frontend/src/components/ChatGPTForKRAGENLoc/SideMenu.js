@@ -1082,9 +1082,7 @@ export default function SideMenu() {
 
                 value={preSetPrompt}
               />
-              {/* <Button text="0 - Logical" onClick={() => setTemperature(0)}/>
-                            <Button text="0.5 - Balanced" onClick={() => setTemperature(0.5)}/>
-                            <Button text="1 - Creative" onClick={() => setTemperature(1)}/> */}
+
               <span className="info">Please write your prompt here.</span>
             </div>
           </div>
