@@ -145,17 +145,18 @@ export default function ChatGPT({ experiment }) {
       // console.log("thirdFromLastChatlog", thirdFromLastChatlog);
       // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
       if (thirdFromLastChatlog === null) {
+        // [readyToDisplayGOT, GOTJSON, dataReady]
         setChatInputForGOT("");
         setDataset("");
+        setGotLoaded("");
+
+        setGOTJSON("");
         setDataReady(false);
         setReadyToDisplayGOT(false);
-        setGotLoaded("");
-        setGOTJSON("");
 
         const textarea = document.getElementById("chatSubmitFormID");
         // Make the textarea editable
         textarea.readOnly = false;
-
         // Make the textarea visible
         textarea.style.opacity = 1;
       } else {
@@ -169,6 +170,7 @@ export default function ChatGPT({ experiment }) {
         );
 
         setGOTJSON(thirdFromLastChatlogMessage);
+        console.log("here-7");
         setDataReady(true);
         setReadyToDisplayGOT(true);
 
@@ -278,7 +280,10 @@ export default function ChatGPT({ experiment }) {
   // ready to show disply the component named DisplayGraph
   const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
 
-  // gotloaded state include "", "true", "false"
+  // gotloaded state include "", true, false for loading icon
+  // false means that the loading icon is displayed
+  // true means that the loading icon is not displayed
+  // "" means that the loading icon is not displayed
   const [gotLoaded, setGotLoaded] = useState("");
 
   //GOTJSON
