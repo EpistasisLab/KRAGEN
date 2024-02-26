@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useEffect, useState } from "react";
+import React, { CSSProperties, FC, useEffect, useState, useRef } from "react";
 import { SigmaContainer, ZoomControl, FullScreenControl } from "react-sigma-v2";
 
 import { omit, mapValues, keyBy, constant } from "lodash";
@@ -60,32 +60,45 @@ import {
 } from "../apiService";
 
 interface DisplayGraphProps {
-  readyToDisplayGOT: boolean;
   chatInputForGOT: string;
+  readyToDisplayGOT: boolean;
+  setReadyToDisplayGOT: (readyToDisplayGOT: boolean) => void;
   chatCurrentTempId: string;
-  setGotLoaded: (value: boolean) => void;
-  GOTJSON: any;
-  descGOTREQ: boolean;
-  // setReadyToDisplayGOT: (value: boolean) => void;
+  setGotLoaded: (gotLoaded: boolean) => void;
+  dataReady: boolean;
+  setDataReady: (dataReady: boolean) => void;
+  dataset: Dataset | "";
+  setDataset: (dataset: Dataset | "") => void;
+  gotQuestion: string;
+  setGotQuestion: (gotQuestion: string) => void;
+  gotAnswer: string;
+  setGotAnswer: (gotAnswer: string) => void;
 }
 
 const DisplayGraph: FC<DisplayGraphProps> = ({
-  readyToDisplayGOT,
   chatInputForGOT,
+  readyToDisplayGOT,
+  setReadyToDisplayGOT,
   chatCurrentTempId,
   setGotLoaded,
-  GOTJSON,
-
-  // descGOTREQ,
-  // setReadyToDisplayGOT,
+  dataReady,
+  setDataReady,
+  dataset,
+  setDataset,
+  gotQuestion,
+  setGotQuestion,
+  gotAnswer,
+  setGotAnswer,
 }) => {
+  const sigmaContainerRef = useRef<HTMLDivElement>(null);
+
   const [showContents, setShowContents] = useState(false);
 
-  const [dataReady, setDataReady] = useState(false);
+  // const [dataReady, setDataReady] = useState(false);
   // set description for clicked node
   const [descriptionForClickedNode, setDescriptionForClickedNode] =
     useState("");
-  const [dataset, setDataset] = useState<Dataset | null>(null);
+  // const [dataset, setDataset] = useState<Dataset | null>(null);
   const [filtersState, setFiltersState] = useState<FiltersState>({
     clusters: {},
     tags: {},
@@ -106,9 +119,9 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   //
   // const [isLoading, setIsLoading] = useState(false); // loading icon show
 
-  // question and answer state
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  // // question and answer state
+  // const [question, setQuestion] = useState("");
+  // const [answer, setAnswer] = useState("");
 
   // Track mouse position
   useEffect(() => {
@@ -133,50 +146,15 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     // Additional styling here...
   };
 
-  // useEffect(() => {
-  //   console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
-  //   console.log("GOTchatInput", chatInputForGOT);
-
-  //   if (readyToDisplayGOT) {
-  //     setIsLoading(true); // loading icon show
-  //     // fetch(`${process.env.PUBLIC_URL}/gotdata/dataset.json`)
-  //     // get question from the textarea
-
-  //     // fetch(
-  //     //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`
-  //     // )
-  //     // test
-  //     fetch(
-  //       `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
-  //     )
-  //       .then((res) => res.json())
-  //       .then((dataset: Dataset) => {
-  //         console.log("datasetGOT", dataset);
-
-  //         setDataset(dataset);
-
-  //         // set question and answer
-  //         setQuestion("Question: Who is the father of Jon Snow?");
-  //         setAnswer("Answer: Rhaegar Targaryen");
-
-  //         setFiltersState({
-  //           clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
-  //           tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
-  //         });
-  //         requestAnimationFrame(() => {
-  //           setDataReady(true);
-  //           setIsLoading(false);
-  //         });
-  //       });
-  //   }
-  // }, [readyToDisplayGOT]); // Only re-run the effect if count changes
-
+  // original
   useEffect(() => {
     const fetchData = async () => {
-      // console.log("chatCurrentTempIdInDisplayGraph", chatCurrentTempId);
-      // console.log("GOTchatInput", chatInputForGOT);
-
-      if (readyToDisplayGOT && GOTJSON === "") {
+      // dataset is the got json data
+      if (
+        readyToDisplayGOT === true &&
+        dataset === "" &&
+        chatInputForGOT !== ""
+      ) {
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
 
@@ -238,29 +216,54 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
           setDataset(dataset);
 
+          // setReadyToDisplayGOT(true);
+
           // set question and answer
-          setQuestion("Question: " + chatInputForGOT);
-          // setAnswer("Answer: "+dataset.answer);
+          setGotQuestion(dataset.question);
+          setGotAnswer(dataset.answer);
 
           setFiltersState({
             clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
             tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
           });
           requestAnimationFrame(() => {
+            // readyToDisplayGOT === true && dataset === ""
+            console.log("here2-readyToDisplayGOT", readyToDisplayGOT);
+            console.log("here2-dataset", dataset);
             setDataReady(true);
             setGotLoaded(true);
             // setIsLoading(false);
             // setIsLoading(false);
           });
+
+          const sideMenuButtons =
+            document.getElementsByClassName("divsidemenuForGOT");
+
+          if (sideMenuButtons) {
+            for (let i = 0; i < sideMenuButtons.length; i++) {
+              const button = sideMenuButtons[i] as HTMLDivElement;
+              button.style.pointerEvents = "auto";
+            }
+          }
+
+          let newchatbuttonForGOT = document.getElementById(
+            "newchatbuttonForGOT"
+          );
+          const newchatbutton = newchatbuttonForGOT as HTMLDivElement;
+          newchatbutton.style.pointerEvents = "auto";
         } catch (error) {
           console.error("Failed to fetch data:", error);
           // Handle the error accordingly
           // setIsLoading(false); // Ensure loading icon is hidden in case of error
+          setDataReady(false);
           setGotLoaded(false);
         }
-      }
-
-      if (readyToDisplayGOT && GOTJSON !== "") {
+      } else if (
+        readyToDisplayGOT === true &&
+        dataset !== "" &&
+        chatInputForGOT === ""
+      ) {
+        console.log("hereout-second");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
 
@@ -320,35 +323,102 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           //   "gpt"
           // );
 
-          console.log("datasetGOT-GOTJSON", GOTJSON);
+          console.log("datasetGOT-dataset", dataset);
 
-          setDataset(GOTJSON);
+          setDataset(dataset);
 
           // set question and answer
-          setQuestion("Question: " + chatInputForGOT);
-          // setAnswer("Answer: "+dataset.answer);
+          // setQuestion("Question: " + gotQuestion);
+          // setAnswer("Answer: " + gotAnswer);
+          setGotQuestion(dataset.question);
+          setGotAnswer(dataset.answer);
 
           setFiltersState({
-            clusters: mapValues(keyBy(GOTJSON.clusters, "key"), constant(true)),
-            tags: mapValues(keyBy(GOTJSON.tags, "key"), constant(true)),
+            clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
+            tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
           });
           requestAnimationFrame(() => {
+            console.log("here3");
             setDataReady(true);
             setGotLoaded(true);
             // setIsLoading(false);
             // setIsLoading(false);
           });
+
+          // const sideMenuButtons = document.getElementsByClassName(
+          //   "sidemenuForGOT"
+          // );
+
+          // if (sideMenuButtons) {
+          //   for (let i = 0; i < sideMenuButtons.length; i++) {
+          //     const button = sideMenuButtons[i] as HTMLDivElement;
+          //     // make it work again
+          //     button.style.pointerEvents = "auto";
+          //   }
+          // }
         } catch (error) {
           console.error("Failed to fetch data:", error);
           // Handle the error accordingly
           // setIsLoading(false); // Ensure loading icon is hidden in case of error
+          setDataReady(false);
           setGotLoaded(false);
         }
       }
     };
 
     fetchData();
-  }, [readyToDisplayGOT, GOTJSON]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
+  }, [readyToDisplayGOT, dataReady]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
+
+  // refactoring
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // 조건이 만족되지 않으면 함수를 빠르게 종료합니다.
+  //     if (!readyToDisplayGOT || chatInputForGOT === "" || dataset !== "")
+  //       return;
+
+  //     setGotLoaded(false);
+
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({ chatInput: chatInputForGOT }),
+  //         }
+  //       );
+
+  //       const dataset = await res.json();
+  //       console.log("datasetGOT-readyToDisplayGOT", dataset);
+
+  //       let chatid_list = await savedChatIDs();
+  //       console.log("chatid_listInDisplayGraph", chatid_list);
+
+  //       let data = await getChatMessageByExperimentId(
+  //         chatid_list[Number(chatCurrentTempId) - 1]
+  //       );
+  //       console.log("dataInDisplayGraph", data);
+
+  //       let datasetString = JSON.stringify(dataset);
+  //       await postInChatlogsToDB(
+  //         chatid_list[Number(chatCurrentTempId) - 1],
+  //         datasetString,
+  //         "text",
+  //         "gpt"
+  //       );
+
+  //       // 상태 업데이트 로직을 하나의 함수에서 처리합니다.
+  //       updateDisplayState(dataset);
+  //     } catch (error) {
+  //       console.error("Failed to fetch data:", error);
+  //       handleFetchError();
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [readyToDisplayGOT, dataset, chatInputForGOT]); // 의존성 배열 업데이트
 
   if (!dataset) return null;
 
@@ -365,11 +435,11 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
         labelRenderedSizeThreshold: 15,
         labelFont: "Lato, sans-serif",
         zIndex: true,
-        // allowInvalidContainer: true,
+        allowInvalidContainer: true,
       }}
       className="react-sigma"
     >
-      {readyToDisplayGOT && (
+      {readyToDisplayGOT && dataReady && (
         <>
           <GraphSettingsController hoveredNode={hoveredNode} />
           <GraphEventsController
@@ -381,164 +451,150 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
           <GraphDataController dataset={dataset} filters={filtersState} />
 
-          {dataReady && (
-            <>
-              <div className="controls">
-                {question && answer && (
-                  // font color is white
-                  // locate at 300px from the top and 20px from the left
-                  // Instead of px, use rem
-                  <div className="text-2xl text-white mb-40 ml-20 sm:mb-10 sm:ml-5 md:mb-20 md:ml-10 lg:mb-32 lg:ml-16">
-                    <div className="question">{question}</div>
-                    <div className="answer">{answer}</div>
-                  </div>
-                )}
+          <div className="controls">
+            <div className="ico">
+              <button
+                type="button"
+                className="ico"
+                onClick={() => {
+                  console.log("reset button clicked");
+                }}
+                title="Back"
+              >
+                {/* reset button */}
+                <BiReset />
+              </button>
+            </div>
 
-                <div className="ico">
-                  <button
-                    type="button"
-                    className="ico"
-                    onClick={() => {
-                      console.log("reset button clicked");
+            {/* home button */}
+            <div className="ico">
+              <button
+                type="button"
+                className="ico"
+                onClick={() => {
+                  // This is a placeholder for the actual logic to determine if '/Home' exists
+                  const homeExists =
+                    "/Hi"; /* logic to determine if '/Home' exists */
+                  window.location.href = homeExists ? "/Home" : "/";
+                }}
+                title="Back"
+              >
+                {/* please use <- button */}
+                <IoMdArrowRoundBack />
+              </button>
+            </div>
+            <div className="ico">
+              <button
+                type="button"
+                className="show-contents"
+                onClick={() => setShowContents(true)}
+                title="Show caption and description"
+              >
+                <BiBookContent />
+              </button>
+            </div>
+            <FullScreenControl
+              className="ico"
+              customEnterFullScreen={<BsArrowsFullscreen />}
+              customExitFullScreen={<BsFullscreenExit />}
+            />
+            <ZoomControl
+              className="ico"
+              customZoomIn={<BsZoomIn />}
+              customZoomOut={<BsZoomOut />}
+              customZoomCenter={<BiRadioCircleMarked />}
+            />
+            {/* home button */}
+            <div className="ico">
+              <button
+                type="button"
+                className="ico"
+                onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
+                title="Home"
+              >
+                <BiHome /> {/* Use the home icon */}
+              </button>
+            </div>
+
+            {hoveredEdgeLabel && (
+              <div className="edge-label-display" style={labelStyle}>
+                {hoveredEdgeLabel}
+              </div>
+            )}
+          </div>
+          <div className="contents">
+            <div className="ico">
+              <button
+                type="button"
+                className="ico hide-contents"
+                onClick={() => setShowContents(false)}
+                title="Show caption and description"
+              >
+                <GrClose />
+              </button>
+            </div>
+            {/* <GraphTitle filters={filtersState} /> */}
+
+            <div className="panels">
+              <div className="flex justify-end">
+                {toggleControlPanel === false ? (
+                  <KeyboardArrowUpRoundedIcon
+                    style={{
+                      color: "white",
+                      fontSize: "70px",
+                      cursor: "pointer",
                     }}
-                    title="Back"
-                  >
-                    {/* reset button */}
-                    <BiReset />
-                  </button>
-                </div>
+                    onClick={(
+                      event: React.MouseEvent<SVGSVGElement, MouseEvent>
+                    ) => {
+                      // Find the closest element with the class 'panels'
+                      const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
+                      const closestPanel = target.closest(".panels");
 
-                {/* home button */}
-                <div className="ico">
-                  <button
-                    type="button"
-                    className="ico"
-                    onClick={() => {
-                      // This is a placeholder for the actual logic to determine if '/Home' exists
-                      const homeExists =
-                        "/Hi"; /* logic to determine if '/Home' exists */
-                      window.location.href = homeExists ? "/Home" : "/";
+                      // If a 'panels' element is found, change its width to 100%
+                      if (closestPanel) {
+                        (closestPanel as HTMLElement).style.width = "350px";
+                      }
+                      // Additional action
+                      setToggleControlPanel(true);
                     }}
-                    title="Back"
-                  >
-                    {/* please use <- button */}
-                    <IoMdArrowRoundBack />
-                  </button>
-                </div>
-                <div className="ico">
-                  <button
-                    type="button"
-                    className="show-contents"
-                    onClick={() => setShowContents(true)}
-                    title="Show caption and description"
-                  >
-                    <BiBookContent />
-                  </button>
-                </div>
-                <FullScreenControl
-                  className="ico"
-                  customEnterFullScreen={<BsArrowsFullscreen />}
-                  customExitFullScreen={<BsFullscreenExit />}
-                />
-                <ZoomControl
-                  className="ico"
-                  customZoomIn={<BsZoomIn />}
-                  customZoomOut={<BsZoomOut />}
-                  customZoomCenter={<BiRadioCircleMarked />}
-                />
-                {/* home button */}
-                <div className="ico">
-                  <button
-                    type="button"
-                    className="ico"
-                    onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
-                    title="Home"
-                  >
-                    <BiHome /> {/* Use the home icon */}
-                  </button>
-                </div>
+                  />
+                ) : (
+                  <KeyboardArrowDownRoundedIcon
+                    style={{
+                      color: "white",
+                      fontSize: "70px",
+                      cursor: "pointer",
+                    }}
+                    onClick={(
+                      event: React.MouseEvent<SVGSVGElement, MouseEvent>
+                    ) => {
+                      // Find the closest element with the class 'panels'
+                      const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
+                      const closestPanel = target.closest(".panels");
 
-                {hoveredEdgeLabel && (
-                  <div className="edge-label-display" style={labelStyle}>
-                    {hoveredEdgeLabel}
-                  </div>
+                      // If a 'panels' element is found, change its width to 100%
+                      if (closestPanel) {
+                        (closestPanel as HTMLElement).style.width = "100px";
+                      }
+
+                      // Additional action
+                      setToggleControlPanel(false);
+                    }}
+                  />
                 )}
               </div>
-              <div className="contents">
-                <div className="ico">
-                  <button
-                    type="button"
-                    className="ico hide-contents"
-                    onClick={() => setShowContents(false)}
-                    title="Show caption and description"
-                  >
-                    <GrClose />
-                  </button>
-                </div>
-                {/* <GraphTitle filters={filtersState} /> */}
 
-                <div className="panels">
-                  <div className="flex justify-end">
-                    {toggleControlPanel === false ? (
-                      <KeyboardArrowUpRoundedIcon
-                        style={{
-                          color: "white",
-                          fontSize: "70px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(
-                          event: React.MouseEvent<SVGSVGElement, MouseEvent>
-                        ) => {
-                          // Find the closest element with the class 'panels'
-                          const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
-                          const closestPanel = target.closest(".panels");
-
-                          // If a 'panels' element is found, change its width to 100%
-                          if (closestPanel) {
-                            (closestPanel as HTMLElement).style.width = "350px";
-                          }
-                          // Additional action
-                          setToggleControlPanel(true);
-                        }}
-                      />
-                    ) : (
-                      <KeyboardArrowDownRoundedIcon
-                        style={{
-                          color: "white",
-                          fontSize: "70px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(
-                          event: React.MouseEvent<SVGSVGElement, MouseEvent>
-                        ) => {
-                          // Find the closest element with the class 'panels'
-                          const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
-                          const closestPanel = target.closest(".panels");
-
-                          // If a 'panels' element is found, change its width to 100%
-                          if (closestPanel) {
-                            (closestPanel as HTMLElement).style.width = "100px";
-                          }
-
-                          // Additional action
-                          setToggleControlPanel(false);
-                        }}
-                      />
-                    )}
-                  </div>
-
-                  {toggleControlPanel && (
-                    <>
-                      {/* <SearchField filters={filtersState} /> */}
-                      <DescriptionPanel
-                        descriptionForClickedNode={descriptionForClickedNode}
-                        setDescriptionForClickedNode={
-                          setDescriptionForClickedNode
-                        }
-                        chatCurrentTempId={chatCurrentTempId}
-                        // descGOTREQ={descGOTREQ}
-                      />
-                      {/* <ClustersPanel
+              {toggleControlPanel && (
+                <>
+                  {/* <SearchField filters={filtersState} /> */}
+                  <DescriptionPanel
+                    descriptionForClickedNode={descriptionForClickedNode}
+                    setDescriptionForClickedNode={setDescriptionForClickedNode}
+                    chatCurrentTempId={chatCurrentTempId}
+                    // descGOTREQ={descGOTREQ}
+                  />
+                  {/* <ClustersPanel
                     clusters={dataset.clusters}
                     filters={filtersState}
                     setClusters={(clusters) =>
@@ -556,7 +612,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                       }));
                     }}
                   /> */}
-                      {/* <TagsPanel
+                  {/* <TagsPanel
                     tags={dataset.tags}
                     filters={filtersState}
                     setTags={(tags) =>
@@ -574,12 +630,10 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                       }));
                     }}
                   /> */}
-                    </>
-                  )}
-                </div>
-              </div>
-            </>
-          )}
+                </>
+              )}
+            </div>
+          </div>
         </>
       )}
     </SigmaContainer>

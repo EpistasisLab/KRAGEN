@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext } from "react";
+import ResizableDiv from "./ResizableDiv";
 import { AllContext } from "./context/AllContext";
 import DisplayGraph from "../DisplayGraph";
-import { BiHome } from "react-icons/bi";
 
+import { BiHome } from "react-icons/bi";
 import { getTokenUsage, insertTokenUsage } from "../apiService";
 import CircularProgress from "@mui/material/CircularProgress";
 import BlockOutlinedIcon from "@mui/icons-material/BlockOutlined";
@@ -11,15 +12,24 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 // Primary Chat Window
 const ChatBox = () => {
   const {
+    chatInput,
+    chatLog,
     setChatInput,
     handleSubmit,
-    chatInput,
     readyToDisplayGOT,
     chatInputForGOT,
     chatCurrentTempId,
     gotLoaded,
     setGotLoaded,
-    GOTJSON,
+    dataset,
+    setDataset,
+    setReadyToDisplayGOT,
+    dataReady,
+    setDataReady,
+    gotQuestion,
+    setGotQuestion,
+    gotAnswer,
+    setGotAnswer,
   } = useContext(AllContext);
 
   const [hasZip, setHasZip] = useState(false);
@@ -202,13 +212,42 @@ const ChatBox = () => {
             />
           </div>
         )} */}
+
+        {gotQuestion && gotAnswer && (
+          // <div
+          //   className="fixed bg-black text-white p-4"
+          //   style={{
+          //     width: "500px",
+          //     height: "130px",
+          //     overflow: "auto",
+          //     position: "absolute",
+          //     transform: "translate(10%, -55%)",
+          //     zIndex: 100,
+          //     fontSize: "1.1rem",
+          //     resize: "both",
+          //   }}
+          // >
+          //   <p className="font-semibold text-lg">Question: {gotQuestion}</p>
+          //   <p className="font-semibold text-lg">Answer: {gotAnswer}</p>
+          // </div>
+          <ResizableDiv gotQuestion={gotQuestion} gotAnswer={gotAnswer} />
+        )}
+
         <div id="dispnetgra" className="show-contents">
           <DisplayGraph
             chatInputForGOT={chatInputForGOT}
             readyToDisplayGOT={readyToDisplayGOT}
+            setReadyToDisplayGOT={setReadyToDisplayGOT}
             chatCurrentTempId={chatCurrentTempId}
             setGotLoaded={setGotLoaded}
-            GOTJSON={GOTJSON}
+            dataReady={dataReady}
+            setDataReady={setDataReady}
+            dataset={dataset}
+            setDataset={setDataset}
+            gotQuestion={gotQuestion}
+            setGotQuestion={setGotQuestion}
+            gotAnswer={gotAnswer}
+            setGotAnswer={setGotAnswer}
             // descGOTREQ={descGOTREQ}
           />
         </div>

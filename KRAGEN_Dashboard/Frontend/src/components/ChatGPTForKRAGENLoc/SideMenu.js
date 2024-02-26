@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "./context/ThemeContext";
 
 import { AllContext } from "./context/AllContext";
+import { debounce, throttle } from "lodash"; // import debounce from lodash
 
 // import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
@@ -50,9 +51,416 @@ export default function SideMenu() {
     chatInput,
     gotLoaded,
     setGotLoaded,
-    setGOTJSON,
-    // setDescGOTREQ,
+    setDataset,
+    setDataReady,
+    setChatInputForGOT,
+    gotQuestion,
+    setGotQuestion,
+    gotAnswer,
+    setGotAnswer,
   } = useContext(AllContext);
+
+  // const debouncedOnClickNewChat = debounce(async (e) =>
+  //   // Place the original onClick logic here.
+  //   {
+  //     // [readyToDisplayGOT, GOTJSON, dataReady]
+  //     // chatInputForGOT
+  //     setChatInputForGOT("");
+  //     setGotLoaded("");
+
+  //     setDataset("");
+  //     setDataReady(false);
+  //     setReadyToDisplayGOT(false);
+
+  //     let tempChatCurrentTempId = await checkClickedChatboxTab(e);
+
+  //     setNumChatBox((numChatBox) => numChatBox + 1);
+
+  //     // checking got data in the chatbox
+  //     let chatid_list = await savedChatIDs();
+
+  //     let data = await getChatMessageByExperimentId(
+  //       chatid_list[tempChatCurrentTempId - 1]
+  //       // chatCurrentTempId
+  //     );
+  //     console.log("debouncedOnClickNewChat-data", data);
+
+  //     const textarea = document.getElementById("chatSubmitFormID");
+  //     // Make the textarea editable
+  //     textarea.readOnly = false;
+
+  //     // Make the textarea visible
+  //     textarea.style.opacity = 1;
+
+  //     // make chatsubmitbutton id block
+  //     const submitbutton = document.getElementById("chatsubmitbutton");
+  //     submitbutton.style.display = "block";
+  //   }, 250); // Set a debounce delay of 250 milliseconds.
+
+  const debouncedOnClickNewChat = debounce(async (e) => {
+    // set gotQuestion, gotAnswer, chatInputForGOT, gotLoaded, dataset, dataReady, readyToDisplayGOT
+    setGotQuestion("");
+    setGotAnswer("");
+    // Set initial states
+    setChatInputForGOT("");
+    setGotLoaded("");
+    setDataset("");
+    setDataReady(false);
+    setReadyToDisplayGOT(false);
+
+    // // Use Promise.all for parallel execution
+    // let [tempChatCurrentTempId, chatid_list] = await Promise.all([
+    //   checkClickedChatboxTab(e),
+    //   savedChatIDs(),
+    // ]);
+
+    let tempChatCurrentTempId = await checkClickedChatboxTab(e);
+
+    // Increase the number of chat tabs
+    setNumChatBox((numChatBox) => numChatBox + 1);
+
+    let chatid_list = await savedChatIDs();
+
+    console.log("chatid_list", chatid_list);
+    console.log("tempChatCurrentTempId", tempChatCurrentTempId);
+
+    // Load data for the selected chat tab
+    if (chatid_list.length > tempChatCurrentTempId - 1) {
+      const data = await getChatMessageByExperimentId(
+        chatid_list[tempChatCurrentTempId - 1]
+      );
+      console.log("debouncedOnClickNewChat-data", data);
+
+      // Set the textarea to be editable
+      const textarea = document.getElementById("chatSubmitFormID");
+      textarea.readOnly = false;
+      textarea.style.opacity = 1;
+
+      // Display the submit button
+      const submitbutton = document.getElementById("chatsubmitbutton");
+      submitbutton.style.display = "block";
+    }
+  }, 250);
+
+  // const debouncedOnClickChatTab = debounce(async (e) => {
+  //   console.log("tempChatCurrentTempId", tempChatCurrentTempId);
+
+  //   clearAllTrashIcons(e.target.parentNode.parentNode);
+
+  //   clearAllCheckIcons(e.target.parentNode.parentNode);
+
+  //   e.target.parentNode.childNodes[1].style.display = "block";
+  //   e.target.parentNode.childNodes[2].style.display = "block";
+
+  //   let tempChatCurrentTempId = await checkClickedChatboxTab(e);
+  //   // checking got data in the chatbox
+  //   let chatid_list = await savedChatIDs();
+  //   // console.log("chatid_list", chatid_list);
+
+  //   let data = await getChatMessageByExperimentId(
+  //     chatid_list[tempChatCurrentTempId - 1]
+  //     // chatCurrentTempId
+  //   );
+
+  //   console.log("else-data", data);
+
+  //   // Calculate the index for the third-to-last item
+  //   const index = data.chatlogs.length - 3;
+
+  //   // Accessing the third-to-last chatlog entry, if the array is long enough
+  //   const thirdFromLastChatlog =
+  //     data.chatlogs.length > 2 ? data.chatlogs[index] : null;
+
+  //   // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
+  //   if (thirdFromLastChatlog === null) {
+  //     setReadyToDisplayGOT(false);
+  //     setDataset("");
+  //     const textarea = document.getElementById("chatSubmitFormID");
+  //     // Make the textarea editable
+  //     textarea.readOnly = false;
+
+  //     // Make the textarea visible
+  //     textarea.style.opacity = 1;
+
+  //     const submitbutton = document.getElementById("chatsubmitbutton");
+  //     // make submitbutton diplsay block
+  //     submitbutton.style.display = "block";
+  //   } else {
+  //     console.log(
+  //       "else-thirdFromLastChatlog.message",
+  //       thirdFromLastChatlog.message
+  //     );
+  //     // convert thirdFromLastChatlog.message to json
+  //     let thirdFromLastChatlogMessage = JSON.parse(
+  //       thirdFromLastChatlog.message
+  //     );
+
+  //     console.log("thirdFromLastChatlogMessage-2", thirdFromLastChatlogMessage);
+
+  //     setDataset(thirdFromLastChatlogMessage);
+
+  //     setReadyToDisplayGOT(true);
+
+  //     // Get the element by its ID
+  //     const textarea = document.getElementById("chatSubmitFormID");
+
+  //     // Make the textarea read-only
+  //     textarea.readOnly = true;
+
+  //     // Make the textarea invisible but still occupy space
+  //     textarea.style.opacity = 0;
+  //   }
+  // }, 250);
+  const debouncedOnClickChatTab = debounce(async (e) => {
+    // Execute checkClickedChatboxTab and savedChatIDs in parallel since they are independent
+    const [tempChatCurrentTempId, chatid_list] = await Promise.all([
+      checkClickedChatboxTab(e),
+      savedChatIDs(),
+    ]);
+
+    console.log("tempChatCurrentTempId", tempChatCurrentTempId);
+
+    // UI operations to clear icons and display chat controls
+    clearAllTrashIcons(e.target.parentNode.parentNode);
+    clearAllCheckIcons(e.target.parentNode.parentNode);
+    e.target.parentNode.childNodes[1].style.display = "block";
+    e.target.parentNode.childNodes[2].style.display = "block";
+
+    // Ensure the chat ID is within bounds before attempting to fetch chat messages
+    if (chatid_list.length > tempChatCurrentTempId - 1) {
+      let data = await getChatMessageByExperimentId(
+        chatid_list[tempChatCurrentTempId - 1]
+      );
+      console.log("else-data", data);
+
+      // Process the data from the third-to-last chatlog entry
+      const index = data.chatlogs.length - 3;
+      const thirdFromLastChatlog =
+        data.chatlogs.length > 2 ? data.chatlogs[index] : null;
+
+      if (thirdFromLastChatlog === null) {
+        setGotQuestion("");
+        setGotAnswer("");
+        setReadyToDisplayGOT(false);
+        setDataset("");
+        makeTextareaEditable();
+      } else {
+        let thirdFromLastChatlogMessage = JSON.parse(
+          thirdFromLastChatlog.message
+        );
+        console.log(
+          "thirdFromLastChatlogMessage-2",
+          thirdFromLastChatlogMessage
+        );
+        setDataset(thirdFromLastChatlogMessage);
+
+        // set the question and answer states
+        setGotQuestion(thirdFromLastChatlogMessage.question);
+        setGotAnswer(thirdFromLastChatlogMessage.answer);
+
+        setReadyToDisplayGOT(true);
+        makeTextareaReadOnly();
+      }
+    } else {
+      // If the chat ID is out of bounds, reset to default UI state
+      setDefaultsForUI();
+    }
+  }, 250);
+
+  function makeTextareaEditable() {
+    const textarea = document.getElementById("chatSubmitFormID");
+    textarea.readOnly = false;
+    textarea.style.opacity = 1;
+    document.getElementById("chatsubmitbutton").style.display = "block";
+  }
+
+  function makeTextareaReadOnly() {
+    const textarea = document.getElementById("chatSubmitFormID");
+    textarea.readOnly = true;
+    textarea.style.opacity = 0;
+  }
+
+  function setDefaultsForUI() {
+    // Implement UI reset logic here
+    setReadyToDisplayGOT(false);
+    setDataset("");
+    // Additional UI reset operations as needed
+  }
+  const debouncedOnDoubleClickChatTab = debounce(async (e) => {
+    // find the child node with id newchatbutton
+    let newchatbutton = document.getElementById("newchatbuttonForGOT");
+
+    // make it unclickable
+    newchatbutton.style.pointerEvents = "none";
+
+    // allow to change the text in div
+    e.target.contentEditable = true;
+    e.target.focus();
+
+    //not allow user to use delete key when the text is empty
+    e.target.onkeydown = async function (e) {
+      // split e.target.textContent with & and _ to get the text
+      // console.log("0509-e.target.childNodes[0].textContent",e.target.textContent)
+      let tempString = e.target.textContent.split("&")[0].split("_")[0];
+
+      // e.keyCode === 8 is the delete key
+      if (tempString === "" && e.keyCode === 8) {
+        // console.log("tempString ===  && e.keyCode === 8)")
+        e.preventDefault();
+
+        // e.target.textContent
+      }
+      // enter key is not allowed
+      if (e.keyCode === 13) {
+        // console.log("e.keyCode", e.keyCode);
+        // if(e.keyCode === 13) {
+        // console.log("e.keyCode === 13 enter key is not allowed");
+        e.preventDefault();
+        e.target.contentEditable = false;
+        e.target.focus();
+
+        let chatids_list = await savedChatIDs();
+        // console.log("chatids_list", chatids_list);
+
+        await postChatNameToDB(tempString, chatids_list[chatCurrentTempId - 1]);
+      }
+
+      // cannot enter more than 20 characters
+      if (e.target.textContent.length > 25) {
+        console.log("Please do not enter more than 25");
+        e.preventDefault();
+      }
+    };
+  }, 250);
+
+  // debounce for side-menu-button-trashForGOT
+  const debouncedOnClickRemoveChatTab = debounce(async (e) => {
+    try {
+      setGotQuestion("");
+      setGotAnswer("");
+
+      const firstChildOfParent = e.target.parentNode.childNodes[0];
+
+      // then use firstChildOfParent instead of e.target for further operations
+      let tempChatCurrentTempId = await checkClickedChatboxTab({
+        ...e, // 기존 이벤트 객체의 나머지 부분을 전파합니다.
+        target: firstChildOfParent, // target을 firstChildOfParent로 변경합니다.
+      });
+
+      let chatid_list = await savedChatIDs();
+
+      await removeCorChat(e);
+
+      chatid_list = await savedChatIDs();
+
+      let data = "";
+      // currently the number of taps are larger than 2
+
+      data = await getChatMessageByExperimentId(
+        // chatid_list[tempChatCurrentTempId - 2]
+        chatid_list[chatid_list.length - 1]
+        // chatCurrentTempId
+      );
+
+      setChatCurrentTempId(chatid_list.length);
+
+      const index = data.chatlogs.length - 3;
+
+      // Accessing the third-to-last chatlog entry, if the array is long enough ,which means it has the json file for GOT in the chatlog
+      const thirdFromLastChatlog =
+        data.chatlogs.length > 2 ? data.chatlogs[index] : null;
+
+      if (thirdFromLastChatlog === null) {
+        console.log("7373-thirdFromLastChatlog === null");
+        console.log("notshowGOT");
+        setDataset("");
+        setReadyToDisplayGOT(false);
+        setDataReady(false);
+        setGotLoaded("");
+
+        const textarea = document.getElementById("chatSubmitFormID");
+        // Make the textarea editable
+        textarea.readOnly = false;
+
+        // Make the textarea visible
+        textarea.style.opacity = 1;
+
+        const submitbutton = document.getElementById("chatsubmitbutton");
+
+        submitbutton.style.display = "block";
+      } else {
+        console.log(
+          "side-thirdFromLastChatlog.message",
+          thirdFromLastChatlog.message
+        );
+        let thirdFromLastChatlogMessage = JSON.parse(
+          thirdFromLastChatlog.message
+        );
+        console.log("7373-thirdFromLastChatlog !== null");
+        console.log("showGOT");
+        setDataset(thirdFromLastChatlogMessage);
+        setGotQuestion(thirdFromLastChatlogMessage.question);
+        setGotAnswer(thirdFromLastChatlogMessage.answer);
+        setReadyToDisplayGOT(true);
+        console.log("here1");
+        setDataReady(true);
+        setGotLoaded(true);
+
+        // Get the element by its ID
+        const textarea = document.getElementById("chatSubmitFormID");
+
+        // Make the textarea read-only
+        textarea.readOnly = true;
+
+        // Make the textarea invisible but still occupy space
+        textarea.style.opacity = 0;
+      }
+    } catch (error) {
+      console.log("error-removeCorChat", error);
+    }
+  }, 250);
+
+  const onMouseEnterThrottledTrashToCheck = throttle((e) => {
+    changeTrashToCheck(e.target.parentNode.childNodes[1], false);
+  }, 100); // 100ms 간격으로 이벤트 핸들러 호출 제한
+
+  const onMouseLeaveThrottledTrashToCheck = throttle((e) => {
+    changeTrashToCheck(e.target.parentNode.childNodes[1], true);
+  }, 100); // 100ms 간격으로 이벤트 핸들러 호출 제한
+
+  // Debouncing onMouseEnter and onMouseLeave
+  const debouncedChangePenToCheckEnter = debounce((target, flag) => {
+    changePenToCheck(target, flag);
+  }, 250); // 250ms delay
+
+  const debouncedChangePenToCheckLeave = debounce((target, flag) => {
+    changePenToCheck(target, flag);
+  }, 250); // 250ms delay
+
+  // Debouncing onClick
+  const debouncedOnClickPen = debounce(async (e) => {
+    let newchatbutton = document.getElementById("newchatbuttonForGOT");
+
+    // make it clickable
+    newchatbutton.style.pointerEvents = "auto";
+
+    // find element by className side-menu-button from the e.target.parentNode
+    let tempSideMenuButtonText = e.target.parentNode
+      .getElementsByClassName("side-menu-buttonForGOT")[0]
+      .textContent.split("&")[0]
+      .split("_")[0];
+
+    let chatids_list = await savedChatIDs();
+    // console.log("chatids_list", chatids_list);
+
+    await postChatNameToDB(
+      tempSideMenuButtonText,
+      chatids_list[chatCurrentTempId - 1]
+    );
+  }, 200); // 200ms delay
+
+  // debounce for side-menu-button-trashForGOT
+  // const debouncedOnClickRe
 
   const [chatids, setChatids] = useState([]);
 
@@ -164,7 +572,7 @@ export default function SideMenu() {
         //     }
         // ]
 
-        if (data["chatlogs"][i]["who"] == "user") {
+        if (data["chatlogs"][i]["who"] === "user") {
           chatLogNew = [
             ...chatLogNew,
             {
@@ -172,7 +580,7 @@ export default function SideMenu() {
               message: data["chatlogs"][i]["message"],
             },
           ];
-        } else if (data["chatlogs"][i]["who"] == "gpt") {
+        } else if (data["chatlogs"][i]["who"] === "gpt") {
           chatLogNew = [
             ...chatLogNew,
             {
@@ -202,19 +610,13 @@ export default function SideMenu() {
 
     // In getAllChatsAndGetSpecificChatBasedOnExpID function, in the case where data[clickedChatBoxNum] != undefined, // clear the context of the chat completions endpoint. And then, post with chatlog of clicked chatbox to the openai api (chat/completions).
 
-    console.log("checkClickedChatboxTab-e.target", e.target);
+    // console.log("checkClickedChatboxTab-e.target", e.target);
 
     if (e.target.childNodes[0].nodeValue === "+ New Chat") {
       var countClickedChatBoxID = numChatBox + 1;
       // console.log("countClickedChatBoxID", countClickedChatBoxID);
     } else {
-      console.log("e.target", e.target);
-      console.log("e.target.parentNode", e.target.parentNode);
       var siblings = e.target.parentNode.parentNode.childNodes;
-
-      console.log("siblings", siblings);
-
-      // console.log("siblings", siblings);
 
       for (let i = 1; i < siblings.length; i++) {
         // console.log("siblings[i]",siblings[i])
@@ -236,7 +638,7 @@ export default function SideMenu() {
 
       // Add 1 to currentClickedChatBoxID
       countClickedChatBoxID = currentClickedChatBoxID + 1;
-      console.log("ttt-countClickedChatBoxID", countClickedChatBoxID);
+      // console.log("ttt-countClickedChatBoxID", countClickedChatBoxID);
     }
     // first chatbox is 1, second chatbox is 2, third chatbox is 3, etc.
 
@@ -315,7 +717,7 @@ export default function SideMenu() {
                       cy="10"
                       r="7"
                       stroke="white"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       fill="none"
                     />
 
@@ -358,7 +760,7 @@ export default function SideMenu() {
                     cy="10"
                     r="7"
                     stroke="white"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     fill="none"
                   />
 
@@ -458,9 +860,8 @@ export default function SideMenu() {
 
         // new
         let new_chat_id = await createChatID();
-        console.log("new_chat_id", new_chat_id["chat_id"]);
+
         let chatids_list = await savedChatIDs();
-        console.log("chatids_list", chatids_list);
 
         if (chatids_list.length === 0) {
           // POST http://localhost:5080/chatapi/v1/chatlogs
@@ -634,7 +1035,13 @@ export default function SideMenu() {
 
   return (
     <div className="divsidemenuForGOT">
-      <aside className="sidemenuForGOT">
+      <aside
+        className="sidemenuForGOT"
+        style={{
+          overflowY: "auto", // 세로 스크롤바를 추가합니다
+          maxHeight: "100vh", // 화면 높이를 넘어가지 않도록 설정합니다
+        }}
+      >
         {/* <div className="side-menu-button" onClick={() => setNumChatBox(numChatBox + 1)}> */}
         {/* <div className="side-menu-button" 
                 > */}
@@ -666,7 +1073,7 @@ export default function SideMenu() {
 
             const popupContent = document.getElementById("popupContent");
 
-            if (popupContent.style.display != "block") {
+            if (popupContent.style.display !== "block") {
               popupContainer.style.display = "none";
             }
 
@@ -753,67 +1160,16 @@ export default function SideMenu() {
 
                 value={preSetPrompt}
               />
-              {/* <Button text="0 - Logical" onClick={() => setTemperature(0)}/>
-                            <Button text="0.5 - Balanced" onClick={() => setTemperature(0.5)}/>
-                            <Button text="1 - Creative" onClick={() => setTemperature(1)}/> */}
+
               <span className="info">Please write your prompt here.</span>
             </div>
           </div>
         </div>
-        {/* </div> */}
 
         <div
           className="side-menu-buttonForGOT"
           id="newchatbuttonForGOT"
-          onClick={async (e) => {
-            setGotLoaded("");
-            setGOTJSON("");
-
-            let tempChatCurrentTempId = await checkClickedChatboxTab(e);
-
-            setNumChatBox((numChatBox) => numChatBox + 1);
-
-            // checking got data in the chatbox
-            let chatid_list = await savedChatIDs();
-
-            let data = await getChatMessageByExperimentId(
-              chatid_list[tempChatCurrentTempId - 1]
-              // chatCurrentTempId
-            );
-
-            // Calculate the index for the third-to-last item
-            const index = data.chatlogs.length - 3;
-
-            // Accessing the third-to-last chatlog entry, if the array is long enough
-            const thirdFromLastChatlog =
-              data.chatlogs.length > 2 ? data.chatlogs[index] : null;
-
-            // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
-            if (thirdFromLastChatlog === null) {
-              setReadyToDisplayGOT(false);
-              const textarea = document.getElementById("chatSubmitFormID");
-              // Make the textarea editable
-              textarea.readOnly = false;
-
-              // Make the textarea visible
-              textarea.style.opacity = 1;
-
-              // make chatsubmitbutton id block
-              const submitbutton = document.getElementById("chatsubmitbutton");
-              submitbutton.style.display = "block";
-            } else {
-              setReadyToDisplayGOT(true);
-
-              // Get the element by its ID
-              const textarea = document.getElementById("chatSubmitFormID");
-
-              // Make the textarea read-only
-              textarea.readOnly = true;
-
-              // Make the textarea invisible but still occupy space
-              textarea.style.opacity = 0;
-            }
-          }}
+          onClick={debouncedOnClickNewChat}
           // style={{ display: "none" }}
         >
           {/* <AddCircleOutlineRoundedIcon fontSize="small" />  */}+ New Chat
@@ -826,159 +1182,20 @@ export default function SideMenu() {
               <div
                 className="side-menu-buttonForGOT"
                 // key={i}
-                onClick={async (e) => {
-                  let tempChatCurrentTempId = await checkClickedChatboxTab(e);
-
-                  console.log("tempChatCurrentTempId", tempChatCurrentTempId);
-
-                  clearAllTrashIcons(e.target.parentNode.parentNode);
-
-                  clearAllCheckIcons(e.target.parentNode.parentNode);
-
-                  e.target.parentNode.childNodes[1].style.display = "block";
-                  e.target.parentNode.childNodes[2].style.display = "block";
-
-                  // checking got data in the chatbox
-                  let chatid_list = await savedChatIDs();
-                  console.log("chatid_list", chatid_list);
-
-                  let data = await getChatMessageByExperimentId(
-                    chatid_list[tempChatCurrentTempId - 1]
-                    // chatCurrentTempId
-                  );
-
-                  // find the third in chatlogs in data
-
-                  console.log("dataInSideMenu", data);
-                  console.log("data.chatlogs.length", data.chatlogs.length);
-
-                  // Calculate the index for the third-to-last item
-                  const index = data.chatlogs.length - 3;
-
-                  // Accessing the third-to-last chatlog entry, if the array is long enough
-                  const thirdFromLastChatlog =
-                    data.chatlogs.length > 2 ? data.chatlogs[index] : null;
-
-                  console.log(
-                    "thirdFromLastChatlogInSideMenu",
-                    thirdFromLastChatlog
-                  );
-
-                  // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
-                  if (thirdFromLastChatlog === null) {
-                    setReadyToDisplayGOT(false);
-                    const textarea =
-                      document.getElementById("chatSubmitFormID");
-                    // Make the textarea editable
-                    textarea.readOnly = false;
-
-                    // Make the textarea visible
-                    textarea.style.opacity = 1;
-
-                    const submitbutton =
-                      document.getElementById("chatsubmitbutton");
-                    // make submitbutton diplsay block
-                    submitbutton.style.display = "block";
-                  } else {
-                    // show message in thirdFromLastChatlog
-                    console.log(
-                      "thirdFromLastChatlog.message",
-                      thirdFromLastChatlog.message
-                    );
-                    // convert thirdFromLastChatlog.message to json
-                    let thirdFromLastChatlogMessage = JSON.parse(
-                      thirdFromLastChatlog.message
-                    );
-
-                    console.log(
-                      "thirdFromLastChatlogMessage",
-                      thirdFromLastChatlogMessage
-                    );
-
-                    setGOTJSON(thirdFromLastChatlogMessage);
-
-                    setReadyToDisplayGOT(true);
-
-                    // setDescGOTREQ(true);
-
-                    // Get the element by its ID
-                    const textarea =
-                      document.getElementById("chatSubmitFormID");
-
-                    // Make the textarea read-only
-                    textarea.readOnly = true;
-
-                    // Make the textarea invisible but still occupy space
-                    textarea.style.opacity = 0;
-                  }
-                }}
+                onClick={debouncedOnClickChatTab}
                 onDoubleClick={async (e) => {
-                  // find the child node with id newchatbutton
-                  let newchatbutton = document.getElementById(
-                    "newchatbuttonForGOT"
-                  );
-
-                  // make it unclickable
-                  newchatbutton.style.pointerEvents = "none";
-
-                  // e.target.parentNode.childNodes[1].textContent = "✔︎"
-
-                  // allow to change the text in div
-                  e.target.contentEditable = true;
-                  e.target.focus();
-
-                  //not allow user to use delete key when the text is empty
-                  e.target.onkeydown = async function (e) {
-                    // split e.target.textContent with & and _ to get the text
-                    // console.log("0509-e.target.childNodes[0].textContent",e.target.textContent)
-                    let tempString = e.target.textContent
-                      .split("&")[0]
-                      .split("_")[0];
-
-                    console.log("tempString", tempString);
-
-                    // e.keyCode === 8 is the delete key
-                    if (tempString === "" && e.keyCode === 8) {
-                      // console.log("tempString ===  && e.keyCode === 8)")
-                      e.preventDefault();
-
-                      // e.target.textContent
-                    }
-                    // enter key is not allowed
-                    if (e.keyCode === 13) {
-                      console.log("e.keyCode", e.keyCode);
-                      // if(e.keyCode === 13) {
-                      // console.log("e.keyCode === 13 enter key is not allowed");
-                      e.preventDefault();
-                      e.target.contentEditable = false;
-                      e.target.focus();
-
-                      // post the + New Chat name to the DB
-                      // postChatNameToDB(tempString);
-
-                      let chatids_list = await savedChatIDs();
-                      console.log("chatids_list", chatids_list);
-
-                      console.log(
-                        "chatids_list[chatCurrentTempId - 1]",
-                        chatids_list[chatCurrentTempId - 1]
-                      );
-
-                      postChatNameToDB(
-                        tempString,
-                        chatids_list[chatCurrentTempId - 1]
-                      );
-                    }
-
-                    // cannot enter more than 20 characters
-                    if (e.target.textContent.length > 25) {
-                      console.log("Please do not enter more than 25");
-                      e.preventDefault();
-                    }
-                  };
+                  await debouncedOnDoubleClickChatTab(e);
                 }}
               >
                 {tapTitles.taptitles[i]}
+                {/* {
+                  // Check if the title length exceeds 13 characters
+                  tapTitles.taptitles[i].length > 100
+                    ? // If it does, truncate and append '...'
+                      tapTitles.taptitles[i].substring(0, 10) + "..."
+                    : // Otherwise, display the title as is
+                      tapTitles.taptitles[i]
+                } */}
                 <p style={{ display: "none" }} contentEditable={false}>
                   _{i}
                 </p>
@@ -997,264 +1214,9 @@ export default function SideMenu() {
                 <div
                   className="side-menu-button-trashForGOT trash"
                   key={i}
-                  // onClick={removeCorChat}
-                  onMouseEnter={(e) => {
-                    changeTrashToCheck(
-                      e.target.parentNode.childNodes[1],
-                      false
-                    );
-                  }}
-                  onMouseLeave={(e) => {
-                    changeTrashToCheck(e.target.parentNode.childNodes[1], true);
-                  }}
-                  onClick={async (e) => {
-                    // Here!!!
-                    // try {
-                    //   // change e.target to e.target.parentNode.childNodes[0]
-
-                    //   const firstChildOfParent =
-                    //     e.target.parentNode.childNodes[0];
-
-                    //   // then use firstChildOfParent instead of e.target for further operations
-                    //   let tempChatCurrentTempId = await checkClickedChatboxTab({
-                    //     ...e, // 기존 이벤트 객체의 나머지 부분을 전파합니다.
-                    //     target: firstChildOfParent, // target을 firstChildOfParent로 변경합니다.
-                    //   });
-
-                    //   // checking got data in the chatbox
-                    //   let chatid_list = await savedChatIDs();
-
-                    //   // console.log("length-chatid_list", chatid_list.length);
-
-                    //   let data = "";
-                    //   // currently the number of taps are larger than 2
-                    //   console.log("7373-=============Next=================");
-                    //   console.log(
-                    //     "7373-tempChatCurrentTempId",
-                    //     tempChatCurrentTempId
-                    //   );
-
-                    //   // tempChatCurrentTempId is currently clicked chatboxtap
-                    //   // if (tempChatCurrentTempId >= 2) {
-                    //   // if chatid_list.length ===3, which means that the current number of chatbox is 2
-                    //   if (chatid_list.length >= 2) {
-                    //     console.log("7373-chatid_list.length >= 2");
-                    //     console.log("7373-chatid_list", chatid_list);
-                    //     // if tempChatCurrentTempId >=2
-                    //     if (tempChatCurrentTempId >= 2) {
-                    //       console.log("7373-tempChatCurrentTempId >= 2");
-                    //       data = await getChatMessageByExperimentId(
-                    //         // chatid_list[tempChatCurrentTempId - 2]
-                    //         chatid_list[chatid_list.length - 2]
-                    //         // chatCurrentTempId
-                    //       );
-                    //     }
-                    //     // else if tempChatCurrentTempId ===1
-                    //     else if (tempChatCurrentTempId === 1) {
-                    //       console.log("7373-tempChatCurrentTempId === 1");
-                    //       data = await getChatMessageByExperimentId(
-                    //         // chatid_list[tempChatCurrentTempId - 1]
-                    //         chatid_list[chatid_list.length - 2]
-                    //         // chatCurrentTempId
-                    //       );
-                    //       // tempChatCurrentTempId - 2 is the chatCurrentTempId
-                    //       // setChatCurrentTempId(1);
-                    //     }
-
-                    //     // data = await getChatMessageByExperimentId(
-                    //     //   chatid_list[tempChatCurrentTempId - 2]
-                    //     //   // chatCurrentTempId
-                    //     // );
-
-                    //     console.log("dataInSideMenu", data);
-
-                    //     console.log("chatid_list.length", chatid_list.length);
-                    //     // console.log()
-                    //     console.log(
-                    //       "7575-chatid_list.length-1",
-                    //       chatid_list.length - 1
-                    //     );
-                    //     console.log(
-                    //       "7575-chatid_list.length-2",
-                    //       chatid_list.length - 2
-                    //     );
-
-                    //     setChatCurrentTempId(chatid_list.length - 1);
-
-                    //     // find the third in chatlogs in data
-
-                    //     console.log("removeCorChat-dataInSideMenu", data);
-
-                    //     // Calculate the index for the third-to-last item
-                    //     const index = data.chatlogs.length - 3;
-
-                    //     // Accessing the third-to-last chatlog entry, if the array is long enough ,which means it has the json file for GOT in the chatlog
-                    //     const thirdFromLastChatlog =
-                    //       data.chatlogs.length > 2
-                    //         ? data.chatlogs[index]
-                    //         : null;
-
-                    //     console.log(
-                    //       "removeCorChat-thirdFromLastChatlogInSideMenu",
-                    //       thirdFromLastChatlog
-                    //     );
-
-                    //     console.log("length-chatid_list", chatid_list.length);
-
-                    //     // if thirdFromLastChatlog is null, which means that it does not have the GOT json in the chatlogs, then readyToDisplayGOT is false
-                    //     if (thirdFromLastChatlog === null) {
-                    //       console.log("7373-thirdFromLastChatlog === null");
-                    //       console.log("notshowGOT");
-                    //       setReadyToDisplayGOT(false);
-                    //       const textarea =
-                    //         document.getElementById("chatSubmitFormID");
-                    //       // Make the textarea editable
-                    //       textarea.readOnly = false;
-
-                    //       // Make the textarea visible
-                    //       textarea.style.opacity = 1;
-
-                    //       const submitbutton =
-                    //         document.getElementById("chatsubmitbutton");
-                    //       // make submitbutton diplsay block
-                    //       submitbutton.style.display = "block";
-                    //     } else {
-                    //       console.log("7373-thirdFromLastChatlog !== null");
-                    //       console.log("showGOT");
-                    //       setReadyToDisplayGOT(true);
-
-                    //       // Get the element by its ID
-                    //       const textarea =
-                    //         document.getElementById("chatSubmitFormID");
-
-                    //       // Make the textarea read-only
-                    //       textarea.readOnly = true;
-
-                    //       // Make the textarea invisible but still occupy space
-                    //       textarea.style.opacity = 0;
-                    //     }
-
-                    //     console.log("removeCorChat");
-                    //     removeCorChat(e);
-                    //   }
-                    //   // currently the number of taps are 1
-                    //   else {
-                    //     console.log("7373-chatid_list.length === 1");
-                    //     console.log("num_chatbox is 1");
-                    //     // setReadyToDisplayGOT(false);
-                    //     const textarea =
-                    //       document.getElementById("chatSubmitFormID");
-                    //     // Make the textarea editable
-                    //     textarea.readOnly = false;
-
-                    //     // Make the textarea visible
-                    //     textarea.style.opacity = 1;
-
-                    //     const submitbutton =
-                    //       document.getElementById("chatsubmitbutton");
-                    //     // make submitbutton diplsay block
-                    //     submitbutton.style.display = "block";
-
-                    //     setChatCurrentTempId(1);
-                    //     setReadyToDisplayGOT(false);
-
-                    //     console.log("removeCorChat");
-                    //     await removeCorChat(e);
-                    //   }
-                    // } catch (error) {
-                    //   // // console.log("error",error)
-                    //   console.log("error-removeCorChat", error);
-                    // }
-                    try {
-                      // change e.target to e.target.parentNode.childNodes[0]
-
-                      const firstChildOfParent =
-                        e.target.parentNode.childNodes[0];
-
-                      // then use firstChildOfParent instead of e.target for further operations
-                      let tempChatCurrentTempId = await checkClickedChatboxTab({
-                        ...e, // 기존 이벤트 객체의 나머지 부분을 전파합니다.
-                        target: firstChildOfParent, // target을 firstChildOfParent로 변경합니다.
-                      });
-
-                      let chatid_list = await savedChatIDs();
-
-                      console.log("55555-before-chatid_list", chatid_list);
-
-                      await removeCorChat(e);
-
-                      // checking got data in the chatbox
-
-                      chatid_list = await savedChatIDs();
-
-                      console.log("55555-after-chatid_list", chatid_list);
-
-                      let data = "";
-                      // currently the number of taps are larger than 2
-                      console.log("7373-=============Next=================");
-                      console.log(
-                        "7373-tempChatCurrentTempId",
-                        tempChatCurrentTempId
-                      );
-
-                      data = await getChatMessageByExperimentId(
-                        // chatid_list[tempChatCurrentTempId - 2]
-                        chatid_list[chatid_list.length - 1]
-                        // chatCurrentTempId
-                      );
-
-                      setChatCurrentTempId(chatid_list.length);
-
-                      const index = data.chatlogs.length - 3;
-
-                      // Accessing the third-to-last chatlog entry, if the array is long enough ,which means it has the json file for GOT in the chatlog
-                      const thirdFromLastChatlog =
-                        data.chatlogs.length > 2 ? data.chatlogs[index] : null;
-
-                      console.log(
-                        "removeCorChat-thirdFromLastChatlogInSideMenu",
-                        thirdFromLastChatlog
-                      );
-
-                      console.log("length-chatid_list", chatid_list.length);
-
-                      // if thirdFromLastChatlog is null, which means that it does not have the GOT json in the chatlogs, then readyToDisplayGOT is false
-                      if (thirdFromLastChatlog === null) {
-                        console.log("7373-thirdFromLastChatlog === null");
-                        console.log("notshowGOT");
-                        setReadyToDisplayGOT(false);
-                        const textarea =
-                          document.getElementById("chatSubmitFormID");
-                        // Make the textarea editable
-                        textarea.readOnly = false;
-
-                        // Make the textarea visible
-                        textarea.style.opacity = 1;
-
-                        const submitbutton =
-                          document.getElementById("chatsubmitbutton");
-                        // make submitbutton diplsay block
-                        submitbutton.style.display = "block";
-                      } else {
-                        console.log("7373-thirdFromLastChatlog !== null");
-                        console.log("showGOT");
-                        setReadyToDisplayGOT(true);
-
-                        // Get the element by its ID
-                        const textarea =
-                          document.getElementById("chatSubmitFormID");
-
-                        // Make the textarea read-only
-                        textarea.readOnly = true;
-
-                        // Make the textarea invisible but still occupy space
-                        textarea.style.opacity = 0;
-                      }
-                    } catch (error) {
-                      // // console.log("error",error)
-                      console.log("error-removeCorChat", error);
-                    }
-                  }}
+                  onMouseEnter={onMouseEnterThrottledTrashToCheck}
+                  onMouseLeave={onMouseLeaveThrottledTrashToCheck}
+                  onClick={debouncedOnClickRemoveChatTab}
                   style={{ display: "none" }}
                 >
                   <svg
@@ -1267,7 +1229,7 @@ export default function SideMenu() {
                       cy="10"
                       r="7"
                       stroke="white"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       fill="none"
                     />
 
@@ -1276,39 +1238,21 @@ export default function SideMenu() {
                 </div>
               </Tooltip>
 
-              {/* make unvisible */}
               <div
                 className="side-menu-button-trashForGOT check"
-                // style={{ display: "none" }}
-                onMouseEnter={(e) => {
-                  changePenToCheck(e.target.parentNode.childNodes[2], false);
-                }}
-                onMouseLeave={(e) => {
-                  changePenToCheck(e.target.parentNode.childNodes[2], true);
-                }}
-                onClick={async (e) => {
-                  let newchatbutton = document.getElementById(
-                    "newchatbuttonForGOT"
-                  );
-
-                  // make it clickable
-                  newchatbutton.style.pointerEvents = "auto";
-
-                  // find element by className side-menu-button from the e.target.parentNode
-
-                  let tempSideMenuButtonText = e.target.parentNode
-                    .getElementsByClassName("side-menu-buttonForGOT")[0]
-                    .textContent.split("&")[0]
-                    .split("_")[0];
-
-                  let chatids_list = await savedChatIDs();
-                  console.log("chatids_list", chatids_list);
-
-                  postChatNameToDB(
-                    tempSideMenuButtonText,
-                    chatids_list[chatCurrentTempId - 1]
-                  );
-                }}
+                onMouseEnter={(e) =>
+                  debouncedChangePenToCheckEnter(
+                    e.target.parentNode.childNodes[2],
+                    false
+                  )
+                }
+                onMouseLeave={(e) =>
+                  debouncedChangePenToCheckLeave(
+                    e.target.parentNode.childNodes[2],
+                    true
+                  )
+                }
+                onClick={(e) => debouncedOnClickPen(e)}
               >
                 🖋
               </div>

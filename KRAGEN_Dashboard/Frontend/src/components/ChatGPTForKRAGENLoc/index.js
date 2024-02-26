@@ -38,7 +38,8 @@ import {
 
 // export default function ChatGPT({ experiment }) {
 export default function ChatGPT({ experiment }) {
-  let limitNumChatBox = 5;
+  // let limitNumChatBox = 5;
+  let limitNumChatBox = 50;
 
   // current chat tap id
   const [current_chatTapID, setCurrent_chatTapID] = useState(0);
@@ -131,6 +132,8 @@ export default function ChatGPT({ experiment }) {
         // chatCurrentTempId
       );
 
+      console.log("use-effect-data", data);
+
       // Calculate the index for the third-to-last item
       const index = data.chatlogs.length - 3;
 
@@ -138,17 +141,41 @@ export default function ChatGPT({ experiment }) {
       const thirdFromLastChatlog =
         data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
+      console.log("use-effect-thirdFromLastChatlog", thirdFromLastChatlog);
+
       // console.log("thirdFromLastChatlog", thirdFromLastChatlog);
       // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
       if (thirdFromLastChatlog === null) {
+        // [readyToDisplayGOT, GOTJSON, dataReady]
+        setChatInputForGOT("");
+        setDataset("");
+        setGotLoaded("");
+
+        // setGOTJSON("");
+        setDataReady(false);
         setReadyToDisplayGOT(false);
+
         const textarea = document.getElementById("chatSubmitFormID");
         // Make the textarea editable
         textarea.readOnly = false;
-
         // Make the textarea visible
         textarea.style.opacity = 1;
       } else {
+        // readyToDisplayGOT, GOTJSON, dataReady
+        setChatInputForGOT("");
+        // setDataset("");
+        setGotLoaded("");
+
+        let thirdFromLastChatlogMessage = JSON.parse(
+          thirdFromLastChatlog.message
+        );
+
+        // setGOTJSON(thirdFromLastChatlogMessage);
+        setDataset(thirdFromLastChatlogMessage);
+        setGotQuestion(thirdFromLastChatlogMessage.question);
+        setGotAnswer(thirdFromLastChatlogMessage.answer);
+        console.log("here-7");
+        setDataReady(true);
         setReadyToDisplayGOT(true);
 
         // Get the element by its ID
@@ -248,20 +275,33 @@ export default function ChatGPT({ experiment }) {
   // setChatInputForGOT
   const [chatInputForGOT, setChatInputForGOT] = useState("");
 
-  // ready to show disply GOT or not
+  // GOTJSON data
+  const [dataset, setDataset] = useState("");
+
+  // got data ready is true when the got data is ready to be displayed in the DisplayGraph component after the api call
+  const [dataReady, setDataReady] = useState(false);
+
+  // ready to show disply the component named DisplayGraph
   const [readyToDisplayGOT, setReadyToDisplayGOT] = useState(false);
 
-  // gotloaded
+  // gotloaded state include "", true, false for loading icon
+  // false means that the loading icon is displayed
+  // true means that the loading icon is not displayed
+  // "" means that the loading icon is not displayed
   const [gotLoaded, setGotLoaded] = useState("");
 
   //GOTJSON
-  const [GOTJSON, setGOTJSON] = useState("");
+  // const [GOTJSON, setGOTJSON] = useState("");
 
   // set descGOTREQ
   // const [descGOTREQ, setDescGOTREQ] = useState(false);
 
   // booleanCode for checking if the messageFromOpenai contains python code
   // const [booleanCode, setBooleanCode] = useState(false);
+
+  // question and answer state from GOT json
+  const [gotQuestion, setGotQuestion] = useState("");
+  const [gotAnswer, setGotAnswer] = useState("");
 
   const [isDark, setIsDark] = useState(false);
 
@@ -342,12 +382,21 @@ export default function ChatGPT({ experiment }) {
   }
 
   async function handleSubmit(e) {
+    // make all onclick or any event to be disabled in the all buttons classname side-menu-buttonForGOT
+    let sideMenuButtonForGOT =
+      document.getElementsByClassName("divsidemenuForGOT");
+
+    for (let i = 0; i < sideMenuButtonForGOT.length; i++) {
+      sideMenuButtonForGOT[i].style.pointerEvents = "none";
+    }
+
+    // newchatbuttonForGOT id
+    let newchatbuttonForGOT = document.getElementById("newchatbuttonForGOT");
+    newchatbuttonForGOT.style.pointerEvents = "none";
+
     // prevent page from refreshing
     e.preventDefault();
 
-    // fetch the data.json file for the submitted chatInput and chatid
-    // if the fetch is successful, then setReadyToDisplayGOT(true);
-    setReadyToDisplayGOT(true);
     // make id chatSubmitFormID unvisible
     // document.getElementById("chatSubmitFormID").style.display = "none";
 
@@ -401,18 +450,25 @@ export default function ChatGPT({ experiment }) {
       );
 
       // if chatInput is longer than 14 characters, then make the chatInput to be the first 11 characters of the chatInput and add ...
-      let chatInputTemp = chatInput;
-      if (chatInputTemp.length > 14) {
-        chatInputTemp = chatInputTemp.slice(0, 11) + "...";
-      }
+      // let chatInputTemp = chatInput;
+      // if (chatInputTemp.length > 14) {
+      //   chatInputTemp = chatInputTemp.slice(0, 11) + "...";
+      // }
 
       // update chat title by chat id and chat input
       await updateChatTitleByChatId(
         chatid_list[chatCurrentTempId - 1],
-        chatInputTemp
+        // chatInputTemp
+        chatInput
       );
 
       await setTapTitlesFunc();
+
+      // [readyToDisplayGOT, dataReady]);
+      // fetch the data.json file for the submitted chatInput and chatid
+      setDataset("");
+      setReadyToDisplayGOT(true);
+      setGotLoaded(false);
     }
 
     /*
@@ -671,7 +727,13 @@ export default function ChatGPT({ experiment }) {
           chatInput,
           gotLoaded,
           setGotLoaded,
-          setGOTJSON,
+          setDataset,
+          setDataReady,
+          setChatInputForGOT,
+          gotQuestion,
+          setGotQuestion,
+          gotAnswer,
+          setGotAnswer,
         }}
       >
         <SideMenu />
@@ -687,7 +749,15 @@ export default function ChatGPT({ experiment }) {
           chatCurrentTempId,
           gotLoaded,
           setGotLoaded,
-          GOTJSON,
+          dataset,
+          setDataset,
+          setReadyToDisplayGOT,
+          dataReady,
+          setDataReady,
+          gotQuestion,
+          setGotQuestion,
+          gotAnswer,
+          setGotAnswer,
         }}
       >
         <ChatBox />
