@@ -291,11 +291,11 @@ def generate_relationship_dataset(df):
     return dataset2
 
 # Save the Dask DataFrame to CSV files
-def save_csv(ddf, output_directory):
-    ddf.to_csv(os.path.join(output_directory, 'convert_output.csv'), index=False, single_file=True)
+def save_csv(ddf, directory, filename):
+    ddf.to_csv(os.path.join(directory, filename), index=False, single_file=True)
 
 def run(config):
     ddf = read_file(config['input_file'])
     converted_ddf = convert_csv(ddf,config)
     mk_dir(config['output_directory'])
-    save_csv(converted_ddf, config['output_directory'])
+    save_csv(converted_ddf, config['output_directory'], config['output_filename'])
