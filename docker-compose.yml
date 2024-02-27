@@ -14,4 +14,5 @@ services:
     entrypoint: ["python", "src/kragen.py"]
     env_file:
       - .env
+      - config/kragen.env
     # command: test.csv
