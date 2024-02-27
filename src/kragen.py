@@ -32,7 +32,7 @@ def main():
     # sys.exit(0)
     if command == 'convert':
         if len(sys.argv) != 3:
-            print("Usage: docker run convert <csv_file>")
+            print("Usage: docker-compose run kragen convert <csv_file>")
             sys.exit(1)
         # check that the input file exists
         input_csv_file = sys.argv[2]
@@ -51,7 +51,7 @@ def main():
     elif command == 'upload':
         upload()
     else:
-        print("Usage: docker run <command> [<csv_file>]")
+        print("Usage: docker-compose run kragen <command> [<csv_file>]")
 
 
 if __name__ == "__main__":
