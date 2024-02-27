@@ -67,16 +67,14 @@ body {
   position: absolute;
   right: 0; 
   top: 0; 
-  background-color: rgb(3 7 18);
+  background-color: #rgb(23 23 24);
 } */
 
 #dispnetgra,
 .sigma-container {
   width: 100%;
   height: 100%;
-  /* 기존에 정의된 다른 스타일들은 유지할 수 있습니다. */
-  background-color: rgb(3 7 18);
-  /* 절대 위치나 변환(transform)은 더 이상 필요하지 않을 수 있습니다. */
+  background-color: rgb(23 23 24);
 }
 
 .controls {
@@ -333,7 +331,8 @@ ul > li {
     width: auto;
   }
   #dispnetgra.show-contents .graph-title {
-    background: white;
+    /* background: white; */
+    background: rgb(23 23 24);
     padding-right: calc(3em + 2 * var(--stage-padding));
     min-height: 3em;
   }
@@ -1071,13 +1070,13 @@ text {
 /* App.css */
 
 /* .divsidemenu {
-  background-color: rgb(3 7 18);
+  background-color: #rgb(23 23 24);
 }
 
 .sidemenu {
   margin-right: 10px;
 
-  background-color: rgb(3 7 18);
+  background-color: #rgb(23 23 24);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -1088,13 +1087,13 @@ text {
   flex-direction: column; /* 아이템들을 세로로 정렬 */
   width: 250px; /* 사이드 메뉴의 너비 설정 */
   height: 100vh; /* 뷰포트의 전체 높이를 차지하도록 설정 */
-  background-color: rgb(3 7 18); /* 배경색 설정 */
+  background-color: rgb(23 23 24); /* 배경색 설정 */
 }
 
 .sidemenu {
   width: 100%; /* 부모 컨테이너의 전체 너비를 차지하도록 설정 */
   margin-right: 0; /* 오른쪽 여백 제거 */
-  background-color: rgb(3 7 18); /* 배경색 설정 */
+  background-color: rgb(23 23 24); /* 배경색 설정 */
   display: flex; /* 플렉스 컨테이너 설정 */
   flex-direction: column; /* 아이템들을 세로로 정렬 */
 }
@@ -1148,7 +1147,7 @@ text {
 
 .chatbox {
   flex: 1;
-  background-color: rgb(3 7 18);
+  background-color: rgb(23 23 24);
   position: relative;
   padding-bottom: 95px;
   /* padding-bottom: 135px; */
@@ -1197,7 +1196,7 @@ text {
   /* flex-direction: column; */
   flex-direction: row;
   height: 100%;
-  background-color: rgb(3 7 18);
+  background-color: rgb(23 23 24);
   color: white;
 }
 
@@ -1290,7 +1289,7 @@ text {
 }
 
 .chat-message.alirogpt {
-  /* background-color: rgb(3 7 18); */
+  /* background-color: #rgb(23 23 24); */
   background-color: rgb(17 24 39);
   /* background-color: blueviolet; */
 }
@@ -2441,16 +2440,14 @@ body {
   position: absolute;
   right: 0; 
   top: 0; 
-  background-color: rgb(3 7 18);
+  background-color: #rgb(23 23 24);
 } */
 
 #dispnetgra,
 .sigma-container {
   width: 100%;
   height: 100%;
-  /* 기존에 정의된 다른 스타일들은 유지할 수 있습니다. */
-  background-color: rgb(3 7 18);
-  /* 절대 위치나 변환(transform)은 더 이상 필요하지 않을 수 있습니다. */
+  background-color: rgb(23 23 24);
 }
 
 .controls {
@@ -2780,13 +2777,13 @@ ul > li {
 /* App.css */
 
 /* .divsidemenu {
-  background-color: rgb(3 7 18);
+  background-color: #rgb(23 23 24);
 }
 
 .sidemenu {
   margin-right: 10px;
 
-  background-color: rgb(3 7 18);
+  background-color: #rgb(23 23 24);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -2797,13 +2794,13 @@ ul > li {
   flex-direction: column; /* 아이템들을 세로로 정렬 */
   width: 250px; /* 사이드 메뉴의 너비 설정 */
   height: 100vh; /* 뷰포트의 전체 높이를 차지하도록 설정 */
-  background-color: rgb(3 7 18); /* 배경색 설정 */
+  background-color: rgb(23 23 24); /* 배경색 설정 */
 }
 
 .sidemenuForGOT {
   width: 100%; /* 부모 컨테이너의 전체 너비를 차지하도록 설정 */
   margin-right: 0; /* 오른쪽 여백 제거 */
-  background-color: rgb(3 7 18); /* 배경색 설정 */
+  background-color: rgb(23 23 24); /* 배경색 설정 */
   display: flex; /* 플렉스 컨테이너 설정 */
   flex-direction: column; /* 아이템들을 세로로 정렬 */
 }
@@ -2848,7 +2845,7 @@ ul > li {
 
 .chatboxForGOT {
   flex: 1;
-  background-color: rgb(3 7 18);
+  background-color: rgb(23 23 24);
   position: relative;
   padding-bottom: 95px;
   /* padding-bottom: 135px; */
@@ -2881,8 +2878,10 @@ ul > li {
   /* flex-direction: column; */
   flex-direction: row;
   height: 100%;
-  background-color: rgb(3 7 18);
+  background-color: rgb(23 23 24);
+  /* background-color: rgb(17 24 39); */
   color: white;
+  /* color: black; */
 }
 
 .chat-input-containerForGOT {
