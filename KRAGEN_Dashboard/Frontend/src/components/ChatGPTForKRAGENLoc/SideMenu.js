@@ -476,19 +476,19 @@ export default function SideMenu() {
 
   const [chatids, setChatids] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log("9999999-useEffect-numChatBox");
-      checkNumChatBox();
-      setBoldUnderlineAndInitTraIc();
-      setCurrentExpId(numChatBox);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     console.log("9999999-useEffect-numChatBox");
+  //     checkNumChatBox();
+  //     setBoldUnderlineAndInitTraIc();
+  //     setCurrentExpId(numChatBox);
 
-      await setTapTitlesFunc(numChatBox);
-    };
+  //     await setTapTitlesFunc(numChatBox);
+  //   };
 
-    fetchData();
-    // }, [window.location.href, numChatBox]);
-  }, [window.location.href]);
+  //   fetchData();
+  //   // }, [window.location.href, numChatBox]);
+  // }, [window.location.href]);
 
   const [openaiApiState, setopenaiApiState] = useState(0);
 

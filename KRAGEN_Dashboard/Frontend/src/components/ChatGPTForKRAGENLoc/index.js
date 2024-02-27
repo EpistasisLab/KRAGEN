@@ -57,7 +57,48 @@ export default function ChatGPT({ experiment }) {
   let apiUrl = process.env.REACT_APP_API_URL;
   let apiPort = process.env.REACT_APP_API_PORT;
 
+  function checkNumChatBox() {
+    if (numChatBox + 1 > limitNumChatBox) {
+      document.getElementById("newchatbuttonForGOT").style.pointerEvents =
+        "none";
+    } else {
+      document.getElementById("newchatbuttonForGOT").style.pointerEvents =
+        "auto";
+    }
+  }
+
+  function setBoldUnderlineAndInitTraIc() {
+    //get div with class name sidemenu
+    let sidemenu = document.getElementsByClassName("chatboxtapForGOT");
+
+    // length of sidemenu
+    let sidemenuLength = sidemenu.length;
+
+    console.log("sidemenuLength", sidemenuLength);
+
+    if (sidemenuLength > 0) {
+      for (let i = 0; i < sidemenu.length - 1; i++) {
+        sidemenu[i].style.fontWeight = "normal";
+      }
+      sidemenu[sidemenu.length - 1].style.fontWeight = "bold";
+
+      // Trash emoji for each chatboxtap
+      for (let i = 0; i < sidemenu.length; i++) {
+        // console.log("sidemenu[i].childNodes", sidemenu[i].childNodes);
+        // trash emoji
+        sidemenu[i].childNodes[1].style.display = "none";
+        // pen emoji
+        sidemenu[i].childNodes[2].style.display = "none";
+      }
+      // trash emoji for the last chatboxtap
+      sidemenu[sidemenu.length - 1].childNodes[1].style.display = "block";
+      // pen emoji for each chatboxtap
+      sidemenu[sidemenu.length - 1].childNodes[2].style.display = "block";
+    }
+  }
+
   useEffect(async () => {
+    console.log("use-effect-index.js");
     const fetchData = async () => {
       let savedChatIDs_list = await savedChatIDs();
 
@@ -87,7 +128,13 @@ export default function ChatGPT({ experiment }) {
 
       setChatCurrentTempId(lengthofChatIDs);
 
-      //
+      // new added
+      checkNumChatBox();
+      setBoldUnderlineAndInitTraIc();
+      // setCurrentExpId(numChatBox);
+
+      await setTapTitlesFunc();
+
       // await getEngines();
       await initailChatBoxSetting(last_chatTapID_in_the_list);
       await getAllChatsFromDBFilterbyExpIdSetChatbox(
@@ -191,7 +238,19 @@ export default function ChatGPT({ experiment }) {
     };
     fetchData();
   }, [window.location.href]);
-  // }, [window.location.href]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("9999999-useEffect-numChatBox");
+      checkNumChatBox();
+      setBoldUnderlineAndInitTraIc();
+      setCurrentExpId(numChatBox);
+
+      await setTapTitlesFunc();
+    };
+
+    fetchData();
+  }, [numChatBox]);
 
   const [chatInput, setChatInput] = useState("");
   // By using let preSet,
