@@ -10,9 +10,9 @@ from upload import create_class, upload
 def config(input_file):
     # read from a yaml file
     kragen_config = {
-        'output_directory': 'target',
-        'convert_chunk_size': 5,
-        'convert_output_filename': 'converted.csv',
+        'output_directory': os.getenv('CONVERT_OUTPUT_DIR'),
+        'convert_chunk_size': os.getenv('CONVERT_CHUNK_SIZE'),
+        'output_filename': os.getenv('CONVERT_OUTPUT_FILENAME'),
         'input_file': input_file,
 
     }
@@ -32,7 +32,7 @@ def main():
     # sys.exit(0)
     if command == 'convert':
         if len(sys.argv) != 3:
-            print("Usage: docker run convert <csv_file>")
+            print("Usage: docker-compose run kragen convert <csv_file>")
             sys.exit(1)
         # check that the input file exists
         input_csv_file = sys.argv[2]
@@ -51,7 +51,7 @@ def main():
     elif command == 'upload':
         upload()
     else:
-        print("Usage: docker run <command> [<csv_file>]")
+        print("Usage: docker-compose run kragen <command> [<csv_file>]")
 
 
 if __name__ == "__main__":
