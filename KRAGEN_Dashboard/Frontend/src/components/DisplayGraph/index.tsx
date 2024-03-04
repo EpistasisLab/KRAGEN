@@ -170,6 +170,8 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
           //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
           // );
 
+          console.log("displayGraph-chatInputForGOT");
+
           // real api
           const res = await fetch(
             `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
@@ -367,6 +369,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     };
 
     fetchData();
+    console.log("displayGraph-useEffect-2");
   }, [readyToDisplayGOT, dataReady]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
 
   // refactoring
