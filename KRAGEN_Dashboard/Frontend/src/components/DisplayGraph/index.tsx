@@ -301,6 +301,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     };
 
     fetchData();
+    console.log("hereout-second");
   }, [readyToDisplayGOT, dataReady]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
 
   // refactoring

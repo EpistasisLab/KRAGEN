@@ -528,6 +528,7 @@ export default function ChatGPT({ experiment }) {
       setDataset("");
       setReadyToDisplayGOT(true);
       setGotLoaded(false);
+      console.log("here-1");
     }
 
     /*
