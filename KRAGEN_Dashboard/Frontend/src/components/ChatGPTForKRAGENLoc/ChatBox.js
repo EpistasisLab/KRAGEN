@@ -43,8 +43,16 @@ const ChatBox = () => {
   // boolean for token usage limit
   const [booleanTokenUsageLimit, setBooleanTokenUsageLimit] = useState(false);
 
+  const [toggleDisplayGraph, settoggleDisplayGraph] = useState(false);
+
   // // gotloaded
   // const [gotLoaded, setGotLoaded] = useState(false);
+
+  // toggleDisplayGraph 함수
+  const handletoggleDisplayGraph = () => {
+    console.log("toggleDisplayGraph", toggleDisplayGraph);
+    settoggleDisplayGraph(!toggleDisplayGraph); // 현재 toggleDisplayGraph 상태를 반전시킵니다.
+  };
 
   useEffect(() => {
     console.log("readyToDisplayGOT", readyToDisplayGOT);
@@ -233,24 +241,47 @@ const ChatBox = () => {
           <ResizableDiv gotQuestion={gotQuestion} gotAnswer={gotAnswer} />
         )}
 
-        <div id="dispnetgra" className="show-contents">
-          <DisplayGraph
-            chatInputForGOT={chatInputForGOT}
-            readyToDisplayGOT={readyToDisplayGOT}
-            setReadyToDisplayGOT={setReadyToDisplayGOT}
-            chatCurrentTempId={chatCurrentTempId}
-            setGotLoaded={setGotLoaded}
-            dataReady={dataReady}
-            setDataReady={setDataReady}
-            dataset={dataset}
-            setDataset={setDataset}
-            gotQuestion={gotQuestion}
-            setGotQuestion={setGotQuestion}
-            gotAnswer={gotAnswer}
-            setGotAnswer={setGotAnswer}
-            // descGOTREQ={descGOTREQ}
-          />
-        </div>
+        <button
+          onClick={handletoggleDisplayGraph}
+          style={{
+            overflow: "auto",
+            position: "absolute",
+            // transform: "translate(10%, -55%)",
+            // top: "5%", // Adjusted for demonstration; calculate based on requirements
+            // left: "1%", // Adjusted for demonstration; calculate based on requirements
+            top: "2%", // Adjusted for demonstration; calculate based on requirements
+            left: "5%", // Adjusted for demonstration; calculate based on requirements
+            zIndex: 100,
+            fontSize: "1.1rem",
+            // resize: "both",
+            // backgroundColor: "rgba(255, 255, 255, 0.1)",
+            // backdropFilter: "blur(10px)",
+            // make div edge round
+            borderRadius: "5px",
+          }}
+        >
+          GOT Visualizaton
+        </button>
+        {toggleDisplayGraph && (
+          <div id="dispnetgra" className="show-contents">
+            <DisplayGraph
+              chatInputForGOT={chatInputForGOT}
+              readyToDisplayGOT={readyToDisplayGOT}
+              setReadyToDisplayGOT={setReadyToDisplayGOT}
+              chatCurrentTempId={chatCurrentTempId}
+              setGotLoaded={setGotLoaded}
+              dataReady={dataReady}
+              setDataReady={setDataReady}
+              dataset={dataset}
+              setDataset={setDataset}
+              gotQuestion={gotQuestion}
+              setGotQuestion={setGotQuestion}
+              gotAnswer={gotAnswer}
+              setGotAnswer={setGotAnswer}
+              // descGOTREQ={descGOTREQ}
+            />
+          </div>
+        )}
         {/* {!gotLoaded && chatInputForGOT && ( */}
         {gotLoaded === false && (
           <div
