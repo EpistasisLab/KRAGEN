@@ -32,6 +32,8 @@ const ChatBox = () => {
     setGotAnswer,
   } = useContext(AllContext);
 
+  const [toggleDisplayGraph, settoggleDisplayGraph] = useState(true);
+
   const [hasZip, setHasZip] = useState(false);
   const [zipUrl, setZipUrl] = useState(null);
   const [zipFileName, setZipFileName] = useState(null);
@@ -45,6 +47,12 @@ const ChatBox = () => {
 
   // // gotloaded
   // const [gotLoaded, setGotLoaded] = useState(false);
+
+  // toggleDisplayGraph 함수
+  const handletoggleDisplayGraph = () => {
+    console.log("toggleDisplayGraph", toggleDisplayGraph);
+    settoggleDisplayGraph(!toggleDisplayGraph); // 현재 toggleDisplayGraph 상태를 반전시킵니다.
+  };
 
   useEffect(() => {
     console.log("readyToDisplayGOT", readyToDisplayGOT);
@@ -202,38 +210,66 @@ const ChatBox = () => {
           </div>
         </div>
 
-        {/* {gotLoaded === true && (
+        {gotQuestion && gotAnswer && (
+          <ResizableDiv gotQuestion={gotQuestion} gotAnswer={gotAnswer} />
+        )}
+
+        {gotQuestion && gotAnswer && (
+          <button
+            onClick={handletoggleDisplayGraph}
+            style={{
+              overflow: "auto",
+              position: "absolute",
+              // transform: "translate(10%, -55%)",
+              // top: "5%", // Adjusted for demonstration; calculate based on requirements
+              // left: "1%", // Adjusted for demonstration; calculate based on requirements
+              top: "2%", // Adjusted for demonstration; calculate based on requirements
+              left: "5%", // Adjusted for demonstration; calculate based on requirements
+              zIndex: 100,
+              fontSize: "1.1rem",
+              // resize: "both",
+              // backgroundColor: "rgba(255, 255, 255, 0.1)",
+              // backdropFilter: "blur(10px)",
+              // make div edge round
+              borderRadius: "5px",
+            }}
+          >
+            GOT Visualizaton
+          </button>
+        )}
+
+        {/* if toggleDisplayGraph is true, display the graph */}
+        {/* {toggleDisplayGraph && (
           <div id="dispnetgra" className="show-contents">
             <DisplayGraph
               chatInputForGOT={chatInputForGOT}
               readyToDisplayGOT={readyToDisplayGOT}
+              setReadyToDisplayGOT={setReadyToDisplayGOT}
               chatCurrentTempId={chatCurrentTempId}
               setGotLoaded={setGotLoaded}
+              dataReady={dataReady}
+              setDataReady={setDataReady}
+              dataset={dataset}
+              setDataset={setDataset}
+              gotQuestion={gotQuestion}
+              setGotQuestion={setGotQuestion}
+              gotAnswer={gotAnswer}
+              setGotAnswer={setGotAnswer}
+              // descGOTREQ={descGOTREQ}
             />
           </div>
         )} */}
 
-        {gotQuestion && gotAnswer && (
-          // <div
-          //   className="fixed bg-black text-white p-4"
-          //   style={{
-          //     width: "500px",
-          //     height: "130px",
-          //     overflow: "auto",
-          //     position: "absolute",
-          //     transform: "translate(10%, -55%)",
-          //     zIndex: 100,
-          //     fontSize: "1.1rem",
-          //     resize: "both",
-          //   }}
-          // >
-          //   <p className="font-semibold text-lg">Question: {gotQuestion}</p>
-          //   <p className="font-semibold text-lg">Answer: {gotAnswer}</p>
-          // </div>
-          <ResizableDiv gotQuestion={gotQuestion} gotAnswer={gotAnswer} />
-        )}
-
-        <div id="dispnetgra" className="show-contents">
+        <div
+          id="dispnetgra"
+          className="show-contents"
+          // style={toggleDisplayGraph ? {} : { display: "none" }}
+          style={
+            toggleDisplayGraph
+              ? {}
+              : { opacity: 0, pointerEvents: "none", userSelect: "none" }
+          }
+        >
           <DisplayGraph
             chatInputForGOT={chatInputForGOT}
             readyToDisplayGOT={readyToDisplayGOT}
@@ -251,6 +287,7 @@ const ChatBox = () => {
             // descGOTREQ={descGOTREQ}
           />
         </div>
+
         {/* {!gotLoaded && chatInputForGOT && ( */}
         {gotLoaded === false && (
           <div

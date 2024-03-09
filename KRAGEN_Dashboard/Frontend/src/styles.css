@@ -67,13 +67,16 @@ body {
   position: absolute;
   right: 0; 
   top: 0; 
-  background-color: #rgb(23 23 24);
+
+  background-color: rgb(23 23 24);
+
 } */
 
 #dispnetgra,
 .sigma-container {
   width: 100%;
   height: 100%;
+
   background-color: rgb(23 23 24);
 }
 
@@ -1070,13 +1073,17 @@ text {
 /* App.css */
 
 /* .divsidemenu {
-  background-color: #rgb(23 23 24);
+
+  background-color: rgb(23 23 24);
+
 }
 
 .sidemenu {
   margin-right: 10px;
 
-  background-color: #rgb(23 23 24);
+
+  background-color: rgb(23 23 24);
+
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -1289,7 +1296,9 @@ text {
 }
 
 .chat-message.alirogpt {
-  /* background-color: #rgb(23 23 24); */
+
+  /* background-color: rgb(23 23 24); */
+
   background-color: rgb(17 24 39);
   /* background-color: blueviolet; */
 }
@@ -2440,13 +2449,17 @@ body {
   position: absolute;
   right: 0; 
   top: 0; 
-  background-color: #rgb(23 23 24);
+
+  background-color: rgb(23 23 24);
+
+
 } */
 
 #dispnetgra,
 .sigma-container {
   width: 100%;
   height: 100%;
+
   background-color: rgb(23 23 24);
 }
 
@@ -2777,13 +2790,17 @@ ul > li {
 /* App.css */
 
 /* .divsidemenu {
-  background-color: #rgb(23 23 24);
+
+  background-color: rgb(23 23 24);
+
 }
 
 .sidemenu {
   margin-right: 10px;
 
-  background-color: #rgb(23 23 24);
+
+  background-color: rgb(23 23 24);
+
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -2879,7 +2896,7 @@ ul > li {
   flex-direction: row;
   height: 100%;
   background-color: rgb(23 23 24);
-  /* background-color: rgb(17 24 39); */
+
   color: white;
   /* color: black; */
 }
