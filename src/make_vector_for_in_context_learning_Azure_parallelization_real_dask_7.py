@@ -14,7 +14,9 @@ import dask.dataframe as dd
 import logging
 
 
-load_dotenv()  # This loads the variables from .env
+# Specify the path to 'kragen.env' file instead of the default '.env' file
+dotenv_path = os.path.join(os.getcwd(), 'config', 'kragen.env')
+load_dotenv(dotenv_path)  # This loads the variables from 'kragen.env'
 
 
 input_dir = os.getenv('INPUT_DIR_FOR_EMBEDDING')
@@ -22,10 +24,7 @@ input_dir = os.getenv('INPUT_DIR_FOR_EMBEDDING')
 output_dir = os.getenv('OUTPUT_DIR_FOR_EMBEDDING')
 
 
-openai_api_type = os.getenv('OPENAI_API_TYPE')
-openai_api_base = os.getenv('OPENAI_API_BASE')
-openai_api_version = os.getenv('OPENAI_API_VERSION')
-openai_api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv('OPENAI_API_KEY')
 openai_embedding_model = os.getenv('OPENAI_EMBEDDING_MODEL')
 
 
