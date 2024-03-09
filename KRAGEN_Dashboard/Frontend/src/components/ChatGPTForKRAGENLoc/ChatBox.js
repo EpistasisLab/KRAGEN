@@ -32,7 +32,7 @@ const ChatBox = () => {
     setGotAnswer,
   } = useContext(AllContext);
 
-  const [toggle, setToggle] = useState(false);
+  const [toggleDisplayGraph, settoggleDisplayGraph] = useState(true);
 
   const [hasZip, setHasZip] = useState(false);
   const [zipUrl, setZipUrl] = useState(null);
@@ -48,10 +48,10 @@ const ChatBox = () => {
   // // gotloaded
   // const [gotLoaded, setGotLoaded] = useState(false);
 
-  // toggle 함수
-  const handleToggle = () => {
-    console.log("toggle", toggle);
-    setToggle(!toggle); // 현재 toggle 상태를 반전시킵니다.
+  // toggleDisplayGraph 함수
+  const handletoggleDisplayGraph = () => {
+    console.log("toggleDisplayGraph", toggleDisplayGraph);
+    settoggleDisplayGraph(!toggleDisplayGraph); // 현재 toggleDisplayGraph 상태를 반전시킵니다.
   };
 
   useEffect(() => {
@@ -216,7 +216,7 @@ const ChatBox = () => {
 
         {gotQuestion && gotAnswer && (
           <button
-            onClick={handleToggle}
+            onClick={handletoggleDisplayGraph}
             style={{
               overflow: "auto",
               position: "absolute",
@@ -238,8 +238,8 @@ const ChatBox = () => {
           </button>
         )}
 
-        {/* if toggle is true, display the graph */}
-        {toggle && (
+        {/* if toggleDisplayGraph is true, display the graph */}
+        {/* {toggleDisplayGraph && (
           <div id="dispnetgra" className="show-contents">
             <DisplayGraph
               chatInputForGOT={chatInputForGOT}
@@ -258,7 +258,35 @@ const ChatBox = () => {
               // descGOTREQ={descGOTREQ}
             />
           </div>
-        )}
+        )} */}
+
+        <div
+          id="dispnetgra"
+          className="show-contents"
+          // style={toggleDisplayGraph ? {} : { display: "none" }}
+          style={
+            toggleDisplayGraph
+              ? {}
+              : { opacity: 0, pointerEvents: "none", userSelect: "none" }
+          }
+        >
+          <DisplayGraph
+            chatInputForGOT={chatInputForGOT}
+            readyToDisplayGOT={readyToDisplayGOT}
+            setReadyToDisplayGOT={setReadyToDisplayGOT}
+            chatCurrentTempId={chatCurrentTempId}
+            setGotLoaded={setGotLoaded}
+            dataReady={dataReady}
+            setDataReady={setDataReady}
+            dataset={dataset}
+            setDataset={setDataset}
+            gotQuestion={gotQuestion}
+            setGotQuestion={setGotQuestion}
+            gotAnswer={gotAnswer}
+            setGotAnswer={setGotAnswer}
+            // descGOTREQ={descGOTREQ}
+          />
+        </div>
 
         {/* {!gotLoaded && chatInputForGOT && ( */}
         {gotLoaded === false && (
