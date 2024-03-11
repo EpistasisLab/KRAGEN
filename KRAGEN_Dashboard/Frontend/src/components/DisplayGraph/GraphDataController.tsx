@@ -21,8 +21,6 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     const clusters = keyBy(dataset.clusters, "key");
     const tags = keyBy(dataset.tags, "key");
 
-    console.log("dataset-GraphDataController", dataset);
-
     dataset.nodes.forEach((node) =>
       graph.addNode(node.key, {
         ...node,

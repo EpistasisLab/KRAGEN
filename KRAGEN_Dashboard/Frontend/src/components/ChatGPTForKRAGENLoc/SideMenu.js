@@ -1,13 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-
-import { ThemeContext } from "./context/ThemeContext";
-
+import React, { useState, useContext } from "react";
 import { AllContext } from "./context/AllContext";
 import { debounce, throttle } from "lodash"; // import debounce from lodash
 
 // import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
-import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+// import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
 import Tooltip from "@mui/material/Tooltip";
 export default function SideMenu() {
@@ -60,43 +57,6 @@ export default function SideMenu() {
     setGotAnswer,
   } = useContext(AllContext);
 
-  // const debouncedOnClickNewChat = debounce(async (e) =>
-  //   // Place the original onClick logic here.
-  //   {
-  //     // [readyToDisplayGOT, GOTJSON, dataReady]
-  //     // chatInputForGOT
-  //     setChatInputForGOT("");
-  //     setGotLoaded("");
-
-  //     setDataset("");
-  //     setDataReady(false);
-  //     setReadyToDisplayGOT(false);
-
-  //     let tempChatCurrentTempId = await checkClickedChatboxTab(e);
-
-  //     setNumChatBox((numChatBox) => numChatBox + 1);
-
-  //     // checking got data in the chatbox
-  //     let chatid_list = await savedChatIDs();
-
-  //     let data = await getChatMessageByExperimentId(
-  //       chatid_list[tempChatCurrentTempId - 1]
-  //       // chatCurrentTempId
-  //     );
-  //     console.log("debouncedOnClickNewChat-data", data);
-
-  //     const textarea = document.getElementById("chatSubmitFormID");
-  //     // Make the textarea editable
-  //     textarea.readOnly = false;
-
-  //     // Make the textarea visible
-  //     textarea.style.opacity = 1;
-
-  //     // make chatsubmitbutton id block
-  //     const submitbutton = document.getElementById("chatsubmitbutton");
-  //     submitbutton.style.display = "block";
-  //   }, 250); // Set a debounce delay of 250 milliseconds.
-
   const debouncedOnClickNewChat = debounce(async (e) => {
     // set gotQuestion, gotAnswer, chatInputForGOT, gotLoaded, dataset, dataReady, readyToDisplayGOT
     setGotQuestion("");
@@ -108,19 +68,7 @@ export default function SideMenu() {
     setDataReady(false);
     setReadyToDisplayGOT(false);
 
-    // // Use Promise.all for parallel execution
-    // let [tempChatCurrentTempId, chatid_list] = await Promise.all([
-    //   checkClickedChatboxTab(e),
-    //   savedChatIDs(),
-    // ]);
-
     let tempChatCurrentTempId = await checkClickedChatboxTab(e);
-
-    console.log("before-numChatBox", numChatBox);
-    // Increase the number of chat tabs
-    // setNumChatBox((numChatBox) => numChatBox + 1);
-
-    console.log("9999999-clickedChatBoxNum");
 
     setCurrentExpId(numChatBox + 1);
     await setTapTitlesFunc(numChatBox + 1);
@@ -129,12 +77,7 @@ export default function SideMenu() {
     checkNumChatBox();
     setBoldUnderlineAndInitTraIc();
 
-    // console.log("after-numChatBox", numChatBox);
-
     let chatid_list = await savedChatIDs();
-
-    console.log("9999999-chatid_list", chatid_list);
-    console.log("tempChatCurrentTempId", tempChatCurrentTempId);
 
     // Load data for the selected chat tab
     if (chatid_list.length > tempChatCurrentTempId - 1) {
@@ -154,83 +97,12 @@ export default function SideMenu() {
     }
   }, 250);
 
-  // const debouncedOnClickChatTab = debounce(async (e) => {
-  //   console.log("tempChatCurrentTempId", tempChatCurrentTempId);
-
-  //   clearAllTrashIcons(e.target.parentNode.parentNode);
-
-  //   clearAllCheckIcons(e.target.parentNode.parentNode);
-
-  //   e.target.parentNode.childNodes[1].style.display = "block";
-  //   e.target.parentNode.childNodes[2].style.display = "block";
-
-  //   let tempChatCurrentTempId = await checkClickedChatboxTab(e);
-  //   // checking got data in the chatbox
-  //   let chatid_list = await savedChatIDs();
-  //   // console.log("chatid_list", chatid_list);
-
-  //   let data = await getChatMessageByExperimentId(
-  //     chatid_list[tempChatCurrentTempId - 1]
-  //     // chatCurrentTempId
-  //   );
-
-  //   console.log("else-data", data);
-
-  //   // Calculate the index for the third-to-last item
-  //   const index = data.chatlogs.length - 3;
-
-  //   // Accessing the third-to-last chatlog entry, if the array is long enough
-  //   const thirdFromLastChatlog =
-  //     data.chatlogs.length > 2 ? data.chatlogs[index] : null;
-
-  //   // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
-  //   if (thirdFromLastChatlog === null) {
-  //     setReadyToDisplayGOT(false);
-  //     setDataset("");
-  //     const textarea = document.getElementById("chatSubmitFormID");
-  //     // Make the textarea editable
-  //     textarea.readOnly = false;
-
-  //     // Make the textarea visible
-  //     textarea.style.opacity = 1;
-
-  //     const submitbutton = document.getElementById("chatsubmitbutton");
-  //     // make submitbutton diplsay block
-  //     submitbutton.style.display = "block";
-  //   } else {
-  //     console.log(
-  //       "else-thirdFromLastChatlog.message",
-  //       thirdFromLastChatlog.message
-  //     );
-  //     // convert thirdFromLastChatlog.message to json
-  //     let thirdFromLastChatlogMessage = JSON.parse(
-  //       thirdFromLastChatlog.message
-  //     );
-
-  //     console.log("thirdFromLastChatlogMessage-2", thirdFromLastChatlogMessage);
-
-  //     setDataset(thirdFromLastChatlogMessage);
-
-  //     setReadyToDisplayGOT(true);
-
-  //     // Get the element by its ID
-  //     const textarea = document.getElementById("chatSubmitFormID");
-
-  //     // Make the textarea read-only
-  //     textarea.readOnly = true;
-
-  //     // Make the textarea invisible but still occupy space
-  //     textarea.style.opacity = 0;
-  //   }
-  // }, 250);
   const debouncedOnClickChatTab = debounce(async (e) => {
     // Execute checkClickedChatboxTab and savedChatIDs in parallel since they are independent
     const [tempChatCurrentTempId, chatid_list] = await Promise.all([
       checkClickedChatboxTab(e),
       savedChatIDs(),
     ]);
-
-    console.log("tempChatCurrentTempId", tempChatCurrentTempId);
 
     // UI operations to clear icons and display chat controls
     clearAllTrashIcons(e.target.parentNode.parentNode);
@@ -243,7 +115,6 @@ export default function SideMenu() {
       let data = await getChatMessageByExperimentId(
         chatid_list[tempChatCurrentTempId - 1]
       );
-      console.log("else-data", data);
 
       // Process the data from the third-to-last chatlog entry
       const index = data.chatlogs.length - 3;
@@ -260,10 +131,7 @@ export default function SideMenu() {
         let thirdFromLastChatlogMessage = JSON.parse(
           thirdFromLastChatlog.message
         );
-        console.log(
-          "thirdFromLastChatlogMessage-2",
-          thirdFromLastChatlogMessage
-        );
+
         setDataset(thirdFromLastChatlogMessage);
 
         // set the question and answer states
@@ -319,14 +187,9 @@ export default function SideMenu() {
       if (tempString === "" && e.keyCode === 8) {
         // console.log("tempString ===  && e.keyCode === 8)")
         e.preventDefault();
-
-        // e.target.textContent
       }
       // enter key is not allowed
       if (e.keyCode === 13) {
-        // console.log("e.keyCode", e.keyCode);
-        // if(e.keyCode === 13) {
-        // console.log("e.keyCode === 13 enter key is not allowed");
         e.preventDefault();
         e.target.contentEditable = false;
         e.target.focus();
@@ -339,7 +202,6 @@ export default function SideMenu() {
 
       // cannot enter more than 20 characters
       if (e.target.textContent.length > 25) {
-        console.log("Please do not enter more than 25");
         e.preventDefault();
       }
     };
@@ -383,8 +245,6 @@ export default function SideMenu() {
         data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
       if (thirdFromLastChatlog === null) {
-        console.log("7373-thirdFromLastChatlog === null");
-        console.log("notshowGOT");
         setDataset("");
         setReadyToDisplayGOT(false);
         setDataReady(false);
@@ -401,20 +261,15 @@ export default function SideMenu() {
 
         submitbutton.style.display = "block";
       } else {
-        console.log(
-          "side-thirdFromLastChatlog.message",
-          thirdFromLastChatlog.message
-        );
         let thirdFromLastChatlogMessage = JSON.parse(
           thirdFromLastChatlog.message
         );
-        console.log("7373-thirdFromLastChatlog !== null");
-        console.log("showGOT");
+
         setDataset(thirdFromLastChatlogMessage);
         setGotQuestion(thirdFromLastChatlogMessage.question);
         setGotAnswer(thirdFromLastChatlogMessage.answer);
         setReadyToDisplayGOT(true);
-        console.log("here1");
+
         setDataReady(true);
         setGotLoaded(true);
 
@@ -434,11 +289,11 @@ export default function SideMenu() {
 
   const onMouseEnterThrottledTrashToCheck = throttle((e) => {
     changeTrashToCheck(e.target.parentNode.childNodes[1], false);
-  }, 100); // 100ms 간격으로 이벤트 핸들러 호출 제한
+  }, 100); //
 
   const onMouseLeaveThrottledTrashToCheck = throttle((e) => {
     changeTrashToCheck(e.target.parentNode.childNodes[1], true);
-  }, 100); // 100ms 간격으로 이벤트 핸들러 호출 제한
+  }, 100); //
 
   // Debouncing onMouseEnter and onMouseLeave
   const debouncedChangePenToCheckEnter = debounce((target, flag) => {
@@ -471,58 +326,21 @@ export default function SideMenu() {
     );
   }, 200); // 200ms delay
 
-  // debounce for side-menu-button-trashForGOT
-  // const debouncedOnClickRe
-
   const [chatids, setChatids] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     console.log("9999999-useEffect-numChatBox");
-  //     checkNumChatBox();
-  //     setBoldUnderlineAndInitTraIc();
-  //     setCurrentExpId(numChatBox);
-
-  //     await setTapTitlesFunc(numChatBox);
-  //   };
-
-  //   fetchData();
-  //   // }, [window.location.href, numChatBox]);
-  // }, [window.location.href]);
 
   const [openaiApiState, setopenaiApiState] = useState(0);
 
-  //
   async function getAllChatsAndGetSpecificChatBasedOnExpID(
     clickedChatBoxNum, // "+ New Chat" or real chat id
     // countClickedChatBoxID, // total number of chatboxs
     totChat, // total number of chatboxs
     setChatLog
   ) {
-    // console.log("setChatLog", setChatLog);
-    // let experimentID = experiment.data._id;
-
-    // let experimentID = countClickedChatBoxID;
-
-    // experimentID = 2;
-
     let data = 0;
 
     if (clickedChatBoxNum !== "+ New Chat") {
       data = await getChatMessageByExperimentId(clickedChatBoxNum);
     }
-
-    console.log("choi-data-chatlogs", data["chatlogs"]);
-
-    // filter data based on experiment id
-    // let dataFiltered = data.filter(function (el) {
-    //   return el._experiment_id == experimentID;
-    // });
-
-    // let dataFiltered = data;
-
-    // data=dataFiltered;
-    console.log("clickedChatBoxNum", clickedChatBoxNum);
 
     // when user click + + New Chat button
     if (clickedChatBoxNum === "+ New Chat") {
@@ -545,10 +363,8 @@ export default function SideMenu() {
       );
 
       let current_chatids_list = await savedChatIDs();
-      console.log("current_chatids_list", current_chatids_list);
-      setChatids(current_chatids_list);
 
-      // await postInChatlogsToDBWithExeId(experimentID, data['_id'], "How can I help you today?", "text", "gpt","")
+      setChatids(current_chatids_list);
 
       let chatLogNew = [
         {
@@ -560,32 +376,9 @@ export default function SideMenu() {
     }
     // when user click existing chat button
     else {
-      // console.log("else-countClickedChatBoxID", countClickedChatBoxID);
-      // data = await getSpecificChatbyChatId(countClickedChatBoxID);
-
-      // data = await getChatMessageByExperimentId(countClickedChatBoxID);
-
-      // revese
-
-      // console.log("else-data", data);
-
-      // let chatLogNew = [
-      //     {
-      //         user: "gpt",
-      //         message: "How can I help you today?"
-      //     }
-      // ]
-
       let chatLogNew = [];
 
       for (let i = 0; i < data["chatlogs"].length; i++) {
-        // chatLogNew = [
-        //     ...chatLogNew, {
-        //         user: data["chatlogs"][i]["who"],
-        //         message: data["chatlogs"][i]["message"]
-        //     }
-        // ]
-
         if (data["chatlogs"][i]["who"] === "user") {
           chatLogNew = [
             ...chatLogNew,
@@ -600,7 +393,6 @@ export default function SideMenu() {
             {
               user: data["chatlogs"][i]["who"],
               message: data["chatlogs"][i]["message"],
-              // message: data["chatlogs"][i]["message"].split(/\n/).map(line => <div key={line}>{line}</div>)
             },
           ];
         }
@@ -616,15 +408,6 @@ export default function SideMenu() {
     // in the openai api, is there a way to clear the context of the chat completions endpoint?
     // Yes, in the OpenAI API, you can clear the context of the chat completions endpoint by sending an empty string as the value for the context parameter.
     // For example, if you're using the Python client, you can make a request to the completions method with an empty string as the context parameter like this:
-
-    // In getAllChatsAndGetSpecificChatBasedOnExpID function, in the case where data[clickedChatBoxNum] == undefined,
-    // clear the context of the chat completions endpoint. And then, post with "How can I help you today?" to the openai api (chat/completions).
-
-    // second, feed current chatlog of clicked chatbox to the chat completions endpoint.
-
-    // In getAllChatsAndGetSpecificChatBasedOnExpID function, in the case where data[clickedChatBoxNum] != undefined, // clear the context of the chat completions endpoint. And then, post with chatlog of clicked chatbox to the openai api (chat/completions).
-
-    // console.log("checkClickedChatboxTab-e.target", e.target);
 
     if (e.target.childNodes[0].nodeValue === "+ New Chat") {
       var countClickedChatBoxID = numChatBox + 1;
@@ -658,33 +441,21 @@ export default function SideMenu() {
 
     let chatids_list = await savedChatIDs();
 
-    console.log("countClickedChatBoxID", countClickedChatBoxID);
     setChatCurrentTempId(countClickedChatBoxID);
 
     // user clicks chatbox tap
-    console.log("e.target.childNodes.length", e.target.childNodes.length);
+
     if (e.target.childNodes.length === 3) {
       var clickedChatBoxNum =
         e.target.childNodes[2].childNodes[0].childNodes[1].nodeValue;
-
-      console.log("clickedChatBoxNum", clickedChatBoxNum);
     }
 
     // user clicks + New Chat
     else if (e.target.childNodes.length === 1) {
       var clickedChatBoxNum = e.target.childNodes[0].nodeValue;
-      console.log("user clicks + New Chat", clickedChatBoxNum);
     }
 
     let savedChatIDs_list = await savedChatIDs();
-    // getAllChatsAndGetSpecificChat(clickedChatBoxNum, setChatLog);
-
-    console.log("last-savedChatIDs_list", savedChatIDs_list);
-
-    console.log(
-      "savedChatIDs_list[clickedChatBoxNum",
-      savedChatIDs_list[clickedChatBoxNum]
-    );
 
     let addingNewChatbuttonOrRealChatID = 0;
     if (savedChatIDs_list[clickedChatBoxNum] === undefined) {
@@ -692,16 +463,6 @@ export default function SideMenu() {
     } else {
       addingNewChatbuttonOrRealChatID = savedChatIDs_list[clickedChatBoxNum];
     }
-
-    console.log("------------------");
-    console.log("cck-savedChatIDs_list", savedChatIDs_list);
-    console.log("cck-clickedChatBoxNum", clickedChatBoxNum);
-    console.log(
-      "cck-savedChatIDs_list[clickedChatBoxNum]",
-      savedChatIDs_list[clickedChatBoxNum]
-    );
-
-    console.log("cck-countClickedChatBoxID", countClickedChatBoxID);
 
     await getAllChatsAndGetSpecificChatBasedOnExpID(
       addingNewChatbuttonOrRealChatID, // "+ New Chat" or real chat id
@@ -828,8 +589,7 @@ export default function SideMenu() {
 
       //new
       let chatids_list = await savedChatIDs();
-      console.log("chatids_list", chatids_list);
-      console.log("removed chatids_list:", chatids_list[textClickedChatBoxId]);
+
       await deleteSpecificChat(chatids_list[textClickedChatBoxId]);
 
       // new
@@ -844,9 +604,6 @@ export default function SideMenu() {
         let data = await getAllChatsFromDB(
           chatids_list[chatids_list.length - 1]
         );
-
-        // make data reverse
-        console.log("make data reverse", data);
 
         // make data["chatlogs"] reverse
         data["chatlogs"] = data["chatlogs"].reverse();
@@ -924,8 +681,6 @@ export default function SideMenu() {
     // length of sidemenu
     let sidemenuLength = sidemenu.length;
 
-    console.log("sidemenuLength", sidemenuLength);
-
     if (sidemenuLength > 0) {
       for (let i = 0; i < sidemenu.length - 1; i++) {
         sidemenu[i].style.fontWeight = "normal";
@@ -949,38 +704,8 @@ export default function SideMenu() {
 
   async function postChatNameToDB(chatboxtapname, chattabid) {
     // get current url
-    let url = window.location.href;
-    let urlSplit = url.split("/");
-    // let experimentID = experiment.data._id;
 
-    // GET http://localhost:5080/chatapi/v1/chats
-    // let data = await getChatMessageByExperimentId(chattabid);
-    // filter data based on experiment id
-    // let dataFiltered = data.filter(function (el) {
-    //   return el._experiment_id == experimentID;
-    // });
-
-    // console.log("data---777", data);
-
-    // let dataFiltered = data;
-
-    // console.log("dataFiltered---777", dataFiltered["chatlogs"][0][]);
-
-    // PATCH http://localhost:5080/chatapi/v1/chats/640bd7290674aa751483658b
-    // Content-Type: application/json
-
-    // {
-    //     "title" : chatboxtapname,
-    //     "_experiment_id": experimentID,
-    //     "_dataset_id": experimentID
-    // }
-
-    await patchSpecificChat(
-      chattabid,
-      chatboxtapname
-      // experimentID,
-      // experimentID
-    );
+    await patchSpecificChat(chattabid, chatboxtapname);
 
     setTapTitles({
       taptitles: tapTitles.taptitles.map((title, index) => {
@@ -991,69 +716,14 @@ export default function SideMenu() {
       }),
     });
   }
-  function checkConnectionOpenAIandSet() {
-    fetch("http://127.0.0.1:5050/openai/v1/connections", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (!response.ok) {
-        // throw new Error(`HTTP error: ${response.status}`);
-        // alert("Connection to OpenAI is not established")
-
-        // when it render, in the case where the connection is not established, we will require user to input the API key in the box.
-        var modal = document.getElementsByClassName("modal")[0];
-        modal.style.display = "block";
-      } else if (openaiApiState > 0) {
-        // let oak = document.getElementById("oak");
-        // oak.style.fontWeight = "bold";
-
-        const apiDisconnButton = document.getElementById("apiDisconnButton");
-        if (apiDisconnButton) {
-          apiDisconnButton.style.pointerEvents = "auto";
-        }
-      } else {
-        document.getElementById("expertChatGPT").style.backgroundColor =
-          "#1056c0";
-        var modal = document.getElementsByClassName("modal")[0];
-        // make it unvisible
-        modal.style.display = "none";
-        setopenaiApiState((openaiApiState) => openaiApiState + 1);
-
-        let apiDisconnButton = document.getElementById("apiDisconnButton");
-        apiDisconnButton.style.pointerEvents = "auto";
-      }
-    });
-  }
-
-  async function disconnetOpenAI() {
-    // DELETE http://localhost:5080/openai/v1/connections
-
-    await fetch("http://127.0.0.1:5050/openai/v1/connections", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (!response.ok) {
-        // throw new Error(`HTTP error: ${response.status}`);
-        alert("Failed to disconnect from OpenAI API");
-      } else {
-        console.log("disconnect-response", response);
-        alert("Successfully disconnected from OpenAI API");
-        // document.getElementById("expertChatGPT").style.backgroundColor = "#d3d3d3";
-      }
-    });
-  }
 
   return (
     <div className="divsidemenuForGOT">
       <aside
         className="sidemenuForGOT"
         style={{
-          overflowY: "auto", // 세로 스크롤바를 추가합니다
-          maxHeight: "100vh", // 화면 높이를 넘어가지 않도록 설정합니다
+          overflowY: "auto", //
+          maxHeight: "100vh", //
         }}
       >
         {/* <div className="side-menu-button" onClick={() => setNumChatBox(numChatBox + 1)}> */}
@@ -1064,13 +734,9 @@ export default function SideMenu() {
           className="side-menu-buttonForGOT"
           style={{ display: "none" }}
           onClick={() => {
-            console.log("77-openPopupBtn is clicked");
             const popupContainer = document.getElementById("popupContainer");
-
             popupContainer.style.display = "block";
-
             const popupContent = document.getElementById("popupContent");
-
             popupContent.style.display = "block";
           }}
         >
@@ -1084,28 +750,16 @@ export default function SideMenu() {
           onClick={() => {
             console.log("77-popupContainer is clicked");
             const popupContainer = document.getElementById("popupContainer");
-
             const popupContent = document.getElementById("popupContent");
-
             if (popupContent.style.display !== "block") {
               popupContainer.style.display = "none";
             }
-
-            console.log(
-              "77-document.getElementById(popupContent).style.display",
-              document.getElementById("popupContent").style.display
-            );
           }}
         >
           {/* make close box for popupContent */}
           <div id="popupContent" className="popup-content">
             {/* <!-- Your code snippet here --> */}
-            <div
-              className="models"
-              // style={{
-              //     display: 'none'
-              // }}
-            >
+            <div className="models">
               <button
                 className="close-button"
                 onClick={() => {
@@ -1167,11 +821,6 @@ export default function SideMenu() {
                 className="select-models"
                 type="text"
                 onChange={(e) => setPreSetPrompt(e.target.value)}
-                // min="0"
-                // max="1"
-                // step="0.1"
-                // make the input box bigger based on the length of the prompt
-
                 value={preSetPrompt}
               />
 
@@ -1184,9 +833,8 @@ export default function SideMenu() {
           className="side-menu-buttonForGOT"
           id="newchatbuttonForGOT"
           onClick={debouncedOnClickNewChat}
-          // style={{ display: "none" }}
         >
-          {/* <AddCircleOutlineRoundedIcon fontSize="small" />  */}+ New Chat
+          + New Chat
         </div>
 
         {Array(numChatBox)
@@ -1202,14 +850,7 @@ export default function SideMenu() {
                 }}
               >
                 {tapTitles.taptitles[i]}
-                {/* {
-                  // Check if the title length exceeds 13 characters
-                  tapTitles.taptitles[i].length > 100
-                    ? // If it does, truncate and append '...'
-                      tapTitles.taptitles[i].substring(0, 10) + "..."
-                    : // Otherwise, display the title as is
-                      tapTitles.taptitles[i]
-                } */}
+
                 <p style={{ display: "none" }} contentEditable={false}>
                   _{i}
                 </p>

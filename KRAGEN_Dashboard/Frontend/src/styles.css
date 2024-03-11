@@ -1090,19 +1090,19 @@ text {
 } */
 
 .divsidemenu {
-  display: flex; /* 플렉스 컨테이너 설정 */
-  flex-direction: column; /* 아이템들을 세로로 정렬 */
-  width: 250px; /* 사이드 메뉴의 너비 설정 */
-  height: 100vh; /* 뷰포트의 전체 높이를 차지하도록 설정 */
-  background-color: rgb(23 23 24); /* 배경색 설정 */
+  display: flex; /* Set as flex container */
+  flex-direction: column; /* Align items vertically */
+  width: 250px; /* Set the width of the side menu */
+  height: 100vh; /* Occupy the full height of the viewport */
+  background-color: rgb(23 23 24); /* Set background color */
 }
 
 .sidemenu {
-  width: 100%; /* 부모 컨테이너의 전체 너비를 차지하도록 설정 */
-  margin-right: 0; /* 오른쪽 여백 제거 */
-  background-color: rgb(23 23 24); /* 배경색 설정 */
-  display: flex; /* 플렉스 컨테이너 설정 */
-  flex-direction: column; /* 아이템들을 세로로 정렬 */
+  width: 100%; /* Occupy the full width of the parent container */
+  margin-right: 0; /* Remove right margin */
+  background-color: rgb(23 23 24); /* Set background color */
+  display: flex; /* Set as flex container */
+  flex-direction: column; /* Align items vertically */
 }
 
 /* under 640px do this */
@@ -1122,12 +1122,12 @@ text {
   text-align: left;
   transition: ease 0.25s all;
   cursor: pointer;
-  width: 100%; /* 너비를 부모 컨테이너의 100%로 설정 */
-  box-sizing: border-box; /* 패딩을 너비에 포함 */
+  width: 100%; /* Set width to 100% of parent container */
+  box-sizing: border-box; /* Include padding in width */
 }
 
 #newchatbutton {
-  margin-right: 0; /* 오른쪽 여백 제거 */
+  margin-right: 0; /* Remove right margin */
 }
 
 .side-menu-button:hover {
@@ -1141,11 +1141,29 @@ text {
 
 /* new */
 
+/**
+ * CSS class for the chatboxtap element.
+ * 
+ * This class is used to style the chatboxtap element, which is a flex container
+ * with aligned and justified child elements.
+ * 
+ * CSS properties:
+ * - display: flex;
+ * - align-items: center;
+ * - justify-content: flex-start;
+ * - margin-bottom: 10px;
+ */
 .chatboxtap {
-  display: flex; /* 플렉스 컨테이너 설정 */
-  align-items: center; /* 자식 요소들을 중앙으로 정렬 */
-  justify-content: flex-start; /* 자식 요소들을 컨테이너의 시작 부분으로 정렬 */
-  margin-bottom: 10px; /* 아래쪽 요소와의 간격 */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.chatboxtap {
+  display: flex; /* Set up flex container */
+  align-items: center; /* Align child elements to the center */
+  justify-content: flex-start; /* Align child elements to the start of the container */
+  margin-bottom: 10px; /* Space between this element and the one below it */
 }
 
 .sidemenu.chatboxtap {
@@ -1296,7 +1314,6 @@ text {
 }
 
 .chat-message.alirogpt {
-
   /* background-color: rgb(23 23 24); */
 
   background-color: rgb(17 24 39);
@@ -2034,33 +2051,14 @@ background-color: #2185d0!important;
 }
 
 .slider {
-  /* visibility:hidden; */
-  /* line-height: 1200%; */
-  /* height: 100%; */
-  /* width: 100%; */
-  /*  */
-  /* width: 1px; */
-  /* height: 1000%; */
-  /*  */
-  /* background-color: #579ce1!important; */
-  /* background-color: black; */
-  /* when mouseover  */
-
   border: none;
   cursor: col-resize;
   user-select: none;
   text-align: center;
-  /* make padding left and right 5px */
-  /* padding-left: 5px;
-padding-right: 5px; */
-  /* locate in the center */
 
-  /* make transparent charachters in slider */
   color: transparent;
 
   border-radius: 10px;
-
-  /* position:relative; */
 
   background-color: rgba(38, 37, 37, 0.25);
 }
