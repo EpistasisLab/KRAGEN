@@ -116,12 +116,24 @@ export default function SideMenu() {
 
     let tempChatCurrentTempId = await checkClickedChatboxTab(e);
 
+    console.log("before-numChatBox", numChatBox);
     // Increase the number of chat tabs
+    // setNumChatBox((numChatBox) => numChatBox + 1);
+
+    console.log("9999999-clickedChatBoxNum");
+
+    setCurrentExpId(numChatBox + 1);
+    await setTapTitlesFunc(numChatBox + 1);
     setNumChatBox((numChatBox) => numChatBox + 1);
+
+    checkNumChatBox();
+    setBoldUnderlineAndInitTraIc();
+
+    // console.log("after-numChatBox", numChatBox);
 
     let chatid_list = await savedChatIDs();
 
-    console.log("chatid_list", chatid_list);
+    console.log("9999999-chatid_list", chatid_list);
     console.log("tempChatCurrentTempId", tempChatCurrentTempId);
 
     // Load data for the selected chat tab
@@ -464,17 +476,19 @@ export default function SideMenu() {
 
   const [chatids, setChatids] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      checkNumChatBox();
-      setBoldUnderlineAndInitTraIc();
-      setCurrentExpId(numChatBox);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     console.log("9999999-useEffect-numChatBox");
+  //     checkNumChatBox();
+  //     setBoldUnderlineAndInitTraIc();
+  //     setCurrentExpId(numChatBox);
 
-      await setTapTitlesFunc(numChatBox);
-    };
+  //     await setTapTitlesFunc(numChatBox);
+  //   };
 
-    fetchData();
-  }, [window.location.href, numChatBox]);
+  //   fetchData();
+  //   // }, [window.location.href, numChatBox]);
+  // }, [window.location.href]);
 
   const [openaiApiState, setopenaiApiState] = useState(0);
 

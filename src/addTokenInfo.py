@@ -9,7 +9,9 @@ from dotenv import load_dotenv
 # Download the necessary NLTK models (if not already downloaded)
 nltk.download('punkt')
 
-load_dotenv()  # This loads the variables from .env
+# Specify the path to 'kragen.env' file instead of the default '.env' file
+dotenv_path = os.path.join(os.getcwd(), 'config', 'kragen.env')
+load_dotenv(dotenv_path)  # This loads the variables from 'kragen.env'
 
 
 # INPUT_DIR_FOR_ADDING_TOKEN_INFO 

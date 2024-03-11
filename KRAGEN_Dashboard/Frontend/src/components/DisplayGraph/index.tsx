@@ -149,6 +149,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   // original
   useEffect(() => {
     const fetchData = async () => {
+      console.log("hereout-first");
       // dataset is the got json data
       if (
         readyToDisplayGOT === true &&
@@ -268,61 +269,6 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
         setGotLoaded(false);
 
         try {
-          // test1
-          // const res = await fetch(
-          //   `${process.env.PUBLIC_URL}/gotdata/dataset.json`
-          // );
-          // get question from the textarea
-
-          // test 2
-          // const res = await fetch(
-          //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/gotjson`
-          // );
-
-          // real api
-          // const res = await fetch(
-          //   `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
-          //   {
-          //     method: "POST",
-          //     headers: {
-          //       "Content-Type": "application/json",
-          //     },
-          //     body: JSON.stringify({
-          //       chatInput: chatInputForGOT,
-          //     }),
-          //   }
-          // );
-
-          // const dataset = await res.json();
-          // console.log("datasetGOT", dataset);
-
-          // post
-          // chatInputForGOT
-
-          // let chatid_list = await savedChatIDs();
-
-          // console.log("chatid_listInDisplayGraph", chatid_list);
-
-          // let data = await getChatMessageByExperimentId(
-          //   chatid_list[Number(chatCurrentTempId) - 1]
-          //   // chatCurrentTempId
-          // );
-
-          // console.log("dataInDisplayGraph", data);
-          // // consert dataset to string
-          // let datasetString = JSON.stringify(dataset);
-
-          // // data is json format
-
-          // await postInChatlogsToDB(
-          //   chatid_list[Number(chatCurrentTempId) - 1],
-          //   // chatInputForGOT,
-          //   // dataset,
-          //   datasetString,
-          //   "text",
-          //   "gpt"
-          // );
-
           console.log("datasetGOT-dataset", dataset);
 
           setDataset(dataset);
@@ -344,18 +290,6 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             // setIsLoading(false);
             // setIsLoading(false);
           });
-
-          // const sideMenuButtons = document.getElementsByClassName(
-          //   "sidemenuForGOT"
-          // );
-
-          // if (sideMenuButtons) {
-          //   for (let i = 0; i < sideMenuButtons.length; i++) {
-          //     const button = sideMenuButtons[i] as HTMLDivElement;
-          //     // make it work again
-          //     button.style.pointerEvents = "auto";
-          //   }
-          // }
         } catch (error) {
           console.error("Failed to fetch data:", error);
           // Handle the error accordingly
@@ -367,6 +301,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     };
 
     fetchData();
+    console.log("hereout-second");
   }, [readyToDisplayGOT, dataReady]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
 
   // refactoring
