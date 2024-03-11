@@ -69,7 +69,7 @@ const GraphEventsController: FC<{
 
             let nodeThoughts = JSON.stringify(nodeName, null, 2);
             // alert("Node thoughts: " + nodeName);
-            console.log("Node thoughts: " + nodeThoughts);
+            console.log("777-Node thoughts: " + nodeThoughts);
             setDescriptionForClickedNode(nodeThoughts);
           }
 
