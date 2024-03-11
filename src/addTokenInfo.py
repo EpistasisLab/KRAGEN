@@ -32,18 +32,18 @@ def main():
     for file in csv_files:
         df = pd.read_csv(file)
         
-        # Here we assume 'question' is the name of the column containing the text to be tokenized.
-        # df['question_num_token'] = df['question'].apply(lambda x: len(x.split()) if pd.notnull(x) else 0)
+        # Here we assume 'query' is the name of the column containing the text to be tokenized.
+        # df['query_num_token'] = df['query'].apply(lambda x: len(x.split()) if pd.notnull(x) else 0)
 
         # USE tokenizer.tokenize(sentence) to GET LENGTH OF TOKENS
-        df['question_num_token'] = df['question'].apply(lambda x: len(word_tokenize(x)) if pd.notnull(x) else 0)
+        df['query_num_token'] = df['query'].apply(lambda x: len(word_tokenize(x)) if pd.notnull(x) else 0)
 
 
-        # df['answer_num_token'] = df['answer'].apply(lambda x: len(x.split()) if pd.notnull(x) else 0)
+        # df['statement_num_token'] = df['statement'].apply(lambda x: len(x.split()) if pd.notnull(x) else 0)
         # output_dir + '/' + os.path.basename(file)
 
         # Use the tokenizer to tokenize the text
-        df['answer_num_token'] = df['answer'].apply(lambda x: len(word_tokenize(x)) if pd.notnull(x) else 0)
+        df['statement_num_token'] = df['statement'].apply(lambda x: len(word_tokenize(x)) if pd.notnull(x) else 0)
 
         df.to_csv(output_dir + '/' + os.path.basename(file), index=False)  # Saving the DataFrame back to CSV, without the index.
 

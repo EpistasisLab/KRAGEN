@@ -20,8 +20,10 @@ load_dotenv(dotenv_path)  # This loads the variables from 'kragen.env'
 
 
 input_dir = os.getenv('INPUT_DIR_FOR_EMBEDDING')
+print("7-input_dir:", input_dir)
 # OUTPUT_DIR_FOR_EMBEDDING
 output_dir = os.getenv('OUTPUT_DIR_FOR_EMBEDDING')
+print("7-output_dir:", output_dir)
 
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -40,8 +42,8 @@ def search_docs(df, user_query, top_n=3, to_print=False):
         user_query,
         engine=openai_embedding_model # engine should be set to the deployment name you chose when you deployed the text-embedding-ada-002 (Version 2) model
     )
-    df['question_embedding'] = df['question_embedding'].apply(ast.literal_eval)
-    df["similarities"] = df['question_embedding'].apply(lambda x: cosine_similarity(x, embedding))
+    df['query_embedding'] = df['query_embedding'].apply(ast.literal_eval)
+    df["similarities"] = df['query_embedding'].apply(lambda x: cosine_similarity(x, embedding))
 
     res = (
         df.sort_values("similarities", ascending=False)
@@ -52,13 +54,13 @@ def search_docs(df, user_query, top_n=3, to_print=False):
     return res
 
 
-def extractUsefulInfoFromData(data_origin_converted, question):
-    print("question:", question)
+def extractUsefulInfoFromData(data_origin_converted, query):
+    print("query:", query)
     print("data_origin_converted[train][0]:", data_origin_converted["train"][0])
 
     len_data_origin_converted = len(data_origin_converted["train"])
 
-    # opanai text embedding for question and each in data_origin_converted["train"]
+    # opanai text embedding for query and each in data_origin_converted["train"]
     # openai_text_embedding = openai.Completion.create(
 
 
@@ -67,10 +69,10 @@ def extractUsefulInfoFromData(data_origin_converted, question):
 def process_csv_dask(file_path):
     try:
         df = pd.read_csv(file_path)
-        df["question_embedding"] = df["question"].apply(
+        df["query_embedding"] = df["query"].apply(
             lambda x: get_embedding(x, engine=openai_embedding_model)
         )
-        df["answer_embedding"] = df["answer"].apply(
+        df["statement_embedding"] = df["statement"].apply(
             lambda x: get_embedding(x, engine=openai_embedding_model)
         )
 
@@ -94,8 +96,9 @@ def process_all_csv_files(directory):
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir, exist_ok=True)
             csv_files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.csv')]
+            
             csv_files.sort()
-
+            print("# csv_files for processing:", csv_files)
             only_file_name_csv_files = [os.path.basename(f) for f in csv_files]
 
            
