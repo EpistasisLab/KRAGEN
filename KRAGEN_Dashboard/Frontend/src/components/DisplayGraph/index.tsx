@@ -126,7 +126,6 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   // Track mouse position
   useEffect(() => {
     const handleMouseMove = (e: { clientX: any; clientY: any }) => {
-      // console.log("e.clientX e.clientY", e.clientX, e.clientY);
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
@@ -149,7 +148,6 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   // original
   useEffect(() => {
     const fetchData = async () => {
-      console.log("hereout-first");
       // dataset is the got json data
       if (
         readyToDisplayGOT === true &&
@@ -187,26 +185,15 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
           const dataset = await res.json();
           // save dataset to public/gotdata/dataset_real.json
-
-          console.log("datasetGOT-readyToDisplayGOT", dataset);
-
-          // post
-          // chatInputForGOT
-
           let chatid_list = await savedChatIDs();
 
-          console.log("chatid_listInDisplayGraph", chatid_list);
+          // let data = await getChatMessageByExperimentId(
+          //   chatid_list[Number(chatCurrentTempId) - 1]
+          //   // chatCurrentTempId
+          // );
 
-          let data = await getChatMessageByExperimentId(
-            chatid_list[Number(chatCurrentTempId) - 1]
-            // chatCurrentTempId
-          );
-
-          console.log("dataInDisplayGraph", data);
           // consert dataset to string
           let datasetString = JSON.stringify(dataset);
-
-          // data is json format
 
           await postInChatlogsToDB(
             chatid_list[Number(chatCurrentTempId) - 1],
@@ -230,13 +217,8 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
           });
           requestAnimationFrame(() => {
-            // readyToDisplayGOT === true && dataset === ""
-            console.log("here2-readyToDisplayGOT", readyToDisplayGOT);
-            console.log("here2-dataset", dataset);
             setDataReady(true);
             setGotLoaded(true);
-            // setIsLoading(false);
-            // setIsLoading(false);
           });
 
           const sideMenuButtons =
@@ -266,13 +248,10 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
         dataset !== "" &&
         chatInputForGOT === ""
       ) {
-        console.log("hereout-second");
         // setIsLoading(true); // loading icon show
         setGotLoaded(false);
 
         try {
-          console.log("datasetGOT-dataset", dataset);
-
           setDataset(dataset);
 
           // set question and answer
@@ -286,7 +265,6 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
           });
           requestAnimationFrame(() => {
-            console.log("here3");
             setDataReady(true);
             setGotLoaded(true);
             // setIsLoading(false);
@@ -303,59 +281,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
     };
 
     fetchData();
-    console.log("hereout-second");
   }, [readyToDisplayGOT, dataReady]); // Only re-run the effect if readyToDisplayGOT GOTJSON changes
-
-  // refactoring
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     // 조건이 만족되지 않으면 함수를 빠르게 종료합니다.
-  //     if (!readyToDisplayGOT || chatInputForGOT === "" || dataset !== "")
-  //       return;
-
-  //     setGotLoaded(false);
-
-  //     try {
-  //       const res = await fetch(
-  //         `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/chatapi/v1/got`,
-  //         {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({ chatInput: chatInputForGOT }),
-  //         }
-  //       );
-
-  //       const dataset = await res.json();
-  //       console.log("datasetGOT-readyToDisplayGOT", dataset);
-
-  //       let chatid_list = await savedChatIDs();
-  //       console.log("chatid_listInDisplayGraph", chatid_list);
-
-  //       let data = await getChatMessageByExperimentId(
-  //         chatid_list[Number(chatCurrentTempId) - 1]
-  //       );
-  //       console.log("dataInDisplayGraph", data);
-
-  //       let datasetString = JSON.stringify(dataset);
-  //       await postInChatlogsToDB(
-  //         chatid_list[Number(chatCurrentTempId) - 1],
-  //         datasetString,
-  //         "text",
-  //         "gpt"
-  //       );
-
-  //       // 상태 업데이트 로직을 하나의 함수에서 처리합니다.
-  //       updateDisplayState(dataset);
-  //     } catch (error) {
-  //       console.error("Failed to fetch data:", error);
-  //       handleFetchError();
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [readyToDisplayGOT, dataset, chatInputForGOT]); // 의존성 배열 업데이트
 
   if (!dataset) return null;
 
@@ -531,42 +457,6 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                     chatCurrentTempId={chatCurrentTempId}
                     // descGOTREQ={descGOTREQ}
                   />
-                  {/* <ClustersPanel
-                    clusters={dataset.clusters}
-                    filters={filtersState}
-                    setClusters={(clusters) =>
-                      setFiltersState((filters) => ({
-                        ...filters,
-                        clusters,
-                      }))
-                    }
-                    toggleCluster={(cluster) => {
-                      setFiltersState((filters) => ({
-                        ...filters,
-                        clusters: filters.clusters[cluster]
-                          ? omit(filters.clusters, cluster)
-                          : { ...filters.clusters, [cluster]: true },
-                      }));
-                    }}
-                  /> */}
-                  {/* <TagsPanel
-                    tags={dataset.tags}
-                    filters={filtersState}
-                    setTags={(tags) =>
-                      setFiltersState((filters) => ({
-                        ...filters,
-                        tags,
-                      }))
-                    }
-                    toggleTag={(tag) => {
-                      setFiltersState((filters) => ({
-                        ...filters,
-                        tags: filters.tags[tag]
-                          ? omit(filters.tags, tag)
-                          : { ...filters.tags, [tag]: true },
-                      }));
-                    }}
-                  /> */}
                 </>
               )}
             </div>

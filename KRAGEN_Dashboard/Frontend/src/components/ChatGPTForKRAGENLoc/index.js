@@ -98,7 +98,6 @@ export default function ChatGPT({ experiment }) {
   }
 
   useEffect(async () => {
-    console.log("use-effect-index.js");
     const fetchData = async () => {
       let savedChatIDs_list = await savedChatIDs();
 
@@ -109,15 +108,12 @@ export default function ChatGPT({ experiment }) {
       // at least one chat box exists
       // if (lengthofChatIDs !== 1) {
       if (lengthofChatIDs !== 0) {
-        console.log("lengthofChatIDs !== 1");
         last_chatTapID_in_the_list = savedChatIDs_list[lengthofChatIDs - 1];
       }
       // there is no chat box
       else {
-        console.log("lengthofChatIDs === 0");
         last_chatTapID_in_the_list = 1;
         lengthofChatIDs = 1;
-        console.log("createChatID");
         await createChatID();
       }
 
@@ -146,16 +142,7 @@ export default function ChatGPT({ experiment }) {
       // setTapTitlesFunc(numChatBox);
       setLanModelReset(true);
 
-      //
-      // checking got data in the chatbox
-      // let chatid_list = await savedChatIDs();
-
-      // if chatCurrentTempId is not undefined,
-      // console.log("secondlengthofChatIDs", chatCurrentTempId);
       let savechatids = await savedChatIDs();
-
-      // console.log("999-savechatids", savechatids);
-      // console.log("999-savedChatIDs_list", savedChatIDs_list);
 
       // if chatCurrentTempId is undefined,
       if (savechatids.length === 1) {
@@ -169,17 +156,10 @@ export default function ChatGPT({ experiment }) {
         await updateChatTitleByChatId(savechatids[0], temptitle);
         await setTapTitlesFunc();
       }
-      // if (chatCurrentTempId !== "") {
-      // if (lengthofChatIDs !== 0) {
-      // if (lengthofChatIDs !== 1) {
-      let data = await getChatMessageByExperimentId(
-        // savedChatIDs_list[chatCurrentTempId - 1]
-        // savedChatIDs_list[lengthofChatIDs - 1]
-        savechatids[savechatids.length - 1]
-        // chatCurrentTempId
-      );
 
-      console.log("use-effect-data", data);
+      let data = await getChatMessageByExperimentId(
+        savechatids[savechatids.length - 1]
+      );
 
       // Calculate the index for the third-to-last item
       const index = data.chatlogs.length - 3;
@@ -188,10 +168,6 @@ export default function ChatGPT({ experiment }) {
       const thirdFromLastChatlog =
         data.chatlogs.length > 2 ? data.chatlogs[index] : null;
 
-      console.log("use-effect-thirdFromLastChatlog", thirdFromLastChatlog);
-
-      // console.log("thirdFromLastChatlog", thirdFromLastChatlog);
-      // if thirdFromLastChatlog is null, then readyToDisplayGOT is false
       if (thirdFromLastChatlog === null) {
         // [readyToDisplayGOT, GOTJSON, dataReady]
         setChatInputForGOT("");
@@ -234,14 +210,12 @@ export default function ChatGPT({ experiment }) {
         // Make the textarea invisible but still occupy space
         textarea.style.opacity = 0;
       }
-      // }
     };
     fetchData();
   }, [window.location.href]);
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("9999999-useEffect-numChatBox");
       checkNumChatBox();
       setBoldUnderlineAndInitTraIc();
       setCurrentExpId(numChatBox);
@@ -348,15 +322,6 @@ export default function ChatGPT({ experiment }) {
   // true means that the loading icon is not displayed
   // "" means that the loading icon is not displayed
   const [gotLoaded, setGotLoaded] = useState("");
-
-  //GOTJSON
-  // const [GOTJSON, setGOTJSON] = useState("");
-
-  // set descGOTREQ
-  // const [descGOTREQ, setDescGOTREQ] = useState(false);
-
-  // booleanCode for checking if the messageFromOpenai contains python code
-  // const [booleanCode, setBooleanCode] = useState(false);
 
   // question and answer state from GOT json
   const [gotQuestion, setGotQuestion] = useState("");
@@ -530,178 +495,6 @@ export default function ChatGPT({ experiment }) {
       setGotLoaded(false);
       console.log("here-1");
     }
-
-    /*
-    // const messages = chatLogNew.map((message) => message.message).join("\n");
-
-    // get the last message from the chatLogNew array
-    let lastMessageFromUser = chatLogNew[chatLogNew.length - 1].message;
-
-    let preSet =
-      `assume you are a data scientist that only programs in python. You are given a model named model and dataframe df with the following performance:` +
-      `\n The dataframe df has 'target' as the output. You are asked: ` +
-      `${chatInput}` +
-      `\n Given this question if you are asked to make a plot, save the plot locally.` +
-      preSetPrompt +
-      "Please make sure that you should always save what kinds of charts you create and the information for charts into a csv file. For example, if you plot a donut chart, save the percentage of each class, class names as a csv file, and the chart name: donut. These information will allow user to make responsive and interactive charts. Please make sure that you should replace '_' with '-' in column names" +
-      "Please do not load the dataframe which is df=pd.read_csv('path/to/your/dataset.csv') becasue df is already assigned.";
-
-    // let waitingMessage = "Please wait while I am thinking..";
-    let waitingMessage = "..";
-    let typingDelay = 10; // milliseconds per character
-
-    // Before making the API call
-    setChatLog((chatLogNew) => [
-      ...chatLogNew,
-      {
-        user: "gpt",
-        message: "",
-        className: "blinking",
-      },
-    ]);
-
-    autoScrollDown();
-
-    // Gradually update the message (waitingMessage) with a delay
-    let messageIndex = 0;
-    let intervalId = setInterval(() => {
-      if (messageIndex < waitingMessage.length) {
-        setChatLog((chatLogNew) => [
-          ...chatLogNew.slice(0, -1),
-          {
-            user: "gpt",
-            message: waitingMessage.slice(0, messageIndex + 1),
-            className: "blinking",
-          },
-        ]);
-        messageIndex++;
-      } else {
-        clearInterval(intervalId);
-      }
-    }, typingDelay);
-
-    disableReadingInput();
-
-    let messageFromOpenai = "";
-
-    console.log("chatInput", chatInput);
-
-    // await sendChatInputToBackend(chatInput);
-
-    // currentModel,
-    //     chatLogNew,
-    //     preSet,
-    //     lastMessageFromUser
-
-    // console.log currentModel, chatLogNew, preSet, lastMessageFromUser
-
-    console.log("Test-currentModel", currentModel);
-    console.log("Test-chatLogNew", chatLogNew);
-    console.log("Test-preSet", preSet);
-    console.log("Test-lastMessageFromUser", lastMessageFromUser);
-
-    if (loadLocalChatModel === false) {
-      data = await openaiChatCompletionsWithChatLog(
-        currentModel,
-        chatLogNew,
-        preSet,
-        lastMessageFromUser
-      );
-
-      nomoreBlinking();
-      messageFromOpenai = data.choices[0].message["content"];
-      console.log("messageFromOpenai", messageFromOpenai);
-    } else if (loadLocalChatModel === true) {
-      // let output = await generator(lastMessageFromUser, {
-      //   max_new_tokens: 150,
-      // });
-
-      let output = "";
-
-      // split the output into sentences by . or ? or !
-      let splited_output = output[0].split(/\.|\?|!/);
-
-      // remove the last element of the array from the splited_output array
-      splited_output.pop();
-
-      // concatenate the splited_output array
-      splited_output = splited_output.join(". ");
-
-      // add . to the end of the splited_output
-      splited_output = splited_output + ".";
-
-      messageFromOpenai = splited_output;
-    }
-
-    // if messageFromOpenai is undefined, then set messageFromOpenai to "Sorry, I am not sure what you mean. Please try again."
-
-    if (messageFromOpenai === undefined) {
-      messageFromOpenai =
-        "Sorry, I am not sure what you mean. Please try again.";
-    }
-
-    messageFromOpenai = replaceFirstBackticks(messageFromOpenai);
-
-    // if ```python in the messageFromOpenai, then run addComments(messageFromOpenai)
-
-    if (messageFromOpenai.includes("```python")) {
-      messageFromOpenai = addComments(messageFromOpenai);
-    }
-
-    let booleanCode = checkIfCode(messageFromOpenai);
-
-    if (booleanCode) {
-      let extractedCodeTemp = extractCode(messageFromOpenai);
-
-      let packagesOfCode = extractPackagesOfCode(extractedCodeTemp);
-
-      let packagesNotInstalled = await checkCodePackages(packagesOfCode);
-
-      if (packagesNotInstalled.length > 0) {
-        setBooleanPackageInstall(true);
-
-        messageFromOpenai =
-          packagesNotInstalled +
-          " " +
-          "package(s) is (are) not installed." +
-          " " +
-          "If you want to install the packages to run the below code, please click the button below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
-          "\n" +
-          messageFromOpenai;
-      } else {
-        setBooleanPackageInstall(false);
-        messageFromOpenai =
-          "If you wish to execute the code on Aliro, please click on the button located below. Conversely, if you want to modify the code, simply double-click on it, make the necessary changes, and then save by pressing the esc key." +
-          "\n" +
-          messageFromOpenai;
-      }
-
-      // function for running the code on aliro
-      // runCodeOnAliro(extractedCode);
-      setExtractedCode({ ...extractedCode, code: extractedCodeTemp });
-    }
-
-    setChatLog((chatLog) => [
-      ...chatLog.slice(0, -1),
-      {
-        user: "gpt",
-        message: messageFromOpenai,
-        className: "",
-      },
-    ]);
-
-    await postInChatlogsToDB(
-      chatid_list[chatCurrentTempId - 1],
-      messageFromOpenai,
-      "text",
-      "gpt"
-    );
-
-    autoScrollDown();
-
-    setLanModelReset(false);
-    enableReadingInput();
-    */
   }
 
   async function setTapTitlesFunc() {
@@ -709,9 +502,6 @@ export default function ChatGPT({ experiment }) {
 
     let chatid_list = await savedChatIDs();
 
-    // console.log("setTapTitlesFunc-chatid_list", chatid_list);
-
-    // chatid_list = [0];
     let index = 0;
     tempTapTitles = await Promise.all(
       chatid_list.map(async (chatid) => {

@@ -35,18 +35,15 @@ const ResizableDiv = () => {
       style={{
         width: `${size.width}px`,
         height: `${size.height}px`,
-        // height: "130px",
         overflow: "auto",
         position: "absolute",
-        // transform: "translate(10%, -55%)",
         top: "5%", // Adjusted for demonstration; calculate based on requirements
         left: "5%", // Adjusted for demonstration; calculate based on requirements
         zIndex: 100,
         fontSize: "1.1rem",
         resize: "both",
         backgroundColor: "rgba(255, 255, 255, 0.1)",
-        // backdropFilter: "blur(10px)",
-        // make div edge round
+
         borderRadius: "10px",
       }}
     >

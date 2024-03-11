@@ -48,14 +48,13 @@ const ChatBox = () => {
   // // gotloaded
   // const [gotLoaded, setGotLoaded] = useState(false);
 
-  // toggleDisplayGraph 함수
+  // toggleDisplayGraph
   const handletoggleDisplayGraph = () => {
-    console.log("toggleDisplayGraph", toggleDisplayGraph);
+    // console.log("toggleDisplayGraph", toggleDisplayGraph);
     settoggleDisplayGraph(!toggleDisplayGraph); // 현재 toggleDisplayGraph 상태를 반전시킵니다.
   };
 
   useEffect(() => {
-    console.log("readyToDisplayGOT", readyToDisplayGOT);
     if (readyToDisplayGOT) {
       // find button under chatSubmitFormID id
       let chatsubmitform = document.getElementById("chatSubmitFormID");
@@ -63,7 +62,7 @@ const ChatBox = () => {
       let button = document
         .getElementById("chatSubmitFormID")
         .querySelector(".submit");
-      console.log("button", button);
+
       // make the button unvisible
       button.style.display = "none";
     }
@@ -90,10 +89,6 @@ const ChatBox = () => {
 
                 // when blockSubmit is false, submit the form
                 if (blockSubmit === false) {
-                  console.log(
-                    "submit-booleanTokenUsageLimit",
-                    booleanTokenUsageLimit
-                  );
                   await handleSubmit(e);
                   // console.log("submit-e.target", e.target);
                   // find .submit using querySelector in e.target
@@ -103,7 +98,6 @@ const ChatBox = () => {
                 }
                 // when booleanTokenUsageLimit is true, show warning message
                 else {
-                  console.log("You have exceeded the token usage limit today.");
                   let submitButton = e.target.querySelector(".submit");
                   // console.log("submit-e.target.querySelector", submitButton);
                   submitButton.disabled = true;
@@ -131,13 +125,13 @@ const ChatBox = () => {
                   }
                 }}
                 onMouseOver={(e) => {
-                  console.log("onMouseOver-input");
                   e.target.disabled = false;
                 }}
                 id="chat-input-textarea-id"
                 className="chat-input-textarea"
                 placeholder="Type your message here. "
                 disabled={false}
+                autoComplete="off"
               ></input>
               {booleanTokenUsageLimit ? (
                 <button
@@ -172,10 +166,6 @@ const ChatBox = () => {
                   </div>
                 </>
               )}
-
-              {/* <div className="call-editor" onClick={callEditor}>
-                Editor
-              </div> */}
             </form>
 
             <div
@@ -214,54 +204,9 @@ const ChatBox = () => {
           <ResizableDiv gotQuestion={gotQuestion} gotAnswer={gotAnswer} />
         )}
 
-        {/* {gotQuestion && gotAnswer && (
-          <button
-            onClick={handletoggleDisplayGraph}
-            style={{
-              overflow: "auto",
-              position: "absolute",
-
-              top: "2%", // Adjusted for demonstration; calculate based on requirements
-              left: "5%", // Adjusted for demonstration; calculate based on requirements
-              zIndex: 100,
-              fontSize: "1.1rem",
-              // resize: "both",
-              // backgroundColor: "rgba(255, 255, 255, 0.1)",
-              // backdropFilter: "blur(10px)",
-              // make div edge round
-              borderRadius: "5px",
-            }}
-          >
-            GOT Visualizaton
-          </button>
-        )} */}
-
-        {/* if toggleDisplayGraph is true, display the graph */}
-        {/* {toggleDisplayGraph && (
-          <div id="dispnetgra" className="show-contents">
-            <DisplayGraph
-              chatInputForGOT={chatInputForGOT}
-              readyToDisplayGOT={readyToDisplayGOT}
-              setReadyToDisplayGOT={setReadyToDisplayGOT}
-              chatCurrentTempId={chatCurrentTempId}
-              setGotLoaded={setGotLoaded}
-              dataReady={dataReady}
-              setDataReady={setDataReady}
-              dataset={dataset}
-              setDataset={setDataset}
-              gotQuestion={gotQuestion}
-              setGotQuestion={setGotQuestion}
-              gotAnswer={gotAnswer}
-              setGotAnswer={setGotAnswer}
-              // descGOTREQ={descGOTREQ}
-            />
-          </div>
-        )} */}
-
         <div
           id="dispnetgra"
           className="show-contents"
-          // style={toggleDisplayGraph ? {} : { display: "none" }}
           style={
             toggleDisplayGraph
               ? {}
@@ -282,11 +227,9 @@ const ChatBox = () => {
             setGotQuestion={setGotQuestion}
             gotAnswer={gotAnswer}
             setGotAnswer={setGotAnswer}
-            // descGOTREQ={descGOTREQ}
           />
         </div>
 
-        {/* {!gotLoaded && chatInputForGOT && ( */}
         {gotLoaded === false && (
           <div
             style={{
