@@ -11,6 +11,7 @@ input_csv_file_location = os.getenv('INPUT_CSV_FILE_LOCATION')
 output_dir = os.getenv('OUTPUT_DIR')
 
 def main():
+    print("input_csv_file_location:", input_csv_file_location)
     # Load the DataFrame from a CSV file instead of a JSON file
     df = pd.read_csv(input_csv_file_location)
 

@@ -48,12 +48,12 @@ interval = 50
 def add_object(class_name, obj) -> None:
     global counter
     properties = {
-        "knowledge": obj["answer"],
-        "knowledge_num_token": obj["answer_num_token"]
+        "knowledge": obj["statement"],
+        "knowledge_num_token": obj["statement_num_token"]
     }
 
     # Convert the string representation of the vector to a list
-    vector = [float(val) for val in obj["answer_embedding"].strip('[]').split(',')]
+    vector = [float(val) for val in obj["statement_embedding"].strip('[]').split(',')]
     # print("vector:...")
     # print(vector)
 
@@ -63,7 +63,7 @@ def add_object(class_name, obj) -> None:
             data_object=properties,
             class_name=class_name,
             vector=vector,
-            uuid=generate_uuid5(obj["answer"])
+            uuid=generate_uuid5(obj["statement"])
         )
 
         counter += 1
@@ -74,7 +74,7 @@ def add_object(class_name, obj) -> None:
 def batch_load_csv(class_name, csv_filename):
     with pd.read_csv(
             csv_filename,
-            usecols=["answer", "answer_embedding", "answer_num_token"],
+            usecols=["statement", "statement_embedding", "statement_num_token"],
             chunksize=100,
     ) as csv_iterator:
         for chunk in csv_iterator:
