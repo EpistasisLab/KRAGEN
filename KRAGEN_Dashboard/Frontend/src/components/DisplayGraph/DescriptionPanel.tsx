@@ -31,9 +31,11 @@ const DescriptionPanel: FC<{
     if (descriptionForClickedNode) {
       console.log("descriptionForClickedNode", descriptionForClickedNode);
       try {
-        // descriptionForClickedNode가 변경될 때마다 JSON을 파싱
+        // Parse JSON whenever descriptionForClickedNode changes
         const data = JSON.parse(descriptionForClickedNode);
         console.log("parsed-data", data);
+        console.log("777-data[0]", data[0]);
+        console.log("777-data", data);
         // console.log("parsed-data[]", data[0]);
         // console.log("parsed-data.edge_id", data[0].edge_id);
         // if data has 0th element, then setParsedData(data[0])
@@ -135,10 +137,10 @@ const DescriptionPanel: FC<{
               <h3>Knowledge:</h3>
               <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                 {(parsedData as { thoughts?: Array<any> }).thoughts?.[0]
-                  ?.knowledge !== undefined
+                  ?.knowledge[0] !== undefined
                   ? (
                       parsedData as { thoughts?: Array<any> }
-                    ).thoughts?.[0]?.knowledge
+                    ).thoughts?.[0]?.knowledge?.[0]
                       .split("\n")
                       .map((item: string) =>
                         item.trim() !== "" ? <li key={item}>{item}</li> : null

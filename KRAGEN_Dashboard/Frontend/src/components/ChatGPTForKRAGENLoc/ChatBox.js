@@ -214,15 +214,13 @@ const ChatBox = () => {
           <ResizableDiv gotQuestion={gotQuestion} gotAnswer={gotAnswer} />
         )}
 
-        {gotQuestion && gotAnswer && (
+        {/* {gotQuestion && gotAnswer && (
           <button
             onClick={handletoggleDisplayGraph}
             style={{
               overflow: "auto",
               position: "absolute",
-              // transform: "translate(10%, -55%)",
-              // top: "5%", // Adjusted for demonstration; calculate based on requirements
-              // left: "1%", // Adjusted for demonstration; calculate based on requirements
+
               top: "2%", // Adjusted for demonstration; calculate based on requirements
               left: "5%", // Adjusted for demonstration; calculate based on requirements
               zIndex: 100,
@@ -236,7 +234,7 @@ const ChatBox = () => {
           >
             GOT Visualizaton
           </button>
-        )}
+        )} */}
 
         {/* if toggleDisplayGraph is true, display the graph */}
         {/* {toggleDisplayGraph && (
