@@ -840,7 +840,7 @@ export default function SideMenu() {
         {Array(numChatBox)
           .fill()
           .map((_, i) => (
-            <div className="sidemenuForGOT chatboxtapForGOT">
+            <div key={i} className="sidemenuForGOT chatboxtapForGOT">
               <div
                 className="side-menu-buttonForGOT"
                 // key={i}
