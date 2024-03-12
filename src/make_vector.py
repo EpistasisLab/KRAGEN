@@ -15,8 +15,8 @@ import logging
 
 
 # Specify the path to 'kragen.env' file instead of the default '.env' file
-dotenv_path = os.path.join(os.getcwd(), 'config', 'kragen.env')
-load_dotenv(dotenv_path)  # This loads the variables from 'kragen.env'
+kragen_env_path = os.path.join(os.getcwd(), 'config', 'kragen.env')
+load_dotenv(kragen_env_path)  # This loads the variables from 'kragen.env'
 
 
 input_dir = os.getenv('INPUT_DIR_FOR_EMBEDDING')
@@ -25,6 +25,8 @@ print("7-input_dir:", input_dir)
 output_dir = os.getenv('OUTPUT_DIR_FOR_EMBEDDING')
 print("7-output_dir:", output_dir)
 
+dotenv_path = os.path.join(os.getcwd(), '.env')
+load_dotenv(dotenv_path, override=True) 
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 openai_embedding_model = os.getenv('OPENAI_EMBEDDING_MODEL')
