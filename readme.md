@@ -33,7 +33,7 @@ Follow the format of test.csv and upload your own dataset. To generate our test.
 
 Run the following to load the visualization tool on localhost:8080
 
-`./kragen-start.sh`
+`./kragen-gui.sh`
 
 <p align="center">
 <img src="https://github.com/EpistasisLab/KRAGEN/blob/readme-update/images/KG2Diagram.png" />
