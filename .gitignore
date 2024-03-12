@@ -177,5 +177,19 @@ config.json
 /.pnp
 .pnp.js
 
-# KRAGEN_Dashbord
-/KRAGEN_Dashbord
+# folders to ignore
+
+Alzkb_Q_A_Embedding/old/
+Alzkb_Q_A_Embedding/divided_data_v3_dataset_disconnectedgenes/*
+!Alzkb_Q_A_Embedding/divided_data_v3_dataset_disconnectedgenes/
+Alzkb_Q_A_Embedding/divided_data_v3_dataset_disconnectedgenes_embedded/*
+!Alzkb_Q_A_Embedding/divided_data_v3_dataset_disconnectedgenes_embedded/
+Alzkb_Q_A_Embedding/divided_data_v3_dataset_disconnectedgenes_embedded_addtokens/*
+!Alzkb_Q_A_Embedding/divided_data_v3_dataset_disconnectedgenes_embedded_addtokens/
+
+Alzkb_Q_A_Embedding/.env.sample
+Alzkb_Q_A_Embedding/.gitignore
+Alzkb_Q_A_Embedding/readme.md
+Alzkb_Q_A_Embedding/requirements.txt
+Alzkb_Q_A_Embedding/test_data.json
+Alzkb_Q_A_Embedding/test.py

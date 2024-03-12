@@ -27,41 +27,18 @@ const GraphEventsController: FC<{
    */
   useEffect(() => {
     registerEvents({
-      // clickNode({ node }) {
-      //   if (!graph.getNodeAttribute(node, "hidden")) {
-      //     window.open(graph.getNodeAttribute(node, "URL"), "_blank");
-      //   }
-      // },
-
-      // clickNode({ node }) {
-      //   // Only act if the 'hidden' attribute of the node is false
-      //   if (!graph.getNodeAttribute(node, "hidden")) {
-      //     // Open the node's URL in a new tab
-      //     window.open(graph.getNodeAttribute(node, "URL"), "_blank");
-      //   }
-
-      //   // Print the node's key in the console
-      //   console.log("Clicked node key:", node);
-      // },
       clickNode({ node }) {
-        // console.log("Clicked node key:", node);
         // Check if the 'hidden' attribute of the node is false
         if (!graph.getNodeAttribute(node, "hidden")) {
           // if node is node_-1, then do not open the node's URL in a new tab
           if (node === "node_-1") {
-            console.log("node_-1 is clicked");
             // get entire node information
             let nodeName = graph.getNodeAttributes(node);
-            console.log("NodeName: ", nodeName);
             // please show this json in to console
             let nodeThoughts = JSON.stringify(nodeName, null, 2);
-            // alert("Node thoughts: " + nodeName);
-            // console.log("Node thoughts: " + nodeThoughts);
+
             setDescriptionForClickedNode(nodeThoughts);
           } else {
-            // Open the node's URL in a new tab
-            console.log("Clicked node key:", node);
-
             // Get the node's label (name) and display it
             // let nodeName = graph.getNodeAttribute(node, "thoughts");
             let nodeName = graph.getNodeAttributes(node);
@@ -69,21 +46,10 @@ const GraphEventsController: FC<{
 
             let nodeThoughts = JSON.stringify(nodeName, null, 2);
             // alert("Node thoughts: " + nodeName);
-            console.log("Node thoughts: " + nodeThoughts);
+
             setDescriptionForClickedNode(nodeThoughts);
           }
-
-          // let nodeName = graph.getNodeAttributes(node);
-          // // please show this json in to console
-
-          // let nodeFullInfo = JSON.stringify(nodeName, null, 2);
-          // // alert("Node thoughts: " + nodeName);
-          // console.log("Node: " + nodeFullInfo);
-          // setDescriptionForClickedNode(nodeFullInfo);
         }
-
-        // Print the node's key in the console
-        // console.log("Clicked node thoughts:", node);
       },
       enterNode({ node }) {
         setHoveredNode(node);
@@ -98,7 +64,6 @@ const GraphEventsController: FC<{
         if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
       },
       enterEdge({ edge }) {
-        console.log("edge", edge);
         setHoveredEdge(edge);
         // Handle edge hover enter event
         // Example: Highlight the edge, show edge information, etc.
@@ -107,16 +72,10 @@ const GraphEventsController: FC<{
 
         // how to get edge information
         const edgeData = graph.getEdgeAttributes(edge);
-        console.log("Edge Data:", edgeData); // Log all edge attributes
-
-        // Display the edge label in the console
-        console.log("Edge Label:", edgeData.label);
 
         // If you want to display this label in the UI, you can use a state variable.
         // For example:
         setHoveredEdgeLabel(edgeData.label);
-
-        // console.log("edgeData", edgeData);
       },
       leaveEdge({ edge }) {
         setHoveredEdge(null);

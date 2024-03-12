@@ -7,48 +7,49 @@ let endpoint = "";
 async function savedChatIDs() {
   endpoint = `${apiUrl}:${apiPort}/chatapi/v1/chats/chatids`;
 
-  let data = await fetch(endpoint, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      return data["chatids"];
-    })
-    .catch((err) => {
-      console.log("err--getAllChatsFromDB", err);
-      throw err;
+  try {
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-  return data;
+    const data = await response.json();
+    return data["chatids"];
+  } catch (err) {
+    console.error("Error in savedChatIDs:", err);
+    throw err;
+  }
 }
 
 // get all chats from db by chatid
 async function getAllChatsFromDB(current_chatTapID) {
   let endpoint = `${apiUrl}:${apiPort}/chatapi/v1/chats/${current_chatTapID}/chatlogs`;
 
-  let data = await fetch(
-    // `/chatapi/v1/chats/${current_chatTapID}/chatlogs`,
-    endpoint,
-    {
-      method: "GET",
+  async function fetchData(endpoint, method, body = null) {
+    const options = {
+      method: method,
       headers: {
         "Content-Type": "application/json",
       },
-    }
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      // console.log("step.1-getAllChatsFromDB", data);
-      return data;
-    })
-    .catch((err) => {
-      console.log("err--getAllChatsFromDB", err);
-      throw err;
-    });
+    };
 
+    if (body) {
+      options.body = JSON.stringify(body);
+    }
+
+    try {
+      const response = await fetch(endpoint, options);
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error(`Error in fetchData for ${endpoint}:`, err);
+      throw err;
+    }
+  }
+
+  let data = await fetchData(endpoint, "GET");
   return data;
 }
 
@@ -291,7 +292,7 @@ async function openaiChatCompletionsWithChatLog(
   preSet,
   lastMessageFromUser
 ) {
-  let preSetLastMessageFromUser = preSet + lastMessageFromUser;
+  // let preSetLastMessageFromUser = preSet + lastMessageFromUser;
 
   let chatLogNewFormat = chatLogNew.map((item) => {
     // console.log("item",item)

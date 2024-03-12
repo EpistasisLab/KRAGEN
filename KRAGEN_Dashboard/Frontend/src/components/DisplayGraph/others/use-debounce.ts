@@ -4,8 +4,6 @@ function useDebounce<T>(value: T, delay: number): T {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
-  // console.log("debouncedValue")
-
   useEffect(
     () => {
       // Update debounced value after delay
