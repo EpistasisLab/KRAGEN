@@ -9,13 +9,18 @@
 
 ## Installation
 
-#### 1. Install Docker
+#### 1. Install Docker and NodeJS
 
-Installation of Docker is necessary to deploy the workflow that parses the knowledge base dump, vectorizes the data, and deploys/uploads the vectors onto a Dockerized Weaviate Database Server. 
+If not already installed, installation of Docker is necessary to deploy the workflow that parses the knowledge base dump, vectorizes the data, and deploys/uploads the vectors onto a Dockerized Weaviate Database Server. 
 
 Here are some links to get started on Docker:
   - [Official Docker Website Getting Started](https://docs.docker.com/engine/getstarted/step_one/)
   - [Official Docker Installation for Windows](https://docs.docker.com/docker-for-windows/install/)
+
+If not already installed, NodeJS is necessary to view KRAGEN in the browser.
+
+Here is a link to get started on NodeJS:
+  - [NodeJS Homepage](https://nodejs.org/en)
 
 #### 2. Configure the .env file
 
@@ -39,7 +44,7 @@ Run the following to view the KRAGEN visualization tool on localhost:3000
 
 `./kragen-gui.sh`
 
-If you used the sample dataest, try asking "what genes are associated with caffeine?" and analyze the thought flow!
+If you used the sample dataset, try asking "what genes are associated with caffeine?" and analyze the thought flow!
 
 <p align="center">
 <img src="https://github.com/EpistasisLab/KRAGEN/blob/readme-update/images/KG2Diagram.png" />
