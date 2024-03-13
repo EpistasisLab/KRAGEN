@@ -2,7 +2,7 @@ import sys
 import os
 import convert as convert
 from parse import main as parse
-from make_vector_for_in_context_learning_Azure_parallelization_real_dask_7 import main as embed
+from make_vector import main as embed
 from addTokenInfo import main as tokenize
 from upload import create_class, upload
 
