@@ -5,6 +5,8 @@
 # KRAGEN
 **K**nowledge **R**etrieval **A**ugmented **G**eneration **EN**gine is a tool that combines knowledge graphs, Retrieval Augmented Generation (RAG), and advanced prompting techniques to solve complex problems with natural language. KRAGEN converts knowledge graphs into a vector database and uses RAG to retrieve relevant facts from it. KRAGEN uses advanced prompting techniques: namely graph-of-thoughts (GoT), to dynamically break down a complex problem into smaller subproblems, and proceeds to solve each subproblem by using the relevant knowledge through the RAG framework, which limits the hallucinations, and finally, consolidates the subproblems and provides a solution. KRAGEN’s graph visualization allows the user to interact with and evaluate the quality of the solution’s GoT structure and logic.
 
+KRAGEN will use your formatted data dump (ie Neo4j knowledge base relationships and node information), put it into a vector database using the open source Weaviate database, and deploy a custom Graph of Thoughts viewer using React. You will be able to ask it any question regarding the data, and perform elaborate graph like solutions to resolve your query. Through the viewer you will be able to vet the thought process of answering your question, limiting hallucination and managing the logic of the LLM.
+
 - - - -
 
 ## Installation
