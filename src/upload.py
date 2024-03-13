@@ -3,11 +3,16 @@ import json
 import pandas as pd
 import os
 
+from dotenv import load_dotenv
+
 from weaviate.util import generate_uuid5
+
+dotenv_path = os.path.join(os.getcwd(), '.env')
+load_dotenv(dotenv_path, override=True) 
 
 weaviate_client = None
 weaviate_url = os.getenv('WEAVIATE_URL')
-weaviate_apikey = os.getenv('WEAVIATE_APIKEY')
+weaviate_apikey = os.getenv('WEAVIATE_API_KEY')
 input_dir = os.getenv('INPUT_DIR_DB_UPLOAD')
 
 

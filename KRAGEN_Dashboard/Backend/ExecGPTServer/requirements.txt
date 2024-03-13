@@ -2,3 +2,4 @@ openai==0.27.7
 Flask==2.3.2
 python-dotenv==1.0.0
 flask_cors==4.0.0
+weaviate-client==3.25.3

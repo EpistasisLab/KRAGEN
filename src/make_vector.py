@@ -4,7 +4,8 @@ import pandas as pd
 import openai
 from dotenv import load_dotenv
 # from langchain.embeddings import OpenAIEmbeddings
-from openai.embeddings_utils import get_embedding, cosine_similarity
+import numpy as np
+from openai import OpenAI
 # import tiktoken
 import ast
 import time
@@ -31,19 +32,28 @@ load_dotenv(dotenv_path, override=True)
 openai.api_key = os.getenv('OPENAI_API_KEY')
 openai_embedding_model = os.getenv('OPENAI_EMBEDDING_MODEL')
 
-
-
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def cosine_similarity(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+def get_embedding(text, engine="text-embedding-3-small"):
+    client = OpenAI()
+
+    response = client.embeddings.create(
+        input=text,
+        model=engine
+    )
+
+    return response.data[0].embedding
 
 # search through the reviews for a specific product
 def search_docs(df, user_query, top_n=3, to_print=False):
-    embedding = get_embedding(
-        user_query,
-        engine=openai_embedding_model # engine should be set to the deployment name you chose when you deployed the text-embedding-ada-002 (Version 2) model
-    )
+    
+    embedding = get_embedding(user_query, engine=openai_embedding_model)
+    
     df['query_embedding'] = df['query_embedding'].apply(ast.literal_eval)
     df["similarities"] = df['query_embedding'].apply(lambda x: cosine_similarity(x, embedding))
 
