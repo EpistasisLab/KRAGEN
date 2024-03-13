@@ -39,6 +39,8 @@ Run the following to view the KRAGEN visualization tool on localhost:3000
 
 `./kragen-gui.sh`
 
+If you used the sample dataest, try asking "what genes are associated with caffeine?" and analyze the thought flow!
+
 <p align="center">
 <img src="https://github.com/EpistasisLab/KRAGEN/blob/readme-update/images/KG2Diagram.png" />
 </p>
