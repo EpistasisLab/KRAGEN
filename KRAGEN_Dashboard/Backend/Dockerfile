@@ -10,6 +10,7 @@ COPY . /app
 # Install dependencies
 RUN pip install -r ./ExecGPTServer/requirements.txt
 RUN pip install -e graph_of_thoughts
+RUN flask --app ExecGPTServer init-db
 
 # Expose the port on which your Flask server will run (if needed)
 EXPOSE 5050

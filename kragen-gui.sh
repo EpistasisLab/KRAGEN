@@ -23,8 +23,17 @@ sed -i "16s/.*/$text/" ./KRAGEN_Dashboard/Backend/config.json
 
 # Start Flask server in Docker container
 cd ./KRAGEN_Dashboard/Backend
-docker build -t kragen-flask-server .
-docker run -d -p 5050:5050 kragen-flask-server 
+
+IMAGE_NAME="kragen-flask-server"
+# Check if the Docker image already exists
+if docker images "$IMAGE_NAME" | grep -q "$IMAGE_NAME"; then
+    echo "Docker image $IMAGE_NAME already exists. Skipping build."
+else
+    echo "Docker image $IMAGE_NAME does not exist. Building..."
+    docker build -t "$IMAGE_NAME" .
+fi
+
+docker run -d -p 5050:5050 "$IMAGE_NAME"
 
 # Start React app in the background
 cd ../Frontend
