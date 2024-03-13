@@ -22,4 +22,4 @@ services:
   weaviate:
     extends:
       file: docker-compose-weaviate.yml
-      service: weaviate
+      service: weaviateq
