@@ -22,7 +22,11 @@ If not already installed, NodeJS is necessary to view KRAGEN in the browser.
 Here is a link to get started on NodeJS:
   - [NodeJS Homepage](https://nodejs.org/en)
 
-#### 2. Configure the .env file
+#### 2. Clone the repo and configure the .env file
+
+Git clone the repo:
+
+`git clone https://github.com/EpistasisLab/KRAGEN.git`
 
 Configure the ./config/kragen.env and enter in your OpenAI API Key.
 
