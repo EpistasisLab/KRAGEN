@@ -41,6 +41,8 @@ class ChatGPT(AbstractLanguageModel):
         self.config: Dict = self.config[model_name]
         # The model_id is the id of the model that is used for chatgpt, i.e. gpt-4, gpt-3.5-turbo, etc.
         self.model_id: str = self.config["model_id"]
+        # The embedding_id is the id of the embedding model that is used
+        self.embedding_id: str = self.config["embedding_id"]
         # The prompt_token_cost and response_token_cost are the costs for 1000 prompt tokens and 1000 response tokens respectively.
         self.prompt_token_cost: float = self.config["prompt_token_cost"]
         self.response_token_cost: float = self.config["response_token_cost"]
@@ -155,3 +157,12 @@ class ChatGPT(AbstractLanguageModel):
             for response in query_response
             for choice in response.choices
         ]
+    
+    def get_embedding(self, text_to_embed):
+
+        response = self.client.embeddings.create(
+            model=self.embedding_id,
+            input=text_to_embed
+        )
+
+        return response.data[0].embedding

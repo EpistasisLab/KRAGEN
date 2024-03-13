@@ -161,9 +161,8 @@ def got():
 
     config_file = "config.json"
     # config_file = "config_v1.json"
-
     # Configure the Language Model (Assumes config.json is in the current directory with OpenAI API key)
-    lm = language_models.AzureGPT(config_file, model_name="azuregpt")
+    lm = language_models.ChatGPT(config_file, model_name="chatgpt")
     vdb = WeaviateClient(config_file)
 
     # Create the Controller
@@ -255,6 +254,7 @@ def got():
             "sizenode": 30,
             "thoughts": [thought.state for thought in operation.get_thoughts()],
         }
+        
         # print(operation_serialized["thoughts"][0]["prompt"])
         if index == operation_size-1:
             answer = operation_serialized["thoughts"][0]["current"]

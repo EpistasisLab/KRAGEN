@@ -12,9 +12,9 @@
     "embedding_id": "text-embedding-ada-002"
   },
   "weaviate": {
-    "api_key": "",
-    "url": "",
-    "db": "",
+    "api_key": "hashkey1",
+    "url": "http://localhost:8080",
+    "db": "AlzKB",
     "limit": 200
   },
   "chatgpt": {
@@ -26,6 +26,7 @@
     "stop": null,
     "organization": "",
     "api_key": ""
+    "embedding_id": "text-embedding-ada-002"s
   },
   "chatgpt4": {
     "model_id": "gpt-4",
