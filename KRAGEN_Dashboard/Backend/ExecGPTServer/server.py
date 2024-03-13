@@ -11,11 +11,10 @@ CORS(bp, origins='http://localhost:3000')
 
 # bp = Blueprint('routes', __name__, url_prefix='/openai/v1')
 bp = Blueprint('routes', __name__)
-ai_service = os.environ['AI_SERVICE']
 
-if ai_service == 'openai':
-    import openai
-    openai.api_key = os.environ['AI_API_KEY']
+
+import openai
+openai.api_key = ""
 
 
 def get_openai_connection():

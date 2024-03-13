@@ -21,6 +21,11 @@ validate_step() {
     fi
 }
 
+# pause final message and wait for user to press enter to exit
+pause() {
+    read -p "Press [Enter] key to exit..." fackEnterKey
+}
+
 centered_log() {
     local message="$1"
     local width="$2"
@@ -123,3 +128,4 @@ validate_step
 log "$(printf '*%.0s' $(seq "$length"))"
 centered_log "All steps completed successfully" "$length"
 log "$(printf '*%.0s' $(seq "$length"))"
+pause
