@@ -3,4 +3,4 @@ Flask==2.3.2
 python-dotenv==1.0.0
 flask_cors==4.0.0
 weaviate-client==4.4.4
-watchdog
+watchdog==4.0.0
