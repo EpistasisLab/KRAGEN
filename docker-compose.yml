@@ -15,4 +15,11 @@ services:
     env_file:
       - .env
       - config/kragen.env
+    depends_on:
+      - weaviate
     # command: test.csv
+
+  weaviate:
+    extends:
+      file: docker-compose-weaviate.yml
+      service: weaviate
