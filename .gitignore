@@ -177,6 +177,8 @@ config.json
 /.pnp
 .pnp.js
 
+weaviate_data/
+
 # folders to ignore
 
 Alzkb_Q_A_Embedding/old/
