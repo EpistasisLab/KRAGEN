@@ -30,7 +30,7 @@ Git clone the repo:
 
 `git clone https://github.com/EpistasisLab/KRAGEN.git`
 
-Configure the ./config/kragen.env and enter in your OpenAI API Key.
+Rename the .env.sample to .env and enter in your OpenAI API Key.
 
 #### 3. Run docker workflow and prime the Weaviate database
 
