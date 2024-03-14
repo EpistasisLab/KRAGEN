@@ -63,7 +63,13 @@ const DescriptionPanel: FC<{
           (parsedData as { label?: string }).label !== "Answer" &&
           (parsedData as { label?: string }).label !== "Selector" ? (
             <>
-              <h3>Prompt:</h3>
+              <h3
+                onClick={() => {
+                  console.log("parsedData", parsedData);
+                }}
+              >
+                Prompt:
+              </h3>
               <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                 {(parsedData as { thoughts?: Array<any> }).thoughts?.[0]
                   ?.prompt ?? null}
@@ -77,12 +83,13 @@ const DescriptionPanel: FC<{
           (parsedData as { label?: string }).label !== "Answer" ? (
             <>
               <h3>Knowledge:</h3>
+
               <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                 {(parsedData as { thoughts?: Array<any> }).thoughts?.[0]
-                  ?.knowledge[0] !== undefined
+                  ?.knowledge !== undefined
                   ? (
                       parsedData as { thoughts?: Array<any> }
-                    ).thoughts?.[0]?.knowledge?.[0]
+                    ).thoughts?.[0]?.knowledge
                       .split("\n")
                       .map((item: string) =>
                         item.trim() !== "" ? <li key={item}>{item}</li> : null
