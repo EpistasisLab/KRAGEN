@@ -342,7 +342,8 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
             </ErrorBoundary>
 
             <div className="controls">
-              <div className="ico">
+              {/* reset button */}
+              {/* <div className="ico">
                 <button
                   type="button"
                   className="ico"
@@ -351,28 +352,26 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                   }}
                   title="Back"
                 >
-                  {/* reset button */}
+                  
                   <BiReset />
                 </button>
-              </div>
+              </div> */}
 
               {/* home button */}
-              <div className="ico">
+              {/* <div className="ico">
                 <button
                   type="button"
                   className="ico"
                   onClick={() => {
                     // This is a placeholder for the actual logic to determine if '/Home' exists
-                    const homeExists =
-                      "/Hi"; /* logic to determine if '/Home' exists */
+                    const homeExists = "/Hi";
                     window.location.href = homeExists ? "/Home" : "/";
                   }}
                   title="Back"
                 >
-                  {/* please use <- button */}
                   <IoMdArrowRoundBack />
                 </button>
-              </div>
+              </div> */}
               <div className="ico">
                 <button
                   type="button"
@@ -395,16 +394,16 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
                 customZoomCenter={<BiRadioCircleMarked />}
               />
               {/* home button */}
-              <div className="ico">
+              {/* <div className="ico">
                 <button
                   type="button"
                   className="ico"
                   onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
                   title="Home"
                 >
-                  <BiHome /> {/* Use the home icon */}
+                  <BiHome />
                 </button>
-              </div>
+              </div> */}
 
               {hoveredEdgeLabel && (
                 <div className="edge-label-display" style={labelStyle}>

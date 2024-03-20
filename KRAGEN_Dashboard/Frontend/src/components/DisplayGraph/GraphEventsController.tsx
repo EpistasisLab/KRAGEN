@@ -64,7 +64,8 @@ const GraphEventsController: FC<{
         if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
       },
       enterEdge({ edge }) {
-        setHoveredEdge(edge);
+        // setHoveredEdge(edge);
+        setHoveredEdge(null);
         // Handle edge hover enter event
         // Example: Highlight the edge, show edge information, etc.
         // graph.setEdgeAttribute(edge, "color", "#ff0000"); // Change color to red
@@ -75,7 +76,8 @@ const GraphEventsController: FC<{
 
         // If you want to display this label in the UI, you can use a state variable.
         // For example:
-        setHoveredEdgeLabel(edgeData.label);
+        // setHoveredEdgeLabel(edgeData.label);
+        setHoveredEdgeLabel("");
       },
       leaveEdge({ edge }) {
         setHoveredEdge(null);
