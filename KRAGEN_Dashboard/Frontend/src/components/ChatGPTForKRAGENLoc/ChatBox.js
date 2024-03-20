@@ -1,19 +1,20 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ResizableDiv from "./ResizableDiv";
 import { AllContext } from "./context/AllContext";
 import DisplayGraph from "../DisplayGraph";
 
 import { BiHome } from "react-icons/bi";
-import { getTokenUsage, insertTokenUsage } from "../apiService";
+// import { getTokenUsage, insertTokenUsage } from "../apiService";
 import CircularProgress from "@mui/material/CircularProgress";
 import BlockOutlinedIcon from "@mui/icons-material/BlockOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
+
+import ErrorBoundary from "../ErrorBoundary";
 
 // Primary Chat Window
 const ChatBox = () => {
   const {
     chatInput,
-    chatLog,
     setChatInput,
     handleSubmit,
     readyToDisplayGOT,
@@ -57,8 +58,8 @@ const ChatBox = () => {
   useEffect(() => {
     if (readyToDisplayGOT) {
       // find button under chatSubmitFormID id
-      let chatsubmitform = document.getElementById("chatSubmitFormID");
-      console.log("chatsubmitform", chatsubmitform);
+      // let chatsubmitform = document.getElementById("chatSubmitFormID");
+      // console.log("chatsubmitform", chatsubmitform);
       let button = document
         .getElementById("chatSubmitFormID")
         .querySelector(".submit");
@@ -213,21 +214,23 @@ const ChatBox = () => {
               : { opacity: 0, pointerEvents: "none", userSelect: "none" }
           }
         >
-          <DisplayGraph
-            chatInputForGOT={chatInputForGOT}
-            readyToDisplayGOT={readyToDisplayGOT}
-            setReadyToDisplayGOT={setReadyToDisplayGOT}
-            chatCurrentTempId={chatCurrentTempId}
-            setGotLoaded={setGotLoaded}
-            dataReady={dataReady}
-            setDataReady={setDataReady}
-            dataset={dataset}
-            setDataset={setDataset}
-            gotQuestion={gotQuestion}
-            setGotQuestion={setGotQuestion}
-            gotAnswer={gotAnswer}
-            setGotAnswer={setGotAnswer}
-          />
+          <ErrorBoundary>
+            <DisplayGraph
+              chatInputForGOT={chatInputForGOT}
+              readyToDisplayGOT={readyToDisplayGOT}
+              setReadyToDisplayGOT={setReadyToDisplayGOT}
+              chatCurrentTempId={chatCurrentTempId}
+              setGotLoaded={setGotLoaded}
+              dataReady={dataReady}
+              setDataReady={setDataReady}
+              dataset={dataset}
+              setDataset={setDataset}
+              gotQuestion={gotQuestion}
+              setGotQuestion={setGotQuestion}
+              gotAnswer={gotAnswer}
+              setGotAnswer={setGotAnswer}
+            />
+          </ErrorBoundary>
         </div>
 
         {gotLoaded === false && (

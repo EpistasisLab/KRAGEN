@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ChatBox from "./ChatBox";
 import { AllContext } from "./context/AllContext";
 import SideMenu from "./SideMenu";
-
+import ErrorBoundary from "../ErrorBoundary";
 import {
   savedChatIDs,
   getAllChatsFromDB,
@@ -535,83 +535,86 @@ export default function ChatGPT({ experiment }) {
   }
 
   return (
-    <div className="ChatGPTForGOT">
-      <AllContext.Provider
-        value={{
-          currentModel,
-          setCurrentModel,
-          models,
-          handleTemp,
-          temperature,
-          clearChat,
-          chatLog,
-          setChatLog,
-          chatCurrentTempId,
-          setChatCurrentTempId,
-          numChatBox,
-          setNumChatBox,
-          lanModelReset,
-          setLanModelReset,
-          limitNumChatBox,
-          currentExpId,
-          setCurrentExpId,
-          tapTitles,
-          setTapTitles,
-          setTapTitlesFunc,
-          getChatMessageByExperimentId,
-          getSpecificChatbyChatId,
-          getAllChatsFromDB,
-          postChats,
-          postInChatlogsToDB,
-          deleteSpecificChat,
-          patchSpecificChat,
-          experiment,
-          setTemperature,
-          preSetPrompt,
-          setPreSetPrompt,
-          savedChatIDs,
-          current_chatTapID,
-          setCurrent_chatTapID,
-          createChatID,
-          setReadyToDisplayGOT,
-          chatInput,
-          gotLoaded,
-          setGotLoaded,
-          setDataset,
-          setDataReady,
-          setChatInputForGOT,
-          gotQuestion,
-          setGotQuestion,
-          gotAnswer,
-          setGotAnswer,
-        }}
-      >
-        <SideMenu />
-      </AllContext.Provider>
-      <AllContext.Provider
-        value={{
-          chatInput,
-          chatLog,
-          setChatInput,
-          handleSubmit,
-          readyToDisplayGOT,
-          chatInputForGOT,
-          chatCurrentTempId,
-          gotLoaded,
-          setGotLoaded,
-          dataset,
-          setDataset,
-          setReadyToDisplayGOT,
-          dataReady,
-          setDataReady,
-          gotQuestion,
-          setGotQuestion,
-          gotAnswer,
-          setGotAnswer,
-        }}
-      >
-        <ChatBox />
-      </AllContext.Provider>
-    </div>
+    <ErrorBoundary>
+      <div className="ChatGPTForGOT">
+        <AllContext.Provider
+          value={{
+            currentModel,
+            setCurrentModel,
+            models,
+            handleTemp,
+            temperature,
+            clearChat,
+            chatLog,
+            setChatLog,
+            chatCurrentTempId,
+            setChatCurrentTempId,
+            numChatBox,
+            setNumChatBox,
+            lanModelReset,
+            setLanModelReset,
+            limitNumChatBox,
+            currentExpId,
+            setCurrentExpId,
+            tapTitles,
+            setTapTitles,
+            setTapTitlesFunc,
+            getChatMessageByExperimentId,
+            getSpecificChatbyChatId,
+            getAllChatsFromDB,
+            postChats,
+            postInChatlogsToDB,
+            deleteSpecificChat,
+            patchSpecificChat,
+            experiment,
+            setTemperature,
+            preSetPrompt,
+            setPreSetPrompt,
+            savedChatIDs,
+            current_chatTapID,
+            setCurrent_chatTapID,
+            createChatID,
+            setReadyToDisplayGOT,
+            chatInput,
+            gotLoaded,
+            setGotLoaded,
+            setDataset,
+            setDataReady,
+            setChatInputForGOT,
+            gotQuestion,
+            setGotQuestion,
+            gotAnswer,
+            setGotAnswer,
+          }}
+        >
+          <SideMenu />
+        </AllContext.Provider>
+
+        <AllContext.Provider
+          value={{
+            chatInput,
+            chatLog,
+            setChatInput,
+            handleSubmit,
+            readyToDisplayGOT,
+            chatInputForGOT,
+            chatCurrentTempId,
+            gotLoaded,
+            setGotLoaded,
+            dataset,
+            setDataset,
+            setReadyToDisplayGOT,
+            dataReady,
+            setDataReady,
+            gotQuestion,
+            setGotQuestion,
+            gotAnswer,
+            setGotAnswer,
+          }}
+        >
+          <ChatBox />
+        </AllContext.Provider>
+      </div>
+    </ErrorBoundary>
   );
 }
