@@ -4,6 +4,17 @@ import "./styles.css";
 
 import ChatGPTForKRAGENLoc from "./components/ChatGPTForKRAGENLoc";
 // import AlertExplainPurpose from "./components/AlertExplainPurpose";
+// import * as Sentry from "@sentry/react";
+
+import ErrorBoundary from "./components/ErrorBoundary";
+
+// Set up global error handler
+window.onerror = function (message, source, lineno, colno, error) {
+  // Add error logging logic here
+  console.log("Captured in window.onerror:", message);
+  // Return true to prevent default browser handling
+  return true;
+};
 
 function App() {
   const [isAlertOpen, setIsAlertOpen] = useState(true);
@@ -30,6 +41,7 @@ function App() {
           className="chatbaseleft bg-gray-950 pt-2 pl-2 pb-0"
         >
           {/* <ChatGPTForKRAGENSim experiment={"kragensim"} /> */}
+
           <ChatGPTForKRAGENLoc experiment={"kragenloc"} />
         </div>
       </div>
@@ -39,7 +51,9 @@ function App() {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById("root")
 );

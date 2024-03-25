@@ -19,7 +19,7 @@ const DescriptionPanel: FC<{
       try {
         // Parse JSON whenever descriptionForClickedNode changes
         const data = JSON.parse(descriptionForClickedNode);
-
+        console.log("data-descriptionForClickedNode", data);
         if (data[0]) {
           setParsedData(data[0]);
         } else {
@@ -28,11 +28,11 @@ const DescriptionPanel: FC<{
       } catch (e) {
         // error handling that occurs during JSON parsing
         console.error("Error parsing JSON", e);
+        console.log("data-descriptionForClickedNode-useEffect-error", e);
         setParsedData(null);
       }
     }
-  }, [descriptionForClickedNode]); // descriptionForClickedNode가 변경될 때마다 실행
-
+  }, [descriptionForClickedNode]);
   // RESET DESCRIPTION WHEN CLICKED CHATTAB CHANGES
   useEffect(() => {
     setParsedData(null);
@@ -63,7 +63,13 @@ const DescriptionPanel: FC<{
           (parsedData as { label?: string }).label !== "Answer" &&
           (parsedData as { label?: string }).label !== "Selector" ? (
             <>
-              <h3>Prompt:</h3>
+              <h3
+                onClick={() => {
+                  console.log("parsedData", parsedData);
+                }}
+              >
+                Prompt:
+              </h3>
               <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                 {(parsedData as { thoughts?: Array<any> }).thoughts?.[0]
                   ?.prompt ?? null}
@@ -77,16 +83,52 @@ const DescriptionPanel: FC<{
           (parsedData as { label?: string }).label !== "Answer" ? (
             <>
               <h3>Knowledge:</h3>
-              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+
+              {/* <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                 {(parsedData as { thoughts?: Array<any> }).thoughts?.[0]
-                  ?.knowledge[0] !== undefined
+                  ?.knowledge !== undefined
                   ? (
                       parsedData as { thoughts?: Array<any> }
-                    ).thoughts?.[0]?.knowledge?.[0]
+                    ).thoughts?.[0]?.knowledge
                       .split("\n")
                       .map((item: string) =>
                         item.trim() !== "" ? <li key={item}>{item}</li> : null
                       )
+                  : null}
+              </div> */}
+              {/* <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+                {typeof (
+                  parsedData as { thoughts?: Array<{ knowledge?: string }> }
+                ).thoughts?.[0]?.knowledge === "string"
+                  ? (
+                      parsedData as { thoughts?: Array<{ knowledge?: string }> }
+                    ).thoughts?.[0]?.knowledge
+                      ?.split("\n")
+                      .map(
+                        (
+                          item,
+                          index // Use index for key to avoid duplicate keys
+                        ) =>
+                          item.trim() !== "" ? (
+                            <li key={index}>{item}</li>
+                          ) : null
+                      )
+                  : null}
+              </div> */}
+              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+                {Array.isArray(
+                  (parsedData as { thoughts?: Array<{ knowledge?: string[] }> })
+                    .thoughts?.[0]?.knowledge ?? []
+                ) &&
+                ((parsedData as { thoughts?: Array<{ knowledge?: string[] }> })
+                  .thoughts?.[0]?.knowledge?.length ?? 0) > 0
+                  ? (
+                      parsedData as {
+                        thoughts?: Array<{ knowledge?: string[] }>;
+                      }
+                    ).thoughts?.[0]?.knowledge?.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))
                   : null}
               </div>
             </>
@@ -116,6 +158,17 @@ const DescriptionPanel: FC<{
               </p>
             </div>
           ) : null}
+          {/* {(parsedData as { thoughts?: Array<{ knowledge?: string }> })
+            .thoughts?.[0]?.knowledge !== undefined
+            ? (
+                parsedData as { thoughts?: Array<{ knowledge?: string }> }
+              ).thoughts?.[0]?.knowledge
+                ?.split("\n")
+                .map(
+                  (item: string, index: number) =>
+                    item.trim() !== "" ? <li key={index}>{item}</li> : null // using index as key because item may not be unique
+                )
+            : null} */}
 
           {(parsedData as { label?: string }).label === "Selector" &&
           (parsedData as { thoughts?: Array<any> }).thoughts?.[0]?.edge_id !==

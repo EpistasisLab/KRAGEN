@@ -7,6 +7,11 @@ WORKDIR /app
 # Copy the code into the container
 COPY . /app
 
+RUN apt update --fix-missing \
+    && apt upgrade -y \
+    && apt install -y gcc python3-dev \
+    && pip install --upgrade pip 
+
 # Install dependencies
 RUN pip install -r ./ExecGPTServer/requirements.txt
 RUN pip install -e graph_of_thoughts

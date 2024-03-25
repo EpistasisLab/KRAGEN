@@ -39,6 +39,8 @@ import {
 
 import CircularProgress from "@mui/material/CircularProgress";
 
+import ErrorBoundary from "../ErrorBoundary";
+
 import {
   savedChatIDs,
   getAllChatsFromDB,
@@ -185,6 +187,7 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
           const dataset = await res.json();
           // save dataset to public/gotdata/dataset_real.json
+
           let chatid_list = await savedChatIDs();
 
           // let data = await getChatMessageByExperimentId(
@@ -286,184 +289,212 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
   if (!dataset) return null;
 
   return (
-    <SigmaContainer
-      graphOptions={{ type: "directed" }}
-      initialSettings={{
-        nodeProgramClasses: { image: getNodeProgramImage() },
-        labelRenderer: drawLabel,
-        defaultNodeType: "image",
-        defaultEdgeType: "arrow",
-        labelDensity: 0.07,
-        labelGridCellSize: 60,
-        labelRenderedSizeThreshold: 15,
-        labelFont: "Lato, sans-serif",
-        zIndex: true,
-        allowInvalidContainer: true,
-      }}
-      className="react-sigma"
-    >
-      {readyToDisplayGOT && dataReady && (
-        <>
-          <GraphSettingsController hoveredNode={hoveredNode} />
-          <GraphEventsController
-            setHoveredNode={setHoveredNode}
-            setHoveredEdge={setHoveredEdge}
-            setHoveredEdgeLabel={setHoveredEdgeLabel}
-            setDescriptionForClickedNode={setDescriptionForClickedNode}
-          />
+    // <ErrorBoundary>
 
-          <GraphDataController dataset={dataset} filters={filtersState} />
+    // descriptionForClickedNode
+    // when descriptionForClickedNode is not null, show below
 
-          <div className="controls">
-            <div className="ico">
-              <button
-                type="button"
-                className="ico"
-                onClick={() => {
-                  console.log("reset button clicked");
-                }}
-                title="Back"
-              >
-                {/* reset button */}
-                <BiReset />
-              </button>
-            </div>
+    // {descriptionForClickedNode !== null
 
-            {/* home button */}
-            <div className="ico">
-              <button
-                type="button"
-                className="ico"
-                onClick={() => {
-                  // This is a placeholder for the actual logic to determine if '/Home' exists
-                  const homeExists =
-                    "/Hi"; /* logic to determine if '/Home' exists */
-                  window.location.href = homeExists ? "/Home" : "/";
-                }}
-                title="Back"
-              >
-                {/* please use <- button */}
-                <IoMdArrowRoundBack />
-              </button>
-            </div>
-            <div className="ico">
-              <button
-                type="button"
-                className="show-contents"
-                onClick={() => setShowContents(true)}
-                title="Show caption and description"
-              >
-                <BiBookContent />
-              </button>
-            </div>
-            <FullScreenControl
-              className="ico"
-              customEnterFullScreen={<BsArrowsFullscreen />}
-              customExitFullScreen={<BsFullscreenExit />}
-            />
-            <ZoomControl
-              className="ico"
-              customZoomIn={<BsZoomIn />}
-              customZoomOut={<BsZoomOut />}
-              customZoomCenter={<BiRadioCircleMarked />}
-            />
-            {/* home button */}
-            <div className="ico">
-              <button
-                type="button"
-                className="ico"
-                onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
-                title="Home"
-              >
-                <BiHome /> {/* Use the home icon */}
-              </button>
-            </div>
+    <ErrorBoundary>
+      <SigmaContainer
+        graphOptions={{ type: "directed" }}
+        initialSettings={{
+          nodeProgramClasses: { image: getNodeProgramImage() },
+          labelRenderer: drawLabel,
+          defaultNodeType: "image",
+          defaultEdgeType: "arrow",
+          labelDensity: 0.07,
+          labelGridCellSize: 60,
+          labelRenderedSizeThreshold: 15,
+          labelFont: "Lato, sans-serif",
+          zIndex: true,
+          allowInvalidContainer: true,
+        }}
+        // settings={{
+        //   autoRescale: true,
+        //   allowInvalidContainer: true,
+        // }}
+        className="react-sigma"
+      >
+        {readyToDisplayGOT && dataReady && (
+          <>
+            {/* <ErrorBoundary>
+              {dataset && (
+                <GraphSettingsController
+                  hoveredNode={hoveredNode}
+                  dataset={JSON.stringify(dataset)}
+                />
+              )}
+            </ErrorBoundary> */}
 
-            {hoveredEdgeLabel && (
-              <div className="edge-label-display" style={labelStyle}>
-                {hoveredEdgeLabel}
+            <ErrorBoundary>
+              <GraphEventsController
+                setHoveredNode={setHoveredNode}
+                setHoveredEdge={setHoveredEdge}
+                setHoveredEdgeLabel={setHoveredEdgeLabel}
+                setDescriptionForClickedNode={setDescriptionForClickedNode}
+              />
+            </ErrorBoundary>
+
+            <ErrorBoundary>
+              <GraphDataController dataset={dataset} filters={filtersState} />
+            </ErrorBoundary>
+
+            <div className="controls">
+              {/* reset button */}
+              {/* <div className="ico">
+                <button
+                  type="button"
+                  className="ico"
+                  onClick={() => {
+                    console.log("reset button clicked");
+                  }}
+                  title="Back"
+                >
+                  
+                  <BiReset />
+                </button>
+              </div> */}
+
+              {/* home button */}
+              {/* <div className="ico">
+                <button
+                  type="button"
+                  className="ico"
+                  onClick={() => {
+                    // This is a placeholder for the actual logic to determine if '/Home' exists
+                    const homeExists = "/Hi";
+                    window.location.href = homeExists ? "/Home" : "/";
+                  }}
+                  title="Back"
+                >
+                  <IoMdArrowRoundBack />
+                </button>
+              </div> */}
+              <div className="ico">
+                <button
+                  type="button"
+                  className="show-contents"
+                  onClick={() => setShowContents(true)}
+                  title="Show caption and description"
+                >
+                  <BiBookContent />
+                </button>
               </div>
-            )}
-          </div>
-          <div className="contents">
-            <div className="ico">
-              <button
-                type="button"
-                className="ico hide-contents"
-                onClick={() => setShowContents(false)}
-                title="Show caption and description"
-              >
-                <GrClose />
-              </button>
-            </div>
-            {/* <GraphTitle filters={filtersState} /> */}
+              <FullScreenControl
+                className="ico"
+                customEnterFullScreen={<BsArrowsFullscreen />}
+                customExitFullScreen={<BsFullscreenExit />}
+              />
+              <ZoomControl
+                className="ico"
+                customZoomIn={<BsZoomIn />}
+                customZoomOut={<BsZoomOut />}
+                customZoomCenter={<BiRadioCircleMarked />}
+              />
+              {/* home button */}
+              {/* <div className="ico">
+                <button
+                  type="button"
+                  className="ico"
+                  onClick={() => (window.location.href = "/Home")} // Change to '/Home' or '/' as needed
+                  title="Home"
+                >
+                  <BiHome />
+                </button>
+              </div> */}
 
-            <div className="panels">
-              <div className="flex justify-end">
-                {toggleControlPanel === false ? (
-                  <KeyboardArrowUpRoundedIcon
-                    style={{
-                      color: "white",
-                      fontSize: "70px",
-                      cursor: "pointer",
-                    }}
-                    onClick={(
-                      event: React.MouseEvent<SVGSVGElement, MouseEvent>
-                    ) => {
-                      // Find the closest element with the class 'panels'
-                      const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
-                      const closestPanel = target.closest(".panels");
-
-                      // If a 'panels' element is found, change its width to 100%
-                      if (closestPanel) {
-                        (closestPanel as HTMLElement).style.width = "350px";
-                      }
-                      // Additional action
-                      setToggleControlPanel(true);
-                    }}
-                  />
-                ) : (
-                  <KeyboardArrowDownRoundedIcon
-                    style={{
-                      color: "white",
-                      fontSize: "70px",
-                      cursor: "pointer",
-                    }}
-                    onClick={(
-                      event: React.MouseEvent<SVGSVGElement, MouseEvent>
-                    ) => {
-                      // Find the closest element with the class 'panels'
-                      const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
-                      const closestPanel = target.closest(".panels");
-
-                      // If a 'panels' element is found, change its width to 100%
-                      if (closestPanel) {
-                        (closestPanel as HTMLElement).style.width = "100px";
-                      }
-
-                      // Additional action
-                      setToggleControlPanel(false);
-                    }}
-                  />
-                )}
-              </div>
-
-              {toggleControlPanel && (
-                <>
-                  {/* <SearchField filters={filtersState} /> */}
-                  <DescriptionPanel
-                    descriptionForClickedNode={descriptionForClickedNode}
-                    setDescriptionForClickedNode={setDescriptionForClickedNode}
-                    chatCurrentTempId={chatCurrentTempId}
-                    // descGOTREQ={descGOTREQ}
-                  />
-                </>
+              {hoveredEdgeLabel && (
+                <div className="edge-label-display" style={labelStyle}>
+                  {hoveredEdgeLabel}
+                </div>
               )}
             </div>
-          </div>
-        </>
-      )}
-    </SigmaContainer>
+            <div className="contents">
+              <div className="ico">
+                <button
+                  type="button"
+                  className="ico hide-contents"
+                  onClick={() => setShowContents(false)}
+                  title="Show caption and description"
+                >
+                  <GrClose />
+                </button>
+              </div>
+              {/* <GraphTitle filters={filtersState} /> */}
+
+              <div className="panels">
+                <div className="flex justify-end">
+                  {toggleControlPanel === false ? (
+                    <KeyboardArrowUpRoundedIcon
+                      style={{
+                        color: "white",
+                        fontSize: "70px",
+                        cursor: "pointer",
+                      }}
+                      onClick={(
+                        event: React.MouseEvent<SVGSVGElement, MouseEvent>
+                      ) => {
+                        // Find the closest element with the class 'panels'
+                        const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
+                        const closestPanel = target.closest(".panels");
+
+                        // If a 'panels' element is found, change its width to 100%
+                        if (closestPanel) {
+                          (closestPanel as HTMLElement).style.width = "350px";
+                        }
+                        // Additional action
+                        setToggleControlPanel(true);
+                      }}
+                    />
+                  ) : (
+                    <KeyboardArrowDownRoundedIcon
+                      style={{
+                        color: "white",
+                        fontSize: "70px",
+                        cursor: "pointer",
+                      }}
+                      onClick={(
+                        event: React.MouseEvent<SVGSVGElement, MouseEvent>
+                      ) => {
+                        // Find the closest element with the class 'panels'
+                        const target = event.target as HTMLElement; // Ensuring the target is seen as an HTMLElement
+                        const closestPanel = target.closest(".panels");
+
+                        // If a 'panels' element is found, change its width to 100%
+                        if (closestPanel) {
+                          (closestPanel as HTMLElement).style.width = "100px";
+                        }
+
+                        // Additional action
+                        setToggleControlPanel(false);
+                      }}
+                    />
+                  )}
+                </div>
+
+                {toggleControlPanel && (
+                  <>
+                    {/* <SearchField filters={filtersState} /> */}
+                    <ErrorBoundary>
+                      <DescriptionPanel
+                        descriptionForClickedNode={descriptionForClickedNode}
+                        setDescriptionForClickedNode={
+                          setDescriptionForClickedNode
+                        }
+                        chatCurrentTempId={chatCurrentTempId}
+                        // descGOTREQ={descGOTREQ}
+                      />
+                    </ErrorBoundary>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+      </SigmaContainer>
+    </ErrorBoundary>
   );
 };
 

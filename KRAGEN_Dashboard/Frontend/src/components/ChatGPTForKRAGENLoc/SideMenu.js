@@ -57,6 +57,16 @@ export default function SideMenu() {
     setGotAnswer,
   } = useContext(AllContext);
 
+  const [chattapClickable, setChattapClickable] = useState(true);
+
+  const handleChattapClick = async (e) => {
+    if (chattapClickable) {
+      setChattapClickable(false); // Change state to prevent further clicks.
+      debouncedOnClickChatTab(e); // Execute the click event handler.
+      setTimeout(() => setChattapClickable(true), 300); // Allow clicking again after 100ms.
+    }
+  };
+
   const debouncedOnClickNewChat = debounce(async (e) => {
     // set gotQuestion, gotAnswer, chatInputForGOT, gotLoaded, dataset, dataReady, readyToDisplayGOT
     setGotQuestion("");
@@ -99,6 +109,7 @@ export default function SideMenu() {
 
   const debouncedOnClickChatTab = debounce(async (e) => {
     // Execute checkClickedChatboxTab and savedChatIDs in parallel since they are independent
+    // console.log("debouncedOnClickChatTab-e", e);
     const [tempChatCurrentTempId, chatid_list] = await Promise.all([
       checkClickedChatboxTab(e),
       savedChatIDs(),
@@ -131,6 +142,8 @@ export default function SideMenu() {
         let thirdFromLastChatlogMessage = JSON.parse(
           thirdFromLastChatlog.message
         );
+
+        console.log("thirdFromLastChatlogMessage", thirdFromLastChatlogMessage);
 
         setDataset(thirdFromLastChatlogMessage);
 
@@ -843,8 +856,11 @@ export default function SideMenu() {
             <div key={i} className="sidemenuForGOT chatboxtapForGOT">
               <div
                 className="side-menu-buttonForGOT"
+                //
                 // key={i}
                 onClick={debouncedOnClickChatTab}
+                // onClick={handleChattapClick}
+                // onClick={chattapClickable ? handleChattapClick : undefined}
                 onDoubleClick={async (e) => {
                   await debouncedOnDoubleClickChatTab(e);
                 }}

@@ -3032,3 +3032,7 @@ body {
   position: relative; /* or absolute, fixed, or sticky */
   z-index: 9999; /* a high value to ensure it's on top */
 }
+
+iframe#webpack-dev-server-client-overlay {
+  display: none !important;
+}
