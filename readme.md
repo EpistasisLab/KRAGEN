@@ -34,11 +34,11 @@ Rename the .env.sample to .env and enter in your OpenAI API Key.
 
 #### 3. Run docker workflow and prime the Weaviate database
 
-You will run the setup bash file targeting your data (we are using test.csv as an example). This will go through multiple steps ensuring that your knowledge graph data dump is properly formatted, vectorized, and uploaded to your local Weaviate Dockerized server.
+You will run the `setup` command targeting your data (we are using test.csv as an example). This will go through multiple steps ensuring that your knowledge graph data dump is properly formatted, vectorized, and uploaded to your local Weaviate Dockerized server.
 
-`./kragen-setup.sh test.csv`
+`docker-compose run kragen setup test.csv`
 
-Please follow the format of test.csv and upload your own dataset. To generate our test.csv, we use the publicly accesible knowledge graph AlzKB (https://alzkb.ai/) as our resource. We have a Jupyter notebook in src/extract_data.ipynb to check out how we generated the csv using the public knowledge graph.
+Please follow the format of test.csv and upload your own dataset. To generate our test.csv, we used the publicly accesible knowledge graph AlzKB (https://alzkb.ai/) as our resource. We have a Jupyter notebook in src/extract_data.ipynb to check out how we generated the csv using the public knowledge graph.
 
 #### 4. Boot up KRAGEN!
 

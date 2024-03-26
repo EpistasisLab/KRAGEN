@@ -33,11 +33,11 @@ def setup(filename):
             'func': parse,
             'output': os.getenv('OUTPUT_DIR'),
         },
-        # {
-        #     'name': 'Vectorize',
-        #     'func': embed,
-        #     'output': os.getenv('OUTPUT_DIR_FOR_EMBEDDING'),
-        # },
+        {
+            'name': 'Vectorize',
+            'func': embed,
+            'output': os.getenv('OUTPUT_DIR_FOR_EMBEDDING'),
+        },
         {
             'name': 'Tokenize',
             'func': tokenize,
