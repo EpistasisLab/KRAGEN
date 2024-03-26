@@ -2,17 +2,13 @@ version: '3'
 
 services:
   kragen:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-      args:
-        docker_files: 'docker'
-    image: moorelab/kragen:${TAG}
-    volumes:
-      - "./:/usr/src/app"
-    working_dir: /usr/src/app
-    entrypoint: ["python", "src/kragen.py"]
-    env_file:
-      - .env
-      - config/kragen.env
-    # command: test.csv
+    extends:
+      file: docker-compose-kragen.yml
+      service: kragen
+    depends_on:
+      - weaviate
+
+  weaviate:
+    extends:
+      file: docker-compose-weaviate.yml
+      service: weaviate
