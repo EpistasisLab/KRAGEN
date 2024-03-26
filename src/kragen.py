@@ -37,7 +37,8 @@ def main():
         # check that the input file exists
         input_csv_file = sys.argv[2]
         if not os.path.isfile(input_csv_file):
-            print("File {} does not exist".format(input_csv_file))
+            # print("File {} does not exist".format(input_csv_file))
+            print(f"File {input_csv_file} does not exist")
             sys.exit(1)
         convert.run(config(input_csv_file))
     elif command == 'parse':
@@ -50,6 +51,16 @@ def main():
         create_class()
     elif command == 'upload':
         upload()
+    elif command == 'setup':
+        if len(sys.argv) != 3:
+            print("Usage: docker-compose run kragen setup <csv_file>")
+            sys.exit(1)
+        # check that the input file exists
+        input_csv_file = sys.argv[2]
+        if not os.path.isfile(input_csv_file):
+            print(f"File {input_csv_file} does not exist")
+            sys.exit(1)
+        os.system(f'./kragen-setup.sh {input_csv_file}')
     else:
         print("Usage: docker-compose run kragen <command> [<csv_file>]")
 
