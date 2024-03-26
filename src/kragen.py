@@ -60,7 +60,8 @@ def main():
         if not os.path.isfile(input_csv_file):
             print(f"File {input_csv_file} does not exist")
             sys.exit(1)
-        os.system(f'./kragen-setup.sh {input_csv_file}')
+        sh_script = os.path.join(os.getcwd(), 'kragen-setup.sh')
+        os.system(f'{sh_script} {input_csv_file}')
     else:
         print("Usage: docker-compose run kragen <command> [<csv_file>]")
 
