@@ -9,7 +9,7 @@ services:
     - '8080'
     - --scheme
     - http
-    image: semitechnologies/weaviate:1.22.3
+    image: cr.weaviate.io/semitechnologies/weaviate:1.22.3
     ports:
     - 8080:8080
     - 50051:50051 # port for gRPC
