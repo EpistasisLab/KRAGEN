@@ -12,10 +12,11 @@ class WeaviateClient:
         self.config: Dict = None
         self.load_config(config_path)
         self.config: Dict = self.config["weaviate"]
-        self.url = self.config["url"]
-        self.api_key = self.config["api_key"]
-        self.db = self.config["db"]
-        self.limit = self.config["limit"]
+        self.url = os.getenv("WEAVIATE_URL", self.config["url"])
+        self.api_key = os.getenv("WEAVIATE_API_KEY", self.config["api_key"])
+        self.db = os.getenv("WEAVIATE_DB", self.config["db"])
+        self.limit = int(os.getenv("WEAVIATE_LIMIT", self.config["limit"]))
+
         self.client = self.get_client()
         
     def load_config(self, path: str) -> None:

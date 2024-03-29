@@ -40,25 +40,26 @@ class ChatGPT(AbstractLanguageModel):
         super().__init__(config_path, model_name, cache)
         self.config: Dict = self.config[model_name]
         # The model_id is the id of the model that is used for chatgpt, i.e. gpt-4, gpt-3.5-turbo, etc.
-        self.model_id: str = self.config["model_id"]
+        self.model_id: str = os.getenv("MODEL_ID", self.config["model_id"])
+        print()
         # The embedding_id is the id of the embedding model that is used
-        self.embedding_id: str = self.config["embedding_id"]
+        self.embedding_id: str = os.getenv("EMBEDDING_ID", self.config["embedding_id"])
         # The prompt_token_cost and response_token_cost are the costs for 1000 prompt tokens and 1000 response tokens respectively.
-        self.prompt_token_cost: float = self.config["prompt_token_cost"]
-        self.response_token_cost: float = self.config["response_token_cost"]
+        self.prompt_token_cost: float = float(os.getenv("PROMPT_TOKEN_COST", self.config["prompt_token_cost"]))
+        self.response_token_cost: float = float(os.getenv("RESPONSE_TOKEN_COST", self.config["response_token_cost"]))
         # The temperature of a model is defined as the randomness of the model's output.
-        self.temperature: float = self.config["temperature"]
+        self.temperature: float = float(os.getenv("TEMPERATURE", self.config["temperature"]))
         # The maximum number of tokens to generate in the chat completion.
-        self.max_tokens: int = self.config["max_tokens"]
+        self.max_tokens: int = int(os.getenv("MAX_TOKENS", self.config["max_tokens"]))
         # The stop sequence is a sequence of tokens that the model will stop generating at (it will not generate the stop sequence).
-        self.stop: Union[str, List[str]] = self.config["stop"]
+        self.stop: Union[str, List[str]] = os.getenv("STOP_SEQUENCE", self.config["stop"])  # Ensure the default is appropriately casted as str or List
         # The account organization is the organization that is used for chatgpt.
-        self.organization: str = self.config["organization"]
+        self.organization: str = os.getenv("OPENAI_ORGANIZATION", self.config["organization"])
         if self.organization == "":
             self.logger.warning("OPENAI_ORGANIZATION is not set")
-        self.api_key: str = os.getenv("OPENAI_API_KEY", self.config["api_key"])
+        self.api_key: str = os.getenv("API_KEY", self.config["api_key"])
         if self.api_key == "":
-            raise ValueError("OPENAI_API_KEY is not set")
+            raise ValueError("API_KEY is not set")
         # Initialize the OpenAI Client
         self.client = OpenAI(api_key=self.api_key, organization=self.organization)
 
