@@ -12,3 +12,10 @@ services:
     extends:
       file: docker-compose-weaviate.yml
       service: weaviate
+
+  execgpt:
+    extends:
+      file: docker-compose-flask.yml
+      service: execgpt
+    depends_on:
+      - weaviate

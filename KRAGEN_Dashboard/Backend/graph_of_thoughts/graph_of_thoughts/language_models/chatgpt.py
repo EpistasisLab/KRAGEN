@@ -57,9 +57,9 @@ class ChatGPT(AbstractLanguageModel):
         self.organization: str = os.getenv("OPENAI_ORGANIZATION", self.config["organization"])
         if self.organization == "":
             self.logger.warning("OPENAI_ORGANIZATION is not set")
-        self.api_key: str = os.getenv("API_KEY", self.config["api_key"])
+        self.api_key: str = os.getenv("OPENAI_API_KEY", self.config["api_key"])
         if self.api_key == "":
-            raise ValueError("API_KEY is not set")
+            raise ValueError("OPENAI_API_KEY is not set")
         # Initialize the OpenAI Client
         self.client = OpenAI(api_key=self.api_key, organization=self.organization)
 
