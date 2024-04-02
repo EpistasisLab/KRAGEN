@@ -30,12 +30,11 @@ Git clone the repo:
 
 `git clone https://github.com/EpistasisLab/KRAGEN.git`
 
-Rename the .env.sample to .env and enter in your OpenAI API Key. 
-Copy the .env.sample file as .env (`cp .env.sample .env`) and update the following variables:
-**OPENAI_API_KEY**: Set this to your own openai api key, for instructions on
-how to obtain a key, see the [OpenAI documentation](https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key)
-**WEAVIATE_URL**: Set this to your local ip address and port 8080, for example. http://192.168.1.49:8080  
-    **NOTE:** Weaviate can be run locally or hosted on a server. The `docker-compose-weaviate.yml` file is provided for convenience. However, other setups can also work with KRAGEN.
+Copy the .env.sample file as .env (`cp .env.sample .env`) and update the following variables:  
+- **OPENAI_API_KEY**: Set this to your own openai api key, for instructions on
+how to obtain a key, see the [OpenAI documentation](https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key)  
+- **WEAVIATE_URL**: Set this to your local ip address and port 8080, for example. http://192.168.1.49:8080  
+    - **NOTE:** Weaviate can be run locally or hosted on a server. The `docker-compose-weaviate.yml` file is provided for convenience. However, other setups can also work with KRAGEN.
 For complete instructions on how to deploy a Weaviate Vector Database, please see the [Weaviate Documentation](https://weaviate.io/developers/weaviate/installation/docker-compose#starter-docker-compose-file)
 
 
