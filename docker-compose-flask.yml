@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  execgpt:
+    build:
+      context: ./KRAGEN_Dashboard/Backend
+      dockerfile: Dockerfile
+    image: moorelab/${IMAGE_NAME}:${TAG}
+    container_name: ${IMAGE_NAME}
+    ports:
+      - 5050:5050
+    # entrypoint: ["python", "src/kragen.py"]
+    env_file:
+      - .env
+      - config/kragen.env
