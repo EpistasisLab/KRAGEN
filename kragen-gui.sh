@@ -30,103 +30,53 @@
 #     docker build -t "$IMAGE_NAME" .
 # fi
 
-# # Function to install jq based on the OS
-# install_jq() {
-#     # Get OS details
-#     os_name="$(uname -s)"
-#
-#     case "${os_name}" in
-#         Linux*)     
-#             # Assuming Debian-based Linux if Linux
-#             sudo apt-get update && sudo apt-get install -y jq
-#             ;;
-#         Darwin*)    
-#             # macOS
-#             brew install jq
-#             ;;
-#         *)          
-#             # Unsupported OS
-#             echo "Unsupported operating system for this script: ${os_name}"
-#             exit 1
-#             ;;
-#     esac
-# }
-#
-# # Check if jq is installed, if not, install it
-# if ! type "jq" > /dev/null; then
-#   install_jq
-# fi
 
-# # Read configuration values from config.json
-# MODEL_ID=$(jq -r '.chatgpt.model_id' config.json)
-# PROMPT_TOKEN_COST=$(jq -r '.chatgpt.prompt_token_cost' config.json)
-# RESPONSE_TOKEN_COST=$(jq -r '.chatgpt.response_token_cost' config.json)
-# TEMPERATURE=$(jq -r '.chatgpt.temperature' config.json)
-# MAX_TOKENS=$(jq -r '.chatgpt.max_tokens' config.json)
-# STOP=$(jq -r '.chatgpt.stop' config.json)
-# ORGANIZATION=$(jq -r '.chatgpt.organization' config.json)
-# # API_KEY=$(jq -r '.chatgpt.api_key' config.json)
-# export $(grep OPENAI_API_KEY .env | xargs)
-# API_KEY=$OPENAI_API_KEY
-# EMBEDDING_ID=$(jq -r '.chatgpt.embedding_id' config.json)
-# # WEAVIATE_URL=$(jq -r '.weaviate.url' config.json)
-# export $(grep WEAVIATE_URL .env | xargs)
-# WEAVIATE_URL=$WEAVIATE_URL
-# # WEAVIATE_API_KEY=$(jq -r '.weaviate.api_key' config.json)
-# export $(grep WEAVIATE_API_KEY .env | xargs)
-# WEAVIATE_API_KEY=$WEAVIATE_API_KEY
-# WEAVIATE_DB=$(jq -r '.weaviate.db' config.json)
-# WEAVIATE_LIMIT=$(jq -r '.weaviate.limit' config.json)
-
+# Source environment variables from the .env file
 source .env
 
-# show API_KEY
+# Display the OpenAI API key, Weaviate URL, and Weaviate API key for verification
 echo "OPENAI_API_KEY: $OPENAI_API_KEY"
-
-# show WEAVIATE_URL
 echo "WEAVIATE_URL: $WEAVIATE_URL"
-
-# show WEAVIATE_API_KEY
 echo "WEAVIATE_API_KEY: $WEAVIATE_API_KEY"
 
-# docker run -d -p 5050:5050 "$IMAGE_NAME"
-# Run the Docker container with the environment variables
-# docker run -d -p 5050:5050 \
-#   -e MODEL_ID="$MODEL_ID" \
-#   -e PROMPT_TOKEN_COST="$PROMPT_TOKEN_COST" \
-#   -e RESPONSE_TOKEN_COST="$RESPONSE_TOKEN_COST" \
-#   -e TEMPERATURE="$TEMPERATURE" \
-#   -e MAX_TOKENS="$MAX_TOKENS" \
-#   -e STOP="$STOP" \
-#   -e ORGANIZATION="$ORGANIZATION" \
-#   -e API_KEY="$API_KEY" \
-#   -e EMBEDDING_ID="$EMBEDDING_ID" \
-#     -e WEAVIATE_URL="$WEAVIATE_URL" \
-#     -e WEAVIATE_API_KEY="$WEAVIATE_API_KEY" \
-#     -e WEAVIATE_DB="$WEAVIATE_DB" \
-#     -e WEAVIATE_LIMIT="$WEAVIATE_LIMIT" \
-#   "$IMAGE_NAME"
+# Start the Docker container for the Flask server with docker-compose
 docker-compose run -d -p 5050:5050 execgpt
 
-# Start React app in the background
-# cd ../Frontend
+# Navigate to the Frontend directory
 cd KRAGEN_Dashboard/Frontend
 
-# cp .env.sample .env
+# Remove the existing node_modules folder if it exists to ensure a clean slate for npm install
+if [ -d "node_modules" ]; then
+    rm -rf node_modules
+fi
 
+# Install NVM (Node Version Manager) to manage versions of node and npm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+source ~/.bashrc
+
+# Load NVM and its bash completion
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Install and use the specified version of Node.js using NVM
+nvm install 21.7.1
+nvm use 21.7.1
+
+# Install npm dependencies and start the React application in the background
 npm install
 npm start &
 REACT_PID=$!
 
-# Function to trap exit signals and kill subprocessesN
+# Define a function to clean up background processes on script exit
 function cleanup_react() {
     echo "Exiting..."
     kill $REACT_PID
     exit
 }
 
-# Trap exit signals
+# Trap EXIT signal to ensure the cleanup function runs on script exit
 trap cleanup_react EXIT
 
-# Wait for both processes to finish
+# Wait for the React process to finish before exiting the script
 wait $REACT_PID
