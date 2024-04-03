@@ -112,8 +112,27 @@ docker-compose run -d -p 5050:5050 execgpt
 # cd ../Frontend
 cd KRAGEN_Dashboard/Frontend
 
+# if existing node_modules folder exists, remove it
+if [ -d "node_modules" ]; then
+    rm -rf node_modules
+fi
+
 # cp .env.sample .env
 
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+source ~/.bashrc
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+nvm install 21.7.1
+nvm use 21.7.1
+
+nvm --version
+
+
+# npm install -g npm@latest
 npm install
 npm start &
 REACT_PID=$!
