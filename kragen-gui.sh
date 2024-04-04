@@ -52,6 +52,7 @@ fi
 # Install NVM (Node Version Manager) to manage versions of node and npm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
+
 # Check if .bashrc exists, and source it if it does
 if [ -f "$HOME/.bashrc" ]; then
     source "$HOME/.bashrc"
