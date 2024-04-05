@@ -44,35 +44,6 @@ docker-compose run -d -p 5050:5050 execgpt
 # Navigate to the Frontend directory
 cd KRAGEN_Dashboard/Frontend
 
-# Remove the existing node_modules folder if it exists to ensure a clean slate for npm install
-if [ -d "node_modules" ]; then
-    rm -rf node_modules
-fi
-
-# # Install NVM (Node Version Manager) to manage versions of node and npm
-# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-
-
-# # Check if .bashrc exists, and source it if it does
-# if [ -f "$HOME/.bashrc" ]; then
-#     source "$HOME/.bashrc"
-# else
-#     echo "$HOME/.bashrc does not exist. Creating a new one."
-#     touch "$HOME/.bashrc"
-#     # If you have default content for .bashrc, you can add it here before sourcing
-#     # echo "Default content" >> "$HOME/.bashrc"
-#     source "$HOME/.bashrc"
-# fi
-
-# # Load NVM and its bash completion
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-# # Install and use the specified version of Node.js using NVM
-# nvm install 21.7.1
-# nvm use 21.7.1
-
 # Install npm dependencies and start the React application in the background
 npm install
 npm start &
