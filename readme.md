@@ -51,9 +51,9 @@ Please follow the format of test.csv and upload your own dataset. To generate ou
 
 #### 4. Boot up KRAGEN!
 
-<!-- Add Mac, Windows, and Linux instructions for initializing NodeJS -->
+Please set up .env files within the Frontend and Backend folders of the KRAGEN_Dashboard based on .env.sample in each folder.
 
-Please make sure you have NodeJS (version 21.7.1) installed. If not, please install it from the [NodeJS Homepage](https://nodejs.org/en).
+Please initialize config.json in the Backend folder of the KRAGEN_Dashboard based on config.json.sample in the Backend folder.
 
 Run the following to view the KRAGEN visualization tool on localhost:3000
 
