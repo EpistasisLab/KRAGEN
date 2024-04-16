@@ -13,8 +13,8 @@ KRAGEN will use your formatted data dump (ie Neo4j knowledge base relationships 
 ## Installation Requirements
 
 ### System Requirements:
-Any machine capable of running docker should be able to run KRAGEN.
-However, we recommend the following system configuration:
+Any machine capable of running Docker should be able to run KRAGEN.
+However, we recommend the following minimum system configuration:
 - Operating System: Ubuntu 22.04.4 LTS
 - Processor: 11th Gen Intel Core i7
 - RAM: 16 GB Minimum
@@ -22,7 +22,7 @@ However, we recommend the following system configuration:
 
 ### Software Requirements:
 Docker is required. For installation instructions see the [Official Docker Installation Guide.](https://docs.docker.com/engine/install/)  
-If you are not familiar with docker concepts, see the [Official Docker Getting Started Guide.](https://docs.docker.com/engine/getstarted/step_one/)
+If you are not familiar with Docker concepts, see the [Official Docker Getting Started Guide.](https://docs.docker.com/engine/getstarted/step_one/)
 
 ## Installation
 1. Clone the repository:  
@@ -32,19 +32,19 @@ If you are not familiar with docker concepts, see the [Official Docker Getting S
 2. Copy the .env.sample file:  
 `cp .env.sample .env`
 3. Update the variables in the **.env** file in a text editor:
-    - **OPENAI_API_KEY**: Set this to your own openai api key, for instructions on
+    - **OPENAI_API_KEY**: Set this to your own OpenAI api key, for instructions on
   how to obtain a key, see the [OpenAI documentation](https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key)
-    - **WEAVIATE_URL**: Set this to your local ip address and port 8080, for example. http://192.168.1.49:8080
+    - **WEAVIATE_URL**: Set this to your local IP address and port 8080, for example. http://192.168.1.49:8080
       - **NOTE:** Weaviate can be run locally or hosted on a server. The `docker-compose-weaviate.yml` file is provided for convenience. However, other setups can also work with KRAGEN.
     For complete instructions on how to deploy a Weaviate Vector Database, please see the [Weaviate Documentation](https://weaviate.io/developers/weaviate/installation/docker-compose#starter-docker-compose-file)
-4. Build docker images  
+4. Build Docker images  
 `docker compose build`
-    - This command will build all docker images required to run KRAGEN.
+    - This command will build all Docker images required to run KRAGEN.
     - Building these images for the first time may take a few minutes.
 5. Convert your data and prime the Weaviate Database:  
 `docker compose run kragen setup test.csv`
     - This runs the `setup` command targeting your data (we are using test.csv as an example). This process will go through multiple steps ensuring that your knowledge graph data dump is properly _formatted_, _vectorized_, and _uploaded_ to your local Weaviate server.  
-    - Please follow the format of **test.csv** and upload your own dataset. To generate our **test.csv**, we used the publicly accesible knowledge graph AlzKB (https://alzkb.ai/) as our resource. To check out how we generated the csv using the public knowledge graph, see the Jupyter notebook in [src/extract_data.ipynb](https://github.com/EpistasisLab/KRAGEN/blob/main/src/extract_data.ipynb).
+    - Please follow the format of **test.csv** and upload your own dataset. To generate our **test.csv**, we used the publicly accesible knowledge graph AlzKB (https://alzkb.ai/) as our resource. To check out how we generated the CSV using the public knowledge graph, see the Jupyter notebook in [src/extract_data.ipynb](https://github.com/EpistasisLab/KRAGEN/blob/main/src/extract_data.ipynb).
 6. Configure the KRAGEN GUI:  
 `cp KRAGEN_Dashboard/Frontend/.env.sample KRAGEN_Dashboard/Frontend/.env`
     - **NOTE**: there is no need to update the variables in the **KRAGEN_Dashboard/Frontend/.env** file, KRAGEN will work with the current default values.
