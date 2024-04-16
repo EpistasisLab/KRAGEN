@@ -5,7 +5,7 @@ from parse import main as parse
 from make_vector import main as embed
 from addTokenInfo import main as tokenize
 from upload import create_class, upload
-from k_setup import setup
+from k_setup import setup, config_backend
 from config import config
 
 
@@ -41,6 +41,9 @@ def main():
         create_class()
     elif command == 'upload':
         upload()
+    elif command == 'config_backend':
+        gpt_service = os.getenv('GPT_API_SERVICE')
+        config_backend(gpt_service)
     elif command == 'setup':
         if len(sys.argv) != 3:
             print("Usage: docker-compose run kragen setup <csv_file>")
