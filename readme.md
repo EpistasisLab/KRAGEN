@@ -45,6 +45,7 @@ If you are not familiar with Docker concepts, see the [Official Docker Getting S
 `docker compose run kragen setup test.csv`
     - This runs the `setup` command targeting your data (we are using test.csv as an example). This process will go through multiple steps ensuring that your knowledge graph data dump is properly _formatted_, _vectorized_, and _uploaded_ to your local Weaviate server.  
     - Please follow the format of **test.csv** and upload your own dataset. To generate our **test.csv**, we used the publicly accesible knowledge graph AlzKB (https://alzkb.ai/) as our resource. To check out how we generated the CSV using the public knowledge graph, see the Jupyter notebook in [src/extract_data.ipynb](https://github.com/EpistasisLab/KRAGEN/blob/main/src/extract_data.ipynb).
+    - For more details about the conversion process see [conversion.md](https://github.com/EpistasisLab/KRAGEN/blob/main/conversion.md)
 6. Configure the KRAGEN GUI:  
 `cp KRAGEN_Dashboard/Frontend/.env.sample KRAGEN_Dashboard/Frontend/.env`
     - **NOTE**: there is no need to update the variables in the **KRAGEN_Dashboard/Frontend/.env** file, KRAGEN will work with the current default values.
