@@ -93,6 +93,12 @@ def config_backend(service='chatgpt'):
     sample_filename = os.getenv('BACKEND_CONFIG_FILENAME')
     openai_api_key = os.getenv('OPENAI_API_KEY')
     embedding_model = os.getenv('OPENAI_EMBEDDING_MODEL')
+    # prompt_token_cost = os.getenv('PROMPT_TOKEN_COST')
+    # the response_token_cost is currently defined as a different
+    # value for multiple models in the config.json file.
+    # response_token_cost = os.getenv('RESPONSE_TOKEN_COST')
+    gpt_api_version = os.getenv('GPT_API_VERSION')
+    gpt_api_base = os.getenv('GPT_API_BASE')
     sample_config = os.path.join(backend_path, sample_filename)
     config_file = os.path.join(backend_path, 'config.json')
 
@@ -110,6 +116,12 @@ def config_backend(service='chatgpt'):
 
         if embedding_model is not None and 'embedding_id' in data[service]:
             data[service]['embedding_id'] = embedding_model
+
+        if gpt_api_version is not None and 'api_version' in data[service]:
+            data[service]['api_version'] = gpt_api_version
+
+        if gpt_api_base is not None and 'api_base' in data[service]:
+            data[service]['api_base'] = gpt_api_base
 
         json_data = json.dumps(data, indent=2)
 
