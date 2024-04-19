@@ -13,12 +13,20 @@ KRAGEN will use your formatted data dump (ie Neo4j knowledge base relationships 
 ## Installation Requirements
 
 ### System Requirements:
-Any machine capable of running Docker should be able to run KRAGEN.
-However, we recommend the following minimum system configuration:
+Any machine capable of running Docker should be able to run KRAGEN. So if your Linux or Mac system meets Docker's
+system requirement for [Linux](https://docs.docker.com/desktop/install/linux-install/#system-requirements) or for [Mac](https://docs.docker.com/desktop/install/mac-install/) then your machine can run KRAGEN!  
+KRAGEN was tested using the following system configurations:  
+Linux:  
 - Operating System: Ubuntu 22.04.4 LTS
 - Processor: 11th Gen Intel Core i7
-- RAM: 16 GB Minimum
+- RAM: 32 GB
 - Architecture: x86-64
+
+Mac:  
+- Operating System: MacOS 14.4
+- Processor: Apple M1 Max
+- RAM: 64 GB
+- Architecture: ARM64
 
 ### Software Requirements:
 Docker is required. For installation instructions see the [Official Docker Installation Guide.](https://docs.docker.com/engine/install/)  
@@ -53,10 +61,6 @@ If you are not familiar with Docker concepts, see the [Official Docker Getting S
 `docker compose up gui`  
 8. Visit http://localhost:3000 to start using KRAGEN!
 
-To stop KRAGEN from running, you can use this command:  
-press `ctrl+c` to stop the **GUI** and wait for the process to exit.
-Then to stop all running containers, run: `docker compose stop`, or to remove the containers, run: `docker compose down`
-
 If you used the sample dataset, try asking "what genes are associated with caffeine?" and analyze the thought flow!
 
 <p align="center">
@@ -86,6 +90,12 @@ If you used the sample dataset, try asking "what genes are associated with caffe
 - Leverage the query history feature to maintain continuity in problem-solving or knowledge exploration sessions.
 
 ---
+
+## Stopping KRAGEN
+To stop KRAGEN from running, you can use this command:  
+While the KRAGEN **GUI** is running, press `ctrl+c` to stop it and wait for the process to exit.
+Then, to stop all running containers, run: `docker compose stop`, or to remove the containers, run: `docker compose down`
+
 
 ## Special Thanks To:
 
