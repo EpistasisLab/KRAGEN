@@ -51,9 +51,10 @@ If you are not familiar with Docker concepts, see the [Official Docker Getting S
     - For more details about the conversion process see [conversion.md](https://github.com/EpistasisLab/KRAGEN/blob/main/conversion.md)
 7. **Boot up KRAGEN!**  
 `docker compose up gui`  
-or  
-`docker compose up -d gui` to run this process in the background
 8. Visit http://localhost:3000 to start using KRAGEN!
+
+To stop KRAGEN from running, you can use this command:  
+press `ctrl+c` and wait for the process to exit.
 
 If you used the sample dataset, try asking "what genes are associated with caffeine?" and analyze the thought flow!
 
