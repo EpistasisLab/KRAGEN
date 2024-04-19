@@ -1,6 +1,7 @@
 import click
 import os
 import sys
+import json
 import convert as convert
 from config import config
 from parse import main as parse
@@ -9,7 +10,7 @@ from addTokenInfo import main as tokenize
 from upload import create_class, upload
 
 
-def setup(filename):
+def setup(filename, configure_backend=True):
 
     pad = '*'
     frame = pad * 80
@@ -71,6 +72,10 @@ def setup(filename):
                 sys.exit(0)
         else:
             print(info)
+
+    if configure_backend:
+        config_backend()
+
     info = f'{frame}\n{pad} Process Complete!\n{frame}'
     print(info)
 
@@ -78,3 +83,49 @@ def setup(filename):
 def prompt(msg):
     print(msg)
     return click.confirm('Continue?', default=False)
+
+
+def config_backend(service='chatgpt'):
+
+    print(f'configuring service: {service}')
+
+    backend_path = os.getenv('KRAGEN_BACKEND_PATH')
+    sample_filename = os.getenv('BACKEND_CONFIG_FILENAME')
+    openai_api_key = os.getenv('OPENAI_API_KEY')
+    embedding_model = os.getenv('OPENAI_EMBEDDING_MODEL')
+    # prompt_token_cost = os.getenv('PROMPT_TOKEN_COST')
+    # the response_token_cost is currently defined as a different
+    # value for multiple models in the config.json file.
+    # response_token_cost = os.getenv('RESPONSE_TOKEN_COST')
+    gpt_api_version = os.getenv('GPT_API_VERSION')
+    gpt_api_base = os.getenv('GPT_API_BASE')
+    sample_config = os.path.join(backend_path, sample_filename)
+    config_file = os.path.join(backend_path, 'config.json')
+
+    with open(sample_config, 'r') as f:
+        data = json.load(f)
+        if not service in data:
+            print(f'{service} is not a key in {sample_config}')
+            return
+
+        if not 'api_key' in data[service]:
+            print(f"'api_key' is not a key in {service}: {data[service]}")
+            return 
+
+        data[service]['api_key'] = openai_api_key
+
+        if embedding_model is not None and 'embedding_id' in data[service]:
+            data[service]['embedding_id'] = embedding_model
+
+        if gpt_api_version is not None and 'api_version' in data[service]:
+            data[service]['api_version'] = gpt_api_version
+
+        if gpt_api_base is not None and 'api_base' in data[service]:
+            data[service]['api_base'] = gpt_api_base
+
+        json_data = json.dumps(data, indent=2)
+
+        with open(config_file, 'w') as outfile:
+            outfile.write(json_data)
+            print(f'file: {config_file} configured.')
+

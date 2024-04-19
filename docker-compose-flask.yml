@@ -1,12 +1,11 @@
-version: '3.8'
-
 services:
   execgpt:
     build:
       context: ./KRAGEN_Dashboard/Backend
       dockerfile: Dockerfile
-    image: moorelab/${IMAGE_NAME}:${TAG}
-    container_name: ${IMAGE_NAME}
+    # image: moorelab/${IMAGE_NAME}:${TAG}
+    image: kragen-server:${TAG}
+    container_name: kragen-server
     ports:
       - 5050:5050
     # entrypoint: ["python", "src/kragen.py"]

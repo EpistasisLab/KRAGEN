@@ -33,31 +33,35 @@
 # Source environment variables from the .env file
 source .env
 
+# Configure the backend config.json file:
+docker compose run kragen config_backend
+
+source config/kragen.env
 # Display the OpenAI API key, Weaviate URL, and Weaviate API key for verification
-echo "OPENAI_API_KEY: $OPENAI_API_KEY"
 echo "WEAVIATE_URL: $WEAVIATE_URL"
-echo "WEAVIATE_API_KEY: $WEAVIATE_API_KEY"
 
-# Start the Docker container for the Flask server with docker-compose
-docker-compose run -d -p 5050:5050 execgpt
+Start the Docker container for the Flask server with docker compose
+docker compose run -d -p 5050:5050 execgpt
 
-# Navigate to the Frontend directory
-cd KRAGEN_Dashboard/Frontend
+# # Navigate to the Frontend directory
+# cd KRAGEN_Dashboard/Frontend
+#
+# # Install npm dependencies and start the React application in the background
+# npm install
+# npm start &
+# REACT_PID=$!
+#
+# # Define a function to clean up background processes on script exit
+# function cleanup_react() {
+#     echo "Exiting..."
+#     kill $REACT_PID
+#     exit
+# }
+#
+# # Trap EXIT signal to ensure the cleanup function runs on script exit
+# trap cleanup_react EXIT
+#
+# # Wait for the React process to finish before exiting the script
+# wait $REACT_PID
 
-# Install npm dependencies and start the React application in the background
-npm install
-npm start &
-REACT_PID=$!
-
-# Define a function to clean up background processes on script exit
-function cleanup_react() {
-    echo "Exiting..."
-    kill $REACT_PID
-    exit
-}
-
-# Trap EXIT signal to ensure the cleanup function runs on script exit
-trap cleanup_react EXIT
-
-# Wait for the React process to finish before exiting the script
-wait $REACT_PID
+docker compose run -d -p 3000:3000 gui
