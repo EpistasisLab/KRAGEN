@@ -54,7 +54,8 @@ If you are not familiar with Docker concepts, see the [Official Docker Getting S
 8. Visit http://localhost:3000 to start using KRAGEN!
 
 To stop KRAGEN from running, you can use this command:  
-press `ctrl+c` and wait for the process to exit.
+press `ctrl+c` to stop the **GUI** and wait for the process to exit.
+Then to stop all running containers, run: `docker compose stop`, or to remove the containers, run: `docker compose down`
 
 If you used the sample dataset, try asking "what genes are associated with caffeine?" and analyze the thought flow!
 
