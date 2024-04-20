@@ -1,0 +1,2162 @@
+[
+  {
+    "question": "ESR1 and CYP19A1 are genes which commonly bind to the drug Levonorgestrel",
+    "answer": "True"
+  },
+  {
+    "question": "BCHE and ACHE are genes which commonly bind to the drug Hexafluronium",
+    "answer": "True"
+  },
+  {
+    "question": "CYP2C18 and GABRB2 are genes which commonly bind to the drug Diazepam",
+    "answer": "True"
+  },
+  {
+    "question": "PDE1B and PDE5A are genes which commonly bind to the drug Vardenafil",
+    "answer": "True"
+  },
+  {
+    "question": "SLC16A1 and SLCO2B1 are genes which commonly bind to the drug Acetic acid",
+    "answer": "True"
+  },
+  {
+    "question": "CCDC92 and GNAI1 are genes commonly subject to increased expression by the drug Decitabine",
+    "answer": "True"
+  },
+  {
+    "question": "SLC35A1 and DENND2D are genes commonly subject to increased expression by the drug Azithromycin",
+    "answer": "True"
+  },
+  {
+    "question": "RHOA and DDIT4 are genes commonly subject to increased expression by the drug Atorvastatin",
+    "answer": "True"
+  },
+  {
+    "question": "HBB and FOXO4 are genes commonly subject to increased expression by the drug Phenylpropanolamine",
+    "answer": "True"
+  },
+  {
+    "question": "HMGCR and MAL are genes commonly subject to increased expression by the drug Fluoxetine",
+    "answer": "True"
+  },
+  {
+    "question": "GDF15 and UBQLN2 are genes commonly subject to decreased expression by the drug Sulfasalazine",
+    "answer": "True"
+  },
+  {
+    "question": "RNH1 and ACAT2 are genes commonly subject to decreased expression by the drug Mepenzolate",
+    "answer": "True"
+  },
+  {
+    "question": "SLC35F2 and S100A13 are genes commonly subject to decreased expression by the drug Cefuroxime",
+    "answer": "True"
+  },
+  {
+    "question": "BACE2 and LGALS1 are genes commonly subject to decreased expression by the drug Tubocurarine",
+    "answer": "True"
+  },
+  {
+    "question": "BAD and CNDP2 are genes commonly subject to decreased expression by the drug Darifenacin",
+    "answer": "True"
+  },
+  {
+    "question": "Nucleoside Analog and Purines are classes which commonly include the drug Azathioprine",
+    "answer": "True"
+  },
+  {
+    "question": "Estradiol Congeners and Estrogen Receptor Agonists are classes which commonly include the drug Estradiol",
+    "answer": "True"
+  },
+  {
+    "question": "Photosensitizing Activity and Photoabsorption are classes which commonly include the drug Methoxsalen",
+    "answer": "True"
+  },
+  {
+    "question": "Partial Opioid Agonists and Competitive Opioid Antagonists are classes which commonly include the drug Nalbuphine",
+    "answer": "True"
+  },
+  {
+    "question": "Decreased Sebaceous Gland Activity and Lincosamides are classes which commonly include the drug Clindamycin",
+    "answer": "True"
+  },
+  {
+    "question": "Thiamylal and Gliquidone are drugs which commonly bind to the gene KCNJ8",
+    "answer": "True"
+  },
+  {
+    "question": "Hesperetin and Ezetimibe are drugs which commonly bind to the gene SOAT1",
+    "answer": "True"
+  },
+  {
+    "question": "Dopamine and Disulfiram are drugs which commonly bind to the gene DBH",
+    "answer": "True"
+  },
+  {
+    "question": "Nilvadipine and Amlodipine are drugs which commonly bind to the gene CACNA2D3",
+    "answer": "True"
+  },
+  {
+    "question": "Arsenic trioxide and Isoprenaline are drugs which commonly bind to the gene MAPK1",
+    "answer": "True"
+  },
+  {
+    "question": "Everolimus and Cerulenin are drugs which commonly increase expression of the gene TBPL1",
+    "answer": "True"
+  },
+  {
+    "question": "Digitoxin and Vinblastine are drugs which commonly increase expression of the gene EGFR",
+    "answer": "True"
+  },
+  {
+    "question": "Topotecan and Cephalexin are drugs which commonly increase expression of the gene PSMB8",
+    "answer": "True"
+  },
+  {
+    "question": "Mitoxantrone and Epirubicin are drugs which commonly increase expression of the gene YIPF3",
+    "answer": "True"
+  },
+  {
+    "question": "Nifedipine and Teniposide are drugs which commonly increase expression of the gene TCTN1",
+    "answer": "True"
+  },
+  {
+    "question": "Raloxifene and Teniposide are drugs which commonly decrease expression of the gene ARHGAP19",
+    "answer": "True"
+  },
+  {
+    "question": "Nafcillin and Dasatinib are drugs which commonly decrease expression of the gene TIMM9",
+    "answer": "True"
+  },
+  {
+    "question": "Dabrafenib and Estradiol are drugs which commonly decrease expression of the gene COL4A1",
+    "answer": "True"
+  },
+  {
+    "question": "Mitomycin and Levonorgestrel are drugs which commonly decrease expression of the gene NETO2",
+    "answer": "True"
+  },
+  {
+    "question": "Bortezomib and Digitoxin are drugs which commonly decrease expression of the gene OXLD1",
+    "answer": "True"
+  },
+  {
+    "question": "cell morphogenesis involved in differentiation and circulatory system development are biological processes commonly involving the gene VLDLR",
+    "answer": "True"
+  },
+  {
+    "question": "developmental process involved in reproduction and nucleobase-containing compound catabolic process are biological processes commonly involving the gene CSDE1",
+    "answer": "True"
+  },
+  {
+    "question": "regulation of cytoplasmic transport and positive regulation of intracellular transport are biological processes commonly involving the gene CEMIP",
+    "answer": "True"
+  },
+  {
+    "question": "positive regulation of lymphocyte migration and positive regulation of cellular component movement are biological processes commonly involving the gene CXCL14",
+    "answer": "True"
+  },
+  {
+    "question": "regulation of gene expression, epigenetic and carbohydrate transmembrane transport are biological processes commonly involving the gene SLC50A1",
+    "answer": "True"
+  },
+  {
+    "question": "Signal Transduction and CDC42 signaling events are pathways which commonly contain the gene ARPC2",
+    "answer": "True"
+  },
+  {
+    "question": "Recruitment of mitotic centrosome proteins and complexes and AURKA Activation by TPX2 are pathways which commonly contain the gene CEP43",
+    "answer": "True"
+  },
+  {
+    "question": "Nitric oxide stimulates guanylate cyclase and Platelet homeostasis are pathways which commonly contain the gene PDE9A",
+    "answer": "True"
+  },
+  {
+    "question": "RUNX1 regulates genes involved in megakaryocyte differentiation and platelet function and Chromatin organization are pathways which commonly contain the gene SETD1A",
+    "answer": "True"
+  },
+  {
+    "question": "Intraflagellar transport and Cilium Assembly are pathways which commonly contain the gene IFT122",
+    "answer": "True"
+  },
+  {
+    "question": "ILF3 and PA2G4 are genes which commonly interact with the gene ZNF346",
+    "answer": "True"
+  },
+  {
+    "question": "PRKDC and APP are genes which commonly interact with the gene TOP1",
+    "answer": "True"
+  },
+  {
+    "question": "MYC and ITGA4 are genes which commonly interact with the gene NUP93",
+    "answer": "True"
+  },
+  {
+    "question": "SETDB1 and TUBB4B are genes which commonly interact with the gene PSME1",
+    "answer": "True"
+  },
+  {
+    "question": "KASH5 and MED4 are genes which commonly interact with the gene FTCD",
+    "answer": "True"
+  },
+  {
+    "question": "aldehyde-lyase activity and lyase activity are molecular functions commonly attributed to the gene HOGA1",
+    "answer": "True"
+  },
+  {
+    "question": "G-protein coupled receptor binding and cytokine activity are molecular functions commonly attributed to the gene CCL17",
+    "answer": "True"
+  },
+  {
+    "question": "cytoskeletal protein binding and muscle alpha-actinin binding are molecular functions commonly attributed to the gene MYPN",
+    "answer": "True"
+  },
+  {
+    "question": "regulatory region DNA binding and transcription regulatory region DNA binding are molecular functions commonly attributed to the gene TBX21",
+    "answer": "True"
+  },
+  {
+    "question": "transferase activity, transferring one-carbon groups and methyltransferase activity are molecular functions commonly attributed to the gene METTL23",
+    "answer": "True"
+  },
+  {
+    "question": "intermediate filament and polymeric cytoskeletal fiber are cellular components commonly linked to the gene KRTAP26-1",
+    "answer": "True"
+  },
+  {
+    "question": "mitochondrial inner membrane and ribosome are cellular components commonly linked to the gene MRPS30",
+    "answer": "True"
+  },
+  {
+    "question": "large ribosomal subunit and organellar ribosome are cellular components commonly linked to the gene MRPL12",
+    "answer": "True"
+  },
+  {
+    "question": "nucleolus and intracellular ribonucleoprotein complex are cellular components commonly linked to the gene YBX2",
+    "answer": "True"
+  },
+  {
+    "question": "extracellular matrix and vacuolar lumen are cellular components commonly linked to the gene GPC6",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease, Focal Onset and Alzheimer Disease, Early Onset are diseases commonly associated with the gene HLA-DRB5",
+    "answer": "True"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer Disease, Early Onset are diseases commonly associated with the gene PLAU",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer's Disease, Focal Onset are diseases commonly associated with the gene NECTIN2",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer's Disease, Focal Onset are diseases commonly associated with the gene CRH",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer's Disease, Focal Onset are diseases commonly associated with the gene PYY",
+    "answer": "True"
+  },
+  {
+    "question": "mammalian vulva and lung are body parts/anatomy which commonly over-express the gene MPZL2",
+    "answer": "True"
+  },
+  {
+    "question": "adipose tissue and lung are body parts/anatomy which commonly over-express the gene TMSB4X",
+    "answer": "True"
+  },
+  {
+    "question": "testis and brain are body parts/anatomy which commonly over-express the gene ZNF829",
+    "answer": "True"
+  },
+  {
+    "question": "adrenal gland and blood are body parts/anatomy which commonly over-express the gene GNGT2",
+    "answer": "True"
+  },
+  {
+    "question": "brain and liver are body parts/anatomy which commonly over-express the gene SPDYE3",
+    "answer": "True"
+  },
+  {
+    "question": "cardiac ventricle and lung are body parts/anatomy which commonly under-express the gene TDP2",
+    "answer": "True"
+  },
+  {
+    "question": "brain and prostate gland are body parts/anatomy which commonly under-express the gene KMT2D",
+    "answer": "True"
+  },
+  {
+    "question": "female gonad and myometrium are body parts/anatomy which commonly under-express the gene TOMM40L",
+    "answer": "True"
+  },
+  {
+    "question": "mammalian vulva and midbrain are body parts/anatomy which commonly under-express the gene DYNLT2",
+    "answer": "True"
+  },
+  {
+    "question": "endometrium and adipose tissue are body parts/anatomy which commonly under-express the gene PCSK6",
+    "answer": "True"
+  },
+  {
+    "question": "Butalbital and Methohexital are drugs which commonly belong to the drug class Barbiturates",
+    "answer": "True"
+  },
+  {
+    "question": "Dapagliflozin and Canagliflozin are drugs which commonly belong to the drug class Sodium-Glucose Transporter 2 Inhibitors",
+    "answer": "True"
+  },
+  {
+    "question": "Lamivudine and Stavudine are drugs which commonly belong to the drug class Nucleoside Reverse Transcriptase Inhibitors",
+    "answer": "True"
+  },
+  {
+    "question": "Ketoconazole and Boceprevir are drugs which commonly belong to the drug class Cytochrome P450 3A5 Inhibitors",
+    "answer": "True"
+  },
+  {
+    "question": "Bupivacaine and Mepivacaine are drugs which commonly belong to the drug class Amides",
+    "answer": "True"
+  },
+  {
+    "question": "Quetiapine and Memantine are drugs which commonly treat Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "Ziprasidone and Naltrexone are drugs which commonly affect Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "PPARG and RELN are genes commonly associated with the disease Alzheimer Disease, Early Onset",
+    "answer": "True"
+  },
+  {
+    "question": "PPARG and PYY are genes commonly associated with the disease Alzheimer's Disease, Focal Onset",
+    "answer": "True"
+  },
+  {
+    "question": "SLC30A4 and MAPT are genes commonly associated with the disease Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "SLC30A4 and BIN1 are genes commonly associated with the disease Familial Alzheimer Disease (FAD)",
+    "answer": "True"
+  },
+  {
+    "question": "PLCG2 and PSEN1 are genes commonly associated with the disease Alzheimer Disease, Late Onset",
+    "answer": "True"
+  },
+  {
+    "question": "Cerebellar Ataxia and Blindness, Cortical are common symptoms of Familial Alzheimer Disease (FAD)",
+    "answer": "True"
+  },
+  {
+    "question": "Apraxias and Sleep Disorders are common symptoms of Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "lymphoid tissue and central nervous system are common sites of localization of Familial Alzheimer Disease (FAD)",
+    "answer": "True"
+  },
+  {
+    "question": "forebrain and neuropil are common sites of localization of Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "PPCDC and MLYCD are genes which commonly participate in the biological process coenzyme A metabolic process",
+    "answer": "True"
+  },
+  {
+    "question": "CAPN3 and SOX15 are genes which commonly participate in the biological process regulation of satellite cell activation involved in skeletal muscle regeneration",
+    "answer": "True"
+  },
+  {
+    "question": "MAP2K6 and P2RX7 are genes which commonly participate in the biological process positive regulation of fatty acid transport",
+    "answer": "True"
+  },
+  {
+    "question": "TRAF4 and ACTN4 are genes which commonly participate in the biological process positive regulation of NIK/NF-kappaB signaling",
+    "answer": "True"
+  },
+  {
+    "question": "HMGA1 and LMNA are genes which commonly participate in the biological process positive regulation of cell aging",
+    "answer": "True"
+  },
+  {
+    "question": "ACSL1 and ACAT1 are genes common in the pathway Very-long-chain acyl coa dehydrogenase deficiency (VLCAD)",
+    "answer": "True"
+  },
+  {
+    "question": "NSDHL and SC5D are genes common in the pathway Squalene and cholesterol biosynthesis",
+    "answer": "True"
+  },
+  {
+    "question": "MAP2K1 and PTPN11 are genes common in the pathway Signaling of Hepatocyte Growth Factor Receptor",
+    "answer": "True"
+  },
+  {
+    "question": "RAD51AP1 and SPIDR are genes common in the pathway Resolution of D-loop Structures through Holliday Junction Intermediates",
+    "answer": "True"
+  },
+  {
+    "question": "CCT3 and TUBB3 are genes common in the pathway Chaperonin-mediated protein folding",
+    "answer": "True"
+  },
+  {
+    "question": "FGR and FLNA are genes which commonly perform the molecular function immunoglobulin receptor binding",
+    "answer": "True"
+  },
+  {
+    "question": "GPD2 and GPD1 are genes which commonly perform the molecular function glycerol-3-phosphate dehydrogenase activity",
+    "answer": "True"
+  },
+  {
+    "question": "SLC23A1 and SLC23A2 are genes which commonly perform the molecular function L-ascorbic acid transporter activity",
+    "answer": "True"
+  },
+  {
+    "question": "HLA-F and TAPBP are genes which commonly perform the molecular function TAP2 binding",
+    "answer": "True"
+  },
+  {
+    "question": "GSTM4 and MGST1 are genes which commonly perform the molecular function glutathione binding",
+    "answer": "True"
+  },
+  {
+    "question": "MAEL and CARHSP1 are genes commonly associated with the cellular component pole plasm",
+    "answer": "True"
+  },
+  {
+    "question": "COL4A2 and COL15A1 are genes commonly associated with the cellular component basement membrane collagen trimer",
+    "answer": "True"
+  },
+  {
+    "question": "BUB1 and REC8 are genes commonly associated with the cellular component condensed nuclear chromosome kinetochore",
+    "answer": "True"
+  },
+  {
+    "question": "ERCC2 and SLC25A5 are genes commonly associated with the cellular component MMXD complex",
+    "answer": "True"
+  },
+  {
+    "question": "TTN and SORBS2 are genes commonly associated with the cellular component Z disc",
+    "answer": "True"
+  },
+  {
+    "question": "CDYL and HCCS are genes which are commonly over-expressed in mammalian vulva",
+    "answer": "True"
+  },
+  {
+    "question": "TMTC3 and DDAH2 are genes which are commonly over-expressed in uterine cervix",
+    "answer": "True"
+  },
+  {
+    "question": "JKAMP and FLYWCH1 are genes which are commonly over-expressed in midbrain",
+    "answer": "True"
+  },
+  {
+    "question": "N4BP1 and GBP1 are genes which are commonly over-expressed in lung",
+    "answer": "True"
+  },
+  {
+    "question": "ZNF611 and CEACAM4 are genes which are commonly over-expressed in cardiac ventricle",
+    "answer": "True"
+  },
+  {
+    "question": "MGAT4A and ACSS1 are genes which are commonly under-expressed in mammalian vulva",
+    "answer": "True"
+  },
+  {
+    "question": "RNF126 and WIPF3 are genes which are commonly under-expressed in uterine cervix",
+    "answer": "True"
+  },
+  {
+    "question": "HES1 and MYO5C are genes which are commonly under-expressed in midbrain",
+    "answer": "True"
+  },
+  {
+    "question": "TUT1 and PRM1 are genes which are commonly under-expressed in lung",
+    "answer": "True"
+  },
+  {
+    "question": "HINT1 and DMRT1 are genes which are commonly under-expressed in cardiac ventricle",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are diseases which commonly localize to cerebellar cortex",
+    "answer": "True"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer's Disease are diseases which commonly localize to brain",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are diseases which commonly localize to central nervous system",
+    "answer": "True"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer's Disease are diseases which commonly localize to cerebellum",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are diseases which commonly present the symptom Primary Progressive Nonfluent Aphasia",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are diseases which commonly present the symptom Apraxias",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are diseases which commonly present the symptom Perceptual Disorders",
+    "answer": "True"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer's Disease are diseases which commonly present the symptom Agnosia",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are diseases which commonly present the symptom Sleep Initiation and Maintenance Disorders",
+    "answer": "True"
+  },
+  {
+    "question": "CAD and AKR1C3 are genes which commonly bind to the drug Mefenamic acid",
+    "answer": "False"
+  },
+  {
+    "question": "CYP19A1 and RMI1 are genes which commonly bind to the drug Testolactone",
+    "answer": "False"
+  },
+  {
+    "question": "MAEA and PDS5B are genes which commonly bind to the drug Tetrachlorodecaoxide",
+    "answer": "False"
+  },
+  {
+    "question": "CAD and ADRA1B are genes which commonly bind to the drug Silodosin",
+    "answer": "False"
+  },
+  {
+    "question": "HTR1A and RMI1 are genes which commonly bind to the drug Alverine",
+    "answer": "False"
+  },
+  {
+    "question": "PDS5B and BHLHE40 are genes commonly subject to increased expression by the drug Calcitriol",
+    "answer": "False"
+  },
+  {
+    "question": "CAD and SQOR are genes commonly subject to increased expression by the drug Gemfibrozil",
+    "answer": "False"
+  },
+  {
+    "question": "CAD and TIPARP are genes commonly subject to increased expression by the drug Epinephrine",
+    "answer": "False"
+  },
+  {
+    "question": "TCTN1 and RMI1 are genes commonly subject to increased expression by the drug Pantoprazole",
+    "answer": "False"
+  },
+  {
+    "question": "CAD and SUV39H1 are genes commonly subject to increased expression by the drug Novobiocin",
+    "answer": "False"
+  },
+  {
+    "question": "CYCS and PDS5A are genes commonly subject to decreased expression by the drug Ketotifen",
+    "answer": "False"
+  },
+  {
+    "question": "KIF20A and RMI1 are genes commonly subject to decreased expression by the drug Mirtazapine",
+    "answer": "False"
+  },
+  {
+    "question": "PRSS23 and CAD are genes commonly subject to decreased expression by the drug Medrysone",
+    "answer": "False"
+  },
+  {
+    "question": "NPTX2 and CAD are genes commonly subject to decreased expression by the drug Varenicline",
+    "answer": "False"
+  },
+  {
+    "question": "RMI1 and SNX7 are genes commonly subject to decreased expression by the drug Aminosalicylic acid",
+    "answer": "False"
+  },
+  {
+    "question": "Gonadotropin Releasing Hormone Receptor Antagonists and Dyes are classes which commonly include the drug Cetrorelix",
+    "answer": "False"
+  },
+  {
+    "question": "Cytochrome P450 2D6 Inhibitors and Dyes are classes which commonly include the drug Mirabegron",
+    "answer": "False"
+  },
+  {
+    "question": "Cardiac Glycosides and Serotonin Uptake Inhibitors are classes which commonly include the drug Digoxin",
+    "answer": "False"
+  },
+  {
+    "question": "Nucleic Acid Synthesis Inhibitors and Serotonin Uptake Inhibitors are classes which commonly include the drug Nelarabine",
+    "answer": "False"
+  },
+  {
+    "question": "Lincosamides and Dyes are classes which commonly include the drug Clindamycin",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are diseases which can be commonly treated by the drug Rivastigmine",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are diseases which can be commonly treated by the drug Quetiapine",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are diseases which can be commonly treated by the drug Memantine",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are diseases which can be commonly treated by the drug Benzatropine",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are diseases which can be commonly treated by the drug Haloperidol",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are diseases which can be commonly affected by the drug Ziprasidone",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are diseases which can be commonly affected by the drug Naltrexone",
+    "answer": "False"
+  },
+  {
+    "question": "Insulin pork and Isoleucine are drugs which commonly bind to the gene BCAT2",
+    "answer": "False"
+  },
+  {
+    "question": "Streptokinase and Dasatinib are drugs which commonly bind to the gene STAT5B",
+    "answer": "False"
+  },
+  {
+    "question": "Benzphetamine and Rituximab are drugs which commonly bind to the gene POR",
+    "answer": "False"
+  },
+  {
+    "question": "Insulin pork and Lipoic acid are drugs which commonly bind to the gene SLC5A6",
+    "answer": "False"
+  },
+  {
+    "question": "Rituximab and Gefitinib are drugs which commonly bind to the gene EGFR",
+    "answer": "False"
+  },
+  {
+    "question": "Clopidogrel and Streptokinase are drugs which commonly increase expression of the gene TERT",
+    "answer": "False"
+  },
+  {
+    "question": "Botulinum toxin type A and Albendazole are drugs which commonly increase expression of the gene CDC20",
+    "answer": "False"
+  },
+  {
+    "question": "Digoxin Immune Fab (Ovine) and Chlorpromazine are drugs which commonly increase expression of the gene PPARG",
+    "answer": "False"
+  },
+  {
+    "question": "Trastuzumab and Podofilox are drugs which commonly increase expression of the gene FLII",
+    "answer": "False"
+  },
+  {
+    "question": "Trastuzumab and Mebendazole are drugs which commonly increase expression of the gene KIF2C",
+    "answer": "False"
+  },
+  {
+    "question": "Botulinum toxin type A and Vemurafenib are drugs which commonly decrease expression of the gene RABIF",
+    "answer": "False"
+  },
+  {
+    "question": "Levothyroxine and Insulin pork are drugs which commonly decrease expression of the gene GTPBP8",
+    "answer": "False"
+  },
+  {
+    "question": "Muromonab and Desoximetasone are drugs which commonly decrease expression of the gene CD320",
+    "answer": "False"
+  },
+  {
+    "question": "Streptokinase and Cerulenin are drugs which commonly decrease expression of the gene IPO5",
+    "answer": "False"
+  },
+  {
+    "question": "Streptokinase and Varenicline are drugs which commonly decrease expression of the gene ZNHIT1",
+    "answer": "False"
+  },
+  {
+    "question": "purine nucleotide metabolic process and regulation of amine transport are biological processes commonly involving the gene P2RY12",
+    "answer": "False"
+  },
+  {
+    "question": "amine biosynthetic process and metal ion transport are biological processes commonly involving the gene SCN8A",
+    "answer": "False"
+  },
+  {
+    "question": "positive regulation of dopamine metabolic process and sodium ion transmembrane transport are biological processes commonly involving the gene SLC17A3",
+    "answer": "False"
+  },
+  {
+    "question": "tube morphogenesis and regulation of epidermis development are biological processes commonly involving the gene NAB1",
+    "answer": "False"
+  },
+  {
+    "question": "negative regulation of protein complex assembly and cellular response to cytokine stimulus are biological processes commonly involving the gene IL1R2",
+    "answer": "False"
+  },
+  {
+    "question": "Hypertrophy Model and chromatin remodeling by hswi/snf atp-dependent complexes are pathways which commonly contain the gene SMARCC2",
+    "answer": "False"
+  },
+  {
+    "question": "Activation of TRKA receptors and Regulation of nuclear beta catenin signaling and target gene transcription are pathways which commonly contain the gene PITX2",
+    "answer": "False"
+  },
+  {
+    "question": "Bopindolol Action Pathway and Aryl Hydrocarbon Receptor Pathway are pathways which commonly contain the gene CES3",
+    "answer": "False"
+  },
+  {
+    "question": "Interaction between L1 and Ankyrins and Signaling by FGFR are pathways which commonly contain the gene NCAM1",
+    "answer": "False"
+  },
+  {
+    "question": "Timolol Action Pathway and Organic cation transport are pathways which commonly contain the gene RSC1A1",
+    "answer": "False"
+  },
+  {
+    "question": "CAD and VPS26B are genes which commonly interact with the gene VPS35",
+    "answer": "False"
+  },
+  {
+    "question": "PDS5B and TNK2 are genes which commonly interact with the gene HSH2D",
+    "answer": "False"
+  },
+  {
+    "question": "LRRC41 and CD28 are genes which commonly interact with the gene CD86",
+    "answer": "False"
+  },
+  {
+    "question": "TRIM36 and DNAJC10 are genes which commonly interact with the gene CENPH",
+    "answer": "False"
+  },
+  {
+    "question": "LRRC41 and NEDD4 are genes which commonly interact with the gene NDFIP1",
+    "answer": "False"
+  },
+  {
+    "question": "carbon-oxygen lyase activity and structural constituent of ribosome are molecular functions commonly attributed to the gene RPL18",
+    "answer": "False"
+  },
+  {
+    "question": "alcohol dehydrogenase activity, zinc-dependent and G-protein coupled peptide receptor activity are molecular functions commonly attributed to the gene GPR84",
+    "answer": "False"
+  },
+  {
+    "question": "carbon-oxygen lyase activity and structural molecule activity are molecular functions commonly attributed to the gene RPL27A",
+    "answer": "False"
+  },
+  {
+    "question": "phosphoprotein phosphatase activity and GTPase activity are molecular functions commonly attributed to the gene NOA1",
+    "answer": "False"
+  },
+  {
+    "question": "phosphoprotein phosphatase activity and syntaxin binding are molecular functions commonly attributed to the gene SYT5",
+    "answer": "False"
+  },
+  {
+    "question": "membrane microdomain and presynaptic active zone are cellular components commonly linked to the gene PPFIA4",
+    "answer": "False"
+  },
+  {
+    "question": "membrane microdomain and organelle inner membrane are cellular components commonly linked to the gene UCP3",
+    "answer": "False"
+  },
+  {
+    "question": "endosome membrane and actin cytoskeleton are cellular components commonly linked to the gene CDC42EP3",
+    "answer": "False"
+  },
+  {
+    "question": "peroxisomal membrane and cell projection membrane are cellular components commonly linked to the gene GNGT1",
+    "answer": "False"
+  },
+  {
+    "question": "endosome membrane and cell surface are cellular components commonly linked to the gene DEFB115",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer Disease 12 and Alzheimer's Disease, Focal Onset are diseases commonly associated with the gene TOMM40",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer Disease 12 and Alzheimer Disease, Early Onset are diseases commonly associated with the gene CD33",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer Disease 12 and Alzheimer's Disease, Focal Onset are diseases commonly associated with the gene CD2AP",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer Disease 12 and Familial Alzheimer Disease (FAD) are diseases commonly associated with the gene PGRMC1",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer Disease 12 and Alzheimer's Disease are diseases commonly associated with the gene VEGFA",
+    "answer": "False"
+  },
+  {
+    "question": "tendon and thyroid gland are body parts/anatomy which commonly over-express the gene GAS8",
+    "answer": "False"
+  },
+  {
+    "question": "uterine cervix and cerebellum are body parts/anatomy which commonly over-express the gene FAM156A",
+    "answer": "False"
+  },
+  {
+    "question": "pituitary gland and lymph node are body parts/anatomy which commonly over-express the gene INPP5D",
+    "answer": "False"
+  },
+  {
+    "question": "tendon and thyroid gland are body parts/anatomy which commonly over-express the gene LMX1B",
+    "answer": "False"
+  },
+  {
+    "question": "tendon and cortex of kidney are body parts/anatomy which commonly over-express the gene POLM",
+    "answer": "False"
+  },
+  {
+    "question": "sympathetic nervous system and blood are body parts/anatomy which commonly under-express the gene UPRT",
+    "answer": "False"
+  },
+  {
+    "question": "mammalian vulva and islet of Langerhans are body parts/anatomy which commonly under-express the gene PRRC2A",
+    "answer": "False"
+  },
+  {
+    "question": "tendon and brain are body parts/anatomy which commonly under-express the gene DBNL",
+    "answer": "False"
+  },
+  {
+    "question": "testis and vagina are body parts/anatomy which commonly under-express the gene DNAJB2",
+    "answer": "False"
+  },
+  {
+    "question": "islet of Langerhans and testis are body parts/anatomy which commonly under-express the gene PSME1",
+    "answer": "False"
+  },
+  {
+    "question": "Streptokinase and Dabrafenib are drugs which commonly belong to the drug class Organic Anion Transporter 1 Inhibitors",
+    "answer": "False"
+  },
+  {
+    "question": "Streptokinase and Ciclopirox are drugs which commonly belong to the drug class Decreased RNA Replication",
+    "answer": "False"
+  },
+  {
+    "question": "Streptokinase and Sirolimus are drugs which commonly belong to the drug class Decreased Immunologic Activity",
+    "answer": "False"
+  },
+  {
+    "question": "Streptokinase and Cyanocobalamin are drugs which commonly belong to the drug class Vitamin B 12",
+    "answer": "False"
+  },
+  {
+    "question": "Insulin pork and Pasireotide are drugs which commonly belong to the drug class Somatostatin Receptor Agonists",
+    "answer": "False"
+  },
+  {
+    "question": "Memantine and Rituximab are drugs which commonly treat Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "Insulin pork and Naltrexone are drugs which commonly affect Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "TFAM and DNAJC10 are genes commonly associated with the disease Alzheimer Disease, Early Onset",
+    "answer": "False"
+  },
+  {
+    "question": "DNAJC10 and PSEN1 are genes commonly associated with the disease Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia",
+    "answer": "False"
+  },
+  {
+    "question": "DNAJC10 and PRNP are genes commonly associated with the disease Familial Alzheimer-like prion disease",
+    "answer": "False"
+  },
+  {
+    "question": "TNF and DNAJC10 are genes commonly associated with the disease Alzheimer Disease, Late Onset",
+    "answer": "False"
+  },
+  {
+    "question": "SLC30A4 and DNAJC10 are genes commonly associated with the disease Familial Alzheimer Disease (FAD)",
+    "answer": "False"
+  },
+  {
+    "question": "Memory Disorders and Virilism are common symptoms of Familial Alzheimer Disease (FAD)",
+    "answer": "False"
+  },
+  {
+    "question": "Primary Progressive Nonfluent Aphasia and Benign Paroxysmal Positional Vertigo are common symptoms of Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "central nervous system and islet of Langerhans are common sites of localization of Familial Alzheimer Disease (FAD)",
+    "answer": "False"
+  },
+  {
+    "question": "choroid plexus and pituitary gland are common sites of localization of Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Alzheimer's Disease are diseases commonly associated with the disease Familial Alzheimer Disease (FAD)",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Familial Alzheimer Disease (FAD) are diseases commonly associated with the disease Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "DNAJC10 and NDFIP1 are genes which commonly participate in the biological process negative regulation of interleukin-4 production",
+    "answer": "False"
+  },
+  {
+    "question": "LRRC41 and ADRA1A are genes which commonly participate in the biological process negative regulation of heart rate",
+    "answer": "False"
+  },
+  {
+    "question": "NLGN4X and DNAJC10 are genes which commonly participate in the biological process presynaptic membrane organization",
+    "answer": "False"
+  },
+  {
+    "question": "FASN and NCF1 are genes which commonly participate in the biological process cellular defense response",
+    "answer": "False"
+  },
+  {
+    "question": "DNAJC10 and SORD are genes which commonly participate in the biological process glucuronate catabolic process to xylulose 5-phosphate",
+    "answer": "False"
+  },
+  {
+    "question": "DNAJC10 and DAB1 are genes common in the pathway Reelin signalling pathway",
+    "answer": "False"
+  },
+  {
+    "question": "LRRC41 and MBTPS2 are genes common in the pathway ATF6 (ATF6-alpha) activates chaperones",
+    "answer": "False"
+  },
+  {
+    "question": "RMI1 and PLK2 are genes common in the pathway TP53 regulates transcription of additional cell cycle genes whose exact role in the p53 pathway remain uncertain",
+    "answer": "False"
+  },
+  {
+    "question": "LRRC41 and SNTB1 are genes common in the pathway Fosphenytoin (Antiarrhythmic) Metabolism Pathway",
+    "answer": "False"
+  },
+  {
+    "question": "DNAJC10 and APOA1 are genes common in the pathway HDL clearance",
+    "answer": "False"
+  },
+  {
+    "question": "NR2F6 and PCK2 are genes which commonly perform the molecular function phosphoenolpyruvate carboxykinase activity",
+    "answer": "False"
+  },
+  {
+    "question": "NR2F6 and CANT1 are genes which commonly perform the molecular function guanosine-diphosphatase activity",
+    "answer": "False"
+  },
+  {
+    "question": "NR2F6 and NMBR are genes which commonly perform the molecular function bombesin receptor activity",
+    "answer": "False"
+  },
+  {
+    "question": "NR2F6 and SOAT2 are genes which commonly perform the molecular function sterol O-acyltransferase activity",
+    "answer": "False"
+  },
+  {
+    "question": "LRRC41 and SHBG are genes which commonly perform the molecular function androgen binding",
+    "answer": "False"
+  },
+  {
+    "question": "NR2F6 and HERPUD1 are genes commonly associated with the cellular component Lewy body core",
+    "answer": "False"
+  },
+  {
+    "question": "NR2F6 and GLRA3 are genes commonly associated with the cellular component glycine-gated chloride channel complex",
+    "answer": "False"
+  },
+  {
+    "question": "COL5A3 and DNAJC10 are genes commonly associated with the cellular component fibrillar collagen trimer",
+    "answer": "False"
+  },
+  {
+    "question": "ZP2 and NR2F6 are genes commonly associated with the cellular component secretory granule",
+    "answer": "False"
+  },
+  {
+    "question": "PDS5B and SKIC8 are genes commonly associated with the cellular component Ski complex",
+    "answer": "False"
+  },
+  {
+    "question": "VAMP7 and FAM131A are genes which are commonly over-expressed in pituitary gland",
+    "answer": "False"
+  },
+  {
+    "question": "RALGAPA1 and DNAJC10 are genes which are commonly over-expressed in thyroid gland",
+    "answer": "False"
+  },
+  {
+    "question": "PDS5A and PNPLA3 are genes which are commonly over-expressed in nipple",
+    "answer": "False"
+  },
+  {
+    "question": "PDS5B and DIAPH2 are genes which are commonly over-expressed in saliva-secreting gland",
+    "answer": "False"
+  },
+  {
+    "question": "RMI1 and DCTN2 are genes which are commonly over-expressed in midbrain",
+    "answer": "False"
+  },
+  {
+    "question": "CAD and AGFG1 are genes which are commonly under-expressed in pituitary gland",
+    "answer": "False"
+  },
+  {
+    "question": "PDS5A and IQSEC3 are genes which are commonly under-expressed in thyroid gland",
+    "answer": "False"
+  },
+  {
+    "question": "PRPS1 and MAT2B are genes which are commonly under-expressed in nipple",
+    "answer": "False"
+  },
+  {
+    "question": "LDLR and DNAJC10 are genes which are commonly under-expressed in saliva-secreting gland",
+    "answer": "False"
+  },
+  {
+    "question": "PROCA1 and PDS5B are genes which are commonly under-expressed in midbrain",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Alzheimer's Disease are diseases which commonly localize to telencephalic ventricle",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Alzheimer's Disease are diseases which commonly localize to cerebellar nuclear complex",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Alzheimer's Disease are diseases which commonly localize to neuropil",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Alzheimer's Disease are diseases which commonly localize to diagonal band of Broca",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Alzheimer's Disease are diseases which commonly localize to pupil",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Familial Alzheimer Disease (FAD) are diseases which commonly present the symptom Muscle Spasticity",
+    "answer": "False"
+  },
+  {
+    "question": "Non-amnestic Alzheimer disease and Alzheimer's Disease are diseases which commonly present the symptom Supranuclear Palsy, Progressive",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Familial Alzheimer Disease (FAD) are diseases which commonly present the symptom Muscle Weakness",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Alzheimer's Disease are diseases which commonly present the symptom Learning Disorders",
+    "answer": "False"
+  },
+  {
+    "question": "Prodromal Alzheimer's disease and Familial Alzheimer Disease (FAD) are diseases which commonly present the symptom Echolalia",
+    "answer": "False"
+  },
+  {
+    "question": "GABRA2 and PDS5B are not genes which commonly bind to the drug Temazepam",
+    "answer": "True"
+  },
+  {
+    "question": "CYP2D6 and PDS5A are not genes which commonly bind to the drug Mesoridazine",
+    "answer": "True"
+  },
+  {
+    "question": "CYP1A1 and PDS5A are not genes which commonly bind to the drug Nitroprusside",
+    "answer": "True"
+  },
+  {
+    "question": "MPO and PDS5A are not genes which commonly bind to the drug Levocarnitine",
+    "answer": "True"
+  },
+  {
+    "question": "CCR1 and CAD are not genes which commonly bind to the drug Raltegravir",
+    "answer": "True"
+  },
+  {
+    "question": "KLHL21 and CAD are not genes commonly subject to increased expression by the drug Pefloxacin",
+    "answer": "True"
+  },
+  {
+    "question": "ARL4C and PDS5A are not genes commonly subject to increased expression by the drug Dexfenfluramine",
+    "answer": "True"
+  },
+  {
+    "question": "SRC and CAD are not genes commonly subject to increased expression by the drug Dapsone",
+    "answer": "True"
+  },
+  {
+    "question": "PLSCR1 and PDS5A are not genes commonly subject to increased expression by the drug Etidronic acid",
+    "answer": "True"
+  },
+  {
+    "question": "MCOLN1 and PDS5A are not genes commonly subject to increased expression by the drug Molindone",
+    "answer": "True"
+  },
+  {
+    "question": "GJA1 and CAD are not genes commonly subject to decreased expression by the drug Diltiazem",
+    "answer": "True"
+  },
+  {
+    "question": "RPS4Y1 and CAD are not genes commonly subject to decreased expression by the drug Canrenoic acid",
+    "answer": "True"
+  },
+  {
+    "question": "RMI1 and TIPIN are not genes commonly subject to decreased expression by the drug Doxorubicin",
+    "answer": "True"
+  },
+  {
+    "question": "RMI1 and XPO1 are not genes commonly subject to decreased expression by the drug Idarubicin",
+    "answer": "True"
+  },
+  {
+    "question": "COPS7A and PDS5A are not genes commonly subject to decreased expression by the drug Nafcillin",
+    "answer": "True"
+  },
+  {
+    "question": "Non-Nucleoside Reverse Transcriptase Inhibitors and GABA B Agonists are not classes which commonly include the drug Delavirdine",
+    "answer": "True"
+  },
+  {
+    "question": "Quinolones and GABA B Agonists are not classes which commonly include the drug Ofloxacin",
+    "answer": "True"
+  },
+  {
+    "question": "Barbiturates and GABA B Agonists are not classes which commonly include the drug Butalbital",
+    "answer": "True"
+  },
+  {
+    "question": "Psoralens and GABA B Agonists are not classes which commonly include the drug Trioxsalen",
+    "answer": "True"
+  },
+  {
+    "question": "Magnetic Resonance Contrast Activity and GABA B Agonists are not classes which commonly include the drug Gadopentetic acid",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer disease, familial, type 3 are not diseases which can be commonly treated by the drug Ropinirole",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer disease, familial, type 3 are not diseases which can be commonly treated by the drug Rivastigmine",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer disease, familial, type 3 are not diseases which can be commonly treated by the drug Benzatropine",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer disease, familial, type 3 are not diseases which can be commonly treated by the drug Quetiapine",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer disease, familial, type 3 are not diseases which can be commonly treated by the drug Memantine",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer disease, familial, type 3 are not diseases which can be commonly affected by the drug Ziprasidone",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer disease, familial, type 3 are not diseases which can be commonly affected by the drug Naltrexone",
+    "answer": "True"
+  },
+  {
+    "question": "Levodopa and Muromonab are not drugs which commonly bind to the gene SLC7A8",
+    "answer": "True"
+  },
+  {
+    "question": "Carfilzomib and Muromonab are not drugs which commonly bind to the gene PSMB10",
+    "answer": "True"
+  },
+  {
+    "question": "Tyloxapol and Muromonab are not drugs which commonly bind to the gene LPL",
+    "answer": "True"
+  },
+  {
+    "question": "Tetrahydrofolic acid and Muromonab are not drugs which commonly bind to the gene MTFMT",
+    "answer": "True"
+  },
+  {
+    "question": "Ruxolitinib and Muromonab are not drugs which commonly bind to the gene IRAK1",
+    "answer": "True"
+  },
+  {
+    "question": "Fulvestrant and Muromonab are not drugs which commonly increase expression of the gene GSTK1",
+    "answer": "True"
+  },
+  {
+    "question": "Raloxifene and Muromonab are not drugs which commonly increase expression of the gene SETD1A",
+    "answer": "True"
+  },
+  {
+    "question": "Vorinostat and Muromonab are not drugs which commonly increase expression of the gene RRAGA",
+    "answer": "True"
+  },
+  {
+    "question": "Pitavastatin and Muromonab are not drugs which commonly increase expression of the gene FAM3A",
+    "answer": "True"
+  },
+  {
+    "question": "Cerulenin and Muromonab are not drugs which commonly increase expression of the gene AKAP17A",
+    "answer": "True"
+  },
+  {
+    "question": "Teniposide and Pancrelipase are not drugs which commonly decrease expression of the gene NUSAP1",
+    "answer": "True"
+  },
+  {
+    "question": "Pindolol and Muromonab are not drugs which commonly decrease expression of the gene PPP1R13B",
+    "answer": "True"
+  },
+  {
+    "question": "Pancrelipase and Niclosamide are not drugs which commonly decrease expression of the gene TMEM50A",
+    "answer": "True"
+  },
+  {
+    "question": "Azacitidine and Muromonab are not drugs which commonly decrease expression of the gene MGST2",
+    "answer": "True"
+  },
+  {
+    "question": "Ibritumomab tiuxetan and Betamethasone are not drugs which commonly decrease expression of the gene PLEKHM1",
+    "answer": "True"
+  },
+  {
+    "question": "response to low-density lipoprotein particle and single-organism carbohydrate metabolic process are not biological processes commonly involving the gene LALBA",
+    "answer": "True"
+  },
+  {
+    "question": "membrane organization and response to lipopolysaccharide are not biological processes commonly involving the gene NUP43",
+    "answer": "True"
+  },
+  {
+    "question": "response to low-density lipoprotein particle and lymphocyte differentiation are not biological processes commonly involving the gene ITFG2",
+    "answer": "True"
+  },
+  {
+    "question": "positive regulation of dopamine metabolic process and DNA packaging are not biological processes commonly involving the gene BAHCC1",
+    "answer": "True"
+  },
+  {
+    "question": "amine biosynthetic process and cerebellar granular layer development are not biological processes commonly involving the gene PROX1",
+    "answer": "True"
+  },
+  {
+    "question": "beta-Alanine metabolism - Homo sapiens (human) and The phototransduction cascade are not pathways which commonly contain the gene NMT1",
+    "answer": "True"
+  },
+  {
+    "question": "beta-Alanine metabolism - Homo sapiens (human) and Phosphatidylinositol signaling system - Homo sapiens (human) are not pathways which commonly contain the gene MTMR1",
+    "answer": "True"
+  },
+  {
+    "question": "Antigen processing: Ubiquitination & Proteasome degradation and beta-Alanine metabolism - Homo sapiens (human) are not pathways which commonly contain the gene KLHL3",
+    "answer": "True"
+  },
+  {
+    "question": "Synthesis of glycosylphosphatidylinositol (GPI) and beta-Alanine metabolism - Homo sapiens (human) are not pathways which commonly contain the gene PIGB",
+    "answer": "True"
+  },
+  {
+    "question": "EGFR1 and beta-Alanine metabolism - Homo sapiens (human) are not pathways which commonly contain the gene PLSCR1",
+    "answer": "True"
+  },
+  {
+    "question": "PDS5A and SNAP91 are not genes which commonly interact with the gene NECAP1",
+    "answer": "True"
+  },
+  {
+    "question": "NOTCH2NLA and PDS5A are not genes which commonly interact with the gene KLK8",
+    "answer": "True"
+  },
+  {
+    "question": "APLF and PDS5A are not genes which commonly interact with the gene IRX5",
+    "answer": "True"
+  },
+  {
+    "question": "CD1A and PDS5A are not genes which commonly interact with the gene UBTD1",
+    "answer": "True"
+  },
+  {
+    "question": "FASN and ILK are not genes which commonly interact with the gene SF3A1",
+    "answer": "True"
+  },
+  {
+    "question": "bradykinin receptor binding and oxidoreductase activity are not molecular functions commonly attributed to the gene MPO",
+    "answer": "True"
+  },
+  {
+    "question": "bradykinin receptor binding and GTPase activator activity are not molecular functions commonly attributed to the gene ANKRD27",
+    "answer": "True"
+  },
+  {
+    "question": "bradykinin receptor binding and hydrolase activity, acting on acid anhydrides, in phosphorus-containing anhydrides are not molecular functions commonly attributed to the gene DSCC1",
+    "answer": "True"
+  },
+  {
+    "question": "tumor necrosis factor receptor binding and bradykinin receptor binding are not molecular functions commonly attributed to the gene TRAP1",
+    "answer": "True"
+  },
+  {
+    "question": "oxidoreductase activity, acting on the aldehyde or oxo group of donors, oxygen as acceptor and fatty acid transporter activity are not molecular functions commonly attributed to the gene FABP1",
+    "answer": "True"
+  },
+  {
+    "question": "cyclin-dependent protein kinase 5 holoenzyme complex and podosome are not cellular components commonly linked to the gene CDK5R2",
+    "answer": "True"
+  },
+  {
+    "question": "anchored component of membrane and podosome are not cellular components commonly linked to the gene CD160",
+    "answer": "True"
+  },
+  {
+    "question": "cell surface and podosome are not cellular components commonly linked to the gene BACE2",
+    "answer": "True"
+  },
+  {
+    "question": "perinuclear region of cytoplasm and podosome are not cellular components commonly linked to the gene PRKCE",
+    "answer": "True"
+  },
+  {
+    "question": "centriole and podosome are not cellular components commonly linked to the gene HSPA6",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer Disease, Early Onset and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are not diseases commonly associated with the gene HFE",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer Disease, Late Onset and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are not diseases commonly associated with the gene NPY",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease, Focal Onset and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are not diseases commonly associated with the gene NOS3",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are not diseases commonly associated with the gene PCDH11X",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia are not diseases commonly associated with the gene RELN",
+    "answer": "True"
+  },
+  {
+    "question": "testis and lymph node are not body parts/anatomy which commonly over-express the gene CELA1",
+    "answer": "True"
+  },
+  {
+    "question": "cerebellum and lymph node are not body parts/anatomy which commonly over-express the gene FAM156B",
+    "answer": "True"
+  },
+  {
+    "question": "medulla oblongata and lymph node are not body parts/anatomy which commonly over-express the gene SGPP1",
+    "answer": "True"
+  },
+  {
+    "question": "adrenal cortex and lymph node are not body parts/anatomy which commonly over-express the gene DECR2",
+    "answer": "True"
+  },
+  {
+    "question": "cortex of kidney and lymph node are not body parts/anatomy which commonly over-express the gene TBC1D13",
+    "answer": "True"
+  },
+  {
+    "question": "lymph node and brain are not body parts/anatomy which commonly under-express the gene CD55",
+    "answer": "True"
+  },
+  {
+    "question": "lymph node and adrenal gland are not body parts/anatomy which commonly under-express the gene LRRN4CL",
+    "answer": "True"
+  },
+  {
+    "question": "lymph node and pituitary gland are not body parts/anatomy which commonly under-express the gene PRKCD",
+    "answer": "True"
+  },
+  {
+    "question": "testis and lymph node are not body parts/anatomy which commonly under-express the gene DRG2",
+    "answer": "True"
+  },
+  {
+    "question": "lymph node and pituitary gland are not body parts/anatomy which commonly under-express the gene C1QTNF1",
+    "answer": "True"
+  },
+  {
+    "question": "Echothiophate and Muromonab are not drugs which commonly belong to the drug class Iodine",
+    "answer": "True"
+  },
+  {
+    "question": "Epinephrine and Muromonab are not drugs which commonly belong to the drug class Catecholamines",
+    "answer": "True"
+  },
+  {
+    "question": "Edetic acid and Muromonab are not drugs which commonly belong to the drug class Calcium Chelating Activity",
+    "answer": "True"
+  },
+  {
+    "question": "Muromonab and Norelgestromin are not drugs which commonly belong to the drug class Progesterone Congeners",
+    "answer": "True"
+  },
+  {
+    "question": "Retapamulin and Muromonab are not drugs which commonly belong to the drug class pleuromutilin",
+    "answer": "True"
+  },
+  {
+    "question": "Muromonab and Haloperidol are not drugs which commonly treat Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "Ziprasidone and Muromonab are not drugs which commonly affect Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "INS and SEL1L are not genes commonly associated with the disease Alzheimer's Disease, Focal Onset",
+    "answer": "True"
+  },
+  {
+    "question": "INS and SEL1L are not genes commonly associated with the disease Alzheimer Disease, Early Onset",
+    "answer": "True"
+  },
+  {
+    "question": "IGF2R and SEL1L are not genes commonly associated with the disease Alzheimer Disease, Late Onset",
+    "answer": "True"
+  },
+  {
+    "question": "PSEN1 and PDS5A are not genes commonly associated with the disease Alzheimer Disease, Familial, 3, with Spastic Paraparesis and Apraxia",
+    "answer": "True"
+  },
+  {
+    "question": "PRNP and PDS5A are not genes commonly associated with the disease Familial Alzheimer-like prion disease",
+    "answer": "True"
+  },
+  {
+    "question": "Pruritus and Dysarthria are not common symptoms of Familial Alzheimer Disease (FAD)",
+    "answer": "True"
+  },
+  {
+    "question": "Muscle Hypotonia and Prosopagnosia are not common symptoms of Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "lymph node and dura mater are not common sites of localization of Familial Alzheimer Disease (FAD)",
+    "answer": "True"
+  },
+  {
+    "question": "telencephalon and tendon are not common sites of localization of Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases commonly associated with the disease Familial Alzheimer Disease (FAD)",
+    "answer": "True"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer Disease, Late Onset are not diseases commonly associated with the disease Alzheimer's Disease",
+    "answer": "True"
+  },
+  {
+    "question": "SLC18A2 and PDS5A are not genes which commonly participate in the biological process sequestering of neurotransmitter",
+    "answer": "True"
+  },
+  {
+    "question": "PSMB6 and NR2F6 are not genes which commonly participate in the biological process cell cycle checkpoint",
+    "answer": "True"
+  },
+  {
+    "question": "PDS5A and NOX3 are not genes which commonly participate in the biological process response to gravity",
+    "answer": "True"
+  },
+  {
+    "question": "RPL10L and DNAJC10 are not genes which commonly participate in the biological process ribosomal large subunit assembly",
+    "answer": "True"
+  },
+  {
+    "question": "NEFL and PDS5A are not genes which commonly participate in the biological process regulation of axon diameter",
+    "answer": "True"
+  },
+  {
+    "question": "BBC3 and DNAJC10 are not genes common in the pathway DNA Damage Response",
+    "answer": "True"
+  },
+  {
+    "question": "HAGH and PDS5A are not genes common in the pathway methylglyoxal degradation I",
+    "answer": "True"
+  },
+  {
+    "question": "ACSM1 and PDS5A are not genes common in the pathway Phenylacetate Metabolism",
+    "answer": "True"
+  },
+  {
+    "question": "HPRT1 and PDS5A are not genes common in the pathway guanine and guanosine salvage",
+    "answer": "True"
+  },
+  {
+    "question": "SEL1L and ANAPC7 are not genes common in the pathway Regulation of APC/C activators between G1/S and early anaphase",
+    "answer": "True"
+  },
+  {
+    "question": "ZDHHC1 and SEL1L are not genes which commonly perform the molecular function S-acyltransferase activity",
+    "answer": "True"
+  },
+  {
+    "question": "CNBD2 and MAT2B are not genes which commonly perform the molecular function cAMP binding",
+    "answer": "True"
+  },
+  {
+    "question": "CAD and STXBP5 are not genes which commonly perform the molecular function syntaxin-1 binding",
+    "answer": "True"
+  },
+  {
+    "question": "MAPK9 and PDS5A are not genes which commonly perform the molecular function JUN kinase activity",
+    "answer": "True"
+  },
+  {
+    "question": "ISG20 and PDS5A are not genes which commonly perform the molecular function U1 snRNA binding",
+    "answer": "True"
+  },
+  {
+    "question": "APOE and PDS5A are not genes commonly associated with the cellular component intermediate-density lipoprotein particle",
+    "answer": "True"
+  },
+  {
+    "question": "PDS5A and TDRD5 are not genes commonly associated with the cellular component chromatoid body",
+    "answer": "True"
+  },
+  {
+    "question": "EXOSC6 and DNAJC10 are not genes commonly associated with the cellular component exosome (RNase complex)",
+    "answer": "True"
+  },
+  {
+    "question": "MS4A2 and PDS5A are not genes commonly associated with the cellular component Fc-epsilon receptor I complex",
+    "answer": "True"
+  },
+  {
+    "question": "FASN and VEGFA are not genes commonly associated with the cellular component secretory granule lumen",
+    "answer": "True"
+  },
+  {
+    "question": "LDHB and SEL1L are not genes which are commonly over-expressed in cardiac ventricle",
+    "answer": "True"
+  },
+  {
+    "question": "PDS5B and G3BP2 are not genes which are commonly over-expressed in smooth muscle tissue",
+    "answer": "True"
+  },
+  {
+    "question": "MAT2B and AFTPH are not genes which are commonly over-expressed in saliva-secreting gland",
+    "answer": "True"
+  },
+  {
+    "question": "IFI27L2 and MAT2B are not genes which are commonly over-expressed in spinal cord",
+    "answer": "True"
+  },
+  {
+    "question": "DNAJC10 and PHETA2 are not genes which are commonly over-expressed in uterine cervix",
+    "answer": "True"
+  },
+  {
+    "question": "VPS25 and SEL1L are not genes which are commonly under-expressed in cardiac ventricle",
+    "answer": "True"
+  },
+  {
+    "question": "HSD11B2 and MAT2B are not genes which are commonly under-expressed in smooth muscle tissue",
+    "answer": "True"
+  },
+  {
+    "question": "CAD and SLC23A2 are not genes which are commonly under-expressed in saliva-secreting gland",
+    "answer": "True"
+  },
+  {
+    "question": "DGAT2 and MAT2B are not genes which are commonly under-expressed in spinal cord",
+    "answer": "True"
+  },
+  {
+    "question": "SYN2 and CAD are not genes which are commonly under-expressed in uterine cervix",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases which commonly localize to choroid plexus",
+    "answer": "True"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer Disease, Late Onset are not diseases which commonly localize to lymphoid tissue",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases which commonly localize to neuropil",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases which commonly localize to blood vessel",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases which commonly localize to cerebellar nuclear complex",
+    "answer": "True"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer Disease, Late Onset are not diseases which commonly present the symptom Ataxia",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases which commonly present the symptom Sleep Disorders, Circadian Rhythm",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases which commonly present the symptom Urinary Incontinence, Urge",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases which commonly present the symptom Paraparesis, Spastic",
+    "answer": "True"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer Disease, Late Onset are not diseases which commonly present the symptom Aphasia, Broca",
+    "answer": "True"
+  },
+  {
+    "question": "ADRB2 and KCNH2 are not genes which commonly bind to the drug Sotalol",
+    "answer": "False"
+  },
+  {
+    "question": "CYP2B6 and CYP2C9 are not genes which commonly bind to the drug Diclofenac",
+    "answer": "False"
+  },
+  {
+    "question": "ABCC2 and ABCG2 are not genes which commonly bind to the drug Irinotecan",
+    "answer": "False"
+  },
+  {
+    "question": "CYP2D6 and CYP3A4 are not genes which commonly bind to the drug Cevimeline",
+    "answer": "False"
+  },
+  {
+    "question": "SCN2A and SCN9A are not genes which commonly bind to the drug Lamotrigine",
+    "answer": "False"
+  },
+  {
+    "question": "HOXC6 and RRS1 are not genes commonly subject to increased expression by the drug Conjugated estrogens",
+    "answer": "False"
+  },
+  {
+    "question": "SOCS2 and PIK3CA are not genes commonly subject to increased expression by the drug Quinethazone",
+    "answer": "False"
+  },
+  {
+    "question": "PNP and FHL2 are not genes commonly subject to increased expression by the drug Clofarabine",
+    "answer": "False"
+  },
+  {
+    "question": "JMJD6 and CDH3 are not genes commonly subject to increased expression by the drug Colchicine",
+    "answer": "False"
+  },
+  {
+    "question": "CNPY3 and SFTPA2 are not genes commonly subject to increased expression by the drug Flurbiprofen",
+    "answer": "False"
+  },
+  {
+    "question": "DNAJA3 and ALAS1 are not genes commonly subject to decreased expression by the drug Quinidine",
+    "answer": "False"
+  },
+  {
+    "question": "EBNA1BP2 and TXNDC9 are not genes commonly subject to decreased expression by the drug Quetiapine",
+    "answer": "False"
+  },
+  {
+    "question": "SLC25A4 and CLTB are not genes commonly subject to decreased expression by the drug Chlormezanone",
+    "answer": "False"
+  },
+  {
+    "question": "LBR and CDC45 are not genes commonly subject to decreased expression by the drug Bromocriptine",
+    "answer": "False"
+  },
+  {
+    "question": "PEG10 and MBOAT7 are not genes commonly subject to decreased expression by the drug Flunarizine",
+    "answer": "False"
+  },
+  {
+    "question": "DNA Polymerase Inhibitors and Nucleoside Analog are not classes which commonly include the drug Valaciclovir",
+    "answer": "False"
+  },
+  {
+    "question": "Decreased Platelet Aggregation and P2Y12 Receptor Antagonists are not classes which commonly include the drug Clopidogrel",
+    "answer": "False"
+  },
+  {
+    "question": "Gonadotropin Releasing Hormone Receptor Antagonists and Decreased GnRH Secretion are not classes which commonly include the drug Cetrorelix",
+    "answer": "False"
+  },
+  {
+    "question": "Vitamin K and Reversed Anticoagulation Activity are not classes which commonly include the drug Phylloquinone",
+    "answer": "False"
+  },
+  {
+    "question": "Histamine H1 Receptor Antagonists and Decreased Histamine Release are not classes which commonly include the drug Epinastine",
+    "answer": "False"
+  },
+  {
+    "question": "Bosutinib and Crizotinib are not drugs which commonly bind to the gene FGR",
+    "answer": "False"
+  },
+  {
+    "question": "Ruxolitinib and Sunitinib are not drugs which commonly bind to the gene MAST1",
+    "answer": "False"
+  },
+  {
+    "question": "Ponatinib and Crizotinib are not drugs which commonly bind to the gene FLT3",
+    "answer": "False"
+  },
+  {
+    "question": "Tamoxifen and Estrone sulfate are not drugs which commonly bind to the gene ESR2",
+    "answer": "False"
+  },
+  {
+    "question": "Bromodiphenhydramine and Cefradine are not drugs which commonly bind to the gene SLC22A6",
+    "answer": "False"
+  },
+  {
+    "question": "Estriol and Estradiol are not drugs which commonly increase expression of the gene SLC25A46",
+    "answer": "False"
+  },
+  {
+    "question": "Methotrexate and Mycophenolate mofetil are not drugs which commonly increase expression of the gene SPAG7",
+    "answer": "False"
+  },
+  {
+    "question": "Digitoxin and Niclosamide are not drugs which commonly increase expression of the gene KDM6B",
+    "answer": "False"
+  },
+  {
+    "question": "Bisacodyl and Digoxin are not drugs which commonly increase expression of the gene KHDC4",
+    "answer": "False"
+  },
+  {
+    "question": "Digoxin and Everolimus are not drugs which commonly increase expression of the gene KBTBD2",
+    "answer": "False"
+  },
+  {
+    "question": "Fluspirilene and Imatinib are not drugs which commonly decrease expression of the gene DECR1",
+    "answer": "False"
+  },
+  {
+    "question": "Podofilox and Vinblastine are not drugs which commonly decrease expression of the gene COQ8A",
+    "answer": "False"
+  },
+  {
+    "question": "Irinotecan and Gemcitabine are not drugs which commonly decrease expression of the gene RMND1",
+    "answer": "False"
+  },
+  {
+    "question": "Dactinomycin and Bortezomib are not drugs which commonly decrease expression of the gene MRPL58",
+    "answer": "False"
+  },
+  {
+    "question": "Afatinib and Dabrafenib are not drugs which commonly decrease expression of the gene DKC1",
+    "answer": "False"
+  },
+  {
+    "question": "negative regulation of protein import into nucleus and growth are not biological processes commonly involving the gene MTOR",
+    "answer": "False"
+  },
+  {
+    "question": "spinal cord development and pattern specification process are not biological processes commonly involving the gene DBX1",
+    "answer": "False"
+  },
+  {
+    "question": "regulation of synapse organization and regulation of neurogenesis are not biological processes commonly involving the gene PDLIM5",
+    "answer": "False"
+  },
+  {
+    "question": "negative regulation of oxidoreductase activity and regulation of oxidoreductase activity are not biological processes commonly involving the gene DAOA",
+    "answer": "False"
+  },
+  {
+    "question": "nucleic acid transport and cellular response to lipopolysaccharide are not biological processes commonly involving the gene UPF1",
+    "answer": "False"
+  },
+  {
+    "question": "Pathways in cancer - Homo sapiens (human) and GPCR downstream signaling are not pathways which commonly contain the gene LPAR6",
+    "answer": "False"
+  },
+  {
+    "question": "Major pathway of rRNA processing in the nucleolus and cytosol and Formation of a pool of free 40S subunits are not pathways which commonly contain the gene RPL36AL",
+    "answer": "False"
+  },
+  {
+    "question": "Neuronal System and Potassium Channels are not pathways which commonly contain the gene KCNH6",
+    "answer": "False"
+  },
+  {
+    "question": "TP53 regulates transcription of additional cell cycle genes whose exact role in the p53 pathway remain uncertain and Gene Expression are not pathways which commonly contain the gene CNOT2",
+    "answer": "False"
+  },
+  {
+    "question": "Metabolism of proteins and Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC) are not pathways which commonly contain the gene RPS28",
+    "answer": "False"
+  },
+  {
+    "question": "IKBKG and LEF1 are not genes which commonly interact with the gene NRARP",
+    "answer": "False"
+  },
+  {
+    "question": "PLAT and BAG6 are not genes which commonly interact with the gene SERPING1",
+    "answer": "False"
+  },
+  {
+    "question": "GRB2 and SH3KBP1 are not genes which commonly interact with the gene CLYBL",
+    "answer": "False"
+  },
+  {
+    "question": "CSNK1D and CSNK1G3 are not genes which commonly interact with the gene DBNDD2",
+    "answer": "False"
+  },
+  {
+    "question": "UBC and APP are not genes which commonly interact with the gene OARD1",
+    "answer": "False"
+  },
+  {
+    "question": "kinase activity and protein kinase activity are not molecular functions commonly attributed to the gene NEK9",
+    "answer": "False"
+  },
+  {
+    "question": "hydro-lyase activity and transcription factor activity, protein binding are not molecular functions commonly attributed to the gene ENO1",
+    "answer": "False"
+  },
+  {
+    "question": "ubiquitin-like protein transferase activity and protein tag are not molecular functions commonly attributed to the gene SUMO2",
+    "answer": "False"
+  },
+  {
+    "question": "calcium ion binding and G-protein coupled receptor activity are not molecular functions commonly attributed to the gene ADGRV1",
+    "answer": "False"
+  },
+  {
+    "question": "ubiquitin binding and phosphatase regulator activity are not molecular functions commonly attributed to the gene UBXN2A",
+    "answer": "False"
+  },
+  {
+    "question": "oligosaccharyltransferase complex and nuclear outer membrane-endoplasmic reticulum membrane network are not cellular components commonly linked to the gene DDOST",
+    "answer": "False"
+  },
+  {
+    "question": "vacuolar membrane and vacuole are not cellular components commonly linked to the gene PCYOX1L",
+    "answer": "False"
+  },
+  {
+    "question": "actin filament and cluster of actin-based cell projections are not cellular components commonly linked to the gene MYO3A",
+    "answer": "False"
+  },
+  {
+    "question": "proteinaceous extracellular matrix and lysosome are not cellular components commonly linked to the gene COL6A1",
+    "answer": "False"
+  },
+  {
+    "question": "pore complex and plasma membrane protein complex are not cellular components commonly linked to the gene C5",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Alzheimer's Disease, Focal Onset are not diseases commonly associated with the gene PCDH11X",
+    "answer": "False"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer Disease, Early Onset are not diseases commonly associated with the gene MPO",
+    "answer": "False"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer's Disease, Focal Onset are not diseases commonly associated with the gene SOD2",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease, Focal Onset and Familial Alzheimer Disease (FAD) are not diseases commonly associated with the gene TF",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are not diseases commonly associated with the gene CALM1",
+    "answer": "False"
+  },
+  {
+    "question": "blood and uterine cervix are not body parts/anatomy which commonly over-express the gene STK32C",
+    "answer": "False"
+  },
+  {
+    "question": "female gonad and testis are not body parts/anatomy which commonly over-express the gene SUPT3H",
+    "answer": "False"
+  },
+  {
+    "question": "bronchus and lymph node are not body parts/anatomy which commonly over-express the gene NECAP2",
+    "answer": "False"
+  },
+  {
+    "question": "liver and adrenal cortex are not body parts/anatomy which commonly over-express the gene COG3",
+    "answer": "False"
+  },
+  {
+    "question": "blood and bronchus are not body parts/anatomy which commonly over-express the gene TNFRSF17",
+    "answer": "False"
+  },
+  {
+    "question": "spinal cord and trigeminal ganglion are not body parts/anatomy which commonly under-express the gene RERG",
+    "answer": "False"
+  },
+  {
+    "question": "cardiac atrium and heart are not body parts/anatomy which commonly under-express the gene SLC39A6",
+    "answer": "False"
+  },
+  {
+    "question": "brain and thyroid gland are not body parts/anatomy which commonly under-express the gene TPSD1",
+    "answer": "False"
+  },
+  {
+    "question": "blood and thyroid gland are not body parts/anatomy which commonly under-express the gene CHST8",
+    "answer": "False"
+  },
+  {
+    "question": "heart and blood are not body parts/anatomy which commonly under-express the gene SLC16A4",
+    "answer": "False"
+  },
+  {
+    "question": "Trimethoprim and Crizotinib are not drugs which commonly belong to the drug class Organic Cation Transporter 2 Inhibitors",
+    "answer": "False"
+  },
+  {
+    "question": "Venlafaxine and Duloxetine are not drugs which commonly belong to the drug class Serotonin Uptake Inhibitors",
+    "answer": "False"
+  },
+  {
+    "question": "Pioglitazone and Fenofibrate are not drugs which commonly belong to the drug class PPAR alpha",
+    "answer": "False"
+  },
+  {
+    "question": "Tafluprost and Alprostadil are not drugs which commonly belong to the drug class Prostaglandin Receptor Agonists",
+    "answer": "False"
+  },
+  {
+    "question": "Nafcillin and Dicloxacillin are not drugs which commonly belong to the drug class Penicillins",
+    "answer": "False"
+  },
+  {
+    "question": "Memantine and Selegiline are not drugs which commonly treat Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "Naltrexone and Ziprasidone are not drugs which commonly affect Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "CYP46A1 and CASP3 are not genes commonly associated with the disease Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "ADAMTS1 and SOD2 are not genes commonly associated with the disease Alzheimer Disease, Late Onset",
+    "answer": "False"
+  },
+  {
+    "question": "PYY and SLC30A4 are not genes commonly associated with the disease Familial Alzheimer Disease (FAD)",
+    "answer": "False"
+  },
+  {
+    "question": "ADAMTS1 and SOD2 are not genes commonly associated with the disease Alzheimer's Disease, Focal Onset",
+    "answer": "False"
+  },
+  {
+    "question": "ADAMTS1 and SOD2 are not genes commonly associated with the disease Alzheimer Disease, Early Onset",
+    "answer": "False"
+  },
+  {
+    "question": "Paraparesis, Spastic and Perceptual Disorders are not common symptoms of Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "Confusion and Spinocerebellar Ataxias are not common symptoms of Familial Alzheimer Disease (FAD)",
+    "answer": "False"
+  },
+  {
+    "question": "choroid plexus and corticospinal tract are not common sites of localization of Alzheimer's Disease",
+    "answer": "False"
+  },
+  {
+    "question": "central nervous system and cerebellum are not common sites of localization of Familial Alzheimer Disease (FAD)",
+    "answer": "False"
+  },
+  {
+    "question": "RPGRIP1 and GNGT1 are not genes which commonly participate in the biological process photoreceptor cell development",
+    "answer": "False"
+  },
+  {
+    "question": "KDM1A and PTTG1IP are not genes which commonly participate in the biological process negative regulation of DNA damage response, signal transduction by p53 class mediator",
+    "answer": "False"
+  },
+  {
+    "question": "PTX3 and APCS are not genes which commonly participate in the biological process negative regulation by host of viral exo-alpha-sialidase activity",
+    "answer": "False"
+  },
+  {
+    "question": "PERP and CXADR are not genes which commonly participate in the biological process heterotypic cell-cell adhesion",
+    "answer": "False"
+  },
+  {
+    "question": "TERF2 and ERCC1 are not genes which commonly participate in the biological process regulation of t-circle formation",
+    "answer": "False"
+  },
+  {
+    "question": "MASP1 and FGB are not genes common in the pathway Complement and Coagulation Cascades",
+    "answer": "False"
+  },
+  {
+    "question": "CALM2 and NOS3 are not genes common in the pathway Metabolism of nitric oxide",
+    "answer": "False"
+  },
+  {
+    "question": "CYP7A1 and NR1H4 are not genes common in the pathway Synthesis of bile acids and bile salts via 27-hydroxycholesterol",
+    "answer": "False"
+  },
+  {
+    "question": "H4C12 and RANBP2 are not genes common in the pathway SUMOylation of chromatin organization proteins",
+    "answer": "False"
+  },
+  {
+    "question": "KCNIP4 and CAMK4 are not genes common in the pathway Regulation of nuclear beta catenin signaling and target gene transcription",
+    "answer": "False"
+  },
+  {
+    "question": "DLG1 and LIN7C are not genes which commonly perform the molecular function L27 domain binding",
+    "answer": "False"
+  },
+  {
+    "question": "SLC18A2 and SLC6A4 are not genes which commonly perform the molecular function monoamine transmembrane transporter activity",
+    "answer": "False"
+  },
+  {
+    "question": "FGF7 and FGF18 are not genes which commonly perform the molecular function type 2 fibroblast growth factor receptor binding",
+    "answer": "False"
+  },
+  {
+    "question": "RALA and GRK2 are not genes which commonly perform the molecular function Edg-2 lysophosphatidic acid receptor binding",
+    "answer": "False"
+  },
+  {
+    "question": "NAGK and GNE are not genes which commonly perform the molecular function N-acylmannosamine kinase activity",
+    "answer": "False"
+  },
+  {
+    "question": "DICER1 and TARBP2 are not genes commonly associated with the cellular component micro-ribonucleoprotein complex",
+    "answer": "False"
+  },
+  {
+    "question": "HLA-DRA and HLA-E are not genes commonly associated with the cellular component MHC protein complex",
+    "answer": "False"
+  },
+  {
+    "question": "ABCD4 and ABCB8 are not genes commonly associated with the cellular component ATP-binding cassette (ABC) transporter complex",
+    "answer": "False"
+  },
+  {
+    "question": "METTL1 and TRMT61B are not genes commonly associated with the cellular component tRNA methyltransferase complex",
+    "answer": "False"
+  },
+  {
+    "question": "KAT6A and BRPF1 are not genes commonly associated with the cellular component H3 histone acetyltransferase complex",
+    "answer": "False"
+  },
+  {
+    "question": "S100A16 and APRT are not genes which are commonly over-expressed in nipple",
+    "answer": "False"
+  },
+  {
+    "question": "TGFBR3 and NPR2 are not genes which are commonly over-expressed in uterus",
+    "answer": "False"
+  },
+  {
+    "question": "CCL8 and S100A6 are not genes which are commonly over-expressed in smooth muscle tissue",
+    "answer": "False"
+  },
+  {
+    "question": "RGL2 and TDP1 are not genes which are commonly over-expressed in endometrium",
+    "answer": "False"
+  },
+  {
+    "question": "SLC39A6 and STX2 are not genes which are commonly over-expressed in medulla oblongata",
+    "answer": "False"
+  },
+  {
+    "question": "VWA3B and ODF2 are not genes which are commonly under-expressed in nipple",
+    "answer": "False"
+  },
+  {
+    "question": "LRRTM2 and HPRT1 are not genes which are commonly under-expressed in uterus",
+    "answer": "False"
+  },
+  {
+    "question": "IL1RN and MAN1C1 are not genes which are commonly under-expressed in smooth muscle tissue",
+    "answer": "False"
+  },
+  {
+    "question": "ACBD5 and ARRB2 are not genes which are commonly under-expressed in endometrium",
+    "answer": "False"
+  },
+  {
+    "question": "PPIC and ACP1 are not genes which are commonly under-expressed in medulla oblongata",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are not diseases which commonly localize to cerebellum",
+    "answer": "False"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer's Disease are not diseases which commonly localize to cerebellar cortex",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are not diseases which commonly localize to brain",
+    "answer": "False"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer's Disease are not diseases which commonly localize to central nervous system",
+    "answer": "False"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer's Disease are not diseases which commonly present the symptom Aphasia, Wernicke",
+    "answer": "False"
+  },
+  {
+    "question": "Familial Alzheimer Disease (FAD) and Alzheimer's Disease are not diseases which commonly present the symptom Confusion",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are not diseases which commonly present the symptom Agnosia",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are not diseases which commonly present the symptom Myoclonus",
+    "answer": "False"
+  },
+  {
+    "question": "Alzheimer's Disease and Familial Alzheimer Disease (FAD) are not diseases which commonly present the symptom Supranuclear Palsy, Progressive",
+    "answer": "False"
+  }
+]

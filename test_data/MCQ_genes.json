@@ -1,0 +1,162 @@
+[
+  {
+    "question": "Which of the following is the gene symbol of integrator complex subunit 6 like? 1. RNU6-887P 2. FBXW10B 3. INTS6L 4. RPL5P11 5. PPP1R2C",
+    "answer": "3"
+  },
+  {
+    "question": "Which of the following is the gene symbol of meiosis specific with OB-fold? 1. KLK4 2. MEIOB 3. CST9LP2 4. RNU6-1135P 5. PHB1P12",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following is the gene symbol of laminin subunit alpha 3? 1. LAMA3 2. LRRC28 3. MBL2 4. COPS8P3 5. KICS2",
+    "answer": "1"
+  },
+  {
+    "question": "Which of the following is the gene symbol of GRB2 associated binding protein 3? 1. RNA5SP120 2. LY9 3. RPL35AP14 4. PEX12P1 5. GAB3",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following is the gene symbol of ribosomal protein L5 pseudogene 11? 1. STEAP2-AS1 2. SNORA77 3. RPL5P11 4. PMPCAP1 5. FAH",
+    "answer": "3"
+  },
+  {
+    "question": "Which of the following is the gene symbol of PPP1R2C family member C? 1. AQP12A 2. RNU6-465P 3. RN7SKP165 4. ENPP5 5. PPP1R2C",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following is the gene symbol of RNA, U6 small nuclear 887, pseudogene? 1. RSL24D1P6 2. RNU6-887P 3. SPDYE18 4. GLIS1 5. GMPR",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following is the gene symbol of F-box and WD repeat domain containing 10B? 1. LINC02023 2. MIR103B1 3. ZCRB1P1 4. FBXW10B 5. WDPCP",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following is the gene symbol of kallikrein related peptidase 4? 1. INMT 2. PECR 3. GABRR3 4. KLK4 5. HMGCS2",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following is the gene symbol of PHB1 pseudogene 12? 1. SZT2-AS1 2. SLC66A1 3. LINC03015 4. PHB1P12 5. GRK1",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following is the gene symbol of RNA, U6 small nuclear 1135, pseudogene? 1. GDAP2 2. RNU6-1135P 3. DSCR9 4. MYO1F 5. KCTD9P1",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following is the gene symbol of cystatin 9-like pseudogene 2? 1. NECTIN1 2. UBA2 3. H2AC10P 4. CST9LP2 5. NAGPA",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following is the gene symbol of COP9 signalosome subunit 8 pseudogene 3? 1. GPR45 2. KRT18P12 3. PPM1A 4. PDE8B 5. COPS8P3",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following is the gene symbol of KICSTOR subunit 2? 1. QTRT2 2. FAM153B 3. IQCJ-SCHIP1 4. KICS2 5. BCAS2P1",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following is the gene symbol of mannose binding lectin 2? 1. MBL2 2. NBDY 3. HIF1AP1 4. MIR3118-3 5. TANGO6",
+    "answer": "1"
+  },
+  {
+    "question": "Which of the following is the gene symbol of leucine rich repeat containing 28? 1. LINC02317 2. LRRC28 3. LRP3 4. B3GAT3P1 5. PSMB3",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following is the gene symbol of RNA, 5S ribosomal pseudogene 120? 1. ELOA-AS1 2. MIR378H 3. LINC01053 4. LINC00159 5. RNA5SP120",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following is the gene symbol of peroxisomal biogenesis factor 12 pseudogene 1? 1. ZDHHC3 2. ANKRD50 3. HMGB1P34 4. TSPY19P 5. PEX12P1",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following is the gene symbol of ribosomal protein L35a pseudogene 14? 1. SNORD113-6 2. RPL35AP14 3. ZNF581 4. CPDP1 5. HMGN2P43",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following is the gene symbol of lymphocyte antigen 9? 1. LY9 2. PART1 3. CYP4F26P 4. SOX9-AS1 5. BCORP1",
+    "answer": "1"
+  },
+  {
+    "question": "Which of the following type is the gene ASCL3? 1. unknown 2. pseudo 3. other 4. ncRNA 5. protein-coding",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following type is the gene ABCC3? 1. unknown 2. protein-coding 3. ncRNA 4. pseudo 5. other",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following type is the gene MMAA? 1. pseudo 2. ncRNA 3. other 4. protein-coding 5. unknown",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following type is the gene RRAGD? 1. ncRNA 2. pseudo 3. unknown 4. protein-coding 5. other",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following type is the gene TMEM217B? 1. other 2. pseudo 3. ncRNA 4. protein-coding 5. unknown",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following type is the gene FGF11? 1. unknown 2. protein-coding 3. ncRNA 4. pseudo 5. other",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following type is the gene RPS20? 1. other 2. unknown 3. ncRNA 4. protein-coding 5. pseudo",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following type is the gene LRRFIP2P1? 1. other 2. ncRNA 3. unknown 4. protein-coding 5. pseudo",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following type is the gene RNU6-328P? 1. ncRNA 2. unknown 3. other 4. pseudo 5. protein-coding",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following type is the gene TRIM72? 1. protein-coding 2. ncRNA 3. other 4. pseudo 5. unknown",
+    "answer": "1"
+  },
+  {
+    "question": "Which of the following type is the gene NOTCH2NLR? 1. ncRNA 2. protein-coding 3. pseudo 4. other 5. unknown",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following type is the gene CDC23? 1. pseudo 2. other 3. ncRNA 4. unknown 5. protein-coding",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following type is the gene RN7SL666P? 1. unknown 2. other 3. protein-coding 4. ncRNA 5. pseudo",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following type is the gene RBM18? 1. ncRNA 2. protein-coding 3. pseudo 4. unknown 5. other",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following type is the gene SUN2? 1. protein-coding 2. unknown 3. pseudo 4. other 5. ncRNA",
+    "answer": "1"
+  },
+  {
+    "question": "Which of the following type is the gene MFFP1? 1. protein-coding 2. ncRNA 3. other 4. pseudo 5. unknown",
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following type is the gene IGHV3-79? 1. protein-coding 2. other 3. ncRNA 4. unknown 5. pseudo",
+    "answer": "5"
+  },
+  {
+    "question": "Which of the following type is the gene DUX4L5? 1. protein-coding 2. unknown 3. pseudo 4. other 5. ncRNA",
+    "answer": "3"
+  },
+  {
+    "question": "Which of the following type is the gene PCDHGC4? 1. pseudo 2. protein-coding 3. other 4. ncRNA 5. unknown",
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following type is the gene SPATA45? 1. other 2. ncRNA 3. protein-coding 4. pseudo 5. unknown",
+    "answer": "3"
+  }
+]
