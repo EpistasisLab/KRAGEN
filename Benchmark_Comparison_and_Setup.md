@@ -1,11 +1,11 @@
 # Performance Comparison on Various Question Types
 
-| Models               | Question Type 1 (T/F-1hop) #560 | Question Type 2 (T/F-2hop) # 540 | Question Type 3 (MCQ-1hop) # 498 | Question Type 4 (MCQ-2hop) # 419 |
+| Methods              | Question Type 1 (T/F-1hop) #560 | Question Type 2 (T/F-2hop) # 540 | Question Type 3 (MCQ-1hop) # 498 | Question Type 4 (MCQ-2hop) # 419 |
 | -------------------- | ------------------------------- | -------------------------------- | -------------------------------- | -------------------------------- |
 | ChatGPT3.5           | 45.2%                           | 55.4%                            | 47.6%                            | 58.5%                            |
 | OpenChat3.5          | 59.1%                           | 58.7%                            | 48.8%                            | 62.8%                            |
 | ChatGPT4             | 68.6%                           | 62.4%                            | 56.6%                            | 53.1%                            |
-| ChatGPT4 with KRAGEN | **80.3%**                       | **62.9%**                        | **70.4%**                        | **71.8%**                        |
+| KRAGEN with ChatGPT4 | **80.3%**                       | **62.9%**                        | **70.4%**                        | **71.8%**                        |
 
 # Experiment Setup
 
