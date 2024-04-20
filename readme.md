@@ -93,6 +93,10 @@ If you used the sample dataset, try asking "what genes are associated with caffe
 
 ## Performance Evaluation and Reproducibility
 
+<img src="images/radar_chart_kragen.png" alt="Radar Chart of KRAGEN Performance" width="80%" height ="80%">
+
+The radar chart above illustrates the comparative performances of the methods.
+
 Please refer to [Benchmark_Comparison_and_Setup.md](Benchmark_Comparison_and_Setup.md) for detailed insights into the Performance Comparison across Various Question Types, experiment setup configurations, and datasets.
 
 ---
