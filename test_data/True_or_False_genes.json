@@ -1,0 +1,162 @@
+[
+  {
+    "question": "True or False Question: COA7 is the gene symbol of cytochrome c oxidase assembly factor 7",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: ZNF462 is the gene symbol of zinc finger protein 462",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: KCNK10 is the gene symbol of potassium two pore domain channel subfamily K member 10",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: MAGI2-AS3 is the gene symbol of MAGI2 antisense RNA 3",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: JKAMP is the gene symbol of JNK1/MAPK8 associated membrane protein",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: BAAT is the gene symbol of PRELI domain containing 2",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: PRELID2 is the gene symbol of RNA, 7SL, cytoplasmic 30, pseudogene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: RN7SL30P is the gene symbol of inorganic pyrophosphatase 1",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: PPA1 is the gene symbol of interleukin 12 receptor subunit beta 2",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: IL12RB2 is the gene symbol of bile acid-CoA:amino acid N-acyltransferase",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: ADCP1 is a unknown gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: SLC9B1P1 is a pseudo gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC107986921 is a ncRNA gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC127817117 is a biological-region gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC127403461 is a biological-region gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC125338463 is a protein-coding gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: MYT1L-AS1 is a protein-coding gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: LOC127898507 is a protein-coding gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: LOC127826008 is a protein-coding gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: RNU6-988P is a protein-coding gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: CIBAR1P1 is not the gene symbol of cytochrome c oxidase subunit 5B pseudogene 7",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: COX5BP7 is not the gene symbol of RAD21 pseudogene 1",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: RAD21P1 is not the gene symbol of FKBP prolyl isomerase 4 pseudogene 2",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: FKBP4P2 is not the gene symbol of carnosine dipeptidase 1",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: CNDP1 is not the gene symbol of CIBAR1 pseudogene 1",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: GNG5 is not the gene symbol of G protein subunit gamma 5",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: LINC02405 is not the gene symbol of long intergenic non-protein coding RNA 2405",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: CHRNA2 is not the gene symbol of cholinergic receptor nicotinic alpha 2 subunit",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: CD46P1 is not the gene symbol of CD46 molecule pseudogene 1",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: FKTN is not the gene symbol of fukutin",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: MIRLET7A1HG is not a protein-coding gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC127270765 is not a protein-coding gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC129389367 is not a protein-coding gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC127828818 is not a protein-coding gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC127897139 is not a protein-coding gene",
+    "answer": "True"
+  },
+  {
+    "question": "True or False Question: LOC127826911 is not a biological-region gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: LOC121392924 is not a biological-region gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: NBPF26 is not a protein-coding gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: LOC127885808 is not a biological-region gene",
+    "answer": "False"
+  },
+  {
+    "question": "True or False Question: MIRLET7A2 is not a ncRNA gene",
+    "answer": "False"
+  }
+]
