@@ -40,6 +40,7 @@ This document outlines the configurations and hyperparameters used for the perfo
 - **Temperature:** 0
 - **Top P:** 1
 - **Embedding model:** text-embedding-ada-002
+- **Reference:** [Azure AI OpenAI Service Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
 
 ## Data Configuration
 
