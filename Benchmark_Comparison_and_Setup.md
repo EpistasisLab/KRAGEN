@@ -42,9 +42,11 @@ This document outlines the configurations and hyperparameters used for the perfo
 - **Embedding model:** text-embedding-ada-002
 - **Reference:** [Azure AI OpenAI Service Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
 
+#### BioGPT, available on Hugging Face at https://huggingface.co/microsoft/biogpt, has been tested using the True/False-1hop, True/False-2hop, MCQ-1hop, and MCQ-2hop datasets. However, it does not perform adequately for these tasks, a detail that was omitted from the summary table.
+
 ## Data Configuration
 
-The evaluation encompasses four distinct question types, each representing a different level of complexity. The dataset for these evaluations is located within the `test_data` directory at the root of the GitHub repository.
+The evaluation encompasses four distinct question types, each representing a different level of complexity. The dataset for these evaluations is located within the [`test_data`](https://github.com/EpistasisLab/KRAGEN/tree/main/test_data) directory at the root of the GitHub repository.
 :
 
 - **Question Type 1 (T/F-1hop)**: Consists of 560 questions where each is a True/False question that can be answered with a single inference step.
