@@ -44,7 +44,7 @@ This document outlines the configurations and hyperparameters used for the perfo
 
 ## Data Configuration
 
-The evaluation encompasses four distinct question types, each representing a different level of complexity. The dataset for these evaluations is located within the `test_data` directory at the root of the GitHub repository.
+The evaluation encompasses four distinct question types, each representing a different level of complexity. The dataset for these evaluations is located within the [`test_data`](https://github.com/EpistasisLab/KRAGEN/tree/main/test_data) directory at the root of the GitHub repository.
 :
 
 - **Question Type 1 (T/F-1hop)**: Consists of 560 questions where each is a True/False question that can be answered with a single inference step.
