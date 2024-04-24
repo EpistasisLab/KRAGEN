@@ -42,7 +42,7 @@ This document outlines the configurations and hyperparameters used for the perfo
 - **Embedding model:** text-embedding-ada-002
 - **Reference:** [Azure AI OpenAI Service Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
 
-#### BioGPT, available on Hugging Face at https://huggingface.co/microsoft/biogpt, has been tested using the True/False-1hop, True/False-2hop, MCQ-1hop, and MCQ-2hop datasets. However, it does not perform adequately for these tasks, a detail that was omitted from the summary table.
+#### BioGPT, available on Hugging Face at https://huggingface.co/microsoft/biogpt, has been tested using the True/False-1hop, True/False-2hop, MCQ-1hop, and MCQ-2hop datasets. However, it does not perform adequately for these tasks. Other BioGPT models are being evaluated and will publish results as we continue testing. 
 
 ## Data Configuration
 
