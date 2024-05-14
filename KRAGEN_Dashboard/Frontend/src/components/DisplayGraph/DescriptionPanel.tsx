@@ -96,7 +96,7 @@ const DescriptionPanel: FC<{
                       )
                   : null}
               </div> */}
-              {/* <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                 {typeof (
                   parsedData as { thoughts?: Array<{ knowledge?: string }> }
                 ).thoughts?.[0]?.knowledge === "string"
@@ -114,8 +114,9 @@ const DescriptionPanel: FC<{
                           ) : null
                       )
                   : null}
-              </div> */}
-              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              </div>
+
+              {/* <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                 {Array.isArray(
                   (parsedData as { thoughts?: Array<{ knowledge?: string[] }> })
                     .thoughts?.[0]?.knowledge ?? []
@@ -130,7 +131,7 @@ const DescriptionPanel: FC<{
                       <li key={index}>{item}</li>
                     ))
                   : null}
-              </div>
+              </div> */}
             </>
           ) : null}
 

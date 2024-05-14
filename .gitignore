@@ -195,3 +195,5 @@ Alzkb_Q_A_Embedding/readme.md
 Alzkb_Q_A_Embedding/requirements.txt
 Alzkb_Q_A_Embedding/test_data.json
 Alzkb_Q_A_Embedding/test.py
+
+.env_my
