@@ -451,7 +451,8 @@ You may provide reasoning for your scoring, but the final score should be betwee
                             if len(node_filters) > 1:
                                 for node_filter in node_filters:
                                     # remove knowledge that doesn't contain the node_filter
-                                    knowledge_array = [knowledge for knowledge in knowledge_array if node_filter in knowledge]
+                                    # knowledge_array = [knowledge for knowledge in knowledge_array if node_filter in knowledge]
+                                    knowledge_array = [knowledge for knowledge in knowledge_array if node_filter.lower() in knowledge.lower()]
                             knowledge_arrays.append(knowledge_array)
                         # get the unique union of the knowledge arrays
                         knowledge_array = list(set().union(*knowledge_arrays))
