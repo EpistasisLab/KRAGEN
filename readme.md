@@ -91,6 +91,18 @@ If you used the sample dataset, try asking "what genes are associated with caffe
 
 ---
 
+## Stopping KRAGEN
+
+To stop KRAGEN from running, you can use this command:  
+While the KRAGEN **GUI** is running, press `ctrl+c` to stop it and wait for the process to exit.
+Then, to stop all running containers, run: `docker compose stop`, or to remove the containers, run: `docker compose down`
+
+## Reconfiguring the Backend
+Once all the **Installation** steps are performed, KRAGEN is fully configured. However, if you update any configuration variables in your `.env` or `config/kragen.env` file, you will need to run a command to update KRAGEN's Backend configuration. Make sure KRAGEN is [stopped](#stopping-kragen) and then run:  
+`docker compose run kragen config_backend`  
+and then boot up KRAGEN:  
+`docker compose up gui`
+
 ## Performance Evaluation and Reproducibility
 
 <img src="images/radar_chart_kragen.png" alt="Radar Chart of KRAGEN Performance" width="80%" height ="80%">
@@ -100,12 +112,6 @@ The radar chart above illustrates the comparative performances of the methods.
 Please refer to [Benchmark_Comparison_and_Setup.md](Benchmark_Comparison_and_Setup.md) for detailed insights into the Performance Comparison across Various Question Types, experiment setup configurations, and datasets.
 
 ---
-
-## Stopping KRAGEN
-
-To stop KRAGEN from running, you can use this command:  
-While the KRAGEN **GUI** is running, press `ctrl+c` to stop it and wait for the process to exit.
-Then, to stop all running containers, run: `docker compose stop`, or to remove the containers, run: `docker compose down`
 
 ## Special Thanks To:
 
