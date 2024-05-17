@@ -1,14 +1,17 @@
 from flask import Blueprint, jsonify, request
 from flask_cors import CORS, cross_origin
 from ..utils import chat_util
+from pathlib import Path
 import got
 from graph_of_thoughts import controller, language_models, operations
 from graph_of_thoughts.vector_db.weaviate import WeaviateClient
 import json
 import math
 import logging
+from logging.handlers import RotatingFileHandler
 import time
 import sys 
+import os
 
 from got import ALZKBPrompter, ALZKBParser
 
@@ -16,6 +19,50 @@ bp = Blueprint('chatapi', __name__, url_prefix='/chatapi/v1')
 
 # Enable CORS on the blueprint
 CORS(bp, origins='http://localhost:3000')
+
+# Define a function to map environment variable to logging level
+def get_log_level():
+    log_level_str = os.getenv('LOG_LEVEL', 'DEBUG').upper()
+    log_levels = {
+        'CRITICAL': logging.CRITICAL,
+        'ERROR': logging.ERROR,
+        'WARNING': logging.WARNING,
+        'INFO': logging.INFO,
+        'DEBUG': logging.DEBUG,
+        'NOTSET': logging.NOTSET
+    }
+    return log_levels.get(log_level_str, logging.DEBUG)
+
+# Configure logging in logs directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+log_dir = os.path.join(BASE_DIR, 'logs')
+log_file = os.path.join(log_dir, 'chatapi.log')
+print("log_dir", log_dir)
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
+# Set up a rotating file handler
+handler = RotatingFileHandler(
+    log_file, 
+    maxBytes=5*1024*1024,  # 5MB
+    backupCount=5          # Keep up to 5 backup files
+)
+
+# Set the logging format
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+handler.setFormatter(formatter)
+
+# Set up the root logger
+log_level = get_log_level()
+logging.getLogger().setLevel(log_level)
+logging.getLogger().addHandler(handler)
+
+# Optionally, we can log to both console and file, add a console handler
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logging.getLogger().addHandler(console_handler)
+
 
 @bp.route('/chats', methods=['POST'])
 @bp.route('/chats/<int:chat_id>', methods=['GET', 'PATCH', 'DELETE'])
@@ -141,6 +188,8 @@ def got():
     req_data = request.get_json()
     question = req_data.get('chatInput')
     print("Received question:", question)
+    # print variables to logger
+    logging.debug(f"Received question: {question}")
 
 
     def got_dynamic() -> operations.GraphOfOperations:
