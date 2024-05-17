@@ -99,6 +99,10 @@ def config_backend(service='chatgpt'):
     # response_token_cost = os.getenv('RESPONSE_TOKEN_COST')
     gpt_api_version = os.getenv('GPT_API_VERSION')
     gpt_api_base = os.getenv('GPT_API_BASE')
+    # weaviate variables
+    weaviate_url = os.getenv('WEAVIATE_URL')
+    weaviate_api_key = os.getenv('WEAVIATE_API_KEY')
+
     sample_config = os.path.join(backend_path, sample_filename)
     config_file = os.path.join(backend_path, 'config.json')
 
@@ -122,6 +126,13 @@ def config_backend(service='chatgpt'):
 
         if gpt_api_base is not None and 'api_base' in data[service]:
             data[service]['api_base'] = gpt_api_base
+        
+        # set weaviate variables
+        if 'weaviate' in data:
+            if weaviate_url is not None and 'url' in data['weaviate']:
+                data['weaviate']['url'] = weaviate_url
+            if weaviate_api_key is not None and 'api_key' in data['weaviate']:
+                data['weaviate']['api_key'] = weaviate_api_key
 
         json_data = json.dumps(data, indent=2)
 
