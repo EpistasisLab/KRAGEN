@@ -61,6 +61,9 @@ import {
   sendChatInputToBackend,
 } from "../apiService";
 
+import useStore from "../../store/store";
+import { stat } from "fs";
+
 interface DisplayGraphProps {
   chatInputForGOT: string;
   readyToDisplayGOT: boolean;
@@ -98,8 +101,18 @@ const DisplayGraph: FC<DisplayGraphProps> = ({
 
   // const [dataReady, setDataReady] = useState(false);
   // set description for clicked node
-  const [descriptionForClickedNode, setDescriptionForClickedNode] =
-    useState("");
+  // const [descriptionForClickedNode, setDescriptionForClickedNode] =
+  //   useState("");
+
+  const { descriptionForClickedNode, setDescriptionForClickedNode } = useStore(
+    (state) => {
+      return {
+        descriptionForClickedNode: state.descriptionForClickedNode,
+        setDescriptionForClickedNode: state.setDescriptionForClickedNode,
+      };
+    }
+  );
+
   // const [dataset, setDataset] = useState<Dataset | null>(null);
   const [filtersState, setFiltersState] = useState<FiltersState>({
     clusters: {},

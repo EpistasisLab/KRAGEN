@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "zustand": "^4.5.2"
+  }
+}

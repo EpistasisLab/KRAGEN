@@ -3,6 +3,8 @@ import { BsInfoCircle } from "react-icons/bs";
 
 import Panel from "./Panel";
 
+import useStore from "../../store/store";
+
 const DescriptionPanel: FC<{
   descriptionForClickedNode?: string;
   setDescriptionForClickedNode: (description: string) => void;
@@ -14,12 +16,34 @@ const DescriptionPanel: FC<{
 }) => {
   const [parsedData, setParsedData] = useState(null);
 
+  const {
+    count,
+    increment,
+    currentGenerateNodeClickId,
+    setCurrentGenerateNodeClickId,
+  } = useStore((state) => {
+    return {
+      count: state.count,
+      increment: state.increment,
+      currentGenerateNodeClickId: state.currentGenerateNodeClickId,
+      setCurrentGenerateNodeClickId: state.setCurrentGenerateNodeClickId,
+    };
+  });
+
   useEffect(() => {
     if (descriptionForClickedNode) {
       try {
         // Parse JSON whenever descriptionForClickedNode changes
         const data = JSON.parse(descriptionForClickedNode);
         console.log("data-descriptionForClickedNode", data);
+        var id = data.key.split("_")[1];
+        console.log("id", id);
+        // make id as integer
+        var idInt = parseInt(id);
+        // make integer id as currentGenerateNodeClickId after dividing by 2
+        idInt = idInt / 2 - 1;
+        console.log("idInt", idInt);
+        setCurrentGenerateNodeClickId(idInt);
         if (data[0]) {
           setParsedData(data[0]);
         } else {
@@ -70,7 +94,11 @@ const DescriptionPanel: FC<{
               >
                 Prompt:
               </h3>
-              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+
+              <div
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                contentEditable="true"
+              >
                 {(parsedData as { thoughts?: Array<any> }).thoughts?.[0]
                   ?.prompt ?? null}
               </div>
@@ -82,26 +110,29 @@ const DescriptionPanel: FC<{
           (parsedData as { label?: string }).label !== "Selector" &&
           (parsedData as { label?: string }).label !== "Answer" ? (
             <>
-              <h3>Knowledge:</h3>
+              <h3
+                style={{
+                  display: Number.isInteger(currentGenerateNodeClickId)
+                    ? "block"
+                    : "none",
+                }}
+              >
+                Knowledge:
+              </h3>
 
-              {/* <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-                {(parsedData as { thoughts?: Array<any> }).thoughts?.[0]
-                  ?.knowledge !== undefined
-                  ? (
-                      parsedData as { thoughts?: Array<any> }
-                    ).thoughts?.[0]?.knowledge
-                      .split("\n")
-                      .map((item: string) =>
-                        item.trim() !== "" ? <li key={item}>{item}</li> : null
-                      )
-                  : null}
-              </div> */}
-              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              <div
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                contentEditable="true"
+              >
                 {typeof (
-                  parsedData as { thoughts?: Array<{ knowledge?: string }> }
+                  parsedData as {
+                    thoughts?: Array<{ knowledge?: string; key?: string }>;
+                  }
                 ).thoughts?.[0]?.knowledge === "string"
                   ? (
-                      parsedData as { thoughts?: Array<{ knowledge?: string }> }
+                      parsedData as {
+                        thoughts?: Array<{ knowledge?: string; key?: string }>;
+                      }
                     ).thoughts?.[0]?.knowledge
                       ?.split("\n")
                       .map(
@@ -110,28 +141,21 @@ const DescriptionPanel: FC<{
                           index // Use index for key to avoid duplicate keys
                         ) =>
                           item.trim() !== "" ? (
-                            <li key={index}>{item}</li>
+                            <li
+                              key={index}
+                              style={{
+                                display:
+                                  currentGenerateNodeClickId === index
+                                    ? "block"
+                                    : "none",
+                              }}
+                            >
+                              {item}
+                            </li>
                           ) : null
                       )
                   : null}
               </div>
-
-              {/* <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-                {Array.isArray(
-                  (parsedData as { thoughts?: Array<{ knowledge?: string[] }> })
-                    .thoughts?.[0]?.knowledge ?? []
-                ) &&
-                ((parsedData as { thoughts?: Array<{ knowledge?: string[] }> })
-                  .thoughts?.[0]?.knowledge?.length ?? 0) > 0
-                  ? (
-                      parsedData as {
-                        thoughts?: Array<{ knowledge?: string[] }>;
-                      }
-                    ).thoughts?.[0]?.knowledge?.map((item, index) => (
-                      <li key={index}>{item}</li>
-                    ))
-                  : null}
-              </div> */}
             </>
           ) : null}
 
@@ -159,24 +183,13 @@ const DescriptionPanel: FC<{
               </p>
             </div>
           ) : null}
-          {/* {(parsedData as { thoughts?: Array<{ knowledge?: string }> })
-            .thoughts?.[0]?.knowledge !== undefined
-            ? (
-                parsedData as { thoughts?: Array<{ knowledge?: string }> }
-              ).thoughts?.[0]?.knowledge
-                ?.split("\n")
-                .map(
-                  (item: string, index: number) =>
-                    item.trim() !== "" ? <li key={index}>{item}</li> : null // using index as key because item may not be unique
-                )
-            : null} */}
 
           {(parsedData as { label?: string }).label === "Selector" &&
           (parsedData as { thoughts?: Array<any> }).thoughts?.[0]?.edge_id !==
             undefined ? (
             <>
               <h3>Edge:</h3>
-              <p>
+              <p contentEditable="true">
                 {(parsedData as { thoughts?: Array<any> }).thoughts?.[0]
                   ?.edges?.[
                   (parsedData as { thoughts?: Array<any> }).thoughts?.[0]

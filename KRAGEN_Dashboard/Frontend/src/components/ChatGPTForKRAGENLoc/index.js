@@ -74,7 +74,7 @@ export default function ChatGPT({ experiment }) {
     // length of sidemenu
     let sidemenuLength = sidemenu.length;
 
-    console.log("sidemenuLength", sidemenuLength);
+    // console.log("sidemenuLength", sidemenuLength);
 
     if (sidemenuLength > 0) {
       for (let i = 0; i < sidemenu.length - 1; i++) {

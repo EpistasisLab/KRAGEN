@@ -27,7 +27,8 @@
     "react-scripts": "^5.0.1",
     "react-sigma-v2": "^1.3.0",
     "sigma": "latest",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "zustand": "^4.5.2"
   },
   "scripts": {
     "start": "react-scripts start",

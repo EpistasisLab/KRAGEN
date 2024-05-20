@@ -197,3 +197,4 @@ Alzkb_Q_A_Embedding/test_data.json
 Alzkb_Q_A_Embedding/test.py
 
 .env_my
+.env_weaviate
