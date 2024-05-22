@@ -1,8 +1,8 @@
 services:
   gui:
     build:
-      context: ./KRAGEN_Dashboard/Frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/frontend/Dockerfile
     # image: moorelab/${IMAGE_NAME}-gui:${TAG}
     image: kragen-gui:${TAG}
     container_name: kragen-gui
@@ -11,4 +11,7 @@ services:
     env_file:
       - .env
       - config/kragen.env
+    volumes:
+      - "./KRAGEN_Dashboard/Frontend:/app"
+    working_dir: /app
     # command: bash -c "npm install && npm start"
