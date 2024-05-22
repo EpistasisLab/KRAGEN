@@ -198,3 +198,4 @@ Alzkb_Q_A_Embedding/test.py
 
 .env_my
 .env_weaviate
+.env_local

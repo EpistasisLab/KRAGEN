@@ -90,6 +90,7 @@ class WeaviateClient:
         return ((self.client.query
             .get(self.db, properties))
             .with_hybrid(query = near_text, vector = near_vector, alpha = 0.25)
+            # .with_hybrid(query = near_text, vector = near_vector, alpha = 0.75)
             # .with_limit(limit)
             # .with_autocut(autocut)
             .with_additional(additional)
