@@ -1,8 +1,8 @@
 services:
   kragen:
     extends:
-      file: docker-compose-kragen.yml
-      service: kragen
+      file: docker-compose-setup.yml
+      service: setup
     depends_on:
       - weaviate
     networks:
