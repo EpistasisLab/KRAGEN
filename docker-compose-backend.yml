@@ -1,8 +1,8 @@
 services:
-  execgpt:
+  backend:
     build:
-      context: ./KRAGEN_Dashboard/Backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/backend/Dockerfile
     # image: moorelab/${IMAGE_NAME}:${TAG}
     image: kragen-server:${TAG}
     container_name: kragen-server
