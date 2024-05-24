@@ -1,8 +1,8 @@
 services:
   kragen:
     extends:
-      file: docker-compose-setup.yml
-      service: setup
+      file: docker-compose-kragen.yml
+      service: kragen
     depends_on:
       - weaviate
     networks:
@@ -15,10 +15,10 @@ services:
     networks:
       - kragen-net
 
-  backend:
+  execgpt:
     extends:
-      file: docker-compose-backend.yml
-      service: backend
+      file: docker-compose-flask.yml
+      service: execgpt
     depends_on:
       - weaviate
     networks:
@@ -29,7 +29,7 @@ services:
       file: docker-compose-gui.yml
       service: gui
     depends_on:
-      - backend
+      - execgpt
     networks:
       - kragen-net
 

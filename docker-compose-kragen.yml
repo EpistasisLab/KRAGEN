@@ -1,0 +1,16 @@
+services:
+  kragen:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        docker_files: 'docker'
+    image: kragen:${TAG}
+    volumes:
+      - "./:/usr/src/app"
+    working_dir: /usr/src/app
+    entrypoint: ["python", "src/kragen.py"]
+    env_file:
+      - .env
+      - config/kragen.env
+    command: test.csv
