@@ -8,9 +8,6 @@ services:
     container_name: kragen-server
     ports:
       - 5050:5050
-    volumes:
-      - ./KRAGEN_Dashboard/Backend:/app
-    working_dir: /app
     # entrypoint: ["python", "src/kragen.py"]
     env_file:
       - .env

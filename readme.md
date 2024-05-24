@@ -38,29 +38,27 @@ If you are not familiar with Docker concepts, see the [Official Docker Getting S
 
 ## Installation
 
-1. **Clone the repository:**  
+1. Clone the repository:  
    `git clone https://github.com/EpistasisLab/KRAGEN.git`
-2. **Change directory into the KRAGEN directory:**  
+2. Change directory into the KRAGEN directory:  
    `cd KRAGEN`
-3. **Copy the .env.sample file:**  
+3. Copy the .env.sample file:  
    `cp .env.sample .env`
-4. **Update the variables in the `.env` file in a text editor:**
+4. Update the variables in the **.env** file in a text editor:
    - **OPENAI_API_KEY**: Set this to your own OpenAI api key, for instructions on
      how to obtain a key, see the [OpenAI documentation](https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key)
    - **WEAVIATE_URL**: Set this to your local IP address and port 8080, for example. http://192.168.1.49:8080
      - **NOTE:** Weaviate can be run locally or hosted on a server. The `docker-compose-weaviate.yml` file is provided for convenience. However, other setups can also work with KRAGEN.
        For complete instructions on how to deploy a Weaviate Vector Database, please see the [Weaviate Documentation](https://weaviate.io/developers/weaviate/installation/docker-compose#starter-docker-compose-file)
-   - **WEAVIATE_API_KEY** (optional): This is required only if the Weaviate Server you are connecting to requires an API Key.
-5. **Configure the KRAGEN GUI:**  
+5. Configure the KRAGEN GUI:  
    `cp KRAGEN_Dashboard/Frontend/.env.sample KRAGEN_Dashboard/Frontend/.env` - **NOTE**: there is no need to update the variables in the **KRAGEN_Dashboard/Frontend/.env** file, KRAGEN will work with the current default values.
-6. **Build the Docker images:**  
+6. Build Docker images  
    `docker compose build` - This command will build all Docker images required to run KRAGEN. - Building these images for the first time may take a few minutes.
-7. **Convert your data and prime the Weaviate Database:**  
+7. Convert your data and prime the Weaviate Database:
 **_(Optional Step)_** If you already have a Weaviate Vector DB with your vectorized data, you may skip to step 8.  
-**⚠️ Some VPN services may block OpenAI API Calls. So, if this step fails, you may want to run it when not connected to a VPN Service.**
-   `docker compose run kragen setup test.csv` - This runs the `setup` command targeting your data (we are using test.csv as an example). This process will go through multiple steps ensuring that your knowledge graph data dump is properly _formatted_, _vectorized_, and _uploaded_ to your local Weaviate server.
+   `docker compose run kragen setup test.csv` - **⚠️ Before running `docker compose run kragen setup test.csv`, if you are using a VPN service, please turn it off, as some VPN services might cause issues with OpenAI API calls.**
+   This runs the `setup` command targeting your data (we are using test.csv as an example). This process will go through multiple steps ensuring that your knowledge graph data dump is properly _formatted_, _vectorized_, and _uploaded_ to your local Weaviate server.
    - Please follow the format of **test.csv** and upload your own dataset. To generate our **test.csv**, we used the publicly accesible knowledge graph AlzKB (https://alzkb.ai/) as our resource. To check out how we generated the CSV using the public knowledge graph, see the Jupyter notebook in [src/extract_data.ipynb](https://github.com/EpistasisLab/KRAGEN/blob/main/src/extract_data.ipynb). - For more details about the conversion process see [conversion.md](https://github.com/EpistasisLab/KRAGEN/blob/main/conversion.md)
-
 8. **Boot up KRAGEN!**  
    `docker compose up gui`
 9. Visit http://localhost:3000 to start using KRAGEN!
@@ -102,7 +100,6 @@ While the KRAGEN **GUI** is running, press `ctrl+c` to stop it and wait for the 
 Then, to stop all running containers, run: `docker compose stop`, or to remove the containers, run: `docker compose down`
 
 ## Reconfiguring the Backend
-
 Once all the **Installation** steps are performed, KRAGEN is fully configured. However, if you update any configuration variables in your `.env` or `config/kragen.env` file, you will need to run a command to update KRAGEN's Backend configuration. Make sure KRAGEN is [stopped](#stopping-kragen) and then run:  
 `docker compose run kragen config_backend`  
 and then boot up KRAGEN:  
