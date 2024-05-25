@@ -6,6 +6,8 @@ import ChatGPTForKRAGENLoc from "./components/ChatGPTForKRAGENLoc";
 // import AlertExplainPurpose from "./components/AlertExplainPurpose";
 // import * as Sentry from "@sentry/react";
 
+import VISPROG from "./components/visProgram/VISPROG";
+
 import ErrorBoundary from "./components/ErrorBoundary";
 
 // Set up global error handler
@@ -34,7 +36,7 @@ function App() {
       }}
     >
       <div className="flex flex-row h-screen overflow-y-hidden">
-        <div className="chartsbaseright"></div>
+        <div className="chartsbaseright bg-gray-950 pt-2 pl-2 pb-0"></div>
         <div
           id="chatgpt-space"
           style={{ width: "100vw", height: "100vh" }}
@@ -43,6 +45,7 @@ function App() {
           {/* <ChatGPTForKRAGENSim experiment={"kragensim"} /> */}
 
           <ChatGPTForKRAGENLoc experiment={"kragenloc"} />
+          <VISPROG />
         </div>
       </div>
     </div>
