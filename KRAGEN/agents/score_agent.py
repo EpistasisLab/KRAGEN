@@ -750,26 +750,6 @@ class DEEscargot(Escargot):
         #remove logger
         self.finalize_logger(log_stream, c_handler, f_handler)
 
-    def generate_plan(self, question, num_strategies=3, debug_level = 0, memory_name = "escargot_memory", max_run_tries = 3):
-        """
-        Generate a plan to answer a question.
-
-        :param question: The question to ask.
-        :type question: str
-        :param num_strategies: The number of strategies to generate. Defaults to 3.
-        :type num_strategies: int
-        :return: The answer to the question.
-        :rtype: str
-        """
-        self.initialize_controller(question, answer_type = 'natural', num_strategies=num_strategies, debug_level = debug_level, memory_name = memory_name, max_run_tries = max_run_tries)
-        # two steps to generate the plan from prompting to assessing
-        self.step()
-        self.step()
-        output = ""
-        if self.controller.final_thought is not None:
-            output = self.controller.final_thought.state['input']
-        return output
-    
     def generate_code_from_plans(self):
         """
         Generate code from plans.

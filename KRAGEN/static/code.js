@@ -52,6 +52,40 @@ elem.innerHTML = `
 `;
 editor.tools.appendChild(elem);
 
+function MultiLineFunc(ctx, text, x, y, maxWidth, maxHeight) {
+    var lines = text.split('\n');
+    var lineHeight = 15;
+    var currentY = y;
+
+    for (var i = 0; i < lines.length; i++) {
+        var words = lines[i].split(' ');
+        var line = '';
+
+        for (var n = 0; n < words.length; n++) {
+            var testLine = line + words[n] + ' ';
+            var metrics = ctx.measureText(testLine);
+            var testWidth = metrics.width;
+            if (testWidth > maxWidth && n > 0) {
+                ctx.fillText(line, x, currentY);
+                line = words[n] + ' ';
+                currentY += lineHeight;
+                if (currentY > y + maxHeight) {
+                    ctx.fillText('...', x, currentY);
+                    return;
+                }
+            } else {
+                line = testLine;
+            }
+        }
+        ctx.fillText(line, x, currentY);
+        currentY += lineHeight;
+        if (currentY > y + maxHeight) {
+            ctx.fillText('...', x, currentY);
+            return;
+        }
+    }
+};
+
 // Function to show feedback message
 function showFeedback(message, isSuccess = true) {
     var feedback = elem.querySelector("#feedback");
@@ -219,8 +253,8 @@ function initializeDefaultGraph() {
 
     // Configure default properties
     node.properties = {
-        prompt: "Enter your prompt here",
-        response: ""
+        input: "Enter your query here",
+        output: ""
     };
 }
 
@@ -231,39 +265,18 @@ window.addEventListener('load', function() {
 
 LiteGraph.clearRegisteredTypes();
 
-// Tests
-// CopyPasteWithConnectionToUnselectedOutputTest();
-// demo();
-
-// Add default demo with KRAGEN Generate Plans node
-/*
-function setupDefaultDemo() {
-    // Create a Generate Plans node
-    var node = LiteGraph.createNode("KRAGEN/Generate_Plans");
-    
-    // Position in center of canvas
-    var canvasWidth = editor.canvas.width / window.devicePixelRatio;
-    var canvasHeight = editor.canvas.height / window.devicePixelRatio;
-    node.pos = [(canvasWidth - node.size[0]) / 2, (canvasHeight - node.size[1]) / 2];
-    
-    // Add to graph
-    graph.add(node);
-}
-*/
-
-// Call setup after all node types are registered
-/*
-setupDefaultDemo();
-*/
-
 /********************* KRAGEN Generate Plans Node******************************/
 
 // GeneratePlansNode
 function GeneratePlansNode() {
-    this.addInput("trigger", LiteGraph.ACTION);
+    //this.addInput("onFinish", LiteGraph.EVENT);
+    //this.addInput("play", LiteGraph.ACTION);
     this.addOutput("plans", "string");
-    this.addProperty("prompt", "Enter your prompt here");
-    this.addProperty("response", "");
+    this.addProperty("input", "Enter your query here");
+    this.addProperty("output", "");
+    this.addProperty("question", "");
+    this.addProperty("filename","");
+    this.addProperty("executed",false);
     this.size = [300, 200];
     this.serialize_widgets = true;
     this.widgets_up = true;
@@ -284,86 +297,58 @@ GeneratePlansNode.prototype.onDrawForeground = function(ctx) {
         var availableHeight = (this.size[1] - headerHeight - padding * 3) / 3;
 
         ctx.fillStyle = "#AAA";
-        ctx.fillText("Prompt:", padding, headerHeight);
+        ctx.fillText("Input:", padding, headerHeight);
         ctx.fillStyle = "#CCC";
-        this.drawMultilineText(ctx, this.properties.prompt, padding, headerHeight + padding, this.size[0] - padding * 2, availableHeight);
+        this.drawMultilineText(ctx, this.properties.input, padding, headerHeight + padding, this.size[0] - padding * 2, availableHeight);
         
         ctx.fillStyle = "#AAA";
-        ctx.fillText("Response:", padding, headerHeight + availableHeight + padding * 2);
+        ctx.fillText("Output:", padding, headerHeight + availableHeight + padding * 2);
         ctx.fillStyle = "#CCC";
-        this.drawMultilineText(ctx, this.properties.response, padding, headerHeight + availableHeight + padding * 3, this.size[0] - padding * 2, availableHeight*2);
+        this.drawMultilineText(ctx, this.properties.output, padding, headerHeight + availableHeight + padding * 3, this.size[0] - padding * 2, availableHeight*2);
         
         ctx.restore();
     }
 };
 
-GeneratePlansNode.prototype.drawMultilineText = function(ctx, text, x, y, maxWidth, maxHeight) {
-    var lines = text.split('\n');
-    var lineHeight = 15;
-    var currentY = y;
-
-    for (var i = 0; i < lines.length; i++) {
-        var words = lines[i].split(' ');
-        var line = '';
-
-        for (var n = 0; n < words.length; n++) {
-            var testLine = line + words[n] + ' ';
-            var metrics = ctx.measureText(testLine);
-            var testWidth = metrics.width;
-            if (testWidth > maxWidth && n > 0) {
-                ctx.fillText(line, x, currentY);
-                line = words[n] + ' ';
-                currentY += lineHeight;
-                if (currentY > y + maxHeight) {
-                    ctx.fillText('...', x, currentY);
-                    return;
-                }
-            } else {
-                line = testLine;
-            }
-        }
-        ctx.fillText(line, x, currentY);
-        currentY += lineHeight;
-        if (currentY > y + maxHeight) {
-            ctx.fillText('...', x, currentY);
-            return;
-        }
-    }
-};
+GeneratePlansNode.prototype.drawMultilineText = MultiLineFunc;
 
 GeneratePlansNode.prototype.onExecute = function() {
     var that = this;
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", this.start_endpoint, true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            that.setOutputData(0, response.thoughts);
+    if(!that.properties.executed){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.start_endpoint, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                that.setOutputData(0, response.thoughts);
 
-            // Create a new GenerateCodeFromPlansNode
-            var graph = that.graph;
-            var newNode = LiteGraph.createNode("KRAGEN/Generate_Code_From_Plans");
-            console.log(newNode);
-            newNode.pos = [that.pos[0] + 500, that.pos[1]]; // Position to the right of the current node
-            graph.add(newNode);
-            
-            // Connect the output of GeneratePlansNode to the input of GenerateCodeFromPlansNode
-            that.connect(0, newNode.id, 0);
+                // Create a new GenerateCodeFromPlansNode
+                var graph = that.graph;
+                var newNode = LiteGraph.createNode("KRAGEN/Generate_Code");
+                newNode.pos = [that.pos[0] + 500, that.pos[1]]; // Position to the right of the current node
+                graph.add(newNode);
+                
+                // Connect the output of GeneratePlansNode to the input of GenerateCodeFromPlansNode
+                that.connect(0, newNode.id, 0);
 
-            //
+                // Update the response property
+                that.properties.output = response.thoughts;
+                that.properties.executed = true;
+                newNode.properties.input = response.thoughts;
+                that.properties.question = that.properties.input;
+                newNode.properties.question = that.properties.question;
+                newNode.properties.filename = response.filename;
 
-            // Update the response property
-            that.properties.response = response.thoughts;
+                // Draw the updated response in the node
+                that.graphcanvas.draw(true);
 
-            // Draw the updated response in the node
-            that.graphcanvas.draw(true);
-
-            // Show the response in the console
-            console.log(response);
-        }
-    };
-    xhr.send(JSON.stringify({ input: this.properties.prompt }));
+                // Show the response in the console
+                console.log(response);
+            }
+        };
+        xhr.send(JSON.stringify({ input: this.properties.input }));
+    }
 };
 
 GeneratePlansNode.prototype.showDialog = function(graphcanvas) {
@@ -373,13 +358,13 @@ GeneratePlansNode.prototype.showDialog = function(graphcanvas) {
     dialog.innerHTML = `
         <div style="display: flex; height: calc(100% - 40px);">
             <div style="flex: 1; padding-right: 10px;">
-                <label for="node-prompt-text">Prompt:</label>
-                <textarea id="node-prompt-text" rows="30" cols="20" style="width:100%; height: calc(100% - 30px);">${that.properties.prompt}</textarea>
+                <label for="node-prompt-text">Input:</label>
+                <textarea id="node-prompt-text" rows="30" cols="20" style="width:100%; height: calc(100% - 30px);">${that.properties.input}</textarea>
             </div>
             <div style="width: 1px; background-color: #666;"></div>
             <div style="flex: 1; padding-left: 10px;">
-                <label for="node-response-text">Response:</label>
-                <textarea id="node-response-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.response}</textarea>
+                <label for="node-response-text">Output:</label>
+                <textarea id="node-response-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.output}</textarea>
             </div>
         </div>
         <div style="text-align:center; margin-top:10px;">
@@ -410,8 +395,8 @@ GeneratePlansNode.prototype.showDialog = function(graphcanvas) {
     var cancel = dialog.querySelector("#node-dialog-cancel");
 
     submit.addEventListener("click", function() {
-        that.properties.prompt = promptTextarea.value;
-        that.properties.response = responseTextarea.value;
+        that.properties.input = promptTextarea.value;
+        that.properties.output = responseTextarea.value;
         root.removeChild(dialog);
     });
 
@@ -430,7 +415,7 @@ GeneratePlansNode.prototype.getExtraMenuOptions = function(graphcanvas) {
     var that = this;
     return [
         {
-            content: "Edit Prompt and Response",
+            content: "Edit Input/Output",
             callback: function() {
                 that.showDialog(graphcanvas);
             }
@@ -441,23 +426,25 @@ GeneratePlansNode.prototype.getExtraMenuOptions = function(graphcanvas) {
 // Define how the properties should be shown in the inspector
 GeneratePlansNode.prototype.onInspect = function(inspector) {
     var that = this;
-    inspector.addTextarea("prompt", this.properties.prompt, { callback: function(v) { that.properties.prompt = v; } });
-    inspector.addTextarea("response", this.properties.response, { callback: function(v) { that.properties.response = v; } });
+    inspector.addTextarea("input", this.properties.input, { callback: function(v) { that.properties.input = v; } });
+    inspector.addTextarea("output", this.properties.output, { callback: function(v) { that.properties.output = v; } });
 };
 
 LiteGraph.registerNodeType("KRAGEN/Generate_Plans", GeneratePlansNode);
 
-/********************* Python Prompt Node******************************/
+/********************* LLM Prompt Node******************************/
 
 function LLMPromptNode() {
     this.addInput("trigger", LiteGraph.ACTION);
     this.addOutput("result", "string");
-    this.addProperty("prompt", "Enter your prompt here");
-    this.addProperty("response", "");
+    this.addProperty("input", "Enter your prompt here");
+    this.addProperty("output", "");
+    this.addProperty("executed",false);
     this.size = [300, 200];
     this.serialize_widgets = true;
     this.widgets_up = true;
     this.resizable = true;
+    this.start_endpoint = "/llm_chat"
 }
 
 LLMPromptNode.title = "LLM Prompt";
@@ -475,53 +462,40 @@ LLMPromptNode.prototype.onDrawForeground = function(ctx) {
         ctx.fillStyle = "#AAA";
         ctx.fillText("Prompt:", padding, headerHeight);
         ctx.fillStyle = "#CCC";
-        this.drawMultilineText(ctx, this.properties.prompt, padding, headerHeight + padding, this.size[0] - padding * 2, availableHeight);
+        this.drawMultilineText(ctx, this.properties.input, padding, headerHeight + padding, this.size[0] - padding * 2, availableHeight);
         
         ctx.fillStyle = "#AAA";
         ctx.fillText("Response:", padding, headerHeight + availableHeight + padding * 2);
         ctx.fillStyle = "#CCC";
-        this.drawMultilineText(ctx, this.properties.response, padding, headerHeight + availableHeight + padding * 3, this.size[0] - padding * 2, availableHeight);
+        this.drawMultilineText(ctx, this.properties.output, padding, headerHeight + availableHeight + padding * 3, this.size[0] - padding * 2, availableHeight);
         
         ctx.restore();
     }
 };
 
-LLMPromptNode.prototype.drawMultilineText = function(ctx, text, x, y, maxWidth, maxHeight) {
-    var lines = text.split('\n');
-    var lineHeight = 15;
-    var currentY = y;
-
-    for (var i = 0; i < lines.length; i++) {
-        var words = lines[i].split(' ');
-        var line = '';
-
-        for (var n = 0; n < words.length; n++) {
-            var testLine = line + words[n] + ' ';
-            var metrics = ctx.measureText(testLine);
-            var testWidth = metrics.width;
-            if (testWidth > maxWidth && n > 0) {
-                ctx.fillText(line, x, currentY);
-                line = words[n] + ' ';
-                currentY += lineHeight;
-                if (currentY > y + maxHeight) {
-                    ctx.fillText('...', x, currentY);
-                    return;
-                }
-            } else {
-                line = testLine;
-            }
-        }
-        ctx.fillText(line, x, currentY);
-        currentY += lineHeight;
-        if (currentY > y + maxHeight) {
-            ctx.fillText('...', x, currentY);
-            return;
-        }
-    }
-};
+LLMPromptNode.prototype.drawMultilineText =  MultiLineFunc;
 
 LLMPromptNode.prototype.onExecute = function() {
-    // This will be handled by the Python backend
+    var that = this;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", this.start_endpoint, true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            that.setOutputData(0, response.thoughts);
+
+            // Update the response property
+            that.properties.output = response.thoughts;
+            // Draw the updated response in the node
+            that.graphcanvas.draw(true);
+
+            // Show the response in the console
+            console.log(response);
+            that.properties.executed = true;
+        }
+    };
+    xhr.send(JSON.stringify({ input: this.properties.input }));
 };
 
 LLMPromptNode.prototype.showDialog = function(graphcanvas) {
@@ -532,12 +506,12 @@ LLMPromptNode.prototype.showDialog = function(graphcanvas) {
         <div style="display: flex; height: calc(100% - 40px);">
             <div style="flex: 1; padding-right: 10px;">
                 <label for="node-prompt-text">Prompt:</label>
-                <textarea id="node-prompt-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.prompt}</textarea>
+                <textarea id="node-prompt-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.input}</textarea>
             </div>
             <div style="width: 1px; background-color: #666;"></div>
             <div style="flex: 1; padding-left: 10px;">
                 <label for="node-response-text">Response:</label>
-                <textarea id="node-response-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.response}</textarea>
+                <textarea id="node-response-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.output}</textarea>
             </div>
         </div>
         <div style="text-align:center; margin-top:10px;">
@@ -568,8 +542,8 @@ LLMPromptNode.prototype.showDialog = function(graphcanvas) {
     var cancel = dialog.querySelector("#node-dialog-cancel");
 
     submit.addEventListener("click", function() {
-        that.properties.prompt = promptTextarea.value;
-        that.properties.response = responseTextarea.value;
+        that.properties.input = promptTextarea.value;
+        that.properties.output = responseTextarea.value;
         root.removeChild(dialog);
     });
 
@@ -599,26 +573,30 @@ LLMPromptNode.prototype.getExtraMenuOptions = function(graphcanvas) {
 // Define how the properties should be shown in the inspector
 LLMPromptNode.prototype.onInspect = function(inspector) {
     var that = this;
-    inspector.addTextarea("prompt", this.properties.prompt, { callback: function(v) { that.properties.prompt = v; } });
-    inspector.addTextarea("response", this.properties.response, { callback: function(v) { that.properties.response = v; } });
+    inspector.addTextarea("prompt", this.properties.input, { callback: function(v) { that.properties.input = v; } });
+    inspector.addTextarea("response", this.properties.output, { callback: function(v) { that.properties.output = v; } });
 };
 
 LiteGraph.registerNodeType("KRAGEN/llmprompt", LLMPromptNode);
 
-/********************* Python Code Node******************************/
+/********************* Full Python Code Node******************************/
 
-function PythonCodeNode() {
-    this.addInput("input", "string");
-    this.addOutput("output", "string");
-    this.addProperty("code", "# Enter your Python code here");
+function FullPythonCodeNode() {
+    this.addInput("code", "string");
+    this.addOutput("GraphOfThoughts", "string");
+    this.addProperty("executed",false);
     this.addWidget("textarea", "Code", this.properties.code, "code", { rows:10, cols:40 });
     this.size = [400, 200]; // Increase the size of the node
+    this.serialize_widgets = true;
+    this.widgets_up = true;
+    this.resizable = true;
+    this.start_endpoint = "/python_got"
 }
 
-PythonCodeNode.title = "Python Code";
-PythonCodeNode.desc = "Execute Python code";
+FullPythonCodeNode.title = "Full Python Code";
+FullPythonCodeNode.desc = "Full Python code";
 
-PythonCodeNode.prototype.onDrawForeground = function(ctx) {
+FullPythonCodeNode.prototype.onDrawForeground = function(ctx) {
     if (!this.flags.collapsed) {
         ctx.save();
         ctx.font = "12px Arial";
@@ -633,19 +611,116 @@ PythonCodeNode.prototype.onDrawForeground = function(ctx) {
     }
 };
 
-PythonCodeNode.prototype.onExecute = function() {
-    // This will be handled by the Python backend
+FullPythonCodeNode.prototype.onExecute = function() {
+    var that = this;
+    if(!that.properties.executed){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.start_endpoint, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                that.setOutputData(0, response.instructions);
+                that.properties.GraphOfThoughts = response.instructions;
+                // Create a new GenerateCodeFromPlansNode
+                var graph = that.graph;
+
+                console.log(response.instructions)
+
+                for(var i = 0; i < response.instructions.length; i++){
+                    console.log(response.instructions[i])
+                    var newNode = LiteGraph.createNode("KRAGEN/pythonsnippet");
+                    newNode.pos = [that.pos[0] + 500, that.pos[1] - 250 + i*500]; // Position to the right of the current node
+                    graph.add(newNode);
+                    
+                    // Connect the output of GeneratePlansNode to the input of GenerateCodeFromPlansNode
+                    that.connect(0, newNode.id, 0);
+
+                    // Update the response property
+                    newNode.properties.code = response.instructions[i]['Code'][0];
+                    newNode.properties.question = that.properties.question;
+                    newNode.properties.filename = response.filename;
+                    newNode.properties.stepID = response.instructions[i]['StepID'];
+                    newNode.properties.instruction = response.instructions[i]['instruction'];
+
+                }
+
+                // Draw the updated response in the node
+                that.graphcanvas.draw(true);
+            }
+        };
+        xhr.send(JSON.stringify({ input: this.properties.code , question: this.properties.question, filename: this.properties.filename}));
+    }
 };
 
-LiteGraph.registerNodeType("KRAGEN/pythoncode", PythonCodeNode);
+LiteGraph.registerNodeType("KRAGEN/fullpythoncode", FullPythonCodeNode);
+
+
+/********************* Python Snippet Node******************************/
+
+function PythonSnippetNode() {
+    this.addInput("code", "string");
+    this.addProperty("stepID", "string");
+    this.addProperty("instruction", "string");
+    this.addProperty("question", "string");
+    this.addOutput("output", "string");
+    this.addProperty("executed",false);
+    this.addWidget("textarea", "Code", this.properties.code, "code", { rows:10, cols:40 });
+    this.size = [400, 200]; // Increase the size of the node
+    this.serialize_widgets = true;
+    this.widgets_up = true;
+    this.resizable = true;
+    this.start_endpoint = "/"
+}
+
+PythonSnippetNode.title = "Python Snippet";
+PythonSnippetNode.desc = "Python snippet running within graph of thoughts";
+
+PythonSnippetNode.prototype.onDrawForeground = function(ctx) {
+    if (!this.flags.collapsed) {
+        ctx.save();
+        ctx.font = "12px Arial";
+        ctx.fillStyle = "#AAA";
+        ctx.fillText("Code:", 10, 30);
+        ctx.fillStyle = "#CCC";
+        var lines = this.properties.code.split('\n');
+        for (var i = 0; i < lines.length; i++) {
+            ctx.fillText(lines[i], 10, 50 + i * 20, this.size[0] - 20);
+        }
+        ctx.restore();
+    }
+};
+
+PythonSnippetNode.prototype.onExecute = function() {
+    var that = this;
+    if(!that.properties.executed){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.start_endpoint, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                that.setOutputData(0, response.thoughts);
+                
+            }
+        };
+        xhr.send(JSON.stringify({ input: this.properties.code , question: this.properties.question, filename: this.properties.filename}));
+    }
+};
+
+LiteGraph.registerNodeType("KRAGEN/pythonsnippet", PythonSnippetNode);
+
 
 /********************* Code From Plans Node******************************/
 
 function GenerateCodeFromPlansNode() {
-    this.addInput("plans", "string");
-    this.addOutput("code", "string");
-    this.addProperty("prompt", "Enter your prompt here");
-    this.addProperty("response", "");
+    this.addInput("input", "string");
+    this.addOutput("output", "string");
+    this.addProperty("input", "Enter your plan here");
+    this.addProperty("output", "");
+    this.addProperty("question", "");
+    this.addProperty("filename", "")
+    this.addProperty("executed",false);
     this.size = [300, 200];
     this.serialize_widgets = true;
     this.widgets_up = true;
@@ -653,7 +728,7 @@ function GenerateCodeFromPlansNode() {
     this.start_endpoint = "/generate_code_from_plans";
 }
 
-GenerateCodeFromPlansNode.title = "Generate Code From Plans";
+GenerateCodeFromPlansNode.title = "Generate Code";
 GenerateCodeFromPlansNode.desc = "Generate code based on the input plans";
 
 GenerateCodeFromPlansNode.prototype.onDrawForeground = function(ctx) {
@@ -666,74 +741,58 @@ GenerateCodeFromPlansNode.prototype.onDrawForeground = function(ctx) {
         var availableHeight = (this.size[1] - headerHeight - padding * 3) / 2;
 
         ctx.fillStyle = "#AAA";
-        ctx.fillText("Prompt:", padding, headerHeight);
+        ctx.fillText("Input:", padding, headerHeight);
         ctx.fillStyle = "#CCC";
-        this.drawMultilineText(ctx, this.properties.prompt, padding, headerHeight + padding, this.size[0] - padding * 2, availableHeight);
+        this.drawMultilineText(ctx, this.properties.input, padding, headerHeight + padding, this.size[0] - padding * 2, availableHeight);
         
         ctx.fillStyle = "#AAA";
-        ctx.fillText("Response:", padding, headerHeight + availableHeight + padding * 2);
+        ctx.fillText("Output:", padding, headerHeight + availableHeight + padding * 2);
         ctx.fillStyle = "#CCC";
-        this.drawMultilineText(ctx, this.properties.response, padding, headerHeight + availableHeight + padding * 3, this.size[0] - padding * 2, availableHeight);
+        this.drawMultilineText(ctx, this.properties.output, padding, headerHeight + availableHeight + padding * 3, this.size[0] - padding * 2, availableHeight);
         
         ctx.restore();
     }
 };
 
-GenerateCodeFromPlansNode.prototype.drawMultilineText = function(ctx, text, x, y, maxWidth, maxHeight) {
-    var lines = text.split('\n');
-    var lineHeight = 15;
-    var currentY = y;
-
-    for (var i = 0; i < lines.length; i++) {
-        var words = lines[i].split(' ');
-        var line = '';
-
-        for (var n = 0; n < words.length; n++) {
-            var testLine = line + words[n] + ' ';
-            var metrics = ctx.measureText(testLine);
-            var testWidth = metrics.width;
-            if (testWidth > maxWidth && n > 0) {
-                ctx.fillText(line, x, currentY);
-                line = words[n] + ' ';
-                currentY += lineHeight;
-                if (currentY > y + maxHeight) {
-                    ctx.fillText('...', x, currentY);
-                    return;
-                }
-            } else {
-                line = testLine;
-            }
-        }
-        ctx.fillText(line, x, currentY);
-        currentY += lineHeight;
-        if (currentY > y + maxHeight) {
-            ctx.fillText('...', x, currentY);
-            return;
-        }
-    }
-};
+GenerateCodeFromPlansNode.prototype.drawMultilineText =  MultiLineFunc;
 
 GenerateCodeFromPlansNode.prototype.onExecute = function() {
     var that = this;
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", this.start_endpoint, true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            that.setOutputData(0, response.code);
+    if(!that.properties.executed){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.start_endpoint, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                that.setOutputData(0, response.thoughts);
 
-            // Update the response property
-            that.properties.response = response.code;
+                // Create a new GenerateCodeFromPlansNode
+                var graph = that.graph;
+                var newNode = LiteGraph.createNode("KRAGEN/fullpythoncode");
+                newNode.pos = [that.pos[0] + 500, that.pos[1]]; // Position to the right of the current node
+                graph.add(newNode);
+                
+                // Connect the output of GeneratePlansNode to the input of GenerateCodeFromPlansNode
+                that.connect(0, newNode.id, 0);
 
-            // Draw the updated response in the node
-            that.graphcanvas.draw(true);
+                // Update the response property
+                that.properties.output = response.thoughts;
+                that.properties.executed = true;
+                newNode.properties.code = response.thoughts;
+                newNode.properties.question = that.properties.question;
+                newNode.properties.filename = response.filename;
 
-            // Show the response in the console
-            console.log(response);
-        }
-    };
-    xhr.send(JSON.stringify({ input: this.getInputData(0) }));
+                // Draw the updated response in the node
+                that.graphcanvas.draw(true);
+
+                // Show the response in the console
+                console.log(response);
+            }
+        };
+        xhr.send(JSON.stringify({ input: this.properties.input , question: this.properties.question, filename: this.properties.filename}));
+    }
+    
 };
 
 GenerateCodeFromPlansNode.prototype.showDialog = function(graphcanvas) {
@@ -743,13 +802,13 @@ GenerateCodeFromPlansNode.prototype.showDialog = function(graphcanvas) {
     dialog.innerHTML = `
         <div style="display: flex; height: calc(100% - 40px);">
             <div style="flex: 1; padding-right: 10px;">
-                <label for="node-prompt-text">Prompt:</label>
-                <textarea id="node-prompt-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.prompt}</textarea>
+                <label for="node-prompt-text">Input:</label>
+                <textarea id="node-prompt-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.input}</textarea>
             </div>
             <div style="width: 1px; background-color: #666;"></div>
             <div style="flex: 1; padding-left: 10px;">
-                <label for="node-response-text">Response:</label>
-                <textarea id="node-response-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.response}</textarea>
+                <label for="node-response-text">Output:</label>
+                <textarea id="node-response-text" rows="30" cols="40" style="width:100%; height: calc(100% - 30px);">${that.properties.output}</textarea>
             </div>
         </div>
         <div style="text-align:center; margin-top:10px;">
@@ -780,8 +839,8 @@ GenerateCodeFromPlansNode.prototype.showDialog = function(graphcanvas) {
     var cancel = dialog.querySelector("#node-dialog-cancel");
 
     submit.addEventListener("click", function() {
-        that.properties.prompt = promptTextarea.value;
-        that.properties.response = responseTextarea.value;
+        that.properties.input = promptTextarea.value;
+        that.properties.output = responseTextarea.value;
         root.removeChild(dialog);
     });
 
@@ -800,7 +859,7 @@ GenerateCodeFromPlansNode.prototype.getExtraMenuOptions = function(graphcanvas) 
     var that = this;
     return [
         {
-            content: "Edit Prompt and Response",
+            content: "Edit Input/Output",
             callback: function() {
                 that.showDialog(graphcanvas);
             }
@@ -811,8 +870,8 @@ GenerateCodeFromPlansNode.prototype.getExtraMenuOptions = function(graphcanvas) 
 // Define how the properties should be shown in the inspector
 GenerateCodeFromPlansNode.prototype.onInspect = function(inspector) {
     var that = this;
-    inspector.addTextarea("prompt", this.properties.prompt, { callback: function(v) { that.properties.prompt = v; } });
-    inspector.addTextarea("response", this.properties.response, { callback: function(v) { that.properties.response = v; } });
+    inspector.addTextarea("input", this.properties.input, { callback: function(v) { that.properties.input = v; } });
+    inspector.addTextarea("output", this.properties.output, { callback: function(v) { that.properties.output = v; } });
 };
 
-LiteGraph.registerNodeType("KRAGEN/Generate_Code_From_Plans", GenerateCodeFromPlansNode);
+LiteGraph.registerNodeType("KRAGEN/Generate_Code", GenerateCodeFromPlansNode);
