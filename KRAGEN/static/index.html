@@ -7,6 +7,25 @@
     
 </head>
 <body>
+	<div id="chat-panel">
+        <!-- Chat header will be added by JavaScript -->
+        <div class="chat-messages" id="chat-messages">
+            <div class="system-message">
+                Welcome to KRAGEN! Type a message and press send to start a new conversation.
+            </div>
+            <div class="system-message">
+                Ask me anything about biomedical knowledge, drug interactions, genetic data, or any other related topics.
+            </div>
+        </div>
+        <div id="chat-debug" style="padding: 3px; font-size: 10px; color: #999; text-align: center; display: none;">
+            Chat ID: <span id="current-chat-id">none</span>
+        </div>
+        <div class="chat-input-container">
+            <textarea id="chat-input" placeholder="Type your message here..."></textarea>
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    <div id="resize-handle"></div>
 	<div id="main">
 	</div>
     <script type="text/javascript" src="/static/jquery-1.6.2.min.js"></script>
@@ -15,6 +34,7 @@
     <!-- <script type="text/javascript" src="static/defaults.js"></script> -->
     <!-- <script type="text/javascript" src="/static/demos.js"></script> -->
 	<script type="text/javascript" src="/static/code.js"></script>
+    <script type="text/javascript" src="/static/chatpanel.js"></script>
     <!-- <script type="text/javascript" src="/static/escargot.js"></script> -->
 </body>
 </html>
