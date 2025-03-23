@@ -138,8 +138,6 @@ def generate_code_from_plans():
     de_escargot.initialize_controller(question,  debug_level = 1, max_run_tries = 1)
     if filename != '':
         de_escargot.load_controller(filename)
-    else:
-        return None
     thoughts = de_escargot.generate_code_from_plans()
     new_filename = 'temp/'+str(time.time())+'.pkl'
     de_escargot.save_controller(new_filename)
@@ -160,31 +158,44 @@ def python_got():
     filename = request.json.get('filename', '')
     chat_id = request.json.get('chat_id', None)
     
-    de_escargot.initialize_controller(question,  debug_level = 1, max_run_tries = 1)
-    if filename != '':
-        de_escargot.load_controller(filename)
-    else:
-        return None
-    de_escargot.step()
-    de_escargot.step()
-    de_escargot.step()
-    instructions = de_escargot.controller.final_thought.state['instructions']
-    print(instructions)
-    new_filename = 'temp/'+str(time.time())+'.pkl'
+    try:
+        de_escargot.initialize_controller(question,  debug_level = 1, max_run_tries = 3)
+        if filename != '':
+            de_escargot.load_controller(filename)
+        de_escargot.step()
+        de_escargot.step()
+        de_escargot.step()
+        instructions = de_escargot.controller.final_thought.state['instructions']
+        print(instructions)
+        
+        # Extract edge list if it exists in the controller's state. edge_list looks like ['1-2', '2-3', '3-4', '4-5']
+        edge_list = []
+        if hasattr(de_escargot.controller.final_thought, 'state') and 'original_edges' in de_escargot.controller.final_thought.state:
+            edge_list = de_escargot.controller.final_thought.state['original_edges']
+        
+        new_filename = 'temp/'+str(time.time())+'.pkl'
 
-    de_escargot.controller.execution_queue = None
-    de_escargot.controller.got_steps = None
-    de_escargot.controller.graph = None
-    de_escargot.save_controller(new_filename)
+        de_escargot.controller.execution_queue = None
+        de_escargot.controller.got_steps = None
+        de_escargot.controller.graph = None
+        de_escargot.save_controller(new_filename)
+        
+        # Update controller file in database if chat_id is provided
+        if chat_id:
+            update_controller_file(chat_id, new_filename)
+        
+        return jsonify({
+            'instructions': instructions,
+            'edgeList': edge_list,
+            'filename': new_filename
+        })
+    except Exception as e:
+        print(e)
+        return jsonify({
+            'error': str(e),
+            'message': 'An error occurred while processing the request'
+        }), 500
     
-    # Update controller file in database
-    if chat_id:
-        update_controller_file(chat_id, new_filename)
-    
-    return jsonify({
-        'instructions': instructions,
-        'filename': new_filename
-    })
 
 # Chat history functions
 def save_message(chat_id, message, msg_type):
@@ -372,6 +383,69 @@ def save_message_endpoint():
     return jsonify({
         'success': True
     })
+
+@app.route('/execute_python_step', methods=['POST'])
+def execute_python_step():
+    input_data = request.json.get('code', '')
+    question = request.json.get('question', '')
+    filename = request.json.get('filename', '')
+    step_id = request.json.get('step_id', '')
+    chat_id = request.json.get('chat_id', None)
+    
+    try:
+        # Initialize controller first
+        de_escargot.initialize_controller(question, debug_level=1, max_run_tries=3)
+        
+        # Load controller if filename provided
+        if filename:
+            de_escargot.load_controller(filename)
+        
+        # We need to directly execute the code using the coder
+        # rather than using step() which requires a specific control flow
+        code, compiled = de_escargot.controller.coder.execute_code(
+            input_data,
+            question,
+            step_id,
+            de_escargot.controller.prompter,
+            de_escargot.controller.logger
+        )
+        
+        # Save controller state after execution
+        new_filename = 'temp/'+str(time.time())+'.pkl'
+        de_escargot.save_controller(new_filename)
+        
+        # Update controller file in database if chat_id is provided
+        if chat_id:
+            update_controller_file(chat_id, new_filename)
+        
+        # Get the local context for this step
+        local_context = {}
+        if step_id in de_escargot.controller.coder.local_context_by_step:
+            local_context = de_escargot.controller.coder.local_context_by_step[step_id]
+        else:
+            # If step_id not in local_context_by_step, use the current local context
+            local_context = de_escargot.controller.coder.local_context
+        
+        # Get step output
+        step_output = {}
+        if step_id in de_escargot.controller.coder.step_output:
+            step_output = de_escargot.controller.coder.step_output[step_id]
+        
+        return jsonify({
+            'success': compiled,
+            'code': code,
+            'local_context': str(local_context),
+            'step_output': str(step_output),
+            'filename': new_filename,
+            'next_step_id': str(int(step_id) + 1) if step_id.isdigit() else ""
+        })
+    except Exception as e:
+        print(e)
+        return jsonify({
+            'error': str(e),
+            'success': False,
+            'message': 'An error occurred while executing the Python code'
+        }), 500
 
 @app.route('/')
 def index():

@@ -651,9 +651,10 @@ function FullPythonCodeNode() {
     
     // Node-specific properties
     this.addWidget("textarea", "Code", this.properties.code, "code", { rows:10, cols:40 });
+    this.addProperty("edgeList", []); // Store the edge list
     
     // Increase size for code display
-    this.size = [400, 200];
+    this.size = [400, 240];
     
     // Node-specific endpoint
     this.start_endpoint = "/python_got";
@@ -671,13 +672,50 @@ FullPythonCodeNode.prototype.onDrawForeground = function(ctx) {
     if (!this.flags.collapsed) {
         ctx.save();
         ctx.font = "12px Arial";
+        
+        // Draw execution status
+        if (this.properties.executed) {
+            ctx.fillStyle = "#8F8";
+            ctx.fillText("✓ Executed", this.size[0] - 80, 20);
+        } else if (this.properties.error) {
+            ctx.fillStyle = "#F88";
+            ctx.fillText("✗ Error", this.size[0] - 80, 20);
+        } else if (this.mode === 1) {
+            ctx.fillStyle = "#FF8";
+            ctx.fillText("⟳ Processing", this.size[0] - 100, 20);
+        }
+        
+        // Draw code area
         ctx.fillStyle = "#AAA";
         ctx.fillText("Code:", 10, 30);
         ctx.fillStyle = "#CCC";
-        var lines = this.properties.code ? this.properties.code.split('\n') : [];
-        for (var i = 0; i < lines.length; i++) {
-            ctx.fillText(lines[i], 10, 50 + i * 20, this.size[0] - 20);
+        
+        // Use the drawMultilineText function from the base class
+        this.drawMultilineText(ctx, this.properties.code, 10, 50, this.size[0] - 20, this.size[1] - 110);
+        
+        // Draw edge list if available with detailed explanation
+        if (this.properties.edgeList && this.properties.edgeList.length > 0) {
+            ctx.fillStyle = "#AAA";
+            ctx.fillText("EdgeList:", 10, this.size[1] - 60);
+            ctx.fillStyle = "#9CF"; // Highlight edge list in blue
+            
+            var edgeText = this.properties.edgeList.join(", ");
+            ctx.fillText(edgeText, 80, this.size[1] - 60, this.size[0] - 90);
+            
+            // Add a visual explanation of the connections
+            ctx.fillStyle = "#CCC";
+            var connExplanation = "";
+            for (var i = 0; i < this.properties.edgeList.length; i++) {
+                var edge = this.properties.edgeList[i];
+                var parts = edge.split("-");
+                if (parts.length === 2) {
+                    if (connExplanation) connExplanation += ", ";
+                    connExplanation += "node " + parts[0] + " → node " + parts[1];
+                }
+            }
+            ctx.fillText("Connections: " + connExplanation, 10, this.size[1] - 40, this.size[0] - 20);
         }
+        
         ctx.restore();
     }
 };
@@ -686,7 +724,9 @@ FullPythonCodeNode.prototype.onExecute = function() {
     var that = this;
     if(!that.properties.executed){
         // Set as processing
-        that.properties.executed = true;
+        that.properties.executed = false; // Reset execution state
+        that.mode = 1; // Set to processing mode
+        that.graph.setDirtyCanvas(true, true);
         
         // Get input value; if not available, use the property value
         var input_value = this.getInputData(0);
@@ -713,30 +753,185 @@ FullPythonCodeNode.prototype.onExecute = function() {
                 that.setOutputData(0, response.instructions);
                 that.properties.GraphOfThoughts = response.instructions;
                 
+                // Store the edge list
+                if (response.edgeList && response.edgeList.length > 0) {
+                    that.properties.edgeList = response.edgeList;
+                    console.log("EdgeList received:", response.edgeList);
+                }
+                
+                // Set as executed and update node appearance
+                that.properties.executed = true;
+                that.mode = 2; // Executed mode
+                that.graph.setDirtyCanvas(true, true);
+                
                 // Create PythonSnippet nodes
                 var graph = that.graph;
 
                 console.log(response.instructions);
                 window.addMessage("Generated code execution plan with " + response.instructions.length + " steps.", 'assistant');
+                if (response.edgeList && response.edgeList.length > 0) {
+                    window.addMessage("EdgeList detected: " + response.edgeList.join(", "), 'assistant');
+                }
 
                 var createdNodes = [];
+                var nodeMap = {}; // Map step IDs to nodes
+                
+                // First pass: create all nodes
                 for(var i = 0; i < response.instructions.length; i++){
                     console.log(response.instructions[i]);
                     var newNode = LiteGraph.createNode("KRAGEN/pythonsnippet");
-                    newNode.pos = [that.pos[0] + 500, that.pos[1] - 250 + i*500]; // Position to the right of the current node
+                    
+                    // Position nodes in a grid layout rather than just vertically
+                    // This works better for complex edge graphs
+                    var rowSize = 2; // 2 nodes per row
+                    var row = Math.floor(i / rowSize);
+                    var col = i % rowSize;
+                    var xOffset = col * 450;
+                    var yOffset = row * 350;
+                    
+                    newNode.pos = [that.pos[0] + 500 + xOffset, that.pos[1] - 200 + yOffset]; 
                     graph.add(newNode);
                     
-                    // Connect the output of FullPythonCodeNode to the input of PythonSnippetNode
-                    that.connect(0, newNode.id, 0);
-
-                    // Update the node properties
+                    // Configure the node
                     newNode.properties.code = response.instructions[i]['Code'][0];
                     newNode.properties.question = that.properties.question;
                     newNode.properties.filename = response.filename;
-                    newNode.properties.stepID = response.instructions[i]['StepID'];
+                    newNode.properties.stepID = (i+1).toString(); // Ensure step IDs are strings and sequential
                     newNode.properties.instruction = response.instructions[i]['instruction'];
                     
+                    // Store node in our maps
                     createdNodes.push(newNode);
+                    nodeMap[newNode.properties.stepID] = newNode;
+                }
+                
+                // Second pass: connect nodes based on edge list if available
+                if (response.edgeList && response.edgeList.length > 0) {
+                    console.log("Using EdgeList for connections:", response.edgeList);
+                    window.addMessage("Using custom edge connections for the workflow", 'assistant');
+                    
+                    // Connect this node to the first node(s) with no incoming edges
+                    // Find nodes that are never on the receiving end of an edge
+                    var sourceNodes = new Set();
+                    var targetNodes = new Set();
+                    var allEdgeNodes = new Set(); // Track all nodes mentioned in edges
+                    
+                    // Collect all source and target nodes
+                    for (var i = 0; i < response.edgeList.length; i++) {
+                        var edge = response.edgeList[i];
+                        var parts = edge.split("-");
+                        if (parts.length === 2) {
+                            var fromNodeId = parts[0];
+                            var toNodeId = parts[1];
+                            sourceNodes.add(fromNodeId);
+                            targetNodes.add(toNodeId);
+                            allEdgeNodes.add(fromNodeId);
+                            allEdgeNodes.add(toNodeId);
+                        }
+                    }
+                    
+                    // Find starting nodes (nodes that are sources but not targets)
+                    var startingNodes = [];
+                    for (var nodeId of sourceNodes) {
+                        if (!targetNodes.has(nodeId)) {
+                            startingNodes.push(nodeId);
+                        }
+                    }
+                    
+                    // If no starting nodes found (might be a cycle), use the first node
+                    if (startingNodes.length === 0 && createdNodes.length > 0) {
+                        startingNodes.push("1");
+                    }
+                    
+                    // Find nodes not mentioned in any edge - they might need to be connected as starting nodes too
+                    for (var i = 0; i < createdNodes.length; i++) {
+                        var nodeId = createdNodes[i].properties.stepID;
+                        if (!allEdgeNodes.has(nodeId)) {
+                            startingNodes.push(nodeId);
+                        }
+                    }
+                    
+                    // Connect this node to all starting nodes
+                    for (var i = 0; i < startingNodes.length; i++) {
+                        var startNodeId = startingNodes[i];
+                        if (nodeMap[startNodeId]) {
+                            that.connect(0, nodeMap[startNodeId].id, 0);
+                            console.log("Connected FullPythonCodeNode to starting node " + startNodeId);
+                        }
+                    }
+                    
+                    // Pre-calculate dependency for all nodes as a dictionary of node IDs to list of node IDs
+                    var dependencyMap = {};
+                    for (var i = 0; i < createdNodes.length; i++) {
+                        var nodeId = createdNodes[i].properties.stepID;
+                        dependencyMap[nodeId] = [];
+                    }
+                    
+                    // Count incoming edges for each node
+                    for (var i = 0; i < response.edgeList.length; i++) {
+                        var edge = response.edgeList[i];
+                        var parts = edge.split("-");
+                        if (parts.length === 2) {
+                            var toNodeId = parts[1];
+                            dependencyMap[toNodeId].push(parts[0]);
+                            // create new inputs for the node based on the dependency map
+                            nodeMap[toNodeId].addInput(parts[0], "string");
+                        }
+                    }
+                    
+                    console.log("Dependency map:", dependencyMap);
+                    
+                    // Connect according to the edge list and set dependency counts
+                    for (var i = 0; i < response.edgeList.length; i++) {
+                        var edge = response.edgeList[i];
+                        var parts = edge.split("-");
+                        if (parts.length === 2) {
+                            var fromNodeId = parts[0];
+                            var toNodeId = parts[1];
+                            
+                            if (nodeMap[fromNodeId] && nodeMap[toNodeId]) {
+                                // use the dependency map to find the input index
+                                let input_index = dependencyMap[parseInt(toNodeId)].indexOf(fromNodeId);
+                                nodeMap[fromNodeId].connect(0, nodeMap[toNodeId].id, input_index);
+                                
+                                // Set the dependency count for target node
+                                nodeMap[toNodeId].properties.dependenciesRequired = dependencyMap[toNodeId].length;
+                                console.log("Connected node " + fromNodeId + " to node " + toNodeId + 
+                                           " (dependencies: " + dependencyMap[toNodeId].length + ")");
+                            }
+                        }
+                    }
+                    
+                    // Verify all nodes have proper dependency settings
+                    for (var i = 0; i < createdNodes.length; i++) {
+                        var node = createdNodes[i];
+                        var nodeId = node.properties.stepID;
+                        
+                        // If not in EdgeList as target, it's a starting node with one dependency (from FullPythonCodeNode)
+                        if (dependencyMap[nodeId].length === 0) {
+                            node.properties.dependenciesRequired = 1;
+                        } else {
+                            node.properties.dependenciesRequired = dependencyMap[nodeId].length;
+                        }
+                        
+                        // Reset completion count to 0 for all nodes
+                        node.properties.dependenciesCompleted = 0;
+                        
+                        console.log("Node " + nodeId + " final dependency settings: " + 
+                                   node.properties.dependenciesCompleted + "/" + node.properties.dependenciesRequired);
+                    }
+                } else {
+                    // Use default sequential connections if no edge list
+                    console.log("No EdgeList found, using sequential connections");
+                    
+                    // Connect this node to the first node
+                    if (createdNodes.length > 0) {
+                        that.connect(0, createdNodes[0].id, 0);
+                    }
+                    
+                    // Connect nodes sequentially
+                    for (var i = 0; i < createdNodes.length - 1; i++) {
+                        createdNodes[i].connect(1, createdNodes[i+1].id, 0);
+                    }
                 }
 
                 // Draw the updated response in the node
@@ -744,21 +939,61 @@ FullPythonCodeNode.prototype.onExecute = function() {
                 
                 // Execute the first PythonSnippet node if any were created
                 if (createdNodes.length > 0) {
-                    window.addMessage("Automatically executing the first step in the workflow.", 'assistant');
+                    // Start with the appropriate nodes based on the edge list
+                    var nodesToStart = [];
+                    
+                    if (response.edgeList && response.edgeList.length > 0) {
+                        // Find nodes with no incoming edges in the edgeList
+                        var targetOfEdge = {};
+                        for (var i = 0; i < response.edgeList.length; i++) {
+                            var edge = response.edgeList[i];
+                            var parts = edge.split("-");
+                            if (parts.length === 2) {
+                                targetOfEdge[parts[1]] = true;
+                            }
+                        }
+                        
+                        // Find nodes that are not targets of any edge
+                        for (var i = 0; i < createdNodes.length; i++) {
+                            var nodeId = createdNodes[i].properties.stepID;
+                            if (!targetOfEdge[nodeId]) {
+                                nodesToStart.push(createdNodes[i]);
+                            }
+                        }
+                        
+                        // If no starting nodes found, start with the first node
+                        if (nodesToStart.length === 0) {
+                            nodesToStart.push(createdNodes[0]);
+                        }
+                    } else {
+                        // Start with the first node if no edge list
+                        nodesToStart.push(createdNodes[0]);
+                    }
+                    
+                    window.addMessage("Automatically executing " + nodesToStart.length + 
+                                      " starting step(s): " + nodesToStart.map(n => n.properties.stepID).join(", "), 
+                                     'assistant');
                     
                     // Save the updated graph state with all nodes created
                     if (window.currentChatId && window.saveCurrentGraphState) {
                         window.saveCurrentGraphState();
                     }
                     
-                    setTimeout(function() {
-                        createdNodes[0].onExecute();
-                    }, 500);
+                    // Start execution of all starting nodes
+                    for (var i = 0; i < nodesToStart.length; i++) {
+                        var startNode = nodesToStart[i];
+                        (function(node) {
+                            setTimeout(function() {
+                                node.onExecute();
+                            }, 500 * (i + 1)); // Stagger execution start times
+                        })(startNode);
+                    }
                 }
             },
             function(errorMsg) {
                 that.properties.executed = false;
                 that.properties.error = true;
+                that.mode = 3; // Error mode
                 window.addMessage("Error: " + errorMsg, 'assistant');
                 that.graph.setDirtyCanvas(true, true);
             }
@@ -777,19 +1012,24 @@ function PythonSnippetNode() {
     // Node-specific inputs/outputs
     this.addInput("code", "string");
     this.addOutput("output", "string");
+    this.addOutput("nextStep", "boolean");
     
     // Node-specific properties
     this.addProperty("stepID", "");
     this.addProperty("instruction", "");
     this.addProperty("question", "");
     this.addProperty("filename", "");
+    this.addProperty("localContext", "{}");
+    this.addProperty("stepOutput", "");
+    this.addProperty("dependenciesCompleted", 0); // Track number of dependencies completed
+    this.addProperty("dependenciesRequired", 1);  // Number of dependencies required to execute
     this.addWidget("textarea", "Code", this.properties.code, "code", { rows:10, cols:40 });
     
     // Increase size for code display
-    this.size = [400, 200];
+    this.size = [400, 300];
     
     // Node-specific endpoint
-    this.start_endpoint = "/";
+    this.start_endpoint = "/execute_python_step";
 }
 
 // Inherit from base class
@@ -804,64 +1044,188 @@ PythonSnippetNode.prototype.onDrawForeground = function(ctx) {
     if (!this.flags.collapsed) {
         ctx.save();
         ctx.font = "12px Arial";
-        ctx.fillStyle = "#AAA";
-        ctx.fillText("Code:", 10, 30);
-        ctx.fillStyle = "#CCC";
-        var lines = this.properties.code ? this.properties.code.split('\n') : [];
-        for (var i = 0; i < lines.length; i++) {
-            ctx.fillText(lines[i], 10, 50 + i * 20, this.size[0] - 20);
+        
+        var padding = 10;
+        var baseHeaderHeight = 30;
+        
+        // Calculate dynamic header height based on number of inputs/dependencies
+        var dependencyCount = Math.max(1, this.inputs ? this.inputs.length : 0);
+        var headerHeight = baseHeaderHeight + (dependencyCount - 1) * 20; // Add 20px per additional dependency
+        
+        var codeAreaHeight = 120;
+        
+        // Draw execution status
+        if (this.properties.executed) {
+            ctx.fillStyle = "#8F8";
+            ctx.fillText("✓ Executed", this.size[0] - 80, baseHeaderHeight);
+        } else if (this.properties.error) {
+            ctx.fillStyle = "#F88";
+            ctx.fillText("✗ Error", this.size[0] - 80, baseHeaderHeight);
+        } else if (this.properties.dependenciesCompleted > 0 && 
+                  this.properties.dependenciesCompleted < this.properties.dependenciesRequired) {
+            // Show waiting status
+            ctx.fillStyle = "#FF8";
+            ctx.fillText("⧗ Waiting " + this.properties.dependenciesCompleted + "/" + 
+                        this.properties.dependenciesRequired, this.size[0] - 120, baseHeaderHeight);
         }
+        
+        // Draw step ID and instruction
+        ctx.fillStyle = "#AAA";
+        ctx.fillText("Step ID: " + this.properties.stepID, padding, baseHeaderHeight);
+        ctx.fillText("Instruction: " + this.properties.instruction, padding, baseHeaderHeight + 20);
+        
+        // Draw dependencies if there are any
+        if (this.inputs && this.inputs.length > 1) { // Skip the default 'code' input
+            for (var i = 1; i < this.inputs.length; i++) {
+                ctx.fillText("Dependency: " + this.inputs[i].name, padding, baseHeaderHeight + 20 + i * 20);
+            }
+        }
+        
+        // Draw code area
+        ctx.fillStyle = "#AAA";
+        ctx.fillText("Code:", padding, headerHeight + 40);
+        ctx.fillStyle = "#CCC";
+        this.drawMultilineText(ctx, this.properties.code, padding, headerHeight + 60, this.size[0] - padding * 2, codeAreaHeight);
+        
+        // Draw output area
+        ctx.fillStyle = "#AAA";
+        ctx.fillText("Output:", padding, headerHeight + codeAreaHeight + 70);
+        ctx.fillStyle = "#CCC";
+        this.drawMultilineText(ctx, this.properties.stepOutput, padding, headerHeight + codeAreaHeight + 90, this.size[0] - padding * 2, 60);
+        
         ctx.restore();
+    }
+};
+
+// Handle dependencies - called when a dependency completes
+PythonSnippetNode.prototype.notifyExecution = function() {
+    if (this.properties.executed || this.properties.error) {
+        console.log("Node " + this.properties.stepID + " already executed or has error, ignoring notification");
+        return;
+    }
+    
+    this.properties.dependenciesCompleted++;
+    console.log("Node " + this.properties.stepID + " notified of dependency completion (" + 
+               this.properties.dependenciesCompleted + "/" + this.properties.dependenciesRequired + ")");
+    
+    // Update the visual state
+    this.graph.setDirtyCanvas(true, true);
+    
+    // Check if all dependencies are done
+    if (this.properties.dependenciesCompleted >= this.properties.dependenciesRequired) {
+        console.log("All dependencies complete for node " + this.properties.stepID + ", executing");
+        setTimeout(() => this.onExecute(), 100); // Small delay to ensure UI updates
+    }
+};
+
+// Update to handle onAction too
+PythonSnippetNode.prototype.onAction = function(action, param) {
+    // Trigger execution via action
+    if (action === "execute") {
+        this.notifyExecution();
     }
 };
 
 PythonSnippetNode.prototype.onExecute = function() {
     var that = this;
-    if(!that.properties.executed){
-        // Set as executing
-        that.properties.executed = true;
-        
-        // Add a message about execution
-        window.addMessage("Executing step " + that.properties.stepID + ": " + that.properties.instruction, 'assistant');
-        
-        // Get input value; if not available, use the property value
-        var input_value = this.getInputData(0);
-        if (input_value === undefined) {
-            input_value = this.properties.code;
-        }
-        
-        // Create request data with optional chat_id
-        const requestData = { 
-            input: input_value, 
-            question: this.properties.question, 
-            filename: this.properties.filename
-        };
-        
-        // Add chat_id if available from window
-        if (window.currentChatId) {
-            requestData.chat_id = window.currentChatId;
-        }
-        
-        that.sendRequest(
-            this.start_endpoint,
-            requestData,
-            function(response) {
-                that.setOutputData(0, response.thoughts);
-                window.addMessage("Successfully completed step " + that.properties.stepID, 'assistant');
-                
-                // Save the updated graph state after node execution
-                if (window.currentChatId && window.saveCurrentGraphState) {
-                    window.saveCurrentGraphState();
-                }
-            },
-            function(errorMsg) {
-                that.properties.executed = false;
-                that.properties.error = true;
-                window.addMessage("Error in step " + that.properties.stepID + ": " + errorMsg, 'assistant');
-                that.graph.setDirtyCanvas(true, true);
-            }
-        );
+    if(that.properties.executed || that.properties.error){
+        console.log("Node " + that.properties.stepID + " already executed or has error, skipping execution");
+        return;
     }
+    
+    // Double check dependency count before executing
+    if (that.properties.dependenciesCompleted < that.properties.dependenciesRequired) {
+        console.warn("Node " + that.properties.stepID + " tried to execute before all dependencies complete, waiting");
+        return;
+    }
+    
+    // Set as executing
+    that.mode = 1; // Processing mode
+    that.graph.setDirtyCanvas(true, true);
+    
+    // Add a message about execution
+    window.addMessage("Executing step " + that.properties.stepID + ": " + that.properties.instruction, 'assistant');
+    
+    // Get input value; if not available, use the property value
+    var code_value = this.getInputData(0);
+    if (code_value === undefined || code_value === null) {
+        code_value = this.properties.code;
+    }
+    
+    // Create request data with optional chat_id
+    const requestData = { 
+        code: code_value, 
+        question: this.properties.instruction, // Use instruction as the context for this step
+        filename: this.properties.filename,
+        step_id: this.properties.stepID
+    };
+    
+    // Add chat_id if available from window
+    if (window.currentChatId) {
+        requestData.chat_id = window.currentChatId;
+    }
+    
+    that.sendRequest(
+        this.start_endpoint,
+        requestData,
+        function(response) {
+            // Update properties with response data
+            that.properties.executed = response.success;
+            that.properties.localContext = response.local_context;
+            that.properties.stepOutput = response.step_output;
+            that.properties.filename = response.filename;
+            
+            // Set output data
+            that.setOutputData(0, response.step_output);
+            that.setOutputData(1, true); // Signal for next step
+            
+            // Update mode to executed
+            that.mode = 2; // Executed mode
+            that.graph.setDirtyCanvas(true, true);
+            
+            window.addMessage("Successfully completed step " + that.properties.stepID + ". Output: " + 
+                (response.step_output.length > 100 ? response.step_output.substring(0, 100) + "..." : response.step_output), 
+                'assistant');
+            
+            // Save the updated graph state
+            if (window.currentChatId && window.saveCurrentGraphState) {
+                window.saveCurrentGraphState();
+            }
+            
+            // Find connected nodes to trigger next
+            var connected = that.getOutputNodes(1); // Get nodes connected to the nextStep output
+            if (connected && connected.length > 0) {
+                // We have nodes connected via edgelist or sequential order
+                window.addMessage("Triggering " + connected.length + " next step(s) from step " + that.properties.stepID, 'assistant');
+                
+                // For each connected node
+                for (var i = 0; i < connected.length; i++) {
+                    var nextNode = connected[i];
+                    
+                    // Pass context to next node via filename
+                    nextNode.properties.filename = response.filename;
+                    
+                    // Notify the node of execution completion
+                    setTimeout(function(node) {
+                        return function() {
+                            node.notifyExecution();
+                        };
+                    }(nextNode), 200);
+                }
+            } else {
+                // No connected nodes - we're done with this branch
+                window.addMessage("Branch complete! No more connected steps from " + that.properties.stepID, 'assistant');
+            }
+        },
+        function(errorMsg) {
+            that.properties.executed = false;
+            that.properties.error = true;
+            that.properties.stepOutput = "ERROR: " + errorMsg;
+            that.mode = 3; // Error mode
+            window.addMessage("Error in step " + that.properties.stepID + ": " + errorMsg, 'assistant');
+            that.graph.setDirtyCanvas(true, true);
+        }
+    );
 };
 
 LiteGraph.registerNodeType("KRAGEN/pythonsnippet", PythonSnippetNode);
@@ -1003,3 +1367,37 @@ GenerateCodeFromPlansNode.prototype.onExecute = function() {
 };
 
 LiteGraph.registerNodeType("KRAGEN/Generate_Code", GenerateCodeFromPlansNode);
+
+// Function to save current graph state
+window.saveCurrentGraphState = function() {
+    if (!window.currentChatId) {
+        console.warn("Cannot save graph state: No current chat ID");
+        return;
+    }
+    
+    try {
+        var graphData = graph.serialize();
+        
+        // Send graph data to backend
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/save_graph", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log("Graph state saved successfully");
+                } else {
+                    console.error("Failed to save graph state:", xhr.status, xhr.statusText);
+                }
+            }
+        };
+        
+        xhr.send(JSON.stringify({
+            chat_id: window.currentChatId,
+            graph_data: graphData
+        }));
+    } catch (error) {
+        console.error("Error saving graph state:", error);
+    }
+};
