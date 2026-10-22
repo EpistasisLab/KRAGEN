@@ -22,7 +22,9 @@ def get_client(url=weaviate_url):
     if weaviate_client is None:
         weaviate_client = weaviate.Client(
             url=url,
-            auth_client_secret=auth_config
+            auth_client_secret=auth_config,
+            # Identifies KRAGEN traffic to Weaviate; TAG is the project version from .env
+            additional_headers={"X-Weaviate-Client-Integration": f"kragen/{os.getenv('TAG') or 'unknown'}"}
         )
         # weaviate_client = weaviate.Client(url=url)
     return weaviate_client
