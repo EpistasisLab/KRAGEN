@@ -50,6 +50,7 @@ If you are not familiar with Docker concepts, see the [Official Docker Getting S
    - **WEAVIATE_URL**: Set this to your local IP address and port 8080, for example. http://192.168.1.49:8080
      - **NOTE:** Weaviate can be run locally or hosted on a server. The `docker-compose-weaviate.yml` file is provided for convenience. However, other setups can also work with KRAGEN.
        For complete instructions on how to deploy a Weaviate Vector Database, please see the [Weaviate Documentation](https://weaviate.io/developers/weaviate/installation/docker-compose#starter-docker-compose-file)
+     - **NOTE:** If you already have data in `./weaviate_data` from the previous Weaviate version (1.22), do not start 1.39 on it directly: Weaviate supports upgrading one minor version at a time, and 1.39 started on 1.22 data shows an empty `AlzKB` class. Either remove `./weaviate_data` and re-run step 7, or upgrade step by step as described in the [Weaviate migration guide](https://docs.weaviate.io/deploy/migration).
 5. Configure the KRAGEN GUI:  
    `cp KRAGEN_Dashboard/Frontend/.env.sample KRAGEN_Dashboard/Frontend/.env` - **NOTE**: there is no need to update the variables in the **KRAGEN_Dashboard/Frontend/.env** file, KRAGEN will work with the current default values.
 6. Build Docker images  
